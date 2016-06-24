@@ -38,7 +38,7 @@ Your job is to take the specifications for each model and determine, with your v
 Begin by defining a `Schema` - you'll need to do this in order to create `virtuals` and `statics` for later.
 
 
-> **Tip: you've been creating `Schema`s already! **
+> **Tip: you've been creating `Schema`s already!**
 
 > This: 
 
