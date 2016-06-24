@@ -8,10 +8,10 @@ Build a clone of popular restaurant reviews website Yelp, using your knowledge o
 ## Table of Contents
 
 
-- [ 0 ] Authentication 🔐
-- [ 1 ] Connecting Users 🙇
-- [ 2 ] Creating and Viewing Restaurants 🍔
-- [ 3 ] Reviewing Restaurants ⭐
+- **[ 0 ]** Authentication 🔐
+- **[ 1 ]** Connecting Users 🙇
+- **[ 2 ]** Creating and Viewing Restaurants 🍔
+- **[ 3 ]** Reviewing Restaurants ⭐
 
 ## Step 0: Authentication 🔐 - `app.js`, `routes/index.js`,  `models/models.js`
 Before you start this project, check out the codebase, beginning in **`app.js`** - the entry point of your application. 
@@ -29,13 +29,45 @@ That’s it! There’s nothing to code in this part - just getting familiar with
 Get ready to dive in and create more models and properties to build out the rest of Yelp!
 
 ## Step 1: Connecting Users 🙇
-Now we’ll be adding more properties to our users in our database model to
+Now we’ll be adding more properties to our users in our database model to give them friends and reviews. Notice how we are *not* providing you with the typical scaffolding for each route! 
 
-Models
-Followers (array of User _id’s)
-Helpers (methods/statics/virtuals)
-Static: .populate() a user’s Followers with User models
-Method: Follow
+Your job is to take the specifications for each model and determine, with your views, how many routes you *have*, what they are *called*, and what they *do*. Take a deep breath; you've got this!
+
+### User Models ⛷ - `models/models.js`
+
+Begin by defining a `Schema` - you'll need to do this in order to create `virtuals` and `statics` for later.
+
+
+> **Tip: you've been creating `Schema`s already! **
+
+> This: 
+
+> ```
+module.exports = {
+	User: mongoose.model("User", {
+		property1: String
+	})
+}
+```
+> is equivalent to this:
+
+> ```
+> var userSchema = new mongoose.Schema({
+> 	property1: String
+> })
+> 
+> module.exports = {
+> 	User: mongoose.model("User", userSchema);
+> }
+> ```
+
+
+
+We want to use the latter, because Schemas allow us to define useful functions on top of them, using virtuals and methods. You will be able to define your properties inside of your Schema 
+
+
+
+### Friendships! 👫 - `models/models.js`
 
 
 Views
@@ -46,7 +78,7 @@ Routes (not provided, but most likely will look like:)
 GET /profile/:id
 POST /profile/follow/:id
 
-Step 2: Creating and Viewing Restaurants 🍔
+## Step 2: Creating and Viewing Restaurants 🍔
 
 
 Foreign Keys vs. Embedding
@@ -73,5 +105,5 @@ Leave to them to write their own validation
 Describe views with mockups but not routes
 
 
-Step 3: Reviewing Restaurants ⭐
+## Step 3: Reviewing Restaurants ⭐
 
