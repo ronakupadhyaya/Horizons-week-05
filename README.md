@@ -16,7 +16,7 @@ Build a clone of popular restaurant reviews website Yelp, using your knowledge o
 ## Step 0: Authentication 🔐 - `app.js`, `routes/index.js`,  `models/models.js`
 Before you start this project, check out the codebase, beginning in **`app.js`** - the entry point of your application. 
 
-Notice how your authentication method has been set to use a `LocalStrategy` with Passport to identify users by an email address and check their password (which is stored as a hash in your MongoDB database). Remember: your currently logged-in users are accessible through your Passport-created req.user object. Take advantage of that in the Parts that follow!
+Notice how your authentication method has been set to use a `LocalStrategy` with Passport to identify users by an email address and check their password (which is stored as a hash in your MongoDB database). **Remember**: your currently logged-in users are accessible through your Passport-created `req.user` object. Take advantage of that in the Parts that follow!
 
 Next, head into **`routes/index.js`**.
 
@@ -63,8 +63,20 @@ module.exports = {
 
 
 
-We want to use the latter, because Schemas allow us to define useful functions on top of them, using virtuals and methods. You will be able to define your properties inside of your Schema 
+We want to use the latter, because Schemas allow us to define useful functions on top of them, using virtuals and methods. You will be able to define your properties inside of your Schema just like you normally do. When you create your model, just pass in a Schema as the second parameter. 
 
+Here are some properties you definitely want to include in your Schema; your choice for their actual property names - just be consistent!
+
+- **Display Name** (`String`) - could be a first name, last name, nickname, etc.
+- **Email** (`String`) - used for authentication 
+- **Password** (`String`) - hashed password used for authentication
+- **Location** (`String`) - a _descriptive_ location - this location does not have coordinates! (ex. "Southern California", "Orange County", "Huntington Beach")
+- **Reviews** (`Array`) - an array of IDs corresponding to `Review` documents created by the user
+- **Friendships** (`Array`) - an array of IDs corresponding to `Friendship` documents associated with the user's relationships/friendships
+
+Next, you want to create a function for each of the `User` models that allows us to take the Reviews array, which is **only a group of IDs referring to objects** and convert that into an array of **actual Review objects.**
+
+We will accomplish this by 
 
 
 ### Friendships! 👫 - `models/models.js`
