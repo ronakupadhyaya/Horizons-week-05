@@ -26,20 +26,27 @@ userSchema.statics.getFollowers = function (id, callback){
   });
 }
 userSchema.statics.follow = function (uid1, uid2, callback){
-  // TODO: Check duplicates before following
-  var follow = new Follow({
-    uid1: uid1,
-    uid2: uid2
+  Follow.find({uid1:uid1, uid2: uid2}, function(err, follows) {
+    if (err) return next(err);
+    //  console.log(restaurants)
+    console.log("asd")
+    console.log(follows)
+    if (follows.length<=0){
+      var follow = new Follow({
+        uid1: uid1,
+        uid2: uid2
+      });
+      follow.save(function(err) {
+        callback(err)
+      })
+    }
+    else {
+      callback(null);
+    }
   });
-  follow.save(function(err) {
-    callback(err)
-  })
 }
 
 userSchema.statics.unfollow = function (uid1, uid2, callback){
-  console.log("asd")
-  console.log(uid1)
-    console.log(uid2)
     Follow.find({uid1:uid1, uid2: uid2}).remove(function(err) {
     callback(err)
   })
