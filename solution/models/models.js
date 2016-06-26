@@ -20,6 +20,7 @@ userSchema.methods.getFollowers = function (user, callback){
   });
 }
 userSchema.methods.follow = function (followId, callback){
+  // TODO: Check duplicates before following
   var follow = new Follow({
     uid1: this.id,
     uid2: followId
