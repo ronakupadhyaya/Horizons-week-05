@@ -1,1 +1,1 @@
-module.exports = "mongodb://localhost/doublemessage";
+module.exports = "mongodb://localhost/yelp";

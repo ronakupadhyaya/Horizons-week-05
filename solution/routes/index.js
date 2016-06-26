@@ -35,6 +35,33 @@ router.use(function(req, res, next){
   }
 });
 
+////////////////////////MEINE
+
+router.get('/users', function(req, res, next) {
+  // Load all contacts (that this user has permission to view).
+  User.find(function(err, users) {
+    if (err) return next(err);
+    res.render('users', {
+      users: users
+    });
+  });
+});
+
+router.get('/profile/:id', function(req, res) {
+  User.findById(req.params.id, function(err, user) {
+    if (err) return next(err);
+    res.render('profile', {
+      user: user
+    });
+  });
+});
+
+// TODO: POST /profile/follow/:id
+
+////////////////////////
+////////////////////////
+////////////////////////
+
 /* GET home page. */
 router.get('/contacts', function(req, res, next) {
   // Load all contacts (that this user has permission to view).

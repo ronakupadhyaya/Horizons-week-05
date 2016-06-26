@@ -7,8 +7,8 @@
 6 silly lifecycle doublemessage@0.0.0~prestart: no script for prestart, continuing
 7 info lifecycle doublemessage@0.0.0~start: doublemessage@0.0.0
 8 verbose lifecycle doublemessage@0.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle doublemessage@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/sbastidasr/Desktop/horizons/double-message/solution/node_modules/.bin:/Users/sbastidasr/.rvm/gems/ruby-2.2.1/bin:/Users/sbastidasr/.rvm/gems/ruby-2.2.1@global/bin:/Users/sbastidasr/.rvm/rubies/ruby-2.2.1/bin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Users/sbastidasr/.rvm/bin
-10 verbose lifecycle doublemessage@0.0.0~start: CWD: /Users/sbastidasr/Desktop/horizons/double-message/solution
+9 verbose lifecycle doublemessage@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/sbastidasr/Desktop/horizons/week05/day1/yelp/solution/node_modules/.bin:/Users/sbastidasr/.rvm/gems/ruby-2.2.1/bin:/Users/sbastidasr/.rvm/gems/ruby-2.2.1@global/bin:/Users/sbastidasr/.rvm/rubies/ruby-2.2.1/bin:/opt/local/bin:/opt/local/sbin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/Users/sbastidasr/.rvm/bin
+10 verbose lifecycle doublemessage@0.0.0~start: CWD: /Users/sbastidasr/Desktop/horizons/week05/day1/yelp/solution
 11 silly lifecycle doublemessage@0.0.0~start: Args: [ '-c', 'node ./bin/www' ]
 12 silly lifecycle doublemessage@0.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle doublemessage@0.0.0~start: Failed to exec start script
@@ -21,7 +21,7 @@
 14 verbose stack     at maybeClose (child_process.js:1015:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
 15 verbose pkgid doublemessage@0.0.0
-16 verbose cwd /Users/sbastidasr/Desktop/horizons/double-message/solution
+16 verbose cwd /Users/sbastidasr/Desktop/horizons/week05/day1/yelp/solution
 17 error Darwin 14.5.0
 18 error argv "node" "/usr/local/bin/npm" "start"
 19 error node v0.12.7
