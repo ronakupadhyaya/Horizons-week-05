@@ -62,7 +62,6 @@ router.get('/profile', function(req, res) {
 router.get('/profile/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     if (err) return next(err);
-
     user.getFollowers(user,function(err, followers, following) {
       if (err) return next(err);
       res.render('profile', {
@@ -71,7 +70,6 @@ router.get('/profile/:id', function(req, res) {
         followers: followers
       });
     })
-
   });
 });
 
@@ -116,6 +114,18 @@ router.get('/restaurants', function(req, res, next) {
     });
   });
 });
+
+router.get('/restaurants/:id', function(req, res) {
+  Restaurant.findById(req.params.id, function(err, restaurant) {
+    if (err) return next(err);
+    console.log(restaurant)
+      res.render('restaurant', {
+        restaurant:restaurant
+      });
+
+  });
+});
+
 
 ////////////////////////
 ////////////////////////
