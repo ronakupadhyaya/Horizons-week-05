@@ -7,6 +7,7 @@ var models = require('../models/models');
 var Contact = models.Contact;
 var Message = models.Message;
 var User = models.User;
+var Follow = models.Follow;
 
 router.post('/messages/receive', function(req, res, next) {
   User.findOne({phone: fromPhone.substring(2)}, function(err, user) {
@@ -47,6 +48,15 @@ router.get('/users', function(req, res, next) {
   });
 });
 
+router.get('/profile', function(req, res) {
+  User.findById(req.user.id, function(err, user) {
+    if (err) return next(err);
+    res.render('profile', {
+      user: user
+    });
+  });
+});
+
 router.get('/profile/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     if (err) return next(err);
@@ -57,6 +67,19 @@ router.get('/profile/:id', function(req, res) {
 });
 
 // TODO: POST /profile/follow/:id
+router.post('/follow/:id', function(req, res, next) {
+  var follow = new Follow({
+    uid1: req.user.id,
+    uid2: req.params.id
+  });
+  follow.save(function(err) {
+    if (err) return next(err);
+    res.redirect('/profile');
+  })
+});
+
+
+
 
 ////////////////////////
 ////////////////////////

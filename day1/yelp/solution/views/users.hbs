@@ -6,7 +6,7 @@
     <td><b>Address</b></td>
     <td><b>Reviews</b></td>
     <td><b>Friends</b></td>
-    <td><b>Profile</b></td>
+    <td><b>Links</b></td>
   </thead>
   <tbody>
     {{#each users}}
@@ -16,7 +16,12 @@
       <td>{{address}}</td>
       <td>{{reviews}}</td>
       <td>{{friends}}</td>
-      <td><a href="/profile/{{id}}">Profile</a></td>
+      <td>
+        <a href="/profile/{{id}}">Profile</a>
+        <form action="/follow/{{id}}" method="post">
+          <input type="submit" value="Follow">
+        </form>
+      </td>
     </tr>
     {{/each}}
   </tbody>
