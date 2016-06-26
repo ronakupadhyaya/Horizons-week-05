@@ -8,6 +8,7 @@ var Contact = models.Contact;
 var Message = models.Message;
 var User = models.User;
 var Follow = models.Follow;
+var Restaurant = models.Restaurant;
 
 router.post('/messages/receive', function(req, res, next) {
   User.findOne({phone: fromPhone.substring(2)}, function(err, user) {
@@ -80,9 +81,30 @@ router.get('/profile/:id', function(req, res) {
 router.post('/follow/:id', function(req, res, next) {
   user.follow(userid, function(err) {
     if (err) return next(err);
-    res.redirect('/profile');
+  //  res.redirect('/profile');
+  // TODO: Confirm following
   });
 });
+
+
+router.get('/restaurants/new', function(req, res, next) {
+  res.render('editRestaurant');
+});
+
+router.post('/restaurants/new', function(req, res, next) {
+  var restaurant = new Restaurant({
+    name: req.body.name,
+    price: req.body.price,
+    category: req.body.category,
+    openTime: req.body.openTime,
+    closingTime: req.body.closingTime
+  });
+  restaurant.save(function(err) {
+    if (err) return next(err);
+    res.redirect('/restaurants');
+  })
+});
+
 
 
 ////////////////////////
