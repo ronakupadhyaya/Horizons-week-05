@@ -1,0 +1,28 @@
+<h3>Contacts</h3>
+<table class="table table-hover">
+  <thead>
+    <td><b>Name</b></td>
+    <td><b>price</b></td>
+    <td><b>Category</b></td>
+    <td><b>openTime</b></td>
+    <td><b>closingTime</b></td>
+    <td><b>Links</b></td>
+  </thead>
+  <tbody>
+    {{#each restaurants}}
+    <tr>
+      <td>{{name}}</td>
+      <td>{{price}}</td>
+      <td>{{category}}</td>
+      <td>{{openTime}}</td>
+      <td>{{closingTime}}</td>
+      <td>
+        <a href="/profile/{{id}}">Profile</a>
+        <form action="/follow/{{id}}" method="post">
+          <input type="submit" value="Follow">
+        </form>
+      </td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>

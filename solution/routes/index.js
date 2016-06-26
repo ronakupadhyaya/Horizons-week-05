@@ -40,7 +40,6 @@ router.use(function(req, res, next){
 ////////////////////////MEINE
 
 router.get('/users', function(req, res, next) {
-  // Load all contacts (that this user has permission to view).
   User.find(function(err, users) {
     if (err) return next(err);
     res.render('users', {
@@ -81,8 +80,8 @@ router.get('/profile/:id', function(req, res) {
 router.post('/follow/:id', function(req, res, next) {
   user.follow(userid, function(err) {
     if (err) return next(err);
-  //  res.redirect('/profile');
-  // TODO: Confirm following
+    //  res.redirect('/profile');
+    // TODO: Confirm following
   });
 });
 
@@ -94,18 +93,30 @@ router.get('/restaurants/new', function(req, res, next) {
 router.post('/restaurants/new', function(req, res, next) {
   var restaurant = new Restaurant({
     name: req.body.name,
-    price: req.body.price,
+    price: parseInt(req.body.price),
     category: req.body.category,
-    openTime: req.body.openTime,
-    closingTime: req.body.closingTime
+    openHoursEST: {
+      openTime: parseInt(req.body.openTime),
+      closingTime: parseInt(req.body.closingTime)
+    }
   });
+  console.log(restaurant)
   restaurant.save(function(err) {
+    console.log(err)
     if (err) return next(err);
     res.redirect('/restaurants');
   })
 });
 
 
+router.get('/restaurants', function(req, res, next) {
+  Restaurant.find(function(err, restaurants) {
+    if (err) return next(err);
+    res.render('users', {
+      restaurants: restaurants
+    });
+  });
+});
 
 ////////////////////////
 ////////////////////////
