@@ -40,28 +40,28 @@ Your job is to take the specifications for each model and determine, with your v
 Begin by defining a `Schema` - you'll need to do this in order to create `virtuals` and `statics` for later.
 
 
-> **Tip: you've been creating `Schema`s already!**
+**Tip: you've been creating `Schema`s already!**
 
-> This: 
+This: 
 
-> ```
+```
 module.exports = {
 	User: mongoose.model("User", {
 		property1: String
 	})
 }
 ```
-> is equivalent to this:
+is equivalent to this:
 
-> ```
-> var userSchema = new mongoose.Schema({
-> 	property1: String
-> })
-> 
-> module.exports = {
-> 	User: mongoose.model("User", userSchema);
-> }
-> ```
+```
+var userSchema = new mongoose.Schema({
+ 	property1: String
+})
+ 
+module.exports = {
+ 	User: mongoose.model("User", userSchema);
+}
+```
 
 
 
@@ -140,7 +140,15 @@ Here are the properties you'll want to define for each of your Friendships:
 - **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does not matter) - the ID of one of the users party to the friendship
 - **User ID 2** (`mongoose.Schema.Types.objectId`) - the ID of the other user party to the friendship
 
-No methods or virtuals necessary for this model!
+Note that we will not keep track of friend requests for this purpose of this exercise; that's a bonus! Once a user adds a new friend, both will be friends. 
+
+> ⚠️  **Warning:** Careful about creating duplicate friendships! You should be only creating a new Friendship document if it doesn't already exist - make sure you handle this in your routes below.
+
+### Viewing Profiles 👸 - `views/singleProfile.hbs`
+Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models
+
+### Viewing ALL the Profiles 👸👸👸 - `views/profiles.hbs`
+
 
 
 ### End Result, Step 1🏅- `http://localhost:3000`
