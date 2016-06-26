@@ -12,9 +12,16 @@ var userSchema = mongoose.Schema({
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
+//  followers:  , stories : [{ type: Schema.ObjectId, ref: 'Story' }]
   //get reviews()
   //  friends
 });
+
+var FollowsSchema = mongoose.Schema({
+  uid1 : { type: mongoose.Schema.ObjectId, ref: 'User' },
+  uid2 : { type: mongoose.Schema.ObjectId, ref: 'User' },
+});
+
 
 var restaurantSchema = mongoose.Schema({
   name: String,
@@ -38,14 +45,9 @@ var reviewSchema = mongoose.Schema({
 //  User (mongoose.Schema.Types.ObjectId of User)
 });
 
-/*
-var Friendship = mongoose.Schema({
-
-});
-*/
-
 module.exports = {
     User: mongoose.model('User', userSchema),
     Restaurant: mongoose.model('Restaurant', restaurantSchema),
-    Review: mongoose.model('Review', reviewSchema)
+    Review: mongoose.model('Review', reviewSchema),
+    Follow: mongoose.model('Follow', FollowsSchema)
 };
