@@ -70,8 +70,17 @@ var restaurantSchema = mongoose.Schema({
   // getUsersReviewed
 });
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-  Review.find( {restaurant: restaurantId }).populate('user').exec( function(err, restaurants) {
-    callback(err, restaurants);
+  Review.find( {restaurant: restaurantId }).populate('user').exec( function(err, reviews) {
+    callback(err, reviews);
+  });
+}
+
+restaurantSchema.methods.stars = function(callback){
+  Review.find( {restaurant: this.id }).populate('user').exec( function(err, reviews) {
+    var total = reviews.reduce(function (acc, obj) {
+      return acc + obj.stars;
+    }, 0);
+    callback(err, (total/reviews.length));
   });
 }
 
