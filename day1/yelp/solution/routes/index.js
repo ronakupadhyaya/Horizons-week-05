@@ -60,13 +60,28 @@ router.get('/profile', function(req, res) {
 router.get('/profile/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     if (err) return next(err);
-    res.render('profile', {
-      user: user
+    // Find Following
+    Follow.find({uid1: req.params.id}).populate('uid2').exec(function(err, following) {
+      if (err) return next(err);
+
+      //Find Followers
+      Follow.find({uid2: req.params.id}).populate('uid1').exec(function(err, followers) {
+        if (err) return next(err);
+        console.log(followers);
+        
+        res.render('profile', {
+          user: user,
+          following: following,
+          followers: followers
+        });
+      });
+
     });
+
   });
 });
 
-// TODO: POST /profile/follow/:id
+
 router.post('/follow/:id', function(req, res, next) {
   var follow = new Follow({
     uid1: req.user.id,
