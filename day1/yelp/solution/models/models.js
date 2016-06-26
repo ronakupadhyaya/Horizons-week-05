@@ -11,7 +11,7 @@ var userSchema = mongoose.Schema({
   username: String,
   password: String, //Hashed
   address: String, //descriptive location
-  reviews: [], //review ids
+  reviews: [] //review ids
   //get reviews()
   //  friends
 });
