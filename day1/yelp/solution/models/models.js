@@ -36,6 +36,15 @@ userSchema.statics.follow = function (uid1, uid2, callback){
   })
 }
 
+userSchema.statics.unfollow = function (uid1, uid2, callback){
+  console.log("asd")
+  console.log(uid1)
+    console.log(uid2)
+    Follow.find({uid1:uid1, uid2: uid2}).remove(function(err) {
+    callback(err)
+  })
+}
+
 // TODO: user.Unfollow
 // TODO: user.verifyPassword (virtual field)
 
