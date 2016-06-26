@@ -9,6 +9,7 @@ var Message = models.Message;
 var User = models.User;
 var Follow = models.Follow;
 var Restaurant = models.Restaurant;
+var Review = models.Review;
 
 router.post('/messages/receive', function(req, res, next) {
   User.findOne({phone: fromPhone.substring(2)}, function(err, user) {
@@ -108,7 +109,7 @@ router.post('/restaurants/new', function(req, res, next) {
 router.get('/restaurants', function(req, res, next) {
   Restaurant.find(function(err, restaurants) {
     if (err) return next(err);
-  //  console.log(restaurants)
+    //  console.log(restaurants)
     res.render('restaurants', {
       restaurants: restaurants
     });
@@ -118,14 +119,31 @@ router.get('/restaurants', function(req, res, next) {
 router.get('/restaurants/:id', function(req, res) {
   Restaurant.findById(req.params.id, function(err, restaurant) {
     if (err) return next(err);
-    console.log(restaurant)
+
+    restaurant.getReviews(req.params.id, function(err, reviews) {
+      if (err) return next(err);
+      console.log(reviews)
       res.render('restaurant', {
-        restaurant:restaurant
+        restaurant:restaurant,
+        reviews:reviews
       });
+    });
 
   });
 });
 
+router.post('/restaurants/:id', function(req, res, next) {
+  var review = new Review({
+    stars: req.body.stars,
+    content: req.body.content,
+    restaurant: req.params.id,
+    user:  req.user.id
+  });
+  review.save(function(err) {
+    if (err) return next(err);
+    res.redirect('/restaurants/'+req.params.id);
+  })
+});
 
 ////////////////////////
 ////////////////////////

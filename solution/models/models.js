@@ -7,7 +7,7 @@ var userSchema = mongoose.Schema({
   address: String, //descriptive location
   reviews: [] //review ids
   //TODO: Status (display user status if Elite)
-// TODO: Location (only text, descriptive location)
+  // TODO: Location (only text, descriptive location)
 
   //get reviews()
 });
@@ -46,6 +46,14 @@ var FollowsSchema = mongoose.Schema({
 });
 var Follow = mongoose.model('Follow', FollowsSchema)
 
+var reviewSchema = mongoose.Schema({
+  stars: Number, // 1 -> 5
+  content: String,
+  restaurant: { type: mongoose.Schema.ObjectId, ref: 'Restaurant' },
+  user: { type: mongoose.Schema.ObjectId, ref: 'User' }
+});
+var Review = mongoose.model('Review', reviewSchema);
+
 
 var restaurantSchema = mongoose.Schema({
   name: String,
@@ -59,18 +67,16 @@ var restaurantSchema = mongoose.Schema({
     openTime: Number,
     closingTime: Number
   }
-  // getReviews()
   // getUsersReviewed
 });
+restaurantSchema.methods.getReviews = function (restaurantId, callback){
+  Review.find( {restaurant: restaurantId }).populate('user').exec( function(err, restaurants) {
+    callback(err, restaurants);
+  });
+}
+
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-var reviewSchema = mongoose.Schema({
-  stars: Number, // 1 -> 5
-  content: String,
-  //  Restaurant (mongoose.Schema.Types.ObjectId of Restaurant)
-  //  User (mongoose.Schema.Types.ObjectId of User)
-});
-var Review = mongoose.model('Review', reviewSchema);
 
 module.exports = {
   User: User,
