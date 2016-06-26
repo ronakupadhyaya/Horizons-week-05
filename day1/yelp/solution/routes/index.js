@@ -119,16 +119,16 @@ router.get('/restaurants', function(req, res, next) {
 router.get('/restaurants/:id', function(req, res) {
   Restaurant.findById(req.params.id, function(err, restaurant) {
     if (err) return next(err);
-
     restaurant.getReviews(req.params.id, function(err, reviews) {
       if (err) return next(err);
-      console.log(reviews)
-      res.render('restaurant', {
-        restaurant:restaurant,
-        reviews:reviews
+      restaurant.stars(function(err, stars) {
+        restaurant.stars=stars;
+        res.render('restaurant', {
+          restaurant:restaurant,
+          reviews:reviews
+        });
       });
     });
-
   });
 });
 
