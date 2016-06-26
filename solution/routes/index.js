@@ -100,9 +100,7 @@ router.post('/restaurants/new', function(req, res, next) {
       closingTime: parseInt(req.body.closingTime)
     }
   });
-  console.log(restaurant)
   restaurant.save(function(err) {
-    console.log(err)
     if (err) return next(err);
     res.redirect('/restaurants');
   })
@@ -112,7 +110,8 @@ router.post('/restaurants/new', function(req, res, next) {
 router.get('/restaurants', function(req, res, next) {
   Restaurant.find(function(err, restaurants) {
     if (err) return next(err);
-    res.render('users', {
+  //  console.log(restaurants)
+    res.render('restaurants', {
       restaurants: restaurants
     });
   });
