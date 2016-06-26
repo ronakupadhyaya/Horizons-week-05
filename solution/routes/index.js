@@ -68,21 +68,21 @@ router.get('/profile/:id', function(req, res) {
       Follow.find({uid2: req.params.id}).populate('uid1').exec(function(err, followers) {
         if (err) return next(err);
         console.log(followers);
-        
+
         res.render('profile', {
           user: user,
           following: following,
           followers: followers
         });
       });
-
     });
-
   });
 });
 
+// TODO: Add /unfollow/:id
 
 router.post('/follow/:id', function(req, res, next) {
+  // TODO: Check duplicates before following
   var follow = new Follow({
     uid1: req.user.id,
     uid2: req.params.id
