@@ -13,20 +13,23 @@ var userSchema = mongoose.Schema({
 });
 
 //Instance method
-userSchema.methods.getFollowers = function (user, callback){
+userSchema.statics.getFollowers = function (id, callback){
   // Find Following
-  Follow.find({uid1: user.id}).populate('uid2').exec(function(err, following) {
+  Follow.find({uid1: id}).populate('uid2').exec(function(err, following) {
     //Find Followers
-    Follow.find({uid2: user.id}).populate('uid1').exec(function(err, followers) {
+    Follow.find({uid2: id}).populate('uid1').exec(function(err, followers) {
+      console.log(id)
+      console.log(followers)
+      console.log(following)
       callback(err, followers, following);
     });
   });
 }
-userSchema.methods.follow = function (followId, callback){
+userSchema.statics.follow = function (uid1, uid2, callback){
   // TODO: Check duplicates before following
   var follow = new Follow({
-    uid1: this.id,
-    uid2: followId
+    uid1: uid1,
+    uid2: uid2
   });
   follow.save(function(err) {
     callback(err)

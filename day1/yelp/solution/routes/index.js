@@ -32,17 +32,25 @@ router.get('/users', function(req, res, next) {
 router.get('/profile', function(req, res) {
   User.findById(req.user.id, function(err, user) {
     if (err) return next(err);
-    res.render('profile', {
-      user: user
-    });
+    user.getFollowers(function(err, followers, following) {
+      if (err) return next(err);
+      console.log(following)
+      console.log(followers)
+      res.render('profile', {
+        user: user,
+        following: following,
+        followers: followers
+      });
+    })
   });
 });
 
 router.get('/profile/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     if (err) return next(err);
-    user.getFollowers(user,function(err, followers, following) {
+    User.getFollowers(user.id, function(err, followers, following) {
       if (err) return next(err);
+
       res.render('profile', {
         user: user,
         following: following,
@@ -55,9 +63,9 @@ router.get('/profile/:id', function(req, res) {
 
 
 router.post('/follow/:id', function(req, res, next) {
-  user.follow(userid, function(err) {
+  User.follow(req.user.id, req.params.id, function(err) {
     if (err) return next(err);
-    //  res.redirect('/profile');
+    res.redirect('/profile');
     // TODO: Confirm following
   });
 });
