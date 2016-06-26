@@ -12,15 +12,56 @@ var userSchema = mongoose.Schema({
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
-//  followers:  , stories : [{ type: Schema.ObjectId, ref: 'Story' }]
+  //  followers:  , stories : [{ type: Schema.ObjectId, ref: 'Story' }]
   //get reviews()
   //  friends
 });
+
+//Instance method
+userSchema.methods.getFollowers = function (user, callback){
+  // Find Following
+  Follow.find({uid1: user.id}).populate('uid2').exec(function(err, following) {
+    //Find Followers
+    Follow.find({uid2: user.id}).populate('uid1').exec(function(err, followers) {
+     callback(err, followers, following);
+    });
+  });
+}
+
+var User = mongoose.model('User', userSchema);
+
 
 var FollowsSchema = mongoose.Schema({
   uid1 : { type: mongoose.Schema.ObjectId, ref: 'User' },
   uid2 : { type: mongoose.Schema.ObjectId, ref: 'User' },
 });
+var Follow = mongoose.model('Follow', FollowsSchema)
+
+
+
+// Find Following
+/*  Follow.find({uid1: req.params.id}).populate('uid2').exec(function(err, following) {
+if (err) return next(err);
+
+//Find Followers
+
+Follow.find({uid2: req.params.id}).populate('uid1').exec(function(err, followers) {
+if (err) return next(err);
+console.log(followers);
+
+res.render('profile', {
+user: user,
+following: following,
+followers: followers
+});
+});
+});*/
+
+//user.Getfollowers
+//user.Follow
+//user.Unfollow
+//user.verifyPassword (virtual field)
+
 
 
 var restaurantSchema = mongoose.Schema({
@@ -38,16 +79,19 @@ var restaurantSchema = mongoose.Schema({
   // getReviews()
   // getUsersReviewed
 });
+var Restaurant = mongoose.model('Restaurant', restaurantSchema);
+
 var reviewSchema = mongoose.Schema({
   stars: Number, // 1 -> 5
   content: String,
-//  Restaurant (mongoose.Schema.Types.ObjectId of Restaurant)
-//  User (mongoose.Schema.Types.ObjectId of User)
+  //  Restaurant (mongoose.Schema.Types.ObjectId of Restaurant)
+  //  User (mongoose.Schema.Types.ObjectId of User)
 });
+var Review = mongoose.model('Review', reviewSchema);
 
 module.exports = {
-    User: mongoose.model('User', userSchema),
-    Restaurant: mongoose.model('Restaurant', restaurantSchema),
-    Review: mongoose.model('Review', reviewSchema),
-    Follow: mongoose.model('Follow', FollowsSchema)
+  User: User,
+  Restaurant: Restaurant,
+  Review: Review,
+  Follow: Follow
 };
