@@ -1,10 +1,4 @@
 var mongoose = require('mongoose');
-//var connect = process.env.MONGODB_URI || require('./connect');
-//mongoose.connect(connect);
-
-// Step 1: Create and edit contacts
-// Remember: schemas are like your blueprint, and models
-// are like your building!
 
 var userSchema = mongoose.Schema({
   displayName: String,
@@ -12,15 +6,42 @@ var userSchema = mongoose.Schema({
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
-//  followers:  , stories : [{ type: Schema.ObjectId, ref: 'Story' }]
   //get reviews()
-  //  friends
 });
+
+//Instance method
+userSchema.methods.getFollowers = function (user, callback){
+  // Find Following
+  Follow.find({uid1: user.id}).populate('uid2').exec(function(err, following) {
+    //Find Followers
+    Follow.find({uid2: user.id}).populate('uid1').exec(function(err, followers) {
+      callback(err, followers, following);
+    });
+  });
+}
+userSchema.methods.follow = function (followId, callback){
+  // TODO: Check duplicates before following
+  var follow = new Follow({
+    uid1: this.id,
+    uid2: followId
+  });
+  follow.save(function(err) {
+    callback(err)
+  })
+}
+
+// TODO: user.Unfollow
+// TODO: user.verifyPassword (virtual field)
+
+
+var User = mongoose.model('User', userSchema);
+
 
 var FollowsSchema = mongoose.Schema({
   uid1 : { type: mongoose.Schema.ObjectId, ref: 'User' },
   uid2 : { type: mongoose.Schema.ObjectId, ref: 'User' },
 });
+var Follow = mongoose.model('Follow', FollowsSchema)
 
 
 var restaurantSchema = mongoose.Schema({
@@ -38,16 +59,19 @@ var restaurantSchema = mongoose.Schema({
   // getReviews()
   // getUsersReviewed
 });
+var Restaurant = mongoose.model('Restaurant', restaurantSchema);
+
 var reviewSchema = mongoose.Schema({
   stars: Number, // 1 -> 5
   content: String,
-//  Restaurant (mongoose.Schema.Types.ObjectId of Restaurant)
-//  User (mongoose.Schema.Types.ObjectId of User)
+  //  Restaurant (mongoose.Schema.Types.ObjectId of Restaurant)
+  //  User (mongoose.Schema.Types.ObjectId of User)
 });
+var Review = mongoose.model('Review', reviewSchema);
 
 module.exports = {
-    User: mongoose.model('User', userSchema),
-    Restaurant: mongoose.model('Restaurant', restaurantSchema),
-    Review: mongoose.model('Review', reviewSchema),
-    Follow: mongoose.model('Follow', FollowsSchema)
+  User: User,
+  Restaurant: Restaurant,
+  Review: Review,
+  Follow: Follow
 };
