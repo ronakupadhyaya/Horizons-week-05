@@ -78,7 +78,6 @@ router.get('/profile/:id', function(req, res) {
 // TODO: Add /unfollow/:id
 
 router.post('/follow/:id', function(req, res, next) {
-  // TODO: Check duplicates before following
   user.follow(userid, function(err) {
     if (err) return next(err);
     res.redirect('/profile');
