@@ -1,10 +1,4 @@
 var mongoose = require('mongoose');
-//var connect = process.env.MONGODB_URI || require('./connect');
-//mongoose.connect(connect);
-
-// Step 1: Create and edit contacts
-// Remember: schemas are like your blueprint, and models
-// are like your building!
 
 var userSchema = mongoose.Schema({
   displayName: String,
@@ -12,9 +6,7 @@ var userSchema = mongoose.Schema({
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
-  //  followers:  , stories : [{ type: Schema.ObjectId, ref: 'Story' }]
   //get reviews()
-  //  friends
 });
 
 //Instance method
@@ -23,10 +15,23 @@ userSchema.methods.getFollowers = function (user, callback){
   Follow.find({uid1: user.id}).populate('uid2').exec(function(err, following) {
     //Find Followers
     Follow.find({uid2: user.id}).populate('uid1').exec(function(err, followers) {
-     callback(err, followers, following);
+      callback(err, followers, following);
     });
   });
 }
+userSchema.methods.follow = function (followId, callback){
+  var follow = new Follow({
+    uid1: this.id,
+    uid2: followId
+  });
+  follow.save(function(err) {
+    callback(err)
+  })
+}
+
+// TODO: user.Unfollow
+// TODO: user.verifyPassword (virtual field)
+
 
 var User = mongoose.model('User', userSchema);
 
@@ -36,32 +41,6 @@ var FollowsSchema = mongoose.Schema({
   uid2 : { type: mongoose.Schema.ObjectId, ref: 'User' },
 });
 var Follow = mongoose.model('Follow', FollowsSchema)
-
-
-
-// Find Following
-/*  Follow.find({uid1: req.params.id}).populate('uid2').exec(function(err, following) {
-if (err) return next(err);
-
-//Find Followers
-
-Follow.find({uid2: req.params.id}).populate('uid1').exec(function(err, followers) {
-if (err) return next(err);
-console.log(followers);
-
-res.render('profile', {
-user: user,
-following: following,
-followers: followers
-});
-});
-});*/
-
-//user.Getfollowers
-//user.Follow
-//user.Unfollow
-//user.verifyPassword (virtual field)
-
 
 
 var restaurantSchema = mongoose.Schema({

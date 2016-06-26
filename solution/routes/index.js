@@ -79,17 +79,11 @@ router.get('/profile/:id', function(req, res) {
 
 router.post('/follow/:id', function(req, res, next) {
   // TODO: Check duplicates before following
-  var follow = new Follow({
-    uid1: req.user.id,
-    uid2: req.params.id
-  });
-  follow.save(function(err) {
+  user.follow(userid, function(err) {
     if (err) return next(err);
     res.redirect('/profile');
-  })
+  });
 });
-
-
 
 
 ////////////////////////
