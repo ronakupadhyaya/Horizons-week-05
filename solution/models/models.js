@@ -6,6 +6,9 @@ var userSchema = mongoose.Schema({
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
+  //TODO: Status (display user status if Elite)
+// TODO: Location (only text, descriptive location)
+
   //get reviews()
 });
 
