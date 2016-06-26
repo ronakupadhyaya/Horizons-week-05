@@ -140,7 +140,15 @@ Here are the properties you'll want to define for each of your Friendships:
 - **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does not matter) - the ID of one of the users party to the friendship
 - **User ID 2** (`mongoose.Schema.Types.objectId`) - the ID of the other user party to the friendship
 
-No methods or virtuals necessary for this model!
+Note that we will not keep track of friend requests for this purpose of this exercise; that's a bonus! Once a user adds a new friend, both will be friends. 
+
+> ⚠️  **Warning:** Careful about creating duplicate friendships! You should be only creating a new Friendship document if it doesn't already exist - make sure you handle this in your routes below.
+
+### Viewing Profiles 👸 - `views/singleProfile.hbs`
+Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models
+
+### Viewing ALL the Profiles 👸👸👸 - `views/profiles.hbs`
+
 
 
 ### End Result, Step 1🏅- `http://localhost:3000`
