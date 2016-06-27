@@ -1,13 +1,56 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Sweetgreen",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Strawberry Fields",
+      "price": 12.60,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "organic arugula",
+        "broccoli leaf",
+        "local strawberries",
+        "cucumbers",
+        "toasted almonds",
+        "local feta"
+      ]
+    }
+    {
+      "name": "Kale Caesar",
+      "price": 12.60,
+      "ingredients": [
+        "shredded kale",
+        "chopped romaine",
+        "parmesan crisp",
+        "shaved parmesan",
+        "roasted chicken",
+        "tomatoes",
+        "caesar dressing"
+      ]
+    }
+    {
+      "name": "Guacamole Greens",
+      "price": 12.60,
+      "ingredients": [
+        "organic mesclun",
+        "avocado",
+        "roasted chicken",
+        "red onion",
+        "lime cilantro jalapeno vinaigrette",
+        "fresh lime squeeze"
+      ]
+    }
+    {
+      "name": "Harvest Bowl",
+      "price": 12.60,
+      "ingredients": [
+        "organic wild rice",
+        "shreded kale",
+        "apples",
+        "sweet potatoes",
+        "balsamic vinaigrette",
+        "local goat cheese"
       ]
     }
   ]
 }
+
+H
