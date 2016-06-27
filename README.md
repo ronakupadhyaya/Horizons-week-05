@@ -528,7 +528,7 @@ Tomorrow, we'll be delving into searching, sorting, and filtering through all th
 ## Phase 1 Challenge 🏆
 You've made it this far, and early. Why not a challenge?
 
-- Add routes to allow for users to edit their profiles.
-- Try allowing for private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
-- Make user action routes, such as follow and unfollow, AJAX-enabled so that the page does not refresh when following or unfollowing users from the user directory page.
+Right now, you've only added a button that changes between Follow and Unfollow for single profile views (`singleProfile.hbs`). Try doing that for every follower and followee in each `singleProfile` user view and for every user in the `profiles.hbs` user directory. 
+
+Keep in mind that you will have to check whether to display a Follow or Unfollow button _from the perspective of `req.user`_, regardless of what page they are viewing! There are a few options here - creating new fields on Users for keeping track of followers and followed users by IDs, or calling `getFollows` on `req.user` to determine which users both the currently logged-in user and the user being viewed follow. Good luck!
 
