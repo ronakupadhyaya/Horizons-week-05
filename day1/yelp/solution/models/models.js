@@ -89,8 +89,8 @@ var restaurantSchema = mongoose.Schema({
     ]
   },
   openHoursEST: {
-    openTime: Date,
-    closingTime: Date
+    openTime: Number,
+    closingTime: Number
   }
   // getUsersReviewed
 });
