@@ -19,7 +19,7 @@ Yelp is a big project. Refer back to this section if you're ever feeling lost an
 
 Alternatively, you could try structuring the application solely from **The Big Picture**, if you're up for the challenge.
 
-**Users** (Step 1)
+**Users** (Step 1, 3)
 
 - `User` **Schema properties** - the model for all users of your application (_see **User Models**_)
 	- `displayName` - the displayed name for a User when visiting their profile
@@ -30,10 +30,10 @@ Alternatively, you could try structuring the application solely from **The Big P
 	- `friendships`
 - `User` **Schema methods** - methods that your models will inherit to be called from in your routes
 	- `getFriends(cb)` - return array of friends as User objects in callback `cb`
-	- `getReviews(cb)` - return array of reviews as Review objects in callback `cb`
 	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `follower` (see below) and `idToFollow` as `following`
 	- `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
 	- `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model 
+	- `getReviews(cb)` - _Completed in Step 3:_ return array of reviews as Review objects in callback `cb`
 	
 **Follows** (Step 1)
 
@@ -41,18 +41,33 @@ Alternatively, you could try structuring the application solely from **The Big P
 	- `follower` - the ID of the User following another
 	- `following` - the ID of the User being followed
 
-**Restaurants** (Step 2)
+**Restaurants** (Step 2, 3)
+
+_Completed in Step 2_
 
 - `Restaurant` **Schema properties** - the model that identifies a restaurant
 	 - `name` - The name of the Restaurant
 	 - `price` - A Number on a scale of 1-3 (which you could represent on the page as "$", "$$", "$$$" or "Cheap", "Fair", "Expensive" or whatever you want!)
-	 - `category` 
+	 - `category` - A String (may be an `enum` if you want to limit its possible options) that describes the type of restaurant represented, i.e. "Korean" or "Barbeque."
+	 - `latitude` - A Number representing the geographic location of the restaurant
+	 - `longitude` - Another Number representing the geographic location of the restaurant
+	 - `openTime`
+	 - `closingTime`
+	 
+_Completed in Step 3_
+
 - `Restaurant` **Schema methods** - methods for your Restaurant models
 	- `getReviews(cb)` - return an array of Review objects in callback `cb`
+- `Restaurant` **Schema virtuals** - virtuals for your Restaurant models
+	- `stars` - return the average rating of a Restaurant based on its number of reviews
 
 **Reviews** (Step 3)
 
-- `Review` - the model that 
+- `Review` **Schema properties** - the model that defines a single review on a Restaurant
+	- `stars` - A Number (1-5) that defines how many stars were given in the review
+	- `content` - A String with the contents of the Review
+	- `restaurant` - the ID of the Restaurant that was reviewed
+	- `user` the ID of the User who posted the review
 
 
 ## Step 0: Authentication 🔐 - `app.js`, `routes/index.js`,  `models/models.js`
@@ -129,7 +144,7 @@ Note that this is the Twitter way of following. One can follow the other without
 
 > ⚠️  **Warning:** Careful about creating duplicate follows! You should be only creating a new Follows document if it doesn't already exist - make sure you handle this in your routes below.
 
-### Creating User Methods ☃️ - `models/models.js (UserSchema)`
+### Creating User Methods for Followers ☃️ - `models/models.js (UserSchema)`
 
 
 Next, you want to create a function for each of the `User` models that allows us to take the Reviews array, which is **only a group of IDs referring to objects** and convert that into an array of **actual Review objects.**
@@ -224,7 +239,6 @@ We want to write the following methods on our `User` Schema:
 	
 	Notice how the `follower` field for `allFollowers` and the `following` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
 
-
 **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
 
 `this.model("User OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
@@ -253,9 +267,11 @@ Hooray! You've just built the fundamentals of a social network! Now it's time to
 ## Step 2: Creating and Viewing Restaurants 🍔
 ###Restaurant Models 🍚 - `models/models.js`
 
-- **Name**
-- **Category**
-- **Location** (`String`) - a _descriptive_ location - this location does not have coordinates! (ex. "Southern California", "Orange County", "Huntington Beach")
+- **Name** (`String`) - the name of the Restaurant
+- **Category** (`String`) - the type of the Restaurant ("Korean", "Barbeque", "Casual")
+- **Latitude** (`Number`) - the latitude of the Restaurant's location
+- **Longitude** (`Number`) - the longitude of the Restaurant's location
+- **Price**
 
 
 Foreign Keys vs. Embedding
@@ -272,9 +288,9 @@ Paging (yes)
 Give methods and field for each model.
 All the fields and their types
 
-Leave to them to write their own validation
+### Browsing Restaurants - `views/singleRestaurant.hbs`
 
-Describe views with mockups but not routes
+### Browsing ALL the Restaurants - `views/restaurants.hbs`
 
 ### End Result, Step 2🏅- `http://localhost:3000`
 At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price. 
@@ -284,16 +300,17 @@ It is important to note that up until this point, we have not connected users to
 
 ## Step 3: Reviewing Restaurants ⭐
 
-### Review Models 📝 - `models/models.js`
-
-
-### Reviews
+### Review Models 📝 - `models/models.js (ReviewSchema)`
 
 Reviews are a schema by themselves. A review contains the id of the user leaving the review, the id of the restaurant
 receiving the review. So for example Mike -> reviews -> McDonalds. Those must be of id types and not arrays.
 You also need to have a content and number of stars you are leaving on the review
 
 - `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
+
+
+### Creating User Methods for Reviews 🍃 - `models/models.js (UserSchema)`
+- `getReviews`
 
 ### End Result, Step 3🏅- `http://localhost:3000`
 Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants. 
