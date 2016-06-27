@@ -27,22 +27,29 @@ router.use(function(req, res, next){
 //get singleProfile
 router.get('/profile/:id', function(req, res, next){
   User.findById(req.params.id, function(err, user){
-    user.getFollowers(function(err, following, followers){
-      var amIAlreadyFollowing= followers.filter(function(follow){
-        return follow.from._id === req.user._id;
-      }).length>0;
+    console.log(user);
+    user.getFollows(function(err, following, followers){
+      if (err) console.log(err);
+      user.isFollowing(req.params.id, function(result) {
         res.render('singleProfile', {
           user: user,
-          following: allFollowing,
-          followers: allFollowers,
-          amIAlreadyFollowing: amIAlreadyFollowing
+          following: following,
+          followers: followers,
+          iAmFollowing: result
         });
+      })
+      // var amIAlreadyFollowing=followers.filter(function(follow){
+      //   return follow.from._id === req.user._id;
+      // }).length>0;
+      // console.log(amIAlreadyFollowing);
+
       })
     })
   })
 
 router.get('/profile', function(req, res){
   User.find(function(err, users){
+    console.log(users);
     res.render('profiles',{
       users:users
     });
@@ -51,6 +58,12 @@ router.get('/profile', function(req, res){
 
 router.post('/profile/:id/follow', function(req, res){
   req.user.follow(req.params.id, function(){
+    res.redirect('/profile/'+ req.params.id);
+  });
+});
+
+router.post('/profile/:id/unfollow', function(req, res){
+  req.user.unfollow(req.params.id, function(){
     res.redirect('/profile/'+ req.params.id);
   });
 });

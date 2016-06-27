@@ -1,7 +1,5 @@
 <h4>User Directory</h4>
 <h3>Users</h3>
-{{#each user}}
-<p>{{user.displayName}}</p>
-<p>{{user.email}}</p>
-<p>{{user.location}}</p>
+{{#each users}}
+<h4><a href="/profile/{{_id}}">{{displayName}}</a></h4>
 {{/each}}

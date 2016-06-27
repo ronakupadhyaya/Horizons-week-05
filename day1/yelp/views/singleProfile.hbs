@@ -1,12 +1,10 @@
-{{#if amIAlreadyFollowing}}
-<form action="/profile/{{user._id}}/follow" method="post">
-    <input type="submit" value="Unfollow">
+<h1> Am I following: {{iAmFollowing}}</h1>
+  <form action="/profile/{{user._id}}/unfollow" method="post">
+      <input type="submit" name="unfollow" value="Unfollow">
   </form>
-  {{else}}
   <form action="/profile/{{user._id}}/follow" method="post">
-      <input type="submit" value="Follow">
-    </form>
-  {{/if}}
+      <input type="submit" name="follow" value="Follow">
+  </form>
 
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
@@ -22,10 +20,9 @@
 
 <h4>Following:</h4>
 {{#each following}}
-  <li>{{this}}</li>
-  <li>{{to.email}}</li>
-  <div>{{to.displayName}}
-  <form  action="/unfollow/{{userTo.id}}" method="post">
+  <!-- <li>{{this}}</li> -->
+  <div><li>{{to.displayName}} <p style="color: grey">{{to.email}}</p></li>
+  <form  action="/profile/{{_id}}/unfollow" method="post">
     <input style="display: inline;" type="submit" value="Unfollow">
   </form>
   <p>{{following.location}}</p>
