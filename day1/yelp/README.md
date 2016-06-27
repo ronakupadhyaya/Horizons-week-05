@@ -386,7 +386,7 @@ Tomorrow, we'll be delving into
 ## Phase 1 Challenges 🏆
 You've made it this far, and early. Why not a few challenges?
 
+- Add routes to allow for users to edit their profiles.
 - Try allowing for 	private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
 - Make user action routes, such as follow and unfollow, AJAX-enabled so that the page does not refresh when following or unfollowing users from the user directory page.
-- 
 
