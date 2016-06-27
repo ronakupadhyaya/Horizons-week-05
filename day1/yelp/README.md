@@ -11,6 +11,7 @@ Today we will be building a clone of the popular restaurant reviews website Yelp
 - **Step 1:** Connecting Users 🙇
 - **Step 2:** Creating and Viewing Restaurants 🍔
 - **Step 3:** Reviewing Restaurants ⭐
+- **Phase 1 Challenges** 🏆
 
 ## The Big Picture 🖼
 
@@ -76,7 +77,7 @@ Now we’ll be adding more properties to our users in our database model to give
 
 Your job is to take the specifications for each model and determine, with your views, how many routes you *have*, what they are *called*, and what they *do*. Take a deep breath; you've got this!
 
-### User Models ⛷ - `models/models.js`
+### User Models ⛷ - `models/models.js (UserSchema)`
 
 Begin by defining a `Schema` - you'll need to do this in order to create `virtuals` and `statics` for later.
 
@@ -115,6 +116,22 @@ Here are some properties you definitely want to include in your **Users Schema**
 - **Email** (`String`) - you can ask for email on a separate field as username. Or just ask for an email as a username.
 - **Password** (`String`) - hashed password used for authentication
 
+### Follows! 👫 - `models/models.js (FollowSchema)`
+
+Follows are awesome, but they are also a little complicated. We _could_ choose to add to an array of usernames representing friends to _each_ User, but that would mean we would have to update two users every time a friendship was created. Instead, we'll keep track of each User's relationship with another model - the `Following`.
+
+Here are the properties you'll want to define for each of your Follows:
+
+- **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does matter) - the ID of the user that follows the other.
+- **User ID 2** (`mongoose.Schema.Types.objectId`) - The id of the user being followed
+
+Note that this is the Twitter way of following. One can follow the other without being followed.
+
+> ⚠️  **Warning:** Careful about creating duplicate follows! You should be only creating a new Follows document if it doesn't already exist - make sure you handle this in your routes below.
+
+### Creating User Methods ☃️ - `models/models.js (UserSchema)`
+
+
 Next, you want to create a function for each of the `User` models that allows us to take the Reviews array, which is **only a group of IDs referring to objects** and convert that into an array of **actual Review objects.**
 
 We will accomplish this by using Mongoose _methods_. The way we write Mongoose methods is like the following:
@@ -127,88 +144,91 @@ userSchema.methods.yourMethodName = function() {
 ```
 
 We want to write the following methods on our `User` Schema:
-- `Follow` this one should set a following relationship like the one on twitter. User A -> follows -> B. So this one will be an instance method that acts upon a user. `userSchema.methods.unfollow = function (followId, callback){}`. You pass a followId or id of user B and now the logged in user is following that other user. It must check if you haven't followed that user already. On the database, this is a Schema!
-var FollowsSchema = mongoose.Schema({
-  uid1 : { type: mongoose.Schema.ObjectId, ref: 'User' },
-  uid2 : { type: mongoose.Schema.ObjectId, ref: 'User' },
-});
-As you can see, uid1 follows uid2.
 
-- `Unfollow` this method deletes the relationship user1 follows user2. So it makes you stop following a user.
+> **Tip:** When creating your methods for `User`, use _callback functions_ to return data. For example, `getFollows` should be _used_ in a future route like:
 
-- `getFollows` - This function will go through the schema of friendships. The method must be static and work on the users
-schema. An example would be: `userSchema.statics.getFollows = function (id, callback){}` This should call the callback method with the followers and users you are following. So `callback(followers, following)`.
-In this way you can view the people that are following you and who you follow from your profile. Just like Twitter!
-The ones you follow are where the id of the current user is uid1.
-The ones who follow you are those records where the current logged user is uid2.
-You cannot be friends with yourself 😢, and you cannot follow someone more than one time.
+	req.user.getFollows(function(followers, following) {
+		/* do something with the result of the callback function */	
+	});
+	
+> To accomplish this, your implementation should take a parameter that represents a callback function that will later be called with the resulting data. See more about this below.
 
-The callback(followers, following) data will look like:
- ```[
-	 _id: 575xxxxxxxxxxxx,
-	 _id: 575xxxxxxxxxxxx,
-	 _id: 575xxxxxxxxxxxx,
- }]
- ```
- For both followers and following the data, after using .populate, your data will look like this:
-
+ 
+- `follow` - should set a following relationship as on Twitter, Instagram, or any site that supports followers.
+	- **Note**: `follow` will be an _instance method_ that acts upon a user - it would be defined in the schema as something along the lines of:
+	
 	```
-	[{
-		_id: 575xxxxxxxxxxxxx,
-		displayName: "Moose Paksoy",
-		email: "moose@joinhorizons.com",
-		location: "San Francisco",
-		reviews: [Array],
-		friendships: [Array]
-	},
-	{
-		_id: 575xxxxxxxxxxxx,
-		displayName: "Fast Lane",
-		email: "lane@joinhorizons.com",
-		location: "New York City",
-		reviews: [Array],
-		friendships: [Array]
-	},
-	{
-		_id: 575xxxxxxxxxxxx,
-		displayName: "Josh",
-		email: "josh@joinhorizons.com",
-		location: "Rutgers",
-		reviews: [Array],
-		friendships: [Array]
+	userSchema.methods.follow = function (idToFollow, callback){...}
+	```
+	You should take in a parameter `idToFollow` of the user to follow; now, calling `.follow` on the logged-in user will follow the user given by `idToFollow`! `follow` should also check if you have followed that user already and prevent you from creating duplicate `Follow` documents.
+
+- `unfollow` - deletes the relationship represented by a `Follow` document where User 1 (the caller of the `unfollow` function) follows User 2 (given by a parameter `idToUnfollow`).
+
+- `getFollows` - This method will go through and find all `Follow` documents that correspond to both user relationships where the user's ID (accessible by the caller of the function, `this._id`) is the `follower` and where the user is the `following` of a `Follow` relationship. In other words, you want **both the Users the user follows and the Users the user is being followed by** returned by this function. This should call the callback method with the followers and users you are following with something like `allFollowers` and `allFollowing`. 
+
+	When first retrieving the correct `Follow` documents relevant to a user, your `allFollowers` and `allFollowing` arrays will look something like:
+	
+	```
+	allFollowers = [{
+		follower: ID_OF_FOLLOWER,
+		following: YOUR_USER_ID
+	}, {
+		follower: ID_OF_FOLLOWER,
+		following: YOUR_USER_ID
+	}];
+	
+	allFollowing = [{
+		follower: YOUR_USER_ID,
+		following: ID_OF_USER_YOU_ARE_FOLLOWING
 	}]
 	```
 
-Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate your user and return the array of your user's follower objects.
 
-You need to populate your `followers and followees` to get data like their names. Another option is to get the array of ids and query them to find their names.
+	After using `.populate`, your data will look like this (callback with this populated set!):
+
+	```
+	allFollowers = [{
+		follower: {
+			_id: ID_OF_FOLLOWER,
+			displayName: "Moose Paksoy",
+			email: "moose@joinhorizons.com",
+			location: "San Francisco",
+			reviews: [Array],
+			friendships: [Array]
+		},
+		following: YOUR_USER_ID
+	}, {
+		follower: {
+			_id: ID_OF_FOLLOWER,
+			displayName: "Fast Lane",
+			email: "lane@joinhorizons.com",
+			location: "New York City",
+			reviews: [Array],
+			friendships: [Array]
+		},
+		following: YOUR_USER_ID
+	}];
+	
+	allFollowing = [{
+		follower: YOUR_USER_ID,
+		following: {
+			_id: ID_OF_USER_YOU_ARE_FOLLOWING,
+			displayName: "Josh",
+			email: "josh@joinhorizons.com",
+			location: "Rutgers",
+			reviews: [Array],
+			friendships: [Array]
+		}
+	}]
+	```
+	
+	Notice how the `follower` field for `allFollowers` and the `following` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
+
 
 **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
 
 `this.model("User OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
 
-
-### Reviews
-
-Reviews are a schema by themselves. A review contains the id of the user leaving the review, the id of the restaurant
-receiving the review. So for example Mike -> reviews -> McDonalds. Those must be of id types and not arrays.
-You also need to have a content and number of stars you are leaving on the review
-
-- `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
-
-
-### Follows! 👫 - `models/models.js`
-
-Follows are awesome, but they are also a little complicated. We _could_ choose to add to an array of usernames representing friends to _each_ User, but that would mean we would have to update two users every time a friendship was created. Instead, we'll keep track of each User's relationship with another model - the `Following`.
-
-Here are the properties you'll want to define for each of your Follows:
-
-- **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does matter) - the ID of the user that follows the other.
-- **User ID 2** (`mongoose.Schema.Types.objectId`) - The id of the user being followed
-
-Note that this is the Twitter way of following. One can follow the other without being followed.
-
-> ⚠️  **Warning:** Careful about creating duplicate follows! You should be only creating a new Follows document if it doesn't already exist - make sure you handle this in your routes below.
 
 ### Viewing Profiles 👸 - `views/singleProfile.hbs`
 Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models.
@@ -256,5 +276,34 @@ Leave to them to write their own validation
 
 Describe views with mockups but not routes
 
+### End Result, Step 2🏅- `http://localhost:3000`
+At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price. 
+
+It is important to note that up until this point, we have not connected users to the restaurants themselves; that will come with Reviews. Get ready!
+
 
 ## Step 3: Reviewing Restaurants ⭐
+
+### Review Models 📝 - `models/models.js`
+
+
+### Reviews
+
+Reviews are a schema by themselves. A review contains the id of the user leaving the review, the id of the restaurant
+receiving the review. So for example Mike -> reviews -> McDonalds. Those must be of id types and not arrays.
+You also need to have a content and number of stars you are leaving on the review
+
+- `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
+
+### End Result, Step 3🏅- `http://localhost:3000`
+Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants. 
+
+The most significant result from this step will be to have given logged-in users the ability to review restaurants and display those reviews on both User profiles and Restaurant listings. 
+
+Tomorrow, we'll be delving into 
+
+## Phase 1 Challenges 🏆
+You've made it this far, and early. Why not a few challenges?
+
+- Try allowing for 	
+
