@@ -77,7 +77,7 @@ router.get('/singleProfile/:id', function(req,res){
 router.get('/profile/:id',function(req,res){
   User.findById(req.params.id,function(err,user){
     user.getFollows(function(following,followers){
-      followers.filter(function(users)){
+      followers.filter(function(users){
         //check if im in the list of followers
         return from._id===req.user._id;
       }).length>0;

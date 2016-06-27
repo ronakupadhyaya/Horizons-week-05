@@ -23,6 +23,19 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.methods.getFollows = function (id, callback){
+  var that=this;
+  Follow.find({
+    from: this._id
+  }).populate('to')
+  .exec(function(error, usersImFollowing){
+    Follow.find({
+      to: that._id
+    }).populate('from')
+    .exec(function(error,usersWhoFollowMe){
+      console.log(usersWhoFollowMe)
+      callback(usersImFollowing,usersWhoFollowMe)
+    })
+  })
   // this.model('Follow').find({$or: [{followed: id}, {follower: id}]}).populate('follower followed').exec(function(err,follows){
   //   var allFollowers=[];
   //   var allFollowed=[];
@@ -37,21 +50,21 @@ userSchema.methods.getFollows = function (id, callback){
   //   callback(null, {followers: allFollowers, followed: allFollowed})
   // })
 
-  Follow.find({
-    from: this._id
-  }).populate('to')
-  //need to call .populate to get 'to' to get info about user past id
-  .exec(function(error,usersImFollowing){
-    Follow.find({
-      to: this._id
-    }).population('from')
-    .exec(function(error, usersWhoFollowMe){
-      console.log(usersWhoFollowMe)
-      callback(usersWhoFollowMe)
-    })
-  });
-
   // Follow.find({
+  //   from: this._id
+  // }).populate('to')
+  // //need to call .populate to get 'to' to get info about user past id
+  // .exec(function(error,usersImFollowing){
+  //   Follow.find({
+  //     to: this._id
+  //   }).population('from')
+  //   .exec(function(error, usersWhoFollowMe){
+  //     console.log(usersWhoFollowMe)
+  //     callback(usersWhoFollowMe)
+  //   })
+  //);
+
+  // Follow.find({jnb
   //   from: this._id
   // }, function(err, usersImFollowing){
   //   callback(usersImFollowing)
