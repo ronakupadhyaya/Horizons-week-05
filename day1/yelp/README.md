@@ -245,7 +245,7 @@ Time to put the views together! You'll be first creating the Handlebars template
 
 Display something that looks like the following:		
 
-[mockup here]		
+<img src="http://cl.ly/1q1H2F3L0D0z/Yelp%20Lite-2.png" width="500">		
   		  
  When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):		
  		
@@ -298,7 +298,7 @@ You'll want to display all the information you have so far, including:
 
 To have a central directory of Users where people can follow others, we will have a template dedicated to displaying all of the Users registered for our site. The result will look like:
 
-[mockup here]
+<img src="http://cl.ly/2t3z3p3q1r3X/Yelp%20Lite-3.png" width="500">
 
 You will also want to display a button to "Follow" conditionally on whether or not the user accessing the page is already following a particular user - remember that `isFollowing` method we wrote?
 
@@ -347,10 +347,14 @@ Create a basic form for creating a new restaurant with all of its basic informat
 
 Keep your `name` attributes for each input of the form in the back of your mind - you'll need it when handling the `POST` request that will save the new restaurant as a MongoDB document. 
 
+The end result should look something like:
+
+<img src="http://cl.ly/3F2126010E36/Yelp%20Lite-4.png" width="500">
+
 ### Browsing Restaurants 🍺 - `views/singleRestaurant.hbs`
 When displaying a single restaurant, you'll want to show all of the fields you created for the `Restaurant` model above. The end result should look something like the following:
 
-[mockup here]
+<img src="http://cl.ly/0K10042i0l01/Yelp%20Lite-5.png" width="500">
 
 You can display a map by coordinates by using the [**Google Maps Static Maps API**](https://developers.google.com/maps/documentation/static-maps).
 To 
@@ -397,7 +401,7 @@ In this template, imagine that your context object looks like the following:
 
 The end result will look something like the following:
 
-[mockup here]
+<img src="http://cl.ly/3R1k3u0P390b/Yelp%20Lite-6.png" width="500">
 
 
 ### Adding the Routes 🌀 - `routes/index.js`
@@ -410,7 +414,7 @@ Looks like your views and models for restaurants are ready to go! Time to build 
 	* _What to Pass In_: A context object with a property `restaurant` that has a single Restaurant document
 * A route for creating new restaurants, rendering `newRestaurant.hbs`
 	* You'll need to have a `POST` route to handle the form from `newRestaurant.hbs` as well, so that you can save the new Restaurant document with the data receieved in `req.body`.
-	* **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions below on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you ca nstore.
+	* **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions below on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you can store.
 	
 ### Getting a Google Maps API Key 🗺 - `developers.google.com`
 You'll notice that in `routes/index.js`, there is a variable commented out to store a Google Maps API Key. Below are steps on obtaining this key; follow them and put them in when you get a key!
@@ -427,14 +431,17 @@ It is important to note that up until this point, we have not connected users to
 
 ### Review Models 📝 - `models/models.js (ReviewSchema)`
 
-Reviews are a Schema by themselves. A review contains the id of the user leaving the review, the id of the restaurant
-receiving the review. So for example Mike -> reviews -> McDonalds. Those must be of id types and not arrays.
-You also need to have a content and number of stars you are leaving on the review
+Reviews are a Schema by themselves. A review contains both the ID of the user posting the review and the ID of the restaurant receiving the review. You should also have a property for content and the number of stars for the review. In other words, it should look like:
 
-- `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
+* **Content** (`String`) - the content of the review
+* **Stars** (`Number`) - the number of stars (1-5) given for a restaurant by a review
+* **Restaurant ID** (`mongoose.Schema.Types.ObjectId`) - the ID of the restaurant that the review is associated with
+* **User ID** (`mongoose.Schema.Types.ObjectId`) - the ID of the user that posted the review
+
+Great! Review models don't need any helpers or virtuals for their Schema, but next, we'll be revisiting our Schemas for Restaurants and Users to add Review-related methods to their respective models.
 
 ### Creating Restaurant Methods for Reviews 🌪 - `models/models.js (RestaurantSchema)`
-- `getReviews`
+- `getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
 
 - `stars`
 
@@ -452,7 +459,7 @@ Amazing! You've completed Phase 1 of the Yelp project. You should be able to per
 
 The most significant result from this step will be to have given logged-in users the ability to review restaurants and display those reviews on both User profiles and Restaurant listings. 
 
-Tomorrow, we'll be delving into 
+Tomorrow, we'll be delving into searching, sorting, and filtering through all this data to provide your users with the exact content they are looking for.
 
 ## Phase 1 Challenges 🏆
 You've made it this far, and early. Why not a few challenges?
