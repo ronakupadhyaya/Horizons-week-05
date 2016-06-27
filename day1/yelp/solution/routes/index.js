@@ -15,7 +15,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res, next) {
-    res.render('home')
+    res.render('home');
 });
 
 // Users
@@ -39,7 +39,7 @@ router.get('/profile', function(req, res) {
         following: following,
         followers: followers
       });
-    })
+    });
   });
 });
 
@@ -53,7 +53,7 @@ router.get('/profile/:id', function(req, res) {
         following: following,
         followers: followers
       });
-    })
+    });
   });
 });
 
@@ -114,7 +114,7 @@ router.get('/restaurants', function(req, res, next) {
     "latitude": 39.9553176,
     "longitude": -75.197408
   };
-  var now = new Date();
+  var now = Math.ceil(new Date().getHours() + new Date().getMinutes() / 60);
   var q = Restaurant.find();
   if (req.params.price) {
     q = q.where('price').gte(req.params.price);
