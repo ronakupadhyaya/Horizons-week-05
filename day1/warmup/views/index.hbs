@@ -1,0 +1,17 @@
+<h1>Restaurant: {{restaurant}}</h1>
+
+<h2>Menu</h2>
+<ul>
+  {{#each menu}}
+  <li>
+    <h3>{{name}}</h3>
+    <h3>${{price}}</h3>
+    Ingrdients:
+    <ol>
+      {{#each ingredients}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ol>
+  </li>
+  {{/each}}
+</ul>
