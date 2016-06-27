@@ -1,7 +1,6 @@
 {
   "restaurant": "McDonalds",
-  "menu": 
-  [
+  "menu": [
     {
       "name": "McChicken",
       "price": 1,
@@ -9,15 +8,6 @@
       [
         "Mayo",
         "Chicken"
-      ]
-    },
-    {
-      "name": "Chicken Nuggets",
-      "price": 5,
-      "ingredients":
-      [
-        "Chicken",
-        "BBQ Sauce"
       ]
     }
   ]
