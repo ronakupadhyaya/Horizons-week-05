@@ -22,7 +22,7 @@ const saltRounds = 10;
 // ----------------------------------------------
 var db_connection = mongoose.connection;
 db_connection.once('open', function callback () {
-       console.log("DB Connected!");
+  console.log("DB Connected!");
 });
 
 var userSchema = mongoose.Schema({
@@ -106,6 +106,7 @@ userSchema.methods.follow = function (idToFollow, callback){
         });
         follow.save(function(err) {
           callback(err)
+          console.log('save successful!');
         })
       }
       else {
@@ -128,6 +129,8 @@ var reviewSchema = mongoose.Schema({
   uId: {type: mongoose.Schema.Types.ObjectId, ref:'User'}
 });
 
+var Review = mongoose.model('Review', reviewSchema);
+
 
 var restaurantSchema = mongoose.Schema({
   name: {type: String, required: true, index: { unique: true }},
@@ -139,20 +142,21 @@ var restaurantSchema = mongoose.Schema({
   closingtime: {type: Number, required: true}
 });
 
+
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
   Review.find({rId: restaurantId}).populate('user').exec(function(err, reviews){
     callback(err, reviews);
   });
 }
 
-// restaurantSchema.methods.stars = function(callback){
-
-// }
+restaurantSchema.virtual('averageRating').get(function(callback){
+  // return this.stars
+});
 
 
 module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: mongoose.model('Restaurant', restaurantSchema),
-  Review: mongoose.model('Review', reviewSchema),
+  Review: Review,
   Follow: Follow
 };
