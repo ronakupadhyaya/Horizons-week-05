@@ -23,7 +23,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
-userSchema.methods.getFollowers = function (id, callback){
+userSchema.methods.getFollows = function (id, callback){
   this.model('Follow').find;
 }
 userSchema.methods.follow = function (idToFollow, callback){
@@ -35,11 +35,11 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
 }
 
 var FollowsSchema = mongoose.Schema({
-  user1: {
+  from: {
     type: mongoose.Schema.Types.objectId,
     ref: 'User'
   },
-  user2: {
+  to: {
     type: mongoose.Schema.Types.objectId,
     ref: 'User'
   }

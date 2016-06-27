@@ -27,7 +27,7 @@ Alternatively, you could try structuring the application solely from **The Big P
 	- `password` - used for authentication, definitely should not be publicly available
 	- `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
 - `User` **Schema methods** - methods that your models will inherit to be called from in your routes
-	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `follower` (see below) and `idToFollow` as `following`
+	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `from` (see below) and `idToFollow` as `to`
 	- `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
 	- `getFollows(cb)` - return array of followers and users followed as User objects in callback `cb`
 	- `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model 
@@ -147,7 +147,7 @@ Note that this is the Twitter way of following. One can follow the other without
 ### Creating User Methods for Followers ☃️ - `models/models.js (UserSchema)`
 
 
-Next, you want to create a function for each of the `User` models that allows us to take the Reviews array, which is **only a group of IDs referring to objects** and convert that into an array of **actual Review objects.**
+Next, you want to create a function for each of the `User` models that allows us to get both the users following a user and the users that a user is following.
 
 We will accomplish this by using Mongoose _methods_. The way we write Mongoose methods is like the following:
 
@@ -528,7 +528,7 @@ Tomorrow, we'll be delving into searching, sorting, and filtering through all th
 ## Phase 1 Challenge 🏆
 You've made it this far, and early. Why not a challenge?
 
-- Add routes to allow for users to edit their profiles.
-- Try allowing for private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
-- Make user action routes, such as follow and unfollow, AJAX-enabled so that the page does not refresh when following or unfollowing users from the user directory page.
+Right now, you've only added a button that changes between Follow and Unfollow for single profile views (`singleProfile.hbs`). Try doing that for every follower and followee in each `singleProfile` user view and for every user in the `profiles.hbs` user directory. 
+
+Keep in mind that you will have to check whether to display a Follow or Unfollow button _from the perspective of `req.user`_, regardless of what page they are viewing! There are a few options here - creating new fields on Users for keeping track of followers and followed users by IDs, or calling `getFollows` on `req.user` to determine which users both the currently logged-in user and the user being viewed follow. Good luck!
 
