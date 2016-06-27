@@ -4,12 +4,20 @@ var mongoose = require('mongoose');
 var connect = process.env.MONGODB_URI || require('./connect');
 mongoose.connect(connect);
 
-var userSchema = mongoose.Schema({
+var userSchema = new mongoose.Schema({
+  displayName: {
+    type: String,
+    required: true
+  },
   email: {
     type: String,
     required: true
   },
   password: {
+    type: String,
+    required: true
+  },
+  location: {
     type: String,
     required: true
   }
@@ -26,16 +34,23 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
 
 }
 
-var FollowsSchema = mongoose.Schema({
+var FollowsSchema = new mongoose.Schema({
+    user1: {
+      type: mongoose.Schema.Types.objectId,
+      ref: "User"
+      }
+    user2: {
+      type: mongoose.Schema.Types.objectId,
+      ref: "User"
+      }
+});
+
+var reviewSchema = new mongoose.Schema({
 
 });
 
-var reviewSchema = mongoose.Schema({
 
-});
-
-
-var restaurantSchema = mongoose.Schema({
+var restaurantSchema = new mongoose.Schema({
 
 });
 
