@@ -400,7 +400,9 @@ In this template, imagine that your context object looks like the following:
 	"latitude": 39.9552474,
 	"longitude": -75.1969099,
 	"openTime": 11,
-	"closeTime": 15
+	"closeTime": 15,
+	"totalScore": 15,
+	"reviewCount": 3
 },
 {
 	"name": "Wawa",
@@ -409,9 +411,13 @@ In this template, imagine that your context object looks like the following:
 	"latitude": 39.9509339,
 	"longitude": -75.19891,
 	"openTime": 9,
-	"closeTime": 19
+	"closeTime": 19,
+	"totalScore": 20,
+	"reviewCount": 10
 }]
 ```
+
+**Use your `averageRating` virtual (which will be defined below) to display the average rating of each restaurant inline with its listing on your restaurants view. You can access it like any other property!**
 
 > ⚠️  **Warning:** You may have called these fields by different property names! Make sure that your Handlebars templates `{{placeholders}}` match those that you defined in your models previously.
 
@@ -519,8 +525,8 @@ The most significant result from this step will be to have given logged-in users
 Tomorrow, we'll be delving into searching, sorting, and filtering through all this data to provide your users with the exact content they are looking for.
 
 
-## Phase 1 Challenges 🏆
-You've made it this far, and early. Why not a few challenges?
+## Phase 1 Challenge 🏆
+You've made it this far, and early. Why not a challenge?
 
 - Add routes to allow for users to edit their profiles.
 - Try allowing for private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
