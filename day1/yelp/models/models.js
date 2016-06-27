@@ -22,6 +22,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 userSchema.methods.getFollows = function (callback){
   var that = this;
   Follow.find({
@@ -91,6 +92,9 @@ userSchema.methods.follow = function(idToFollow, callback){
   from: this._id,
   to: idToFollow
  }).save(callback);
+=======
+userSchema.methods.getFollows = function (id, callback){
+>>>>>>> master
 
 }
 
@@ -219,9 +223,15 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
   })
 }
 
+<<<<<<< HEAD
 restaurantSchema.methods.stars = function(callback){
   return (this.totalScore / this.reviewCount);
 }
+=======
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
+>>>>>>> master
 
 var User = mongoose.model('User', userSchema);
 var Follow = mongoose.model('Follow', FollowsSchema);
