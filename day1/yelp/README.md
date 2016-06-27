@@ -1,20 +1,61 @@
 # Building Yelp!
 
-## Goal
 
-Build a clone of the popular restaurant reviews website Yelp, using your knowledge of MongoDB queries, processing, and performance.
+Today we will be building a clone of the popular restaurant reviews website Yelp, using your knowledge of MongoDB queries, processing, and performance. Yay!
 
 
 ## Table of Contents
 
+- **The Big Picture** 🖼
+- **Step 0:** Authentication 🔐
+- **Step 1:** Connecting Users 🙇
+- **Step 2:** Creating and Viewing Restaurants 🍔
+- **Step 3:** Reviewing Restaurants ⭐
 
-- **[ 0 ]** Authentication 🔐
-- **[ 1 ]** Connecting Users 🙇
-- **[ 2 ]** Creating and Viewing Restaurants 🍔
-- **[ 3 ]** Reviewing Restaurants ⭐
+## The Big Picture 🖼
+
+Yelp is a big project. Refer back to this section if you're ever feeling lost and need to see where this is all going. Below is a reference to all of the models we will be using in this project. More detailed information on their implementations and applications can be found in their respective sections! 
+
+Alternatively, you could try structuring the application solely from **The Big Picture**, if you're up for the challenge.
+
+**Users** (Step 1)
+
+- `User` **Schema properties** - the model for all users of your application (_see **User Models**_)
+	- `displayName` - the displayed name for a User when visiting their profile
+	- `email` - used for authentication, should not be publicly available
+	- `password` - used for authentication, definitely should not be publicly available
+	- `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
+	- `reviews`
+	- `friendships`
+- `User` **Schema methods** - methods that your models will inherit to be called from in your routes
+	- `getFriends(cb)` - return array of friends as User objects in callback `cb`
+	- `getReviews(cb)` - return array of reviews as Review objects in callback `cb`
+	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `follower` (see below) and `idToFollow` as `following`
+	- `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
+	- `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model 
+	
+**Follows** (Step 1)
+
+- `Follow` - the model that is used to identify a relationship between a User and another they are following (_see **Follows!**_)
+	- `follower` - the ID of the User following another
+	- `following` - the ID of the User being followed
+
+**Restaurants** (Step 2)
+
+- `Restaurant` **Schema properties** - the model that identifies a restaurant
+	 - `name` - The name of the Restaurant
+	 - `price` - A Number on a scale of 1-3 (which you could represent on the page as "$", "$$", "$$$" or "Cheap", "Fair", "Expensive" or whatever you want!)
+	 - `category` 
+- `Restaurant` **Schema methods** - methods for your Restaurant models
+	- `getReviews(cb)` - return an array of Review objects in callback `cb`
+
+**Reviews** (Step 3)
+
+- `Review` - the model that 
+
 
 ## Step 0: Authentication 🔐 - `app.js`, `routes/index.js`,  `models/models.js`
-👀 **Note:** this is a read-only Step - _No writing code here!_
+👀 **Note:** this is a read-only Step - _No writing code here, but make sure to read through, familiarize yourself with the authentication flow, and add your MongoDB details!_
 
 Before you start this project, check out the codebase, beginning in **`app.js`** - the entry point of your application.
 
