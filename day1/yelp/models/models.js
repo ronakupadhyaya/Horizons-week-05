@@ -12,21 +12,82 @@ var userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
+  }, 
+  displayName: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String
   }
 });
 
-userSchema.methods.getFollowers = function (id, callback){
-
+userSchema.methods.getFollows = function (id, callback){
+  this.model('Follow').find({$or: [{followed: id}, {follower: id}]}).populate('follower followed').exec(function(err,follows){
+    var allFollowers=[];
+    var allFollowed=[];
+    for(var i=0; i<follows.length; i++){
+      if(follows[i].followed===id){
+        allFollowers.push(follows[i])
+      }
+      else{
+        allFollowed.push(follows[i])
+      }
+    }
+    callback(null, {followers: allFollowers, followed: allFollowed})
+  })
 }
+
 userSchema.methods.follow = function (idToFollow, callback){
-
+  this.model('Follow').findOne({followed: idToFollow, follower: this._id}, function(err, follows){
+    if(follows){
+      callback("already following")
+    }
+  else{
+    var follow = new Follow({
+      follower: this._id,
+      followed: idToFollow
+    })
+    follow.save(callback)
+  }
+})
 }
+
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
+  this.model('Follow').remove({followed: idToFollow, follower: this._id},function(err,follows){
+    if(follows){
+      callback(null,"unfollowed")
+    }
+    else{
+      callback("unfollow unsuccessful")
+    }
+  })
+}
 
+userSchema.methods.isFollowing = function(id, callback){
+  this.model('Follow').findOne({follower: this._id, followed: id}, function(err,follows){
+    if(err){
+      callback(err)
+    }
+    else if(!follows){
+      callback(null,false)
+    }
+    else{
+      callback(null,true)
+    }
+  })
 }
 
 var FollowsSchema = mongoose.Schema({
+  follower: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
+  followed: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  }
 
 });
 
