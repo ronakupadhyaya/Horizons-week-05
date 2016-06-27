@@ -85,18 +85,6 @@ userSchema.methods.yourMethodName = function() {
 };
 ```
 
-//Instance method
-userSchema.methods.getFollowers = function (user, callback){
-  // Find Following
-  Follow.find({uid1: user.id}).populate('uid2').exec(function(err, following) {
-    //Find Followers
-    Follow.find({uid2: user.id}).populate('uid1').exec(function(err, followers) {
-      callback(err, followers, following);
-    });
-  });
-}
-
-
 We want to write the following methods on our `User` Schema:
 - `Follow` this one should set a following relationship like the one on twitter. User A -> follows -> B. So this one will be an instance method that acts upon a user. `userSchema.methods.unfollow = function (followId, callback){}`. You pass a followId or id of user B and now the logged in user is following that other user. It must check if you haven't followed that user already. On the database, this is a Schema!
 var FollowsSchema = mongoose.Schema({
@@ -107,8 +95,8 @@ As you can see, uid1 follows uid2.
 
 - `Unfollow` this method deletes the relationship user1 follows user2. So it makes you stop following a user.
 
-- `getFriends` - This function will go through the schema of friendships. The method must be static and work on the users
-schema. An example would be: `userSchema.statics.getFollowers = function (id, callback){}` This should call the callback method with the followers and users you are following. So `callback(followers, following)`.
+- `getFollows` - This function will go through the schema of friendships. The method must be static and work on the users
+schema. An example would be: `userSchema.statics.getFollows = function (id, callback){}` This should call the callback method with the followers and users you are following. So `callback(followers, following)`.
 In this way you can view the people that are following you and who you follow from your profile. Just like Twitter!
 The ones you follow are where the id of the current user is uid1.
 The ones who follow you are those records where the current logged user is uid2.
@@ -187,7 +175,7 @@ Time to put the views together! You'll be first creating the Handlebars template
 This has the user profile data like username, email, display name
 The second part is the list of the users you follow.
 The third part is the users that follow you.
-For this, use getFollowers from your model
+For this, use getFollows from your model
 
 ### Viewing ALL the Profiles 👸👸👸 - `views/profiles.hbs`
 
