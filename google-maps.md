@@ -29,4 +29,6 @@ You'll notice that in `routes/index.js`, there is a variable commented out to st
 
 ![](http://cl.ly/0s0Y343H012C/Image%202016-06-27%20at%202.27.50%20AM.png)
 
+#### TA DA, you have an API key! 
+
 ![](http://cl.ly/433d3c3Q1W35/Image%202016-06-27%20at%202.27.56%20AM.png)
