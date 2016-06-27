@@ -147,7 +147,7 @@ Note that this is the Twitter way of following. One can follow the other without
 ### Creating User Methods for Followers ☃️ - `models/models.js (UserSchema)`
 
 
-Next, you want to create a function for each of the `User` models that allows us to take the Reviews array, which is **only a group of IDs referring to objects** and convert that into an array of **actual Review objects.**
+Next, you want to create a function for each of the `User` models that allows us to get both the users following a user and the users that a user is following.
 
 We will accomplish this by using Mongoose _methods_. The way we write Mongoose methods is like the following:
 
