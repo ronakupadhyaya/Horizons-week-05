@@ -8,10 +8,10 @@ Build a clone of the popular restaurant reviews website Yelp, using your knowled
 ## Table of Contents
 
 
-- **[ 0 ]** Authentication 🔐
-- **[ 1 ]** Connecting Users 🙇
-- **[ 2 ]** Creating and Viewing Restaurants 🍔
-- **[ 3 ]** Reviewing Restaurants ⭐
+- **Step 0:** Authentication 🔐
+- **Step 1:** Connecting Users 🙇
+- **Step 2:** Creating and Viewing Restaurants 🍔
+- **Step 3:** Reviewing Restaurants ⭐
 
 ## Step 0: Authentication 🔐 - `app.js`, `routes/index.js`,  `models/models.js`
 👀 **Note:** this is a read-only Step - _No writing code here!_
@@ -42,28 +42,28 @@ Take a deep breath; you've got this!
 Begin by defining a `Schema` - you'll need to do this in order to create `virtuals` and `statics` for later.
 
 
-**Tip: you've been creating `Schema`s already!**
+> **Tip: you've been creating `Schema`s already!**
 
-This: 
+> This: 
 
-```
+> ```
 module.exports = {
 	User: mongoose.model("User", {
 		property1: String
 	})
 }
 ```
-is equivalent to this:
+> is equivalent to this:
 
-```
-var userSchema = new mongoose.Schema({
- 	property1: String
-})
- 
-module.exports = {
- 	User: mongoose.model("User", userSchema);
-}
-```
+> ```
+> var userSchema = new mongoose.Schema({
+> 	property1: String
+> })
+> 
+> module.exports = {
+> 	User: mongoose.model("User", userSchema);
+> }
+> ```
 
 
 
@@ -78,6 +78,23 @@ Here are some properties you definitely want to include in your Schema; your cho
 - **Reviews** (`Array`) - an array of IDs corresponding to `Review` documents created by the user
 - **Friendships** (`Array`) - an array of IDs corresponding to `Friendship` documents associated with the user's relationships/friendships
 
+
+### Friendships! 👫 - `models/models.js`
+
+Friendships are awesome, but they are also a little complicated. We _could_ choose to add to an array of usernames representing friends to _each_ User, but that would mean we would have to update two users every time a friendship was created. Instead, we'll keep track of each User's relationship with another model - the `Friendship`.
+
+Here are the properties you'll want to define for each of your Friendships:
+
+- **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does not matter) - the ID of one of the users party to the friendship
+- **User ID 2** (`mongoose.Schema.Types.objectId`) - the ID of the other user party to the friendship
+
+Note that we will not keep track of friend requests for this purpose of this exercise; that's a bonus! Once a user adds a new friend, both will be friends. 
+
+> ⚠️  **Warning:** Careful about creating duplicate friendships! You should be only creating a new Friendship document if it doesn't already exist - make sure you handle this in your routes below.
+
+
+### User Methods ☃️ - `models/models.js`
+
 Next, you want to create a function for each of the `User` models that allows us to take the Reviews array, which is **only a group of IDs referring to objects** and convert that into an array of **actual Review objects.**
 
 We will accomplish this by using Mongoose _methods_. The way we write Mongoose methods is like the following: 
@@ -91,9 +108,11 @@ userSchema.methods.yourMethodName = function() {
 
 We want to write the following methods on our `User` Schema:
 
-- `getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents.
-- `getFriends` - This function will go through the array of Friendship IDs of the current model and return an array of User objects corresponding to the User on the other side of the friendship - your current model/User should not be returned as a part of this array! - you cannot be friends with yourself 😢
-	- Note: once you get a populated list of your Friendship documents, loop through them to only return the ones that are _not_ you. The return result will look like:
+- `isFriend` - This function will take in a user and return whether or not that user is friends with the user calling `isFriend`. `isFriend` will be called like the following:
+	- `user1.isFriend(req.user) -> true/false` 
+- `getReviews` - This function should populate the array of Review IDs of the current model and callback with a function that has the array of the actual Review documents.
+- `getFriends` - This function will find Friendship documents  go through the array of Friendship IDs of the current model and return an array of User objects corresponding to the User on the other side of the friendship - your current model/User should not be returned as a part of this array! - you cannot be friends with yourself!
+	- Note: once you get a populated list of your Friendship documents, the return result will look like:
 	
 	```
 	[{
@@ -122,29 +141,17 @@ We want to write the following methods on our `User` Schema:
 	}]
 	```
 
-Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate your user and **return the array of your user's Review or User (friend) objects**. You will have to do a little more for `getFriends`, since a Friendship document is not what you want back - you want an array of Users back.
+Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate your user and **return the array of your user's Review or User (friend) objects**. For `getReviews`, you'll be 
 
 You do not have to populate the `reviews` and `friendships` fields of the User documents, but you may find it helpful to list the number of friends and reviews that a person has when displaying them on your friends list!
 
 
 > **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
 
-> `this.model("Friendship OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
+> `this.model("User OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
 
 
 
-### Friendships! 👫 - `models/models.js`
-
-Friendships are awesome, but they are also a little complicated. We _could_ choose to add to an array of usernames representing friends to _each_ User, but that would mean we would have to update two users every time a friendship was created. Instead, we'll keep track of each User's relationship with another model - the `Friendship`.
-
-Here are the properties you'll want to define for each of your Friendships:
-
-- **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does not matter) - the ID of one of the users party to the friendship
-- **User ID 2** (`mongoose.Schema.Types.objectId`) - the ID of the other user party to the friendship
-
-Note that we will not keep track of friend requests for this purpose of this exercise; that's a bonus! Once a user adds a new friend, both will be friends. 
-
-> ⚠️  **Warning:** Careful about creating duplicate friendships! You should be only creating a new Friendship document if it doesn't already exist - make sure you handle this in your routes below.
 
 ### Viewing Profiles 👸 - `views/singleProfile.hbs`
 Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models.
@@ -161,21 +168,21 @@ When creating your Single Profile template, imagine that you are passing in the 
 		_id: 575xxxxxxxxxxxx,
 		displayName: "Ethan Lee",
 		email: "ethan@joinhorizons.com",
-		location: "Probably making a PB&J",
-		reviews: [{
-			_id: 575xxxxxxxxxxxx,
-			restauraunt: 575xxxxxxxxxxxx,
-			content: "This food was okay"
-		}],
-		friendships: [{
-			_id: 575xxxxxxxxxxxx,
-			displayName: "Abhi Fitness",
-			email: "abhi@joinhorizons.com",
-			location: "The Gym",
-			reviews: [Array of IDs],
-			friendships: [Array of IDs]
-		}]
-	}
+		location: "Probably making a PB&J"
+	},
+	reviews: [{
+		_id: 575xxxxxxxxxxxx,
+		restauraunt: 575xxxxxxxxxxxx,
+		content: "This food was okay"
+	}],
+	friendships: [{
+		_id: 575xxxxxxxxxxxx,
+		displayName: "Abhi Fitness",
+		email: "abhi@joinhorizons.com",
+		location: "The Gym",
+		reviews: [Array of IDs],
+		friendships: [Array of IDs]
+	}]
 }
 ```
 
@@ -207,7 +214,7 @@ To have a central directory of Users where people can make friends, we will have
 This time, your context object will have a property called `users` (or something similar), full of User documents. Keep in mind that in this view, you don't need to display the specific friends or reviews a user has (a count will suffice).
 
 You will also want to display a button to "Add Friend" conditionally on whether or not the user accessing the page is already friends with a particular user. We'll give you a tip on how to do that below; for now, set something up like the following:
-p
+
 ```
 {{#each users}}
 	<!-- your code for displaying a user's details here -->
@@ -248,13 +255,7 @@ As aforementioned, we are going to leave many of these design decisions up to yo
 	});
 	
 	```
-
-> ⚠️  **Warning:** You only want to show this view to 
-
-
-
-* ⚠️ Don't forget to include a link to edit a profile 
-
+	
 ### End Result, Step 1🏅- `http://localhost:3000`
 Time to step back and take a look at your hard work!
 
