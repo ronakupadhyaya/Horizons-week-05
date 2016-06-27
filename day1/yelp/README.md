@@ -27,9 +27,9 @@ Alternatively, you could try structuring the application solely from **The Big P
 	- `password` - used for authentication, definitely should not be publicly available
 	- `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
 - `User` **Schema methods** - methods that your models will inherit to be called from in your routes
-	- `getFriends(cb)` - return array of friends as User objects in callback `cb`
 	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `follower` (see below) and `idToFollow` as `following`
 	- `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
+	- `getFollows(cb)` - return array of followers and users followed as User objects in callback `cb`
 	- `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model 
 	- `getReviews(cb)` - _Completed in Step 3:_ return array of reviews as Review objects in callback `cb`
 	
@@ -205,9 +205,7 @@ We want to write the following methods on our `User` Schema:
 			_id: ID_OF_FOLLOWER,
 			displayName: "Moose Paksoy",
 			email: "moose@joinhorizons.com",
-			location: "San Francisco",
-			reviews: [Array],
-			follows: [Array]
+			location: "San Francisco"
 		},
 		following: YOUR_USER_ID
 	}, {
@@ -215,9 +213,7 @@ We want to write the following methods on our `User` Schema:
 			_id: ID_OF_FOLLOWER,
 			displayName: "Fast Lane",
 			email: "lane@joinhorizons.com",
-			location: "New York City",
-			reviews: [Array],
-			follows: [Array]
+			location: "New York City"
 		},
 		following: YOUR_USER_ID
 	}];
@@ -228,14 +224,16 @@ We want to write the following methods on our `User` Schema:
 			_id: ID_OF_USER_YOU_ARE_FOLLOWING,
 			displayName: "Josh",
 			email: "josh@joinhorizons.com",
-			location: "Rutgers",
-			reviews: [Array],
-			follows: [Array]
+			location: "Rutgers"
 		}
 	}]
 	```
 	
 	Notice how the `follower` field for `allFollowers` and the `following` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
+
+- `isFollowing` - this method will take in another User ID and return true or false based on whether or not the user calling `isFollowing` (`this`) is following the user represented by the ID passed in. Query for a Follow document where `follower` is `this._id` and `following` is the ID passed in, and return `true` if the resulting query 
+
+
 
 **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
 
@@ -269,9 +267,7 @@ Display something that looks like the following:
 	 		_id: ID_OF_FOLLOWER,		
 	 		displayName: "Abhi Fitness",		
 	 		email: "abhi@joinhorizons.com",		
-	 		location: "The Gym",		
-	 		reviews: [Array of IDs],		
-	 		follows: [Array of IDs]		
+	 		location: "The Gym"
  		},
  		following: YOUR_USER_ID
  	}],
@@ -281,9 +277,7 @@ Display something that looks like the following:
 			_id: ID_OF_USER_YOU_ARE_FOLLOWING,
 			displayName: "Josh",
 			email: "josh@joinhorizons.com",
-			location: "Rutgers",
-			reviews: [Array],
-			follows: [Array]
+			location: "Rutgers"
 		}
 	}]
  }		
@@ -296,21 +290,19 @@ You'll want to display all the information you have so far, including:
  * **Followers** `{{#each allFollowers}}...{{/each}}` display some details about the user's followers, including:
  	* **Display Name** -  `{{follower.displayName}}`
  	* **Location** - `{{follower.location}}`
- 	* **Number of Reviews** - `{{follower.reviews.length}}`
  * **Following** `{{#each allFollowing}}...{{/each}}` display some details about the users that the user is following, including:
  	* **Display Name** -  `{{following.displayName}}`
  	* **Location** - `{{following.location}}`
- 	* **Number of Reviews** - `{{following.reviews.length}}`
  	
 ### Viewing ALL the Profiles 🏃 - `views/profiles.hbs`
 
-To have a central directory of Users where people can make friends, we will have a template dedicated to displaying all of the Users registered for our site. The result will look like:
+To have a central directory of Users where people can follow others, we will have a template dedicated to displaying all of the Users registered for our site. The result will look like:
 
 [mockup here]
 
-You will also want to display a button to "Add Friend" conditionally on whether or not the user accessing the page is already friends with a particular user - remember that `isFriend` method we wrote?
+You will also want to display a button to "Follow" conditionally on whether or not the user accessing the page is already following a particular user - remember that `isFollowing` method we wrote?
 
-You can call that method from Handlebars using a line inside of an `each` loop like: `{{#if this.isFriend(../user)`, given that the context object looks like: `{user: req.user, users: [Array]}` - the `../` notation will give you a parent scope in Handlebars.
+You can call that method from Handlebars using a line inside of an `each` loop like: `{{#if this.isFollowing(../user)`, given that the context object looks like: `{user: req.user, users: [Array]}` - the `../` notation will give you a parent scope in Handlebars.
 
 ### Adding the Routes 🌀 - `routes/index.js`
 Now that you have the view templates and models for setting up Users and their relationships (Follows), it's time to make it all accessible through Express routes (`router.get` and `router.post`!).
@@ -324,7 +316,7 @@ As aforementioned, we are going to leave many of these design decisions up to yo
 ### End Result, Step 1🏅- `http://localhost:3000`
 Time to step back and take a look at your hard work!
 
-At the end of Step 1, you should be able to login, view profile pages (and edit user details), view other profiles, and follow other users.
+At the end of Step 1, you should be able to login, view profile pages, view other profiles, and follow other users.
 
 Hooray! You've just built the fundamentals of a social network! Now it's time to take those users and associate more data with them in the form of restaurants and their reviews.
 
