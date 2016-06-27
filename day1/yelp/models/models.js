@@ -88,11 +88,29 @@ userSchema.methods.getFollowers = function (id, callback){
   });
 }
 userSchema.methods.follow = function (idToFollow, callback){
-
+  var user = this;
+  Follow.find({uid1:user._id, uid2: idToFollow}, function(err, follows) {
+      if (err) return next(err);
+      if (follows.length<=0){
+        var follow = new Follow({
+          uid1: user._id,
+          uid2: idToFollow
+        });
+        follow.save(function(err) {
+          callback(err)
+        })
+      }
+      else {
+        callback(null);
+      }
+    });
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-
+  var user = this;
+  Follow.find({user1Id:user._id, user2Id: idToUnfollow}).remove(function(err) {
+    callback(err)
+  })
 }
 
 var FollowsSchema = mongoose.Schema({
