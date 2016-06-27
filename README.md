@@ -247,19 +247,79 @@ We want to write the following methods on our `User` Schema:
 ### Viewing Profiles 👸 - `views/singleProfile.hbs`
 Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models.
 
-This has the user profile data like username, email, display name
-The second part is the list of the users you follow.
-The third part is the users that follow you.
-For this, use getFollows from your model
+Display something that looks like the following:		
 
-### Viewing ALL the Profiles 👸👸👸 - `views/profiles.hbs`
+[mockup here]		
+  		  
+ When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):		
+ 		
+ ```		
+ {		
+ 	user: {		
+ 		_id: YOUR_USER_ID,		
+ 		displayName: "Ethan Lee",		
+		email: "ethan@joinhorizons.com",		
+		location: "Probably making a PB&J"		
+ 	},		
+ 	reviews: [{		
+ 		_id: 575xxxxxxxxxxxx,		
+ 		restauraunt: 575xxxxxxxxxxxx,		
+ 		content: "This food was okay"		
+	}],		
+ 	allFollowers: [{	
+ 		follower: {	
+	 		_id: ID_OF_FOLLOWER,		
+	 		displayName: "Abhi Fitness",		
+	 		email: "abhi@joinhorizons.com",		
+	 		location: "The Gym",		
+	 		reviews: [Array of IDs],		
+	 		friendships: [Array of IDs]		
+ 		},
+ 		following: YOUR_USER_ID
+ 	}],
+ 	allFollowing: [{
+		follower: YOUR_USER_ID,
+		following: {
+			_id: ID_OF_USER_YOU_ARE_FOLLOWING,
+			displayName: "Josh",
+			email: "josh@joinhorizons.com",
+			location: "Rutgers",
+			reviews: [Array],
+			friendships: [Array]
+		}
+	}]
+ }		
+ ```
 
-This view should display a list of all the users in your Yelp. from there you can follow them or click on a link to view their profiles.
+You'll want to display all the information you have so far, including:
+
+ * **Display Name** `{{user.displayName}}` _in the context object above_: show the name of a user currently being viewed
+ * **Location** `{{user.location}}`: the descriptive location of a user
+ * **Followers** `{{#each allFollowers}}...{{/each}}` display some details about the user's followers, including:
+ 	* **Display Name** -  `{{follower.displayName}}`
+ 	* **Location** - `{{follower.location}}`
+ 	* **Number of Friends** - `{{follower.friendships.length}}`
+ 	* **Number of Reviews** - `{{follower.reviews.length}}`
+ * **Following** `{{#each allFollowing}}...{{/each}}` display some details about the users that the user is following, including:
+ 	* **Display Name** -  `{{following.displayName}}`
+ 	* **Location** - `{{following.location}}`
+ 	* **Number of Friends** - `{{following.friendships.length}}`
+ 	* **Number of Reviews** - `{{following.reviews.length}}`
+ 	
+### Viewing ALL the Profiles 🏃 - `views/profiles.hbs`
+
+To have a central directory of Users where people can make friends, we will have a template dedicated to displaying all of the Users registered for our site. The result will look like:
+
+[mockup here]
+
+You will also want to display a button to "Add Friend" conditionally on whether or not the user accessing the page is already friends with a particular user - remember that `isFriend` method we wrote?
+
+You can call that method from Handlebars using a line inside of an `each` loop like: `{{#if this.isFriend(../user)`, given that the context object looks like: `{user: req.user, users: [Array]}` - the `../` notation will give you a parent scope in Handlebars.
 
 ### End Result, Step 1🏅- `http://localhost:3000`
-How do we test this, you ask?
+Time to step back and take a look at your hard work!
 
-At the end of Step 1, you should be able to login, view profile pages (and edit user details), view other profiles, and request and verify friendships.
+At the end of Step 1, you should be able to login, view profile pages (and edit user details), view other profiles, and follow other users.
 
 Hooray! You've just built the fundamentals of a social network! Now it's time to take those users and associate more data with them in the form of restaurants and their reviews.
 
@@ -308,9 +368,13 @@ You also need to have a content and number of stars you are leaving on the revie
 
 - `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
 
+### Creating Restaurant Methods for Reviews 🌪 - `models/models.js (RestaurantSchema)`
 
 ### Creating User Methods for Reviews 🍃 - `models/models.js (UserSchema)`
 - `getReviews`
+
+### Displaying Reviews on Profiles and Restaurants 🌋 - `views/singleRestaurant.hbs`, `views/singleProfile.hbs`
+
 
 ### End Result, Step 3🏅- `http://localhost:3000`
 Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants. 
@@ -322,5 +386,7 @@ Tomorrow, we'll be delving into
 ## Phase 1 Challenges 🏆
 You've made it this far, and early. Why not a few challenges?
 
-- Try allowing for 	
+- Try allowing for 	private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
+- Make user action routes, such as follow and unfollow, AJAX-enabled so that the page does not refresh when following or unfollowing users from the user directory page.
+- 
 
