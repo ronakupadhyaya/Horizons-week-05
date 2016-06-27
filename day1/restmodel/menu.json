@@ -1,12 +1,12 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "btb",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "burrito",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "chicken",
+        "rice"
       ]
     }
   ]
