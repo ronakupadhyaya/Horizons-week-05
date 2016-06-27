@@ -23,6 +23,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 userSchema.methods.getFollowers = function (id, callback) {
 return this.model('Follow').find({
     followed: id
@@ -38,6 +39,10 @@ return this.model('Follow').find({
           callback(err, myFollowers, myFollowed)
         })}
         );
+=======
+userSchema.methods.getFollows = function (id, callback){
+
+>>>>>>> refs/remotes/origin/master
 }
 
 userSchema.methods.follow = function (idToFollow, callback) {
@@ -106,9 +111,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
