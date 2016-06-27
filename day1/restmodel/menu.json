@@ -1,12 +1,42 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Urth Caffé",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Chicken Curry Sandwich",
+      "price": 12.25,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "All natural chicken breast",
+        "Raisins",
+        "Onions",
+        "Celery",
+        "Curry Sauce",
+        "Mayo",
+        "Bread"
+      ]
+    },
+    {
+      "name": "Urth Farmer's Salad",
+      "price": 12.75,
+      "ingredients": [
+        "Baby Spinach",
+        "Peppercorn dressing",
+        "Grilled artichokes",
+        "Tomatoes",
+        "French radishes",
+        "Red onion",
+        "Shaved fennel",
+        "Glazed pecans",
+        "Shaved parmesan cheese"
+      ]
+    },
+    {
+      "name": "Berry bowl",
+      "price": 12.95,
+      "ingredients": [
+        "Seasonal berries",
+        "Whipped cream",
+        "Yogurt",
+        "Cottage Cheese"
       ]
     }
   ]
