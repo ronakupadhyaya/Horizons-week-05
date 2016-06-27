@@ -1,12 +1,14 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "SOULWICH",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Indonesian Ginger BBQ",
+      "price": 7.89,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Steak",
+        "Garlic",
+        "Fresh Ginger",
+        "Soy Sauce"
       ]
     }
   ]
