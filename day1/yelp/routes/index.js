@@ -25,8 +25,6 @@ router.use(function(req, res, next){
 });
 router.get('/', function(req,res,next) {
   console.log(req.user)
-  console.log(User.getFollowers)
-  console.log(req.user.getFollowers)
   // placeholder, possible new index page later
   req.user.getFollowers(req.user._id,function(err,followers,following) {
     res.render('user', {
@@ -36,7 +34,15 @@ router.get('/', function(req,res,next) {
     })
   })
 })
-// router.get('/')
+router.get('/profiles', function(req,res,next) {
+  User.find(function(err, users) {
+    if (err) {
+      res.redirect('/error', {error:err})
+    } else {
+      res.render('profiles', {users:users})
+    }
+  })
+})
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
