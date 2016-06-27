@@ -1,12 +1,47 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Chick-fil-a",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Spicy Chicken Sandwich",
+      "price": 1200,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "chicken",
+        "milk wash",
+        "peanut oil",
+        "bun"
+      ]
+    },
+    {
+      "name": "Nuggets",
+      "price": 1300,
+      "ingredients": [
+        "chicken",
+        "salt",
+        "more salt",
+        "even more salt",
+        "fat"
+      ]
+    },
+    {
+      "name": "Waffle Potato Fries",
+      "price": 13000000,
+      "ingredients": [
+        "potatoes",
+        "canola oil",
+        "salt",
+        "more salt",
+        "some fat"
+      ]
+    },
+    {
+      "name": "Chocolate Milkshake",
+      "price": 0.0000000001,
+      "ingredients": [
+        "icedream",
+        "fat",
+        "donald trump's belly",
+        "water",
+        "FD&C Red #40"
       ]
     }
   ]
