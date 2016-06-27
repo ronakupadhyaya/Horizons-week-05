@@ -2,11 +2,35 @@
   "restaurant": "RESTAURANT HERE",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Doge",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Wow",
+        "Such"
+      ]
+    } , 
+	   {
+      "name": "Doge",
+      "price": 11,
+      "ingredients": [
+        "Wow",
+        "Such"
+      ]
+    } ,
+	   {
+      "name": "Doge",
+      "price": 12,
+      "ingredients": [
+        "Wow",
+        "Such"
+      ]
+    } ,
+	   {
+      "name": "Doge",
+      "price": 12,
+      "ingredients": [
+        "Wow",
+        "Such"
       ]
     }
   ]
