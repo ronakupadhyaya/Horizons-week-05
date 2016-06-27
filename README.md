@@ -33,7 +33,9 @@ Get ready to dive in and create more models and properties to build out the rest
 ## Step 1: Connecting Users 🙇
 Now we’ll be adding more properties to our users in our database model to give them friends and reviews. Notice how we are *not* providing you with the typical scaffolding for each route! 
 
-Your job is to take the specifications for each model and determine, with your views, how many routes you *have*, what they are *called*, and what they *do*. Take a deep breath; you've got this!
+Your job is to take the specifications for each model and determine, with your views, how many routes you *have*, what they are *called*, and what they *do*.
+
+Take a deep breath; you've got this!
 
 ### User Models ⛷ - `models/models.js`
 
@@ -120,14 +122,14 @@ We want to write the following methods on our `User` Schema:
 	}]
 	```
 
-Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate your user and return the array of your user's Review or User (friend) objects. You will have to do a little more for `getFriends`, since a Friendship document is not what you want back - you want an array of Users back.
+Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate your user and **return the array of your user's Review or User (friend) objects**. You will have to do a little more for `getFriends`, since a Friendship document is not what you want back - you want an array of Users back.
 
 You do not have to populate the `reviews` and `friendships` fields of the User documents, but you may find it helpful to list the number of friends and reviews that a person has when displaying them on your friends list!
 
 
-**Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
+> **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
 
-`this.model("User OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
+> `this.model("User OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
 
 
 
@@ -145,16 +147,118 @@ Note that we will not keep track of friend requests for this purpose of this exe
 > ⚠️  **Warning:** Careful about creating duplicate friendships! You should be only creating a new Friendship document if it doesn't already exist - make sure you handle this in your routes below.
 
 ### Viewing Profiles 👸 - `views/singleProfile.hbs`
-Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models
+Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models.
 
-### Viewing ALL the Profiles 👸👸👸 - `views/profiles.hbs`
+Display something that looks like the following:
+
+[mockup here]
+
+When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):
+
+```
+{
+	user: {
+		_id: 575xxxxxxxxxxxx,
+		displayName: "Ethan Lee",
+		email: "ethan@joinhorizons.com",
+		location: "Probably making a PB&J",
+		reviews: [{
+			_id: 575xxxxxxxxxxxx,
+			restauraunt: 575xxxxxxxxxxxx,
+			content: "This food was okay"
+		}],
+		friendships: [{
+			_id: 575xxxxxxxxxxxx,
+			displayName: "Abhi Fitness",
+			email: "abhi@joinhorizons.com",
+			location: "The Gym",
+			reviews: [Array of IDs],
+			friendships: [Array of IDs]
+		}]
+	}
+}
+```
+
+You'll want to display all the information you have so far, including:
+
+* **Display Name** `{{user.displayName}}` _in the context object above_: show the name of a user currently being viewed 
+* **Location** `{{user.location}}`: the descriptive location of a user
+* **Friends** `{{#each user.friendships}}...{{/each}}` display some details about the user's friends, including:
+	* **Display Name** -  `{{displayName}}`
+	* **Location** - `{{location}}`
+	* **Number of Friends** - `{{user.friendships.length}}`
+	* **Number of Reviews** - `{{user.reviews.length}}`
+	
+
+### Editing Profiles ✏️ - `views/editProfile.hbs`
+
+You also want to let users that are currently logged in to edit their own profiles. The only fields that a single user will ever be editing could be Display Name, Email, or Location. Users will make Friends via the User Directory (below, `views/profiles.hbs`) and create Reviews on single Restaurant views. It should look something like the following:
+
+[mockup here]
+
+Remember, you'll want to set up a form for this view that `POST`s your newly updated user's data to save their model. Keep the `name` attributes you choose in the back of your mind - you'll be setting up the route to handle this form two sections from now!
 
 
+### Viewing ALL the Profiles 🏃 - `views/profiles.hbs`
+To have a central directory of Users where people can make friends, we will have a template dedicated to displaying all of the Users registered for our site. The result will look like:
+
+[mockup here]
+
+This time, your context object will have a property called `users` (or something similar), full of User documents. Keep in mind that in this view, you don't need to display the specific friends or reviews a user has (a count will suffice).
+
+You will also want to display a button to "Add Friend" conditionally on whether or not the user accessing the page is already friends with a particular user. We'll give you a tip on how to do that below; for now, set something up like the following:
+
+```
+{{#each users}}
+	<!-- your code for displaying a user's details here -->
+	{{#if friend}}
+		<!-- no button to add friend, just something that says: "Friends ✅" -->
+	{{else}}
+		<!-- link/button to add a friend -->
+	{{/if}}
+{{/each}}
+``` 
+
+**Note:** the boolean `friend` does not refer to an actual property we have in the User model yet - we'll explain how to set that up below.
+
+
+### Adding the Routes 🌀 - `routes/index.js`
+Now that you have the view templates and models for setting up Users and their relationships (Friendships), it's time to make it all accessible through Express routes (`router.get` and `router.post`!).
+
+As aforementioned, we are going to leave many of these design decisions up to you - but here's a few routes that you'll _definitely_ need to have.
+
+* A route to a single profile page (`singleProfile.hbs`) based on an ID (as a part of the URL, i.e. `/users/575xxxxxxxxx`) - pass in the relevant details of a User and their populated friends list. 
+* A route to render the `editProfile` template for the currently logged in User.
+* A route to render `profiles.hbs` with all the Users registered on your site
+	* One way you could make the distinction for a User's friends would be something along the lines of:
+	
+	```
+	User.find(function(err, users) {
+		res.render('profiles', {
+			users: users.map(function(user) {
+			// Does the currently logged-in user's friendships array include this user's ID? 
+				if (req.user.friendships.indexOf(user._id) > -1) {
+					user.friend = true;
+				} else {
+					user.friend = false;
+				}
+				return user;
+			})
+		})
+	});
+	
+	```
+
+> ⚠️  **Warning:** You only want to show this view to 
+
+
+
+* ⚠️ Don't forget to include a link to edit a profile 
 
 ### End Result, Step 1🏅- `http://localhost:3000`
-How do we test this, you ask?
+Time to step back and take a look at your hard work!
 
-At the end of Step 1, you should be able to login, view profile pages (and edit user details), view other profiles, and request and verify friendships. 
+At the end of Step 1, you should be able to login, view profile pages (and edit user details), view other profiles, and create friendships. 
 
 Hooray! You've just built the fundamentals of a social network! Now it's time to take those users and associate more data with them in the form of restaurants and their reviews.
 
