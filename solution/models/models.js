@@ -2,13 +2,12 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   displayName: String,
-  username: String,
+  email: String,
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
-  //TODO: Status (display user status if Elite)
+  // TODO: Status (display user status if Elite)
   // TODO: Location (only text, descriptive location)
-
   //get reviews()
 });
 
@@ -24,7 +23,8 @@ userSchema.statics.getFollowers = function (id, callback){
       callback(err, followers, following);
     });
   });
-}
+};
+
 userSchema.statics.follow = function (uid1, uid2, callback){
   Follow.find({uid1:uid1, uid2: uid2}, function(err, follows) {
     if (err) return next(err);
@@ -36,9 +36,7 @@ userSchema.statics.follow = function (uid1, uid2, callback){
         uid1: uid1,
         uid2: uid2
       });
-      follow.save(function(err) {
-        callback(err)
-      })
+      follow.save(callback)
     }
     else {
       callback(null);
@@ -55,15 +53,10 @@ userSchema.statics.unfollow = function (uid1, uid2, callback){
 // TODO: user.Unfollow
 // TODO: user.verifyPassword (virtual field)
 
-
-var User = mongoose.model('User', userSchema);
-
-
-var FollowsSchema = mongoose.Schema({
+var followSchema = mongoose.Schema({
   uid1 : { type: mongoose.Schema.ObjectId, ref: 'User' },
   uid2 : { type: mongoose.Schema.ObjectId, ref: 'User' },
 });
-var Follow = mongoose.model('Follow', FollowsSchema)
 
 var reviewSchema = mongoose.Schema({
   stars: Number, // 1 -> 5
@@ -71,28 +64,42 @@ var reviewSchema = mongoose.Schema({
   restaurant: { type: mongoose.Schema.ObjectId, ref: 'Restaurant' },
   user: { type: mongoose.Schema.ObjectId, ref: 'User' }
 });
-var Review = mongoose.model('Review', reviewSchema);
-
 
 var restaurantSchema = mongoose.Schema({
   name: String,
   price: Number, //scale of price 1->3
   reviews: [], //review ids
-  // virstual stars, from reviews array
-  latitude: Number,
-  longitude: Number,
-  category: String, //enum
+  // virtual stars, from reviews array
+  location: {
+    latitude: Number,
+    longitude: Number
+  },
+  category: {
+    type: String,
+    enum: [
+      "American",
+      "Asian",
+      "Mexican",
+      "Middle Eastern",
+      "Mediterranean",
+      "Pizza",
+      "Seafood",
+      "Breakfast & Brunch",
+      "Indian"
+    ]
+  },
   openHoursEST: {
-    openTime: Number,
-    closingTime: Number
+    openTime: Date,
+    closingTime: Date
   }
   // getUsersReviewed
 });
+
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
   Review.find( {restaurant: restaurantId }).populate('user').exec( function(err, reviews) {
     callback(err, reviews);
   });
-}
+};
 
 restaurantSchema.methods.stars = function(callback){
   Review.find( {restaurant: this.id }).populate('user').exec( function(err, reviews) {
@@ -101,14 +108,11 @@ restaurantSchema.methods.stars = function(callback){
     }, 0);
     callback(err, (total/reviews.length));
   });
-}
-
-var Restaurant = mongoose.model('Restaurant', restaurantSchema);
-
+};
 
 module.exports = {
-  User: User,
-  Restaurant: Restaurant,
-  Review: Review,
-  Follow: Follow
+  User: mongoose.model('User', userSchema),
+  Restaurant: mongoose.model('Restaurant', restaurantSchema),
+  Review: mongoose.model('Review', reviewSchema),
+  Follow: mongoose.model('Follow', followSchema)
 };
