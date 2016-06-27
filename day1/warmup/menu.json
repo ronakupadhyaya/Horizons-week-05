@@ -1,12 +1,21 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "The Local",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "The Local Burger",
+      "price": 13,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "80z prime beef",
+        "Vermont cheddar",
+        "hand-cut fries"
+      ]
+    },
+    {
+      "name": "Homestyle Mac & Cheese",
+      "price": 13,
+      "ingredients": [
+        "garlic toasted bread crumbs",
+        "chives"
       ]
     }
   ]
