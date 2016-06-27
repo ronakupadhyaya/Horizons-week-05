@@ -81,7 +81,8 @@ var restaurantSchema = mongoose.Schema({
   // virstual stars, from reviews array
   latitude: Number,
   longitude: Number,
-  stars: Number,
+  stars: { type: Number, default: 5},
+  numberOfReviews: { type: Number, default: 0},
   category: String, //enum
   openHoursEST: {
     openTime: Number,
