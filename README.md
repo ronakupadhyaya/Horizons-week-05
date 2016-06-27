@@ -26,8 +26,6 @@ Alternatively, you could try structuring the application solely from **The Big P
 	- `email` - used for authentication, should not be publicly available
 	- `password` - used for authentication, definitely should not be publicly available
 	- `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
-	- `reviews`
-	- `friendships`
 - `User` **Schema methods** - methods that your models will inherit to be called from in your routes
 	- `getFriends(cb)` - return array of friends as User objects in callback `cb`
 	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `follower` (see below) and `idToFollow` as `following`
@@ -88,7 +86,7 @@ That’s it! There’s nothing to code in this part - just getting familiar with
 Get ready to dive in and create more models and properties to build out the rest of Yelp!
 
 ## Step 1: Connecting Users 🙇
-Now we’ll be adding more properties to our users in our database model to give them friends and reviews. Notice how we are *not* providing you with the typical scaffolding for each route!
+Now we’ll be adding more properties to our users in our database model to give them followers and reviews. Notice how we are *not* providing you with the typical scaffolding for each route!
 
 Your job is to take the specifications for each model and determine, with your views, how many routes you *have*, what they are *called*, and what they *do*. Take a deep breath; you've got this!
 
@@ -127,18 +125,18 @@ module.exports = {
 Here are some properties you definitely want to include in your **Users Schema**; your choice for their actual property names - just be consistent!
 
 - **Display Name** (`String`) - could be a first name, last name, nickname, etc.
-- **username** (`String`) - used for authentication. You have to use username here to authenticate with passport local!.
-- **Email** (`String`) - you can ask for email on a separate field as username. Or just ask for an email as a username.
+- **Email** (`String`) - email used for authentication
 - **Password** (`String`) - hashed password used for authentication
+- **Location** (`String`) - descriptive location for a User (a bio, of sorts)
 
 ### Follows! 👫 - `models/models.js (FollowSchema)`
 
-Follows are awesome, but they are also a little complicated. We _could_ choose to add to an array of usernames representing friends to _each_ User, but that would mean we would have to update two users every time a friendship was created. Instead, we'll keep track of each User's relationship with another model - the `Following`.
+Follows are awesome, but they are also a little complicated. We _could_ choose to add to two arrays of usernames representing followers/users following to _each_ User, but that would mean we would have to update two users every time someone was followed. Instead, we'll keep track of each User's relationship with another model - the `Follow`.
 
 Here are the properties you'll want to define for each of your Follows:
 
-- **User ID 1** (`mongoose.Schema.Types.objectId`) (for this part, order does matter) - the ID of the user that follows the other.
-- **User ID 2** (`mongoose.Schema.Types.objectId`) - The id of the user being followed
+- **User ID 1** (`mongoose.Schema.Types.objectId`, `ref: User`) (for this part, order does matter) - the ID of the user that follows the other.
+- **User ID 2** (`mongoose.Schema.Types.objectId`, `ref: User`) - The ID of the user being followed
 
 Note that this is the Twitter way of following. One can follow the other without being followed.
 
@@ -209,7 +207,7 @@ We want to write the following methods on our `User` Schema:
 			email: "moose@joinhorizons.com",
 			location: "San Francisco",
 			reviews: [Array],
-			friendships: [Array]
+			follows: [Array]
 		},
 		following: YOUR_USER_ID
 	}, {
@@ -219,7 +217,7 @@ We want to write the following methods on our `User` Schema:
 			email: "lane@joinhorizons.com",
 			location: "New York City",
 			reviews: [Array],
-			friendships: [Array]
+			follows: [Array]
 		},
 		following: YOUR_USER_ID
 	}];
@@ -232,7 +230,7 @@ We want to write the following methods on our `User` Schema:
 			email: "josh@joinhorizons.com",
 			location: "Rutgers",
 			reviews: [Array],
-			friendships: [Array]
+			follows: [Array]
 		}
 	}]
 	```
@@ -273,7 +271,7 @@ Display something that looks like the following:
 	 		email: "abhi@joinhorizons.com",		
 	 		location: "The Gym",		
 	 		reviews: [Array of IDs],		
-	 		friendships: [Array of IDs]		
+	 		follows: [Array of IDs]		
  		},
  		following: YOUR_USER_ID
  	}],
@@ -285,7 +283,7 @@ Display something that looks like the following:
 			email: "josh@joinhorizons.com",
 			location: "Rutgers",
 			reviews: [Array],
-			friendships: [Array]
+			follows: [Array]
 		}
 	}]
  }		
@@ -298,12 +296,10 @@ You'll want to display all the information you have so far, including:
  * **Followers** `{{#each allFollowers}}...{{/each}}` display some details about the user's followers, including:
  	* **Display Name** -  `{{follower.displayName}}`
  	* **Location** - `{{follower.location}}`
- 	* **Number of Friends** - `{{follower.friendships.length}}`
  	* **Number of Reviews** - `{{follower.reviews.length}}`
  * **Following** `{{#each allFollowing}}...{{/each}}` display some details about the users that the user is following, including:
  	* **Display Name** -  `{{following.displayName}}`
  	* **Location** - `{{following.location}}`
- 	* **Number of Friends** - `{{following.friendships.length}}`
  	* **Number of Reviews** - `{{following.reviews.length}}`
  	
 ### Viewing ALL the Profiles 🏃 - `views/profiles.hbs`
@@ -316,6 +312,15 @@ You will also want to display a button to "Add Friend" conditionally on whether 
 
 You can call that method from Handlebars using a line inside of an `each` loop like: `{{#if this.isFriend(../user)`, given that the context object looks like: `{user: req.user, users: [Array]}` - the `../` notation will give you a parent scope in Handlebars.
 
+### Adding the Routes 🌀 - `routes/index.js`
+Now that you have the view templates and models for setting up Users and their relationships (Follows), it's time to make it all accessible through Express routes (`router.get` and `router.post`!).
+
+As aforementioned, we are going to leave many of these design decisions up to you - but here's a few routes that you'll _definitely_ need to have.
+
+* A route to a single profile page (`singleProfile.hbs`) based on an ID (as a part of the URL, i.e. `/users/575xxxxxxxxx`) - pass in the relevant details of a User and their populated friends list. 
+* A route to render `profiles.hbs` with all the Users registered on your site.
+* A route to handle a user following or unfollowing another, and updating that `Follow` relationship accordingly
+
 ### End Result, Step 1🏅- `http://localhost:3000`
 Time to step back and take a look at your hard work!
 
@@ -325,32 +330,53 @@ Hooray! You've just built the fundamentals of a social network! Now it's time to
 
 
 ## Step 2: Creating and Viewing Restaurants 🍔
-###Restaurant Models 🍚 - `models/models.js`
+###Restaurant Models 🍚 - `models/models.js (RestaurantSchema)`
+To start off the basics of the Restaurants model, let's create some fundamental properties for _what make a restaurant a restaraunt_. The ones we thought of are as follows:
 
 - **Name** (`String`) - the name of the Restaurant
 - **Category** (`String`) - the type of the Restaurant ("Korean", "Barbeque", "Casual")
 - **Latitude** (`Number`) - the latitude of the Restaurant's location
 - **Longitude** (`Number`) - the longitude of the Restaurant's location
-- **Price**
+- **Price** (`Number`) - the descriptive scaling of a restaurants price, on a scale of 1-3
+- **Open Time**
+- **Closing Time**
 
+That's all for Restaurants for now - we will be giving them virtuals and methods when we create **Reviews** in Step 3!
 
-Foreign Keys vs. Embedding
-.populate()
-Joins
-Batch updates
-Find + update vs findAndModify
-Basic Query things:
-Counts (yes)
-Filters
-JSON-like queries
-Paging (yes)
+### Creating Restaurants 💛 - `views/newRestaurant.hbs`
+Create a basic form for creating a new restaurant with all of its basic information. In place of `latitude` and `longitude`, take in a single field for an `address` - in **Adding the Routes**, we'll show you how to geocode this address into coordinates you can store in your database. Your form should take each of the following inputs:
 
-Give methods and field for each model.
-All the fields and their types
+* A name for the new restaurant
+* A category (could be a dropdown selector)
+* The relative price of the restaurant's items - on a scale of 1-3 
+* An address for geocoding to coordinates
+* An open time
+* A closing time
 
-### Browsing Restaurants - `views/singleRestaurant.hbs`
+Keep your `name` attributes for each input of the form in the back of your mind - you'll need it when handling the `POST` request that will save the new restaurant as a MongoDB document. 
 
-### Browsing ALL the Restaurants - `views/restaurants.hbs`
+### Browsing Restaurants 🍺 - `views/singleRestaurant.hbs`
+When displaying a single restaurant, you'll want to show all of the fields you created for the `Restaurant` model above. The end result should look something like the following:
+
+[mockup here]
+
+You can display a map by coordinates by using the [**Google Maps Static Maps API**](https://developers.google.com/maps/documentation/static-maps).
+To 
+create and see a static map, just insert an image in the following format:
+
+```
+<img src="https://maps.googleapis.com/maps/api/staticmap?center=[LATITUDE],[LONGITUDE]&markers=color:red|[LATITUDE],[LONGITUDE]&zoom=13&size=600x300&maptype=roadmap">
+```
+
+![](https://maps.googleapis.com/maps/api/staticmap?center=33.6434822,-117.5809571&zoom=15&size=600x300&maptype=roadmap&markers=color:red|33.6434822,-117.5809571)
+
+As an example, this map of the middle of nowhere was created using the `src`: `https://maps.googleapis.com/maps/api/staticmap?center=33.6434822,-117.5809571&zoom=15&size=600x300&maptype=roadmap&markers=color:red|33.6434822,-117.5809571`.
+
+For now, a restaurant will not display anything but its basic details and location. When we create the **Reviews** model in Step 3, we will revisit this view and add interface elements to create and view reviews on a restaurant.
+
+### Browsing ALL the Restaurants 🍻 - `views/restaurants.hbs`
+
+### Adding the Routes 🌀 - `routes/index.js`
 
 ### End Result, Step 2🏅- `http://localhost:3000`
 At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price. 
@@ -368,12 +394,18 @@ You also need to have a content and number of stars you are leaving on the revie
 
 - `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
 
-### Creating Restaurant Methods for Reviews 🌪 - `models/models.js (RestaurantSchema)`
+### Creating Restaurant Methods and Virtuals for Reviews 🌪 - `models/models.js (RestaurantSchema)`
+- `getReviews`
+
+- `stars`
+
 
 ### Creating User Methods for Reviews 🍃 - `models/models.js (UserSchema)`
 - `getReviews`
 
 ### Displaying Reviews on Profiles and Restaurants 🌋 - `views/singleRestaurant.hbs`, `views/singleProfile.hbs`
+
+### Adding the Routes 🌀 - `routes/index.js`
 
 
 ### End Result, Step 3🏅- `http://localhost:3000`
@@ -387,6 +419,6 @@ Tomorrow, we'll be delving into
 You've made it this far, and early. Why not a few challenges?
 
 - Add routes to allow for users to edit their profiles.
-- Try allowing for 	private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
+- Try allowing for private accounts and enforcing Follow Requests (like on Instagram) by adding a new property to both the `Follow` documents and `User` documents that specify the status of the follow and privacy of the user, respectively. Your view should display both accordingly.
 - Make user action routes, such as follow and unfollow, AJAX-enabled so that the page does not refresh when following or unfollowing users from the user directory page.
 
