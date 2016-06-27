@@ -94,13 +94,47 @@ router.post('/restaurants/new', function(req, res, next) {
   restaurant.save(function(err) {
     if (err) return next(err);
     res.redirect('/restaurants');
-  })
+  });
 });
 
+// Calculates the straight-line distance (pythagorean distance)
+var distanceFrom = function(pointA, pointB) {
+  var sum;
+  var partial;
+  for (var key in pointA) {
+    partial = pointA[key] - pointB[key];
+    partial *= partial;
+    sum += partial;
+  }
+  return Math.sqrt(sum);
+};
+
 router.get('/restaurants', function(req, res, next) {
-  Restaurant.find(function(err, restaurants) {
+  var ihp = {
+    "latitude": 39.9553176,
+    "longitude": -75.197408
+  };
+  var now = new Date();
+  var q = Restaurant.find();
+  if (req.params.price) {
+    q = q.where('price').gte(req.params.price);
+  }
+  if (req.params.open !== false) {
+    q = q.where('openHoursEST.openTime').lt(now).where('openHoursEST.closingTime').gt(now);
+  } else {
+    q = q.where('openHoursEST.openTime').gt(now).where('openHoursEST.closingTime').lt(now);
+  }
+  if (req.params.category) {
+    q = q.where('category').equals(req.params.category);
+  }
+  q.exec(function(err, restaurants) {
     if (err) return next(err);
     //  console.log(restaurants)
+    if (req.params.maxDist !== undefined) {
+      restaurants = restaurants.filter(function(r) {
+        return (distanceFrom(ihp, r.location) < req.params.maxDist);
+      });
+    }
     res.render('restaurants', {
       restaurants: restaurants
     });
