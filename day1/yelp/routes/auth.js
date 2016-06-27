@@ -33,7 +33,7 @@ module.exports = function(passport) {
     u.save(function(err, user) {
       if (err) {
         console.log(err);
-        res.status(500).redirect('/register');
+        res.status(500).redirect('/signup');
         return;
       }
       console.log(user);

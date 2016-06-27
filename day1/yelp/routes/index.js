@@ -7,13 +7,13 @@ var Restaurant = models.Restaurant;
 var Review = models.Review;
 
 // Geocoding - uncomment these lines when the README prompts you to!
-// var NodeGeocoder = require('node-geocoder');
-// var geocoder = NodeGeocoder({
-//   provider: "google",
-//   apiKey: process.env.GEOCODING_API_KEY || "YOUR KEY HERE",
-//   httpAdapter: "https",
-//   formatter: null
-// });
+var NodeGeocoder = require('node-geocoder');
+var geocoder = NodeGeocoder({
+  provider: "google",
+  apiKey: process.env.GEOCODING_API_KEY || "AIzaSyDHY_Z52IV3Et-b4q-KrcOK-6r5FXW4cxw",
+  httpAdapter: "https",
+  formatter: null
+});
 
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
@@ -70,13 +70,33 @@ router.get('/profiles', function(req,res,next) {
 // ----------------------------------------------
 // ROUTES TO RESTAURANTS
 // ----------------------------------------------
+router.get('/restaurant/:id', function(req,res,next) {
+  Restaurant.findById(req.params.id, function(err,food) {
+    if (err) {
+      res.redirect('/error', {error:err})
+    } else {
+      res.render('singleRestaurant', {restaurant:food})
+    }
+  })
+})
+router.get('/restaurants/new', function(req,res,next) {
+  res.render('newRestaurant')
+})
 router.post('/restaurants/new', function(req, res, next) {
-
   // Geocoding - uncomment these lines when the README prompts you to!
-  // geocoder.geocode(req.body.address, function(err, data) {
-  //   console.log(err);
-  //   console.log(data);
-  // });
-  
+  geocoder.geocode(req.body.address, function(err, data) {
+    console.log(err);
+    console.log(data);
+    var restaurant = new Restaurant();
+    restaurant.name
+    restaurant.category
+    restaurant.latitude
+    restaurant.longitude
+    restaurant.price
+    restaurant.opentime
+    restaurant.closingtime
+    restaurant.totalScore
+    restaurant.reviewCount
+  });
 });
 module.exports = router;

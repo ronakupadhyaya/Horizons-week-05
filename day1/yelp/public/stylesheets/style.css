@@ -5,11 +5,17 @@ body {
 a {
   color: #00B7FF;
 }
+div.navbar-collapse ul {
+	display: flex;
+}
 .navbar {
 	height: 60px;
 }
 .navbar ul * {
 	height: 59px;
+}
+.navbar-header {
+	height: 58px;
 }
 .navbar-brand {
 	padding: 0 0 0 10px;
@@ -20,14 +26,17 @@ a {
 .loc {
 	padding-left: 5px;
 }
-.follow, .unfollow {
+.follow {
 	padding: 10px 0 0 10px;
 }
-.follow:hover {
+.fo:hover {
 	color: #339942;
 }
-.unfollow:hover {
+.un:hover {
 	color: #f50a25;
+}
+.level {
+	display: flex;
 }
 #network {
 	display: flex;
