@@ -23,12 +23,6 @@ router.use(function(req, res, next){
     return next();
   }
 });
-// router.get('/', function(req,res,next) {
-//   console.log(req.user)
-//   // placeholder, possible new index page later
-//   res.redirect('/user/'+req.user._id)
-// })
-
 // ----------------------------------------------
 // ROUTES TO USER PAGES
 // ----------------------------------------------
@@ -87,16 +81,24 @@ router.post('/restaurants/new', function(req, res, next) {
   geocoder.geocode(req.body.address, function(err, data) {
     console.log(err);
     console.log(data);
+
     var restaurant = new Restaurant();
-    restaurant.name
-    restaurant.category
+    restaurant.name = req.body.name
+    restaurant.category = req.body.category
     restaurant.latitude
     restaurant.longitude
-    restaurant.price
-    restaurant.opentime
-    restaurant.closingtime
-    restaurant.totalScore
-    restaurant.reviewCount
+    restaurant.price = '$'.repeat(req.body.price)
+    restaurant.opentime = req.body.opentime
+    restaurant.closingtime = req.body.closingtime
+    restaurant.reviewCount = 0
+
+    restaurant.save(function(err) {
+      if (err) {
+        res.redirect('/error',{error:err})
+      } else {
+        res.redirect('/restaurants')
+      }
+    })
   });
 });
 module.exports = router;
