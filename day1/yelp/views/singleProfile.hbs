@@ -1,5 +1,11 @@
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
+{{#if isFollowing}}
+<button action="/unfollow/{{user._id}}" method="post">Unfollow {{user.displayName}}</button>
+{{else}}
+<button action="/follow/{{user._id}}" method="post">Follow {{user.displayName}}</button>
+{{/if}}
+
 
 <h4>Email:</h4>
 <p>{{user.email}}</p>
@@ -9,12 +15,6 @@
 
 <h4>Reviews:</h4>
 <p>{{user.reviews}}</p>
-
-{{#if isFollowing}}
-<button action="/unfollow" method="post">Unfollow</button>
-{{else}}
-<button action="/follow" method="post">Follow</button>
-{{/if}}
 
 <h4>Following:</h4>
 {{#each following}}

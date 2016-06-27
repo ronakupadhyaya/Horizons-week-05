@@ -23,7 +23,6 @@ var userSchema = mongoose.Schema({
 });
 
 userSchema.methods.getFollows = function (id, callback){
-<<<<<<< HEAD
   this.model('Follow').find({$or: [{followed: id}, {follower: id}]}).populate('follower followed').exec(function(err,follows){
     var allFollowers=[];
     var allFollowed=[];
@@ -37,9 +36,6 @@ userSchema.methods.getFollows = function (id, callback){
     }
     callback(null, {followers: allFollowers, followed: allFollowed})
   })
-=======
-
->>>>>>> refs/remotes/origin/master
 }
 
 userSchema.methods.follow = function (idToFollow, callback){
@@ -75,10 +71,10 @@ userSchema.methods.isFollowing = function(id, callback){
       callback(err)
     }
     else if(!follows){
-      callback(null,false)
+      callback(null,{status: false})
     }
     else{
-      callback(null,true)
+      callback(null,{status: true})
     }
   })
 }

@@ -53,7 +53,9 @@ router.get('/singleProfile/:id', function(req,res){
       return;
     }
     else{
-    req.user.getFollows(person._id,res.render('singleProfile',{
+    req.user.getFollows(person._id, function(err,obj){
+
+    res.render('singleProfile',{
     user: {
       _id: person._id,
       displayName: person.displayName,
@@ -61,20 +63,22 @@ router.get('/singleProfile/:id', function(req,res){
       location: person.location
     },
     reviews: [],
-    allFollowers: this.followers,
-    allFollowing: this.following,
-    isFollowing: person.isFollowing(req.user.id,function(){
-      if(true){
-        return true
-      }
-      else{
-        return false
-      }
+    allFollowers: obj.followers,
+    allFollowing: obj.following,
+    isFollowing: req.user.isFollowing(person._id,function(err,ret){
+      return ret.status
     })
-  }));
+  });
+  });
   };
 });
 });
+
+router.post('/unfollow/:id', function(req,res){
+  req.user.follow(req.params.id, function(err,))
+})
+
+router.post('/follow/:id', function(){})
 
 
 module.exports = router;
