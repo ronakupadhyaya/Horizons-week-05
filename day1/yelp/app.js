@@ -73,6 +73,15 @@ passport.use(new LocalStrategy(function(username, password, done) {
 ));
 
 app.use('/', auth(passport));
+// building in wall (must always come after the auth passport otherwise can't login)
+// app.use(function(req, res) {
+//   if (req.user) {
+//     next();
+//   }
+//   else {
+//     res.redirect('/login');
+//   }
+// })
 app.use('/', routes);
 
 // catch 404 and forward to error handler
