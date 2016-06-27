@@ -1,12 +1,42 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Sakura Bana",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Special Dragon",
+      "price": 15,
+      "ingredients": [
+        "shrimp tempura",
+        "cucumber",
+        "eel",
+        "avocado"
+      ]
+    },
+    {
+      "name": "Gator Roll",
+      "price": 13,
+      "ingredients": [
+        "spicy salmon",
+        "avocado",
+        "salmon skin"
+      ]
+    },
+    {
+      "name": "Giant's Roll",
+      "price": 15,
+      "ingredients": [
+        "spicy tuna",
+        "salmon",
+        "yellow tail"
+      ]
+    },
+    {
+      "name": "Glen Rock Roll",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "shrimp tempura",
+        "salmon",
+        "cucumber",
+        "tempura chips"
       ]
     }
   ]
