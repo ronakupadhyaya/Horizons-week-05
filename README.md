@@ -232,8 +232,8 @@ We want to write the following methods on our `User` Schema:
 	```
 	
 	Notice how the `from` field for `allFollowers` and the `to` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
-<!--
-- `isFollowing` - this method will take in another User ID and return true or false based on whether or not the user calling `isFollowing` (`this`) is following the user represented by the ID passed in. Query for a Follow document where `follower` is `this._id` and `following` is the ID passed in, and return `true` if the resulting query -->
+
+- `isFollowing` - this method will take in another User ID and call true or false on the callback based on whether or not the user calling `isFollowing` (`this`) is following the user represented by the ID passed in. Query for a `Follow` document where `follower` is `this._id` and `following` is the ID passed in, and call a callback function with `true` if the resulting query turns up an existing `Follow` document.
 
 
 **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
@@ -280,7 +280,8 @@ When creating your Single Profile template, imagine that you are passing in the 
 			email: "josh@joinhorizons.com",
 			location: "Rutgers"
 		}
-	}]
+	}],
+	isFollowing: true
  }		
  ```
 Above, `PERSON` refers to the User profile being rendered currently - this could be your currently logged-in user _or_ any other User on your site!
@@ -294,6 +295,7 @@ You'll want to display all the information you have so far, including:
  * **Following** `{{#each allFollowing}}...{{/each}}` display some details about the users that the user is following, including:
  	* **Display Name** -  `{{following.displayName}}`
  	* **Location** - `{{following.location}}`
+ * **Follow or Unfollow Button**: Display a follow or unfollow button for the top-level user _only_ with a link to the appropriate route (to be made soon!) based on whether or not `isFollowing` is true. 
  	
 ### Viewing ALL the Profiles 🏃 - `views/profiles.hbs`
 
@@ -322,7 +324,7 @@ As aforementioned, we are going to leave many of these design decisions up to yo
 		})
 	})
 	```
-	* Note also that 
+	* Note also that the `isFollowing` property from the example context object above can be retrieved using the `isFollowing` method that you wrote - call it on the user (`PERSON`) being viewed and pass in `req.user` to check whether or not the currently-logged in user follows the profile they are viewing.
 * A route to render `profiles.hbs` with all the Users registered on your site.
 * Routes to handle a user **following** or **unfollowing** another, and updating that `Follow` relationship accordingly
 	* The routes to handle following and unfollowing should check whether or not the relationship exists first using `find`. For example, if User A with ID 1 attempts to follow  User 2 with ID 2 (a user they are already following), a new `Follow` document _should not_ be created, and the response should be "Already followed!"
@@ -474,9 +476,6 @@ Your code may look different! Just remember to be consistent with your naming an
 - `averageRating` - this virtual should return the result of `totalScore / reviewCount` (1-5). Need a refresher on creating Mongoose virtuals? Take a look at [the documentation!](http://mongoosejs.com/docs/guide.html) - scroll down to "Virtuals."
 
 
-<!--- `stars` - This method will query the Review documents associated with the Restaurant and call a callback function with an average star rating for the restaurant (1-5). -->
-
-
 ### Creating User Methods for Reviews 🍃 - `models/models.js (UserSchema)`
 The single method you will be creating for your User to fetch reviews will also use a callback to return its results. Likewise, make sure that when you call this in your routes, you are passing in a callback function to define _what happens_ when you get those results back.
 
@@ -505,8 +504,7 @@ We're almost there! Like before, this is only basic guidance on how to implement
 
 * The route that handles rendering `singleRestaurant` must now be passed a context object that has a `reviews` property as well, containing an array of populated Review objects using a Restaurant's `getReviews` method. `singleRestaurant` should also now be passed a `stars` property that is provided by a Restaurant's `stars` method.
 * The route that handles rendering `singleProfile` must now also be passed a context object that has a `reviews` property, containing an array of populated Review objects using a User's `getReviews` method.
-<!--* The route that handles rendering `restaurants` (the directory of all Restaurants) should be passed `stars` 
--->
+
 We also need to create a couple new routes to handle new reviews:
 
 * A route to render the `newReview` template that has a Restaurant ID in its URL (`req.params`)
