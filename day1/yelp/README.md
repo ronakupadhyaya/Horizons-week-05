@@ -49,8 +49,8 @@ _Completed in Step 2_
 	 - `category` - A String (may be an `enum` if you want to limit its possible options) that describes the type of restaurant represented, i.e. "Korean" or "Barbeque."
 	 - `latitude` - A Number representing the geographic location of the restaurant
 	 - `longitude` - Another Number representing the geographic location of the restaurant
-	 - `openTime`
-	 - `closingTime`
+	 - `openTime` - A Number from 0-23 representing the hour the restaurant opens (assume Eastern Time)
+	 - `closingTime` - A Number from 0-23 representing the hour the restaurant closes
 	 
 _Completed in Step 3_
 
@@ -230,8 +230,8 @@ We want to write the following methods on our `User` Schema:
 	```
 	
 	Notice how the `follower` field for `allFollowers` and the `following` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
-
-- `isFollowing` - this method will take in another User ID and return true or false based on whether or not the user calling `isFollowing` (`this`) is following the user represented by the ID passed in. Query for a Follow document where `follower` is `this._id` and `following` is the ID passed in, and return `true` if the resulting query 
+<!--
+- `isFollowing` - this method will take in another User ID and return true or false based on whether or not the user calling `isFollowing` (`this`) is following the user represented by the ID passed in. Query for a Follow document where `follower` is `this._id` and `following` is the ID passed in, and return `true` if the resulting query -->
 
 
 
@@ -330,8 +330,8 @@ To start off the basics of the Restaurants model, let's create some fundamental 
 - **Latitude** (`Number`) - the latitude of the Restaurant's location
 - **Longitude** (`Number`) - the longitude of the Restaurant's location
 - **Price** (`Number`) - the descriptive scaling of a restaurants price, on a scale of 1-3
-- **Open Time**
-- **Closing Time**
+- **Open Time** (`Number`) - an hour of opening time (assume Eastern Time, UTC-4) between 0-23
+- **Closing Time** (`Number`) - an hour of closing time between 0-23
 
 That's all for Restaurants for now - we will be giving them virtuals and methods when we create **Reviews** in Step 3!
 
@@ -368,7 +368,54 @@ For now, a restaurant will not display anything but its basic details and locati
 
 ### Browsing ALL the Restaurants 🍻 - `views/restaurants.hbs`
 
+When viewing all Restaurants, you should be able to see their basic information; Location, Category, Price, and Name are all important here. Don't worry about sorting, searching, or filtering for now - we'll tackle that tomorrow.
+
+In this template, imagine that your context object looks like the following:
+
+```
+[{
+	"name": "Brotherly Grub",
+	"category": "Food Trucks",
+	"price": 1,
+	"latitude": 39.9552474,
+	"longitude": -75.1969099,
+	"openTime": 11,
+	"closeTime": 15
+},
+{
+	"name": "Wawa",
+	"category": "Convenience Store",
+	"price": 1,
+	"latitude": 39.9509339,
+	"longitude": -75.19891,
+	"openTime": 9,
+	"closeTime": 19
+}]
+```
+
+> ⚠️  **Warning:** You may have called these fields by different property names! Make sure that your Handlebars templates `{{placeholders}}` match those that you defined in your models previously.
+
+The end result will look something like the following:
+
+[mockup here]
+
+
 ### Adding the Routes 🌀 - `routes/index.js`
+Looks like your views and models for restaurants are ready to go! Time to build out your endpoints to render routes with your data. As before, you will be making the design decisions for your routes, but here are basic guidelines for what they should _do_:
+
+* A route for viewing all the restaurants with basic information (name, location, price, category), rendering `restaurants.hbs`.
+	* _What to Pass In_: A context object with a property `restaurants` that has an array of all Restaurant documents.
+	* Go the extra mile and implement paging for restaurants! 
+* A route for viewing any one restaurant by its ID, also with basic information, rendering `singleRestaurant.hbs`.
+	* _What to Pass In_: A context object with a property `restaurant` that has a single Restaurant document
+* A route for creating new restaurants, rendering `newRestaurant.hbs`
+	* You'll need to have a `POST` route to handle the form from `newRestaurant.hbs` as well, so that you can save the new Restaurant document with the data receieved in `req.body`.
+	* **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions below on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you ca nstore.
+	
+### Getting a Google Maps API Key 🗺 - `developers.google.com`
+You'll notice that in `routes/index.js`, there is a variable commented out to store a Google Maps API Key. Below are steps on obtaining this key; follow them and put them in when you get a key!
+
+
 
 ### End Result, Step 2🏅- `http://localhost:3000`
 At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price. 
@@ -380,13 +427,13 @@ It is important to note that up until this point, we have not connected users to
 
 ### Review Models 📝 - `models/models.js (ReviewSchema)`
 
-Reviews are a schema by themselves. A review contains the id of the user leaving the review, the id of the restaurant
+Reviews are a Schema by themselves. A review contains the id of the user leaving the review, the id of the restaurant
 receiving the review. So for example Mike -> reviews -> McDonalds. Those must be of id types and not arrays.
 You also need to have a content and number of stars you are leaving on the review
 
 - `restaurant.getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
 
-### Creating Restaurant Methods and Virtuals for Reviews 🌪 - `models/models.js (RestaurantSchema)`
+### Creating Restaurant Methods for Reviews 🌪 - `models/models.js (RestaurantSchema)`
 - `getReviews`
 
 - `stars`
