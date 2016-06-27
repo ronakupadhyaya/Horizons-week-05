@@ -5,7 +5,7 @@ You'll notice that in `routes/index.js`, there is a variable commented out to st
 
 ![](http://cl.ly/2m3H2O2u0x0j/Image%202016-06-27%20at%202.26.00%20AM.png)
 
-Click on the Google Maps Geocoding API. You may have to hit the down arrow under Google Maps to see all the API options. 
+#### Click on the Google Maps Geocoding API. You may have to hit the down arrow under Google Maps to see all the API options. 
 
 ![](http://cl.ly/2w0c1V2v0l2m/Image%202016-06-27%20at%202.26.14%20AM.png)
 
