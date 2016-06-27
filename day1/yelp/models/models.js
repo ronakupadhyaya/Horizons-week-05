@@ -5,6 +5,10 @@ var connect = process.env.MONGODB_URI || require('./connect');
 mongoose.connect(connect);
 
 var userSchema = mongoose.Schema({
+  displayName: {
+    type: String,
+    requred: true
+  }
   email: {
     type: String,
     required: true
@@ -12,22 +16,81 @@ var userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  location: {
+    type: String,
+    required: true
   }
 });
 
-userSchema.methods.getFollowers = function (id, callback){
+userSchema.methods.getFollowers = function (id, callback) {
+return this.model('Follow').find({
+    followed: id
+  })
+  .populate('follower')
+  .exec(function(err, myFollowers) {
+      Follow.find({
+        follower: id
+        })
+        .populate('followed')
+        .exec(function(err, myFollowed){
 
+          callback(err, myFollowers, myFollowed)
+        })}
+        );
 }
-userSchema.methods.follow = function (idToFollow, callback){
 
+userSchema.methods.follow = function (idToFollow, callback) {
+  this.model('Follow').findOne({
+    follower: this._id,
+    followed: idToFollow
+  }, function(err, pair) {
+    if (! err && pair === null) {
+        var n = new Follow({
+          follower: this._id,
+          followed: idToFollow
+        })
+        n.save(function(error) {
+          if(error) {
+            callback(error);
+          }
+          callback(n);
+        });
+    } else if (err) {
+      callback(err);
+    } else {
+      callback(pair);
+    }
+  })
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-
+  this.model('Follow').findOne({
+    follower: this._id,
+    followed: idToUnfollow
+  }, function(err, pair) {
+    if(err) {
+      callback(err);
+    }
+    pair.remove(function(error, deleted) {
+      if(error) {
+        callback(error);
+      } else {
+        callback(deleted)
+      }
+    })
+  })
 }
 
 var FollowsSchema = mongoose.Schema({
-
+  follower: {
+    type: mongoose.Schema.Types.objectId,
+    ref: User
+  },
+  followed: {
+    type: mongoose.Schema.Types.objectId,
+    ref: User
+  }
 });
 
 var reviewSchema = mongoose.Schema({
