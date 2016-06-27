@@ -32,7 +32,8 @@ var userSchema = mongoose.Schema({
   },
   email: {
     type: String,
-    required: true
+    required: true,
+    index: { unique: true }
   },
   password: {
     type: String,
@@ -98,7 +99,7 @@ userSchema.methods.follow = function (idToFollow, callback){
   var user = this;
   Follow.find({uid1:user._id, uid2: idToFollow}, function(err, follows) {
       if (err) return next(err);
-      if (follows.length<=0){
+      if (follows.length<1){
         var follow = new Follow({
           uid1: user._id,
           uid2: idToFollow
@@ -121,21 +122,32 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
 }
 
 var reviewSchema = mongoose.Schema({
-
+  content: {type: String, required: true},
+  stars: {type: Number, required: true},
+  rId: {type: mongoose.Schema.Types.ObjectId, ref:'Restaurant'},
+  uId: {type: mongoose.Schema.Types.ObjectId, ref:'User'}
 });
 
 
 var restaurantSchema = mongoose.Schema({
-
+  name: {type: String, required: true, index: { unique: true }},
+  category: {type: String, required: true},
+  latitude: {type: Number, required: true},
+  longitude: {type: Number, required: true},
+  price: {type: Number, required: true},
+  opentime: {type: Number, required: true},
+  closingtime: {type: Number, required: true}
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-
+  Review.find({rId: restaurantId}).populate('user').exec(function(err, reviews){
+    callback(err, reviews);
+  });
 }
 
-restaurantSchema.methods.stars = function(callback){
+// restaurantSchema.methods.stars = function(callback){
 
-}
+// }
 
 
 module.exports = {
