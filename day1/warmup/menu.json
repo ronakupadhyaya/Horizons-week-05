@@ -1,13 +1,46 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Five Guys",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Bacon Cheeseburger",
+      "price": 8.45,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Beef",
+        "Buns",
+        "Cheese",
+        "Bacon"
       ]
-    }
+    },
+    {
+      "name": "100% Kosher Hot Dog",
+      "price": 3.95,
+      "ingredients": [
+        "Sausage",
+        "Bread",
+        "Onions",
+        "Tomatoes"
+      ]
+    },
+    {
+      "name": "Bacon Cheese Dog",
+      "price": 5.75,
+      "ingredients": [
+        "Sausage",
+        "Bread",
+        "Cheese",
+        "Bacon"
+      ]
+    },
+    {
+      "name": "Fries",
+      "price": 3.19,
+      "ingredients": [
+        "Potatoes",
+        "Frying Oil",
+        "Sault",
+        "Pepper"
+      ]
+    }            
   ]
 }
+

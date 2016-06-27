@@ -1,1 +1,1 @@
-module.exports = "mongodb://mustpax:be-clench-pending1@ds033897.mlab.com:33897/mustpax"
+module.exports = "mongodb://spark423:psh8181@ds025792.mlab.com:25792/passport"
