@@ -441,12 +441,29 @@ Reviews are a Schema by themselves. A review contains both the ID of the user po
 Great! Review models don't need any helpers or virtuals for their Schema, but next, we'll be revisiting our Schemas for Restaurants and Users to add Review-related methods to their respective models.
 
 ### Creating Restaurant Methods for Reviews 🌪 - `models/models.js (RestaurantSchema)`
-- `getReviews` - This function should go through the array of Review IDs of the current model and return an array of the actual Review documents for that restaurant. It will be used in the restaurant page.
+Remember that because our methods rely on asynchronous calls (namely, database queries such as `find`), we must take in a callback function for these methods to get the result of the function! For example, using the `getReviews` function in our routes will look _something_ like:
 
-- `stars`
+```
+Restaurant.findById(req.params.id, function(err, rest) {
+	rest.getReviews(function(reviews) {
+		res.render('singleRestaurant', {
+			restaurant: rest,
+			reviews: reviews
+		});
+	});
+});
+```
+Your code may look different! Just remember to be consistent with your naming and usage of variables in your templates!
+
+
+- `getReviews` - This method should find the array of Review documents associated with the Restaurant calling the method (`this`) and call a callback function with an array of populated Reviews. Make sure to use `.populate` for this to replace the `userId` in the Review with the details of the actual user! This will be used in the restaurant page (created below).
+
+- `stars` - This method will query the Review documents associated with the Restaurant and call a callback function with an average star rating for the restaurant (1-5). 
 
 
 ### Creating User Methods for Reviews 🍃 - `models/models.js (UserSchema)`
+All methods for your User will also 
+
 - `getReviews`
 
 ### Displaying Reviews on Profiles and Restaurants 🌋 - `views/singleRestaurant.hbs`, `views/singleProfile.hbs`
