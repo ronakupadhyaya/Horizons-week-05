@@ -25,8 +25,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Passport stuff here
-
 app.use(session({
+  //to see it, printenv
     secret: process.env.SECRET,
     name: 'Catscoookie',
     store: new MongoStore({ mongooseConnection: mongoose.connection }),

@@ -25,7 +25,9 @@ module.exports = function(passport) {
     }
     var u = new models.User({
       email: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      displayName: req.body.displayName,
+      location: req.body.location
     });
 
     u.save(function(err, user) {
@@ -54,6 +56,15 @@ module.exports = function(passport) {
     req.logout();
     res.redirect('/login');
   });
+
+  //catch all for login authenticate
+  router.use(function(req, res, next) {
+    if (! req.user) {
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  })
 
   return router;
 };

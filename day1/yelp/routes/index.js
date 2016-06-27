@@ -24,6 +24,37 @@ router.use(function(req, res, next){
   }
 });
 
+//get singleProfile
+router.get('/profile/:id', function(req, res, next){
+  User.findById(req.params.id, function(err, user){
+    user.getFollowers(function(err, following, followers){
+      var amIAlreadyFollowing= followers.filter(function(follow){
+        return follow.from._id === req.user._id;
+      }).length>0;
+        res.render('singleProfile', {
+          user: user,
+          following: allFollowing,
+          followers: allFollowers,
+          amIAlreadyFollowing: amIAlreadyFollowing
+        });
+      })
+    })
+  })
+
+router.get('/profile', function(req, res){
+  User.find(function(err, users){
+    res.render('profiles',{
+      users:users
+    });
+  });
+});
+
+router.post('/profile/:id/follow', function(req, res){
+  req.user.follow(req.params.id, function(){
+    res.redirect('/profile/'+ req.params.id);
+  });
+});
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
@@ -31,7 +62,7 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(err);
   //   console.log(data);
   // });
-  
+
 });
 
 module.exports = router;
