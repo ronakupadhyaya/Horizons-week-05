@@ -1,12 +1,44 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Sabrina's Cafe",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Egg White Primavera Frittata",
+      "price": 10.79,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "egg whites",
+        "mixed vegetables"
+      ]
+    },
+    {
+      "name": "Tofu Scramble",
+      "price": 9.89,
+      "ingredients": [
+        "tofu",
+        "bell peppers",
+        "spinach",
+        "mushrooms",
+        "garlic",
+        "shallots"
+      ]
+    },
+    {
+      "name": "Stuffed Challah French Toast",
+      "price": 10.29,
+      "ingredients": [
+        "french toast",
+        "cream cheese",
+        "bananas",
+        "vanilla bean syrup"
+      ]
+    },
+    {
+      "name": "Vegetarian Philly Cheesesteak",
+      "price": 10.89,
+      "ingredients": [
+        "seitan",
+        "sauteed onions",
+        "long hots",
+        "provolone cheese"
       ]
     }
   ]
