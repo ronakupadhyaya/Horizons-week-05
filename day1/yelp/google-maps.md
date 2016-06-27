@@ -19,9 +19,9 @@ You'll notice that in `routes/index.js`, there is a variable commented out to st
 
 #### Go to Credentials on the left side and press and select API key
 
-![](http://cl.ly/263A0w2B1k3Q/Image%202016-06-27%20at%202.27.06%20AM.png)
-
 ![](http://cl.ly/3N1f3G0N470v/Image%202016-06-27%20at%202.27.34%20AM.png)
+
+#### Select Server key
 
 ![](http://cl.ly/3z3S112D0X2q/Image%202016-06-27%20at%202.27.42%20AM.png)
 
