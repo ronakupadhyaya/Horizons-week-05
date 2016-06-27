@@ -98,9 +98,11 @@ router.post('/restaurants/new', function(req, res, next) {
 });
 
 router.get('/restaurants', function(req, res, next) {
-  Restaurant.find(function(err, restaurants) {
+  console.log(req.query.sort)
+  var order = req.query.order==='dsc' ? -1 : 1;
+  console.log(order)
+  Restaurant.find().sort({name: order}).exec(function(err, restaurants) {
     if (err) return next(err);
-    //  console.log(restaurants)
     res.render('restaurants', {
       restaurants: restaurants
     });
