@@ -27,7 +27,7 @@ Alternatively, you could try structuring the application solely from **The Big P
 	- `password` - used for authentication, definitely should not be publicly available
 	- `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
 - `User` **Schema methods** - methods that your models will inherit to be called from in your routes
-	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `follower` (see below) and `idToFollow` as `following`
+	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `from` (see below) and `idToFollow` as `to`
 	- `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
 	- `getFollows(cb)` - return array of followers and users followed as User objects in callback `cb`
 	- `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model 
