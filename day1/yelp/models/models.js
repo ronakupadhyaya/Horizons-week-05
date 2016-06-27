@@ -79,7 +79,13 @@ userSchema.methods.comparePassword = function(password) {
 };
 
 userSchema.methods.getFollowers = function (id, callback){
-
+  // Find Following
+  Follow.find({user1Id: id}).populate('user2Id').exec(function(err, following) {
+    //Find Followers
+    Follow.find({user2Id: id}).populate('user1Id').exec(function(err, followers) {
+      callback(err, followers, following);
+    });
+  });
 }
 userSchema.methods.follow = function (idToFollow, callback){
 
@@ -90,7 +96,8 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
 }
 
 var FollowsSchema = mongoose.Schema({
-
+  user1Id:{type: mongoose.Schema.ObjectId, ref: 'User'},
+  user2Id:{type: mongoose.Schema.ObjectId, ref: 'User'}
 });
 
 var reviewSchema = mongoose.Schema({
