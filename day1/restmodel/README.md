@@ -1,4 +1,4 @@
-# Inline Exercise: Convert
+# Inline Exercise: Restaurant Model
 
 ## Goal
 
