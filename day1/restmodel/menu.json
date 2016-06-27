@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Nepal's Cafe",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Samosas",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "peas",
+        "potatoes"
+      ]
+    },
+    {
+      "name": "Chicken Pakauda",
+      "price": 12,
+      "ingredients": [
+        "soybean",
+        "chicken"
+      ]
+    },
+    {
+      "name": "Kothe Momo",
+      "price": 12,
+      "ingredients": [
+        "chicken",
+        "mixed vegetable"
+      ]
+    },
+    {
+      "name": "Mango Curry",
+      "price": 12,
+      "ingredients": [
+        "mango",
+        "cream curry"
       ]
     }
   ]
