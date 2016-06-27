@@ -129,7 +129,7 @@ You do not have to populate the `reviews` and `friendships` fields of the User d
 
 > **Tip**: you can refer to the current model that is calling a method using the `this` keyword - a lot like an object and its function prototypes! Keep in mind that to call `.populate`, you will have to run:
 
-> `this.model("User OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
+> `this.model("Friendship OR YOUR MODEL NAME").populate(this, {opts...}, function(err, user) {...})`
 
 
 
@@ -207,11 +207,11 @@ To have a central directory of Users where people can make friends, we will have
 This time, your context object will have a property called `users` (or something similar), full of User documents. Keep in mind that in this view, you don't need to display the specific friends or reviews a user has (a count will suffice).
 
 You will also want to display a button to "Add Friend" conditionally on whether or not the user accessing the page is already friends with a particular user. We'll give you a tip on how to do that below; for now, set something up like the following:
-
+p
 ```
 {{#each users}}
 	<!-- your code for displaying a user's details here -->
-	{{#if friend}}
+	{{#if this.isFriend(user)}}
 		<!-- no button to add friend, just something that says: "Friends ✅" -->
 	{{else}}
 		<!-- link/button to add a friend -->
