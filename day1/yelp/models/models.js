@@ -97,16 +97,15 @@ userSchema.methods.getFollowers = function (id, callback){
 }
 userSchema.methods.follow = function (idToFollow, callback){
   var user = this;
-  Follow.find({uid1:user._id, uid2: idToFollow}, function(err, follows) {
+  Follow.find({user1Id:user._id, user2Id: idToFollow}, function(err, follows) {
       if (err) return next(err);
       if (follows.length<1){
         var follow = new Follow({
-          uid1: user._id,
-          uid2: idToFollow
+          user1Id: user._id,
+          user2Id: idToFollow
         });
         follow.save(function(err) {
           callback(err)
-          console.log('save successful!');
         })
       }
       else {
