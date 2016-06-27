@@ -24,7 +24,61 @@ router.use(function(req, res, next){
   }
 });
 
-router.post('/restaurants/new', function(req, res, next) {
+router.get('/profile/:id', function(req,res,next){
+  User.findById(req.params.id, function(err,user) {
+    user.getFollows(function(usersImFollowing, usersWhoFollowMe){
+        var amIAlreadyFollowing = followers.filter(function(follow){
+          return follow.from._id === req.user._id
+        })
+      })
+    res.render('singleProfile', {
+      user: user,
+      following: usersImFollowing,
+      followers: usersWhoFollowMe
+    })
+    })
+  })
+
+router.get('/user', function(req,res,next){
+  User.find(function(err,users){
+    if(!err){
+      res.render('profiles', {
+        users: users
+      })
+    }
+  })
+})
+
+router.get('/profile', function(req,res,next){
+  User.find(function(err,users,from, to){
+    if(!err){
+      res.render('profiles', {users: users, from: from, to: to})
+    }
+  })
+})
+
+router.post('/profile/:id/follow', function(req, res, next) {
+  //req.user = currently loged in user. empty till you log in.
+  //calling the method follow on it, giving it things
+  req.user.follow(req.params.id, function(err){
+    res.redirect(/profile/ + req.params.id)
+  })
+  // User.follow(req.user.id, req.params.id, function(err) {
+  //   if (err) {
+  //     return next(err);
+  //   } else (res.redirect('/profile'));
+    // TODO: Confirm following
+  // });
+});
+
+router.post('/unfollow/:id', function(req, res, next) {
+  User.unfollow(req.user.id, req.params.id, function(err) {
+    if (err) return next(err);
+    res.redirect('/profile');
+  });
+});
+
+// router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
   // geocoder.geocode(req.body.address, function(err, data) {
@@ -32,6 +86,41 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(data);
   // });
   
+// });
+
+router.get('/restaurants/new', function(req, res, next) {
+  res.render('newRestaurant');
+});
+
+router.post('/restaurants/new', function(req, res, next) {
+  console.log("I got here")
+  console.log(Restaurant)
+  console.log(req.body.restName)
+  console.log(req.body.restOpen)
+  console.log(req.body.restClose)
+  var restaurant = new Restaurant({
+    restName: req.body.restName,
+    restOpen: req.body.restOpen,
+    restClose: req.body.restClose
+  });
+  console.log(restaurant)
+  restaurant.save(function(err) {
+    console.log("this is restaurant:" + restaurant)
+    if (err) return next(err);
+    // if (err) {console.log(err)};
+    console.log("you got to " + restaurant)
+    res.redirect('/restaurants');
+  })
+});
+
+router.get('/restaurants', function(req, res, next) {
+  models.Restaurant.find(function(err, restaurants) {
+    if (err) return next(err);
+    console.log("Console logging this" + restaurants)
+    res.render('restaurants', {
+      restaurants: restaurants
+    });
+  });
 });
 
 module.exports = router;

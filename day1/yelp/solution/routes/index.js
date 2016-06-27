@@ -60,8 +60,9 @@ router.get('/profile/:id', function(req, res) {
 
 router.post('/follow/:id', function(req, res, next) {
   User.follow(req.user.id, req.params.id, function(err) {
-    if (err) return next(err);
-    res.redirect('/profile');
+    if (err) {
+      return next(err);
+    } else (res.redirect('/profile'));
     // TODO: Confirm following
   });
 });
@@ -78,7 +79,7 @@ router.post('/unfollow/:id', function(req, res, next) {
 // Restarants
 
 router.get('/restaurants/new', function(req, res, next) {
-  res.render('editRestaurant');
+  res.render('newRestaurant');
 });
 
 router.post('/restaurants/new', function(req, res, next) {

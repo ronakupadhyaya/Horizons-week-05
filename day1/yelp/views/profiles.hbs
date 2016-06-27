@@ -1,1 +1,14 @@
 {{! YOUR CODE HERE }}
+<h4>Profiles</h4>
+
+<ul>
+{{#each users}}
+{{!-- This takes you to a the profile page of that person.
+ --}}	<li>{{displayName}}: <a href="/profile/{{_id}}">{{email}}</a>
+{{!-- 	<li>Followers:{{from}} Following:{{to}}
+ --}}	{{!-- <li><form action="/follow/{{id}}" method="POST">
+		<input type="submit" value="Follow"></input></form>
+		<form action="/unfollow/{{id}}" method="POST">
+			<input type="submit" value="Unfollow"></input></form> --}}
+{{/each}}
+</ul>

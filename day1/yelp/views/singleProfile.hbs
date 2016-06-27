@@ -1,25 +1,34 @@
+{{if amIAlreadyFollowing}}
+<form action="/profile/{{user._id}}/follow" method="POST">
+		<input type="submit" value="Follow"></input></form>
+		<form action="/unfollow/{{id}}" method="POST">
+			<input type="submit" value="Unfollow"></input></form>
+
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
 
 <h4>Email:</h4>
-<p>{{user.username}}</p>
+<p>{{user.email}}</p>
 
-<h4>Address:</h4>
-<p>{{user.address}}</p>
+<h4>Location:</h4>
+<p>{{user.location}}</p>
 
 <h4>Reviews:</h4>
 <p>{{user.reviews}}</p>
 
 <h4>Following:</h4>
 {{#each following}}
-  <div>{{uid2.displayName}}
+{{!--   <div>{{uid2.displayName}}
   <form  action="/unfollow/{{uid2.id}}" method="post">
     <input style="display: inline;" type="submit" value="Unfollow">
   </form>
-</div>
+</div> --}}
+<li>{{to.email}}
 {{/each}}
 
 <h4>Followers:</h4>
 {{#each followers}}
-  <p>{{uid1.displayName}}</p>
+  <p>{{from.email}}</p>
 {{/each}}
+
+<button><a href="/user">All Users</a></button>

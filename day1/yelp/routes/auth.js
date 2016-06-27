@@ -24,8 +24,11 @@ module.exports = function(passport) {
       });
     }
     var u = new models.User({
-      email: req.body.username,
+      email: req.body.email,
+      displayName: req.body.displayName,
+      location: req.body.location,
       password: req.body.password
+
     });
 
     u.save(function(err, user) {
@@ -54,6 +57,16 @@ module.exports = function(passport) {
     req.logout();
     res.redirect('/login');
   });
+
+// added this -- if you try to look at a profile without logged in,
+//it'll direct you to the login
+  router.use(function(req,res,next){
+    if(! req.user){
+      res.redirect('/login');
+    } else {
+      next();
+    }
+  })
 
   return router;
 };
