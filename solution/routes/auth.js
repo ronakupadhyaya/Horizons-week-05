@@ -48,10 +48,9 @@ module.exports = function(passport) {
     res.render('login');
   });
 
-
   // POST Login page
   router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/contacts');
+    res.redirect('/');
   });
 
   // GET Logout page

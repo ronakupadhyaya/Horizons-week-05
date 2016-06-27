@@ -6,26 +6,48 @@ var userSchema = mongoose.Schema({
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
+  //TODO: Status (display user status if Elite)
+  // TODO: Location (only text, descriptive location)
+
   //get reviews()
 });
 
 //Instance method
-userSchema.methods.getFollowers = function (user, callback){
+userSchema.statics.getFollowers = function (id, callback){
   // Find Following
-  Follow.find({uid1: user.id}).populate('uid2').exec(function(err, following) {
+  Follow.find({uid1: id}).populate('uid2').exec(function(err, following) {
     //Find Followers
-    Follow.find({uid2: user.id}).populate('uid1').exec(function(err, followers) {
+    Follow.find({uid2: id}).populate('uid1').exec(function(err, followers) {
+      console.log(id)
+      console.log(followers)
+      console.log(following)
       callback(err, followers, following);
     });
   });
 }
-userSchema.methods.follow = function (followId, callback){
-  // TODO: Check duplicates before following
-  var follow = new Follow({
-    uid1: this.id,
-    uid2: followId
+userSchema.statics.follow = function (uid1, uid2, callback){
+  Follow.find({uid1:uid1, uid2: uid2}, function(err, follows) {
+    if (err) return next(err);
+    //  console.log(restaurants)
+    console.log("asd")
+    console.log(follows)
+    if (follows.length<=0){
+      var follow = new Follow({
+        uid1: uid1,
+        uid2: uid2
+      });
+      follow.save(function(err) {
+        callback(err)
+      })
+    }
+    else {
+      callback(null);
+    }
   });
-  follow.save(function(err) {
+}
+
+userSchema.statics.unfollow = function (uid1, uid2, callback){
+    Follow.find({uid1:uid1, uid2: uid2}).remove(function(err) {
     callback(err)
   })
 }
@@ -43,6 +65,14 @@ var FollowsSchema = mongoose.Schema({
 });
 var Follow = mongoose.model('Follow', FollowsSchema)
 
+var reviewSchema = mongoose.Schema({
+  stars: Number, // 1 -> 5
+  content: String,
+  restaurant: { type: mongoose.Schema.ObjectId, ref: 'Restaurant' },
+  user: { type: mongoose.Schema.ObjectId, ref: 'User' }
+});
+var Review = mongoose.model('Review', reviewSchema);
+
 
 var restaurantSchema = mongoose.Schema({
   name: String,
@@ -56,18 +86,25 @@ var restaurantSchema = mongoose.Schema({
     openTime: Number,
     closingTime: Number
   }
-  // getReviews()
   // getUsersReviewed
 });
+restaurantSchema.methods.getReviews = function (restaurantId, callback){
+  Review.find( {restaurant: restaurantId }).populate('user').exec( function(err, reviews) {
+    callback(err, reviews);
+  });
+}
+
+restaurantSchema.methods.stars = function(callback){
+  Review.find( {restaurant: this.id }).populate('user').exec( function(err, reviews) {
+    var total = reviews.reduce(function (acc, obj) {
+      return acc + obj.stars;
+    }, 0);
+    callback(err, (total/reviews.length));
+  });
+}
+
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-var reviewSchema = mongoose.Schema({
-  stars: Number, // 1 -> 5
-  content: String,
-  //  Restaurant (mongoose.Schema.Types.ObjectId of Restaurant)
-  //  User (mongoose.Schema.Types.ObjectId of User)
-});
-var Review = mongoose.model('Review', reviewSchema);
 
 module.exports = {
   User: User,
