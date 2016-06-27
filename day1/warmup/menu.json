@@ -1,12 +1,20 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "McDonald's",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Shit Sandwich",
+      "price": 1,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Shit",
+        "Bun"
+      ]
+    },
+    {
+      "name": "Meat Sandwich",
+      "price": 1.50,
+      "ingredients": [
+        "Meat",
+        "Bun"
       ]
     }
   ]
