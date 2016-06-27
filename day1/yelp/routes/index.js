@@ -23,7 +23,14 @@ router.use(function(req, res, next){
     return next();
   }
 });
-
+router.get('/', function(req,res,next) {
+  res.redirect('profiles/'+user._id) 
+  // placeholder, possible new index page later
+})
+router.get('/profiles/:id', function(req,res,next) {
+  User.findById(req.params.id)
+    .populate()
+})
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
