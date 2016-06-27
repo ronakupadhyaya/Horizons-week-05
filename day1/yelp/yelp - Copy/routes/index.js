@@ -24,6 +24,32 @@ router.use(function(req, res, next){
   }
 });
 
+router.get('/', function(req, res, next){
+  res.render('singleProfile');//fix it
+})
+
+router.get('/user/:id', function(req, res, next){
+  User.findById(req.params.id, function(error, user){
+    user.getFollows(function(err, followers, following){
+      res.render('singleProfile',{user: user, followers: followers, following: following});
+    })
+  })
+})
+
+router.post('/unfollow/:id', function(req, res, next){
+User.findById(req.params.id, function(error, user){
+  user.unfollow(req.user.id, function(err){
+    if(err){
+      return next(err);
+      res.redirect('profile');
+    }
+  });
+  res.rerender('singleProfile');
+})
+})
+
+
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
