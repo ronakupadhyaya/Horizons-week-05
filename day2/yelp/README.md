@@ -6,13 +6,11 @@ http://mongoosejs.com/docs/2.7.x/docs/indexes.html
 * Hint: If you have users on your database that are duplicated, please delete them
 before adding a unique index. Otherwise it will generate an error.
 
-1. Use Yelp API or open street API to get JSON file of businesses
-
 For list view page:
-
 ##Phase 1 Sort Dropdown
-1. Increasing decreasing by distance, price, rating, alphabetical, # of reviews
-1. Sort by rating (means no longer can be a virtual)
+1. Increasing decreasing by price, stars, alphabetical.
+1. Sort by stars (means no longer can be a virtual)
+1. Sort by distance
 
 ##Phase 2 Search Functionality
 1. New query: Case-folded name field for search. (write name to lower case field).
@@ -21,4 +19,6 @@ For list view page:
 
 ###Phase 3: Sorting and Searching combined
 1. Composite indexes
-1. Show them explain plan as you go - make them take out index and reinstert index
+1. Show them explain plan as you go - make them take out index and re-insert index
+
+1. Use Yelp API or open street API to get JSON file of businesses

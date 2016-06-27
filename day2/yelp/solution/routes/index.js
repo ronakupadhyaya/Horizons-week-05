@@ -98,17 +98,19 @@ router.post('/restaurants/new', function(req, res, next) {
 });
 
 router.get('/restaurants', function(req, res, next) {
+
+// Sort by price and alphabetical.
 var field = null;
 var order = req.query.order==='dsc' ? -1 : 1;
-if (req.query.sort==='price' || req.query.sort==='rating'){ field = req.query.sort }
+if (req.query.sort==='price' || req.query.sort==='stars') { field = req.query.sort }
 if (req.query.sort==='alphabetical'){  field = 'name'; }
 var obj = {};
 obj[field]=order;
-console.log(field)
-console.log(order)
 
   Restaurant.find().sort(obj).exec(function(err, restaurants) {
     if (err) return next(err);
+
+    // Sort by distance, ratings, # of reviews
     res.render('restaurants', {
       restaurants: restaurants
     });
