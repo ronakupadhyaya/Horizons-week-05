@@ -414,12 +414,8 @@ Looks like your views and models for restaurants are ready to go! Time to build 
 	* _What to Pass In_: A context object with a property `restaurant` that has a single Restaurant document
 * A route for creating new restaurants, rendering `newRestaurant.hbs`
 	* You'll need to have a `POST` route to handle the form from `newRestaurant.hbs` as well, so that you can save the new Restaurant document with the data receieved in `req.body`.
-	* **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions below on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you can store.
+	* **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions in `google-maps.md` (within this directory) on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you can store.
 	
-### Getting a Google Maps API Key 🗺 - `developers.google.com`
-You'll notice that in `routes/index.js`, there is a variable commented out to store a Google Maps API Key. Below are steps on obtaining this key; follow them and put them in when you get a key!
-
-
 
 ### End Result, Step 2🏅- `http://localhost:3000`
 At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price. 
@@ -462,14 +458,22 @@ Your code may look different! Just remember to be consistent with your naming an
 
 
 ### Creating User Methods for Reviews 🍃 - `models/models.js (UserSchema)`
-All methods for your User will also 
+The single method you will be creating for your User to fetch reviews will also use a callback to return its results. Likewise, make sure that when you call this in your routes, you are passing in a callback function to define _what happens_ when you get those results back.
 
-- `getReviews`
+- `getReviews` - This method will query the Review documents for all reviews with the same User ID as the user calling `getReviews`, which you can identify by the `this` keyword. For this `getReviews`, you will `.populate` the Restaurant ID instead!
 
 ### Displaying Reviews on Profiles and Restaurants 🌋 - `views/singleRestaurant.hbs`, `views/singleProfile.hbs`
 
-### Adding the Routes 🌀 - `routes/index.js`
+Now that we've updated our models with methods that allow you to fetch reviews on a per-Restaurant or per-User basis, we need to update our templates to allow us to display them on profile and restaurant pages. 
 
+
+### Leaving Reviews 🌟 - `views/newReview.hbs`
+Next, create a simple form for leaving a Review for a Restaurant. All it needs to take in is fields for review content and a rating from 1-5. The Restaurant ID will come from the URL that this form `POST`s to (something along the lines of `POST /restaurants/:id/review`; we'll define what this is later in **Adding the Routes 🌀**), and the User ID will come from the currently logged-in user's ID (`req.user`).
+
+
+
+### Adding the Routes 🌀 - `routes/index.js`
+We're almost there! Add the routes for the ability to 
 
 ### End Result, Step 3🏅- `http://localhost:3000`
 Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants. 
