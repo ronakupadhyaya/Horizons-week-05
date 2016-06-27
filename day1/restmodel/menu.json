@@ -1,13 +1,59 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Greek Lady",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "lamb gyro",
+      "price": 6.95,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "lamb",
+        "pita bread",
+        "tzatziki sauce",
+        "french fries",
+        "lettuce",
+        "tomatoes",
+        "onions"
+
+      ]
+    },
+    {
+      "name": "chicken gyro",
+      "price": 6.95,
+      "ingredients": [
+        "chicken",
+        "pita bread",
+        "tzatziki sauce",
+        "french fries",
+        "lettuce",
+        "tomatoes",
+        "onions"
+
+      ]
+    },
+    {
+      "name": "house gyro",
+      "price": 6.95,
+      "ingredients": [
+        "marinated pork",
+        "pita bread",
+        "tzatziki sauce",
+        "french fries",
+        "lettuce",
+        "tomatoes",
+        "onions"
+
+      ]
+    },
+    {
+      "name": "chicken fingers platter",
+      "price": 7.20,
+      "ingredients": [
+        "chicken",
+        "french fries"
+
       ]
     }
+
+
+
   ]
 }
