@@ -12,11 +12,19 @@ var userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String,
+    required: true
   }
 });
 
 userSchema.methods.getFollowers = function (id, callback){
-
+  this.model('Follow').find;
 }
 userSchema.methods.follow = function (idToFollow, callback){
 
@@ -27,7 +35,14 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
 }
 
 var FollowsSchema = mongoose.Schema({
-
+  user1: {
+    type: mongoose.Schema.Types.objectId,
+    ref: 'User'
+  },
+  user2: {
+    type: mongoose.Schema.Types.objectId,
+    ref: 'User'
+  }
 });
 
 var reviewSchema = mongoose.Schema({
