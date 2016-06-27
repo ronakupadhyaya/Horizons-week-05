@@ -1,8 +1,34 @@
 body {
-  padding: 50px;
   font: 14px "Avenir Next", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
 }
+.navbar {
+	height: 60px;
+}
+.navbar ul * {
+	height: 59px;
+}
+.navbar-brand {
+	padding: 0 0 0 10px;
+}
+.navbar-collapse > form {
+	padding-top: 5px;
+}
+#network {
+	display: flex;
+	justify-content: space-between;
+}
+#network > div {
+	padding-bottom: 20px;
+}
+#network h4 {
+	color: #f50a25;
+}
+#masthead {
+	margin-top: 3px;
+	height: 50px;
+}
+
