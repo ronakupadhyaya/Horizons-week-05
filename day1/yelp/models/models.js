@@ -78,6 +78,13 @@ userSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, user.password);
 };
 
+var FollowsSchema = mongoose.Schema({
+  user1Id:{type: mongoose.Schema.ObjectId, ref: 'User'},
+  user2Id:{type: mongoose.Schema.ObjectId, ref: 'User'}
+});
+
+var Follow = mongoose.model('Follow', FollowsSchema);
+
 userSchema.methods.getFollowers = function (id, callback){
   // Find Following
   Follow.find({user1Id: id}).populate('user2Id').exec(function(err, following) {
@@ -113,11 +120,6 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
   })
 }
 
-var FollowsSchema = mongoose.Schema({
-  user1Id:{type: mongoose.Schema.ObjectId, ref: 'User'},
-  user2Id:{type: mongoose.Schema.ObjectId, ref: 'User'}
-});
-
 var reviewSchema = mongoose.Schema({
 
 });
@@ -140,5 +142,5 @@ module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: mongoose.model('Restaurant', restaurantSchema),
   Review: mongoose.model('Review', reviewSchema),
-  Follow: mongoose.model('Follow', FollowsSchema)
+  Follow: Follow
 };
