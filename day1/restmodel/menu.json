@@ -1,13 +1,30 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "The Horizonite Restaurant",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Ethan's PBJs",
+      "price": 100,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Peanut Butter",
+        "Jelly",
+        "Bread",
+        "Refrigerator for occasional turning"
       ]
+    },
+    {
+      "name": "Josh's Birthday Cake",
+      "price": 15,
+      "ingredients": [
+        "Birthday cake",
+        "Balloons"
+      ]
+    },
+    {
+      "name": "Soylent",
+      "price": 3,
+      "ingredients": [
+        "Unclear"
+        ]
     }
   ]
 }
