@@ -138,18 +138,21 @@ var restaurantSchema = mongoose.Schema({
   longitude: {type: Number, required: true},
   price: {type: Number, required: true},
   opentime: {type: Number, required: true},
-  closingtime: {type: Number, required: true}
+  closingtime: {type: Number, required: true},
+  totalScore: {type: Number},
+  reviewCount: {type: Number}
 });
 
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-  Review.find({rId: restaurantId}).populate('user').exec(function(err, reviews){
+  Review.find({rId: restaurantId}).populate('uId').exec(function(err, reviews){
     callback(err, reviews);
   });
 }
 
 restaurantSchema.virtual('averageRating').get(function(callback){
-  // return this.stars
+  var average = this.totalScore / this.reviewCount;
+  return average;
 });
 
 
