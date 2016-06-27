@@ -23,17 +23,40 @@ router.use(function(req, res, next){
     return next();
   }
 });
+// router.get('/', function(req,res,next) {
+//   console.log(req.user)
+//   // placeholder, possible new index page later
+//   res.redirect('/user/'+req.user._id)
+// })
+
+// ----------------------------------------------
+// ROUTES TO USER PAGES
+// ----------------------------------------------
 router.get('/', function(req,res,next) {
-  console.log(req.user)
-  // placeholder, possible new index page later
-  req.user.getFollowers(req.user._id,function(err,followers,following) {
-    res.render('user', {
-      user:req.user,
-      followers:followers,
-      following:following
+  res.redirect('/user/'+req.user._id)
+})
+router.get('/user/:id', function(req,res,next) {
+  User.findById(req.params.id, function(err,user) {
+    user.getFollowers(req.params.id,function(err,followers,following) {
+      res.render('user', {
+        user:user,
+        followers:followers,
+        following:following
+      })
     })
   })
 })
+// ----------------------------------------------
+// FOLLOW AND UNFOLLOW
+// ----------------------------------------------
+router.post('/user/:id/:request', function(req,res,next) {
+  if (req.params.request==='follow' || req.params.request==='unfollow')
+  req.user[req.params.request].call(req.user, req.params.id, function() {return})
+})
+
+// ----------------------------------------------
+// ROUTE TO PROFILES LIST
+// ----------------------------------------------
 router.get('/profiles', function(req,res,next) {
   User.find(function(err, users) {
     if (err) {
@@ -43,6 +66,10 @@ router.get('/profiles', function(req,res,next) {
     }
   })
 })
+
+// ----------------------------------------------
+// ROUTES TO RESTAURANTS
+// ----------------------------------------------
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
@@ -52,5 +79,4 @@ router.post('/restaurants/new', function(req, res, next) {
   // });
   
 });
-
 module.exports = router;

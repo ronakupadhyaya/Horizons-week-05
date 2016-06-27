@@ -17,6 +17,18 @@ a {
 .navbar-collapse > form {
 	padding-top: 5px;
 }
+.loc {
+	padding-left: 5px;
+}
+.follow, .unfollow {
+	padding: 10px 0 0 10px;
+}
+.follow:hover {
+	color: #339942;
+}
+.unfollow:hover {
+	color: #f50a25;
+}
 #network {
 	display: flex;
 	justify-content: space-between;
