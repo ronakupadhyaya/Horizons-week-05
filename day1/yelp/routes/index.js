@@ -24,15 +24,19 @@ router.use(function(req, res, next){
   }
 });
 router.get('/', function(req,res,next) {
+  console.log(req.user)
+  console.log(User.getFollowers)
+  console.log(req.user.getFollowers)
   // placeholder, possible new index page later
-  // req.user.getFollows(function(followers,following) {
+  req.user.getFollowers(req.user._id,function(err,followers,following) {
     res.render('user', {
       user:req.user,
-      // followers:followers,
-      // following:following
+      followers:followers,
+      following:following
     })
-  // })
+  })
 })
+// router.get('/')
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
