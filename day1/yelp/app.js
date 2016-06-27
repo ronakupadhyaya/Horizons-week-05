@@ -72,7 +72,6 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       // auth has has succeeded
-      console.log("success!");
       return done(null, user);
     });
   }

@@ -90,7 +90,8 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
 }
 
 var FollowsSchema = mongoose.Schema({
-
+  user1:{type: mongoose.Schema.ObjectId, ref: 'User'},
+  user2:{type: mongoose.Schema.ObjectId, ref: 'User'}
 });
 
 var reviewSchema = mongoose.Schema({
