@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
   displayName: String,
-  username: String,
+  username: { type: String, index: { unique: true } },
   password: String, //Hashed
   address: String, //descriptive location
   reviews: [] //review ids
