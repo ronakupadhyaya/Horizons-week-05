@@ -109,7 +109,6 @@ obj[field]=order;
 
   Restaurant.find().sort(obj).exec(function(err, restaurants) {
     if (err) return next(err);
-
     // Sort by distance, ratings, # of reviews
     res.render('restaurants', {
       restaurants: restaurants
