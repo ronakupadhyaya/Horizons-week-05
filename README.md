@@ -466,14 +466,31 @@ The single method you will be creating for your User to fetch reviews will also 
 
 Now that we've updated our models with methods that allow you to fetch reviews on a per-Restaurant or per-User basis, we need to update our templates to allow us to display them on profile and restaurant pages. 
 
+The finished product for the `singleRestaurant` view will look something like:
+
+<img src="http://cl.ly/2C1A2H0Y3U0Q/Yelp%20Lite-7.png" width="500">
+
+And the finished `singleProfile` view will look like:
+
+<img src="http://cl.ly/2d043u3j013F/Yelp%20Lite-8.png" width="500">
 
 ### Leaving Reviews 🌟 - `views/newReview.hbs`
 Next, create a simple form for leaving a Review for a Restaurant. All it needs to take in is fields for review content and a rating from 1-5. The Restaurant ID will come from the URL that this form `POST`s to (something along the lines of `POST /restaurants/:id/review`; we'll define what this is later in **Adding the Routes 🌀**), and the User ID will come from the currently logged-in user's ID (`req.user`).
 
+<img src="http://cl.ly/0p3S3s2Q1n0U/download/Image%202016-06-27%20at%2011.15.21%20AM.png" width="500">
 
 
 ### Adding the Routes 🌀 - `routes/index.js`
-We're almost there! Add the routes for the ability to 
+We're almost there! Like before, this is only basic guidance on how to implement your routes - design decisions are still up to you. We need to modify existing routes in the following ways:
+
+* The route that handles rendering `singleRestaurant` must now be passed a context object that has a `reviews` property as well, containing an array of populated Review objects using a Restaurant's `getReviews` method.
+* The route that handles rendering `singleProfile` must now also be passed a context object that has a `reviews` property, containing an array of populated Review objects using a User's `getReviews` method.
+
+We also need to create a couple new routes to handle new reviews:
+
+* A route to render the `newReview` template that has a Restaurant ID in its URL (`req.params`)
+* A route to handle the `POST` of a new Review at the same URL, that saves the new incoming Review from details in `req.body`, user details from `req.user`, and restaurant details from `req.params`.
+
 
 ### End Result, Step 3🏅- `http://localhost:3000`
 Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants. 
