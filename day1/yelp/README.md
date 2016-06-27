@@ -137,8 +137,8 @@ Follows are awesome, but they are also a little complicated. We _could_ choose t
 
 Here are the properties you'll want to define for each of your Follows:
 
-- **User ID 1 (from)** (`mongoose.Schema.Types.objectId`, `ref: User`) (for this part, order does matter) - the ID of the user that follows the other.
-- **User ID 2 (to)** (`mongoose.Schema.Types.objectId`, `ref: User`) - The ID of the user being followed
+- **User ID 1 (from)** (`type:mongoose.Schema.ObjectId`, `ref: 'User'`) (for this part, order does matter) - the ID of the user that follows the other.
+- **User ID 2 (to)** (`type:mongoose.Schema.ObjectId`, `ref: 'User'`) - The ID of the user being followed
 
 Note that this is the Twitter way of following. One can follow the other without being followed.
 
