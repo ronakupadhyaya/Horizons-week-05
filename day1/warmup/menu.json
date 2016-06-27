@@ -1,12 +1,13 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "QDoba",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Bowl",
+      "price": 10.50,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "chicken",
+        "brown rice",
+        "guacamole"
       ]
     }
   ]
