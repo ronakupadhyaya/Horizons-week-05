@@ -51,7 +51,7 @@ app.get('/', function(req, res) {
   // Task 3: Implement a query parameter req.query.page that lets users page
   //         through books with .skip()
   var page = parseInt(req.query.page || 1)
-  Book.find({'title' :{$regex: /^(b)/i}})
+  Book.find({'title' :{$regex: /^(c|a|b|r|f|g)|(the|the#)$/i}})
     .sort('title')
     .skip(20*(req.query.page-1))
     .limit(21)
