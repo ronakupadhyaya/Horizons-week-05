@@ -28,7 +28,6 @@ var userSchema = mongoose.Schema({
 });
 
 
-
 userSchema.methods.getFollowers = function (callback){
 
   // Follow.find({to: this._id}, function(err, followers){
@@ -146,9 +145,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
