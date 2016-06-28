@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Sabrina's Cafe",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Steak 'n' Eggs Breakfast",
+      "price": 13.89,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Steak",
+        "Eggs"
+      ]
+    },
+    {
+      "name": "Stuffed Challah French Toast",
+      "price": 10.29,
+      "ingredients": [
+        "Stuffed French Toast",
+        "Bananas and Syrup"
+      ]
+    },
+    {
+      "name": "Ultimate Mexi Scramble",
+      "price": 11.39,
+      "ingredients": [
+        "Scrambled Eggs",
+        "Black Bean grits"
+      ]
+    },
+    {
+      "name": "Huevos Rancheros",
+      "price": 10.99,
+      "ingredients": [
+        "Tortillas with Chorizo sauce",
+        "Two eggs"
       ]
     }
   ]

@@ -18,8 +18,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
+var Menu = mongoose.model('Menu', {
+  name: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  ingredients: {
+    type: Array,
+    required: true
+  }
+});
+
 var Restaurant = mongoose.model('Restaurant', {
-  // YOUR MODEL HERE
+  restaurant: {
+    type: String,
+    required: true
+  }
+  menu: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Menu"
+  }
 });
 
 app.get('/', function(req, res) {
@@ -29,6 +51,16 @@ app.get('/', function(req, res) {
     });
   });
 });
+
+// app.get('/', function(req, res) {
+//   Restaurant.find()
+//     .populate('restaurant menu')
+//     .exec(function(err, restaurant) {
+//       res.render('index', {
+//         resaurants: restaurant
+//       })
+//     })
+// });
 
 app.get('/create', function(req, res) {
   var r = new Restaurant(require('./menu.json'));
