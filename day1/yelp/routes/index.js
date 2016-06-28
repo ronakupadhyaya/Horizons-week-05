@@ -86,6 +86,16 @@ router.get('/restaurants', function(req, res, next) {
   
 })
 
+router.get('/restaurants/:x', function(req, res, next){
+  var n = parseInt(req.params.x);
+  Restaurant.getTen(n, function(err, restaurants){
+    if (err) return next(err);
+    res.render('restaurants', {
+      restaurant: restaurants
+    })
+  })
+})
+
 router.get('/profiles', function(req, res, next) {
   User.find(function(error, usersFromMongo) {
     if (error) return next(error);
@@ -96,18 +106,35 @@ router.get('/profiles', function(req, res, next) {
   
 });
 
+router.post('/unfollow/:id', function(req, res, next) {
+  var idToUnfollow = req.params.id;
+  User.findById(req.user._id, function(err, user) {
+    user.unfollow(idToUnfollow, function(resultOfCallback) {
+      if (!resultOfCallback) {
+        res.send("You already unfollowed this person");
+      } else {
+        res.redirect("/singleProfile/" + req.user._id);
+      }
+    })
+  })
+ 
+}) 
+
 router.post('/singleProfile/:id', function(req, res, next) {
   var idToFollow = req.params.id;
-  console.log(req.user);
+ 
   req.user.follow(idToFollow, function(result) {
+    // time 
     if (!result) {
       res.send("You are already following");
     }
     else {
-      res.send("Congrats you have followed this person");
+     res.redirect("/singleProfile/" + idToFollow);
     }
 
-})
+  })
+  // time
+
 })
 
 router.get('/singleProfile/:id', function(req, res, next) {
@@ -132,10 +159,6 @@ router.get('/singleProfile/:id', function(req, res, next) {
   
 })
 
-router.post('/unfollow/:id', function(req, res, next) {
-  var userId
-
-})
 
 
 module.exports = router;

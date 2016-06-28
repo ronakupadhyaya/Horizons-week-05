@@ -34,18 +34,11 @@ var userSchema = mongoose.Schema({
   }
 });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 // userSchema.virtual('name.full').get(function(){
 //   return this.name.first + ' ' + this.name.last;
 // })
-=======
-userSchema.methods.getFollows = function (id, callback){
->>>>>>> master
-=======
-userSchema.methods.getFollows = function (id, callback){
->>>>>>> master
+
 
 
 userSchema.virtual('location.full').get(function() {
@@ -67,9 +60,7 @@ userSchema.methods.getFollowers = function (callback){
     
   });
 }
-=======
-userSchema.methods.getFollows = function (id, callback){
->>>>>>> master
+
 
 userSchema.methods.isFollowing = function(idToFollow, callback) {
   Follow.find({
@@ -119,13 +110,12 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
     to: idToUnfollow
   }, function(error, follow) {
     if (follow) {
-
-       Follow.remove({
-        from: this._id,
-        to: idToFollow
-        }, function(err) {
+        console.log("im here");
+       Follow.remove(follow, function(err) {
+          console.log("am i here too?");
         if (err) throw "error";
         else {
+          console.log("im calling the callback");
           callback("Success!");
         }
   })
@@ -160,15 +150,18 @@ var reviewSchema = mongoose.Schema({
   content: {
     type: String
   },
-  restaurant: {
-    type: mongoose.Schema.Types.ObjectId
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Restaurant'
   },
-  user: {
-    type: mongoose.Schema.Types.ObjectId
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 
 });
 
+var Review = mongoose.model('Review', reviewSchema);
 
 var restaurantSchema = mongoose.Schema({
   name: {
@@ -218,9 +211,36 @@ var restaurantSchema = mongoose.Schema({
 
 });
 
+ var Restaurant = mongoose.model('Restaurant', restaurantSchema);
+
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
+    Review.find({restaurantId: restaurantId}).populate("userId").exec(function(error, reviewArray) {
+      if (error) callback(error);
+      else {
+        callback(error, reviewArray);
+      }
+
+    })
+  }
+restaurantSchema.virtual('averageRating').get(function() {
+  return this.totalScore / this.reviewCount;
+})
+
+restaurantSchema.statics.getTen = function(n, cb) {
+  Restaurant.find().limit(10).skip(10*(n-1)).exec(function(err, restaurants) {
+    if(err) cb(err);
+    else {
+      cb(err, restaurants);
+      console.log("Success");
+    }
+
+  })
 
 }
+// userSchema.virtual('name.full').get(function(){
+//   return this.name.first + ' ' + this.name.last;
+// })
+
 
 //restaurantSchema.methods.stars = function(callback){
 //
