@@ -24,14 +24,14 @@ var userSchema = mongoose.Schema({
 
 userSchema.methods.getFollowers = function (callback){
 	
-Follow.find({from: this.id}).populate('User').exec(function(error, following){
-	Follow.find({to: this.id}).populate('User').exec(function(error, followers){
-		callback(followers, following);	
-	});
-	
-
-	});
+	Follow.find({from: this.id}).populate('User').exec(function(error, following){
+		Follow.find({to: this.id}).populate('User').exec(function(error, followers){
+			callback(followers, following);	
+		});
+	})
 }
+
+
 userSchema.methods.follow = function (idToFollow, callback){
  Follow.find({from: this.id, to: idToFollow}, function(err, docs){
 		if(docs.length){
@@ -109,6 +109,7 @@ restaurantSchema.methods.getReviews = function (callback){
 	
 }
 
+<<<<<<< HEAD
 restaurantSchema.virtual('averageRating').set(function(){
 	var sum = 0;
 	Review.find({restaurant: this.id}, function(error, restaurant){
@@ -120,6 +121,13 @@ restaurantSchema.virtual('averageRating').set(function(){
 })
 var Follow = mongoose.model('Follow', FollowsSchema);
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
+=======
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
+
+
+>>>>>>> master
 module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: Restaurant,
