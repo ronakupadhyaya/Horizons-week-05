@@ -1,3 +1,4 @@
+
 # Building Yelp Part 2!
 
 Today, we will be using indexes to build on your work from yesterday to optimize performance and build out features for searching and filtering.
@@ -227,12 +228,24 @@ Each Submit button should also take you to a separate route, with four possible 
 
 
 ### Supporting Sorting in Your Routes 🆙 - `routes/index.js`
-To support sorting in our routes, we will modify our existing `GET /restaurants/list` request to now handle possible sorting criteria first. 
+
+To support sorting in our routes, we will modify our existing `GET /restaurants/list` route to now handle possible sorting criteria first. 
+
+> **Note:** It's okay to be only implementing your sorting logic for routes in _only_ `GET /restaurants/list` for now - we will be combining pagination and sorting in the next Step! If you completed the previous Step correctly, you will only see the first 10 restaurants being sorted (since your `GET /restaurants/list` without a passed-in pagination number should be the same as `GET /restaurants/list/1`).
 
 Use the `req.query` object to check for potential sorting criteria submitted by your form and sort before you pass in your `Restaurant` documents to your template!
 
+You'll need to chain your existing `Restaurant.find({}).limit()` call with `.sort()` and finish with `.exec(function(err, sortedRestaurants) {...})` to get your sorted Restaurants back. Make sure you are passing back the _sorted_ Restaurants into your template! 
 
-### Adding Composite Indexes to Your Models 🕵,🕵 - `models/models.js (RestaurantSchema)`
+**Remember that `.sort()` takes an object into its parameters** very similarly to `.index`, with keys of fields you want to sort by and values of "ascending" or "descending". For example:
+
+```
+// "ascending", "asc", or 1 will all do the same thing!
+Restaurant.find({}).limit(10).sort({name: "ascending"}).exec(function(err, sortedRestaurants) {...});
+```
+will return you `sortedRestaurants` in ascending order by `name`.
+
+### Adding Composite Indexes to Your Models 🕵✌️ - `models/models.js (RestaurantSchema)`
 
 Thanks to single indexes, we are now able to sort by either name or by rating individually in a quick and efficient way. The next step is to combine these criteria into more powerful queries - such as finding restaurants in ascending alphabetical order and descending average rating. To do this, we will be using **composite indexes** to create indexes by both name and average rating!
 
@@ -262,6 +275,14 @@ Create the following indexes on your `restaurantSchema` for both `name` and `ave
 
 ### Compound Queries in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
 
+With your indexes now ready for handling sorting by both `name` and `averageRating` criteria , it's time to update your views and routes to handle the ability to sort by both! Firstly, in your `restaurants` Handlebars template, update your two option selectors to submit with the same `<form>` (still with a `method="GET"`).
+
+This means you'll only need one Submit button as well! If all goes well, you'll have something that looks like this instead:
+
+<img src="http://cl.ly/2u0v1V0t353P/Image%202016-06-28%20at%201.32.52%20PM.png" height="70">
+
+You'll also need to make sure your **`index.js`** handles your form submit with both parameters together! Make sure that both `req.query` properties matching the `name` properties of your `<select>` elements are being passed into `.sort()`.
+
 ### End Result, Step 2 🏅 - `http://localhost:3000`
 
 At the end of Step 2, you should be able to do the following through your Yelp application:
@@ -270,5 +291,9 @@ At the end of Step 2, you should be able to do the following through your Yelp a
 2. Sort just by average rating, given by average number of stars for all reviews.
 3. Sort by both criteria, ascending or descending.
 
-
+---
+_coming soon_
+### Step 3: Connecting Pagination and Indexing 🙉
+### Step 4: Full-Text Search 🔭
+### Part 2 Challenge 🏆 
 
