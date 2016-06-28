@@ -1,8 +1,10 @@
 <h1>Books</h1>
-
-<a href="?page=1" class="btn btn-default">Previous Page</a>
-<a href="?page=2" class="btn btn-default">Next Page</a>
-
+{{#if hasPrev}}
+<a href="?page={{previous}}" class="btn btn-default">Previous Page</a>
+{{/if}}
+{{#if hasNext}}
+<a href="?page={{next}}" class="btn btn-default">Next Page</a>
+{{/if}}
 <table class="table table-striped table-bordered">
   <tr>
     <th>
