@@ -94,7 +94,7 @@ You want to define a static that takes in any integer `n` (received from your ro
 
 Your static should also take a callback `cb` to call with an array of no more than 10 Restaurants after the query executes successfully. Your static will be called from routes like the following:
 
-```
+```javascript
 app.get("/restaurants/list/:x", function(req, res) {
 	// Below, the static is called getTen, but the name is up to you!
 	Restaurant.getTen(req.params.x, function(restaurants) {
