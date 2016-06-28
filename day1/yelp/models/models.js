@@ -23,6 +23,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+
 userSchema.methods.getFollowers = function (cb) {
   var that = this;
   this.model('Follow').find({
@@ -38,8 +39,9 @@ userSchema.methods.getFollowers = function (cb) {
             cb(err, followers, following);
           })
     })
-}
 
+
+}
 userSchema.methods.follow = function (idToFollow, callback) {
 // populate Follows with userFrom being this user, and userTo becoming idToFollow 
 // also check if idToFollow is the userTo of this userFrom, and if so, throw an error or simply return nothing
@@ -119,9 +121,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
