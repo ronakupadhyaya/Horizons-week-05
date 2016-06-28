@@ -84,7 +84,12 @@ router.get('/restaurants/:id', function(req,res,next) {
     if (err) {
       res.redirect('/error', {error:err})
     } else {
-      res.render('singleRestaurant', {restaurant:food})
+      food.getReviews(food._id, function(error, reviews) {
+        res.render('singleRestaurant', {
+          restaurant:food,
+          reviews:reviews
+        })        
+      })
     }
   })
 })

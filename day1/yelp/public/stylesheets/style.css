@@ -11,6 +11,9 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 	display: flex;
 	justify-content: flex-end;
 }
+.one-review {
+	margin-bottom: 30px;
+}
 .navbar-form.navbar-left .form-group {
 	width: 100%
 }
