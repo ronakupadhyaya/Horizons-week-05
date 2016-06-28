@@ -21,6 +21,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 userSchema.methods.getFollows = function (callback)
 {
   var id = this._id;
@@ -52,6 +53,10 @@ userSchema.methods.getFollows = function (callback)
     }
     callback(error, followers, following);
   });
+=======
+userSchema.methods.getFollows = function (id, callback){
+
+>>>>>>> refs/remotes/origin/master
 }
 
 
@@ -108,9 +113,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
