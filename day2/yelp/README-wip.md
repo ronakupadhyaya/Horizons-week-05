@@ -1,11 +1,6 @@
 
 
 
-### Advanced Pagination 📘 - `routes/index.js`
-
-
-
-### End Result, Step 3 🏅 - `http://localhost:3000`
 
 
 ## Part 2 Challenge: Full-Text Search 🏆
