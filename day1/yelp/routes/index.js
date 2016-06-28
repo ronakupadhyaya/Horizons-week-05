@@ -67,6 +67,19 @@ router.get('/profiles', function(req,res,next) {
 // ----------------------------------------------
 // ROUTES TO RESTAURANTS
 // ----------------------------------------------
+
+// NEW ROUTE FOR DAY 2
+router.get('/restaurants/list/:x', function(req,res,next) {
+  var page = parseInt(req.query.x || 1);
+  Restaurant.getTen(page, function(err, food, prev, next) {
+      if (err) {
+        res.redirect('/error', {error:err})
+      } else {
+        res.render('restaurants', {restaurants:food, prev:prev, next:next})
+      }
+  });
+})
+
 router.get('/restaurants', function(req,res,next) {
   Restaurant.find()
     .sort({'reviewCount':-1})
