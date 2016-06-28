@@ -12,18 +12,10 @@ var userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  displayName: {
-    type: String,
-    required: true
-  },
-  location: {
-    type: String,
-    required: true
   }
 });
 
-var FollowSchema = mongoose.Schema({
+var followSchema = mongoose.Schema({
   from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -34,8 +26,8 @@ var FollowSchema = mongoose.Schema({
   }
 });
 
-userSchema.methods.getFollowers = function (id, callback){
-  var that = this
+userSchema.methods.getFollows = function (callback){
+  var that = this;
   Follow.find({
     from: this._id
   }).populate('to')
@@ -44,55 +36,21 @@ userSchema.methods.getFollowers = function (id, callback){
       to: that._id
     }).populate('from')
     .exec(function(error, usersWhoFollowMe) {
-      callaback(usersImFollowing, usersWhoFollowMe)
-    })
-  })
-  // Follow.find({userTo: this._id}, function(err, followers) {
-  //   Follow.find({userFrom: this._id}, function(err, following) {
-  //     callback(followers, following);
-  //   })
-  // })
+      console.log(usersWhoFollowMe)
+      callback(usersImFollowing, usersWhoFollowMe);
+    });
+  });
 }
 
 userSchema.methods.follow = function (idToFollow, callback){
-  var f = new Follow({
+  new Follow({
     from: this._id,
     to: idToFollow
-  }).save(callback)
-  // Follow.find({userTo: idToFollow}, function(err, follows) {
-  //   if (follows){
-  //     callback(null);
-  //   } else {
-  //     var follow = new Follow({
-  //       from: this._id,
-  //       to: idToFollow
-  //     }).save(function(err, follow) {
-  //       if (err) return console.log(err);
-  //       callback(follow);
-  //     })
-  //   }
-  // })
+  }).save(callback);
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-  Follow.findOneAndRemove({userTo: idToUnfollow}, function(err, unfollow) {
-    if (err) return console.log(err);
-    if (!unfollow) {
-      console.log("No one to unfollow");
-    } else {
-      callback(unfollow);
-    }
-  })
-}
 
-userSchema.methods.isFollowing = function (id, callback){
-  Follow.find({from: this._id, to: id}, function (err, follows) {
-    if (follows) {
-      callback(null, true);
-    } else {
-      callback(null, false);
-    }
-  })
 }
 
 var reviewSchema = mongoose.Schema({
@@ -101,18 +59,43 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
-
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"],
+    required: true
+  },
+  location: {
+    latitude: Number,
+    longitude: Number
+  },
+  price: {
+    type: Number,
+    enum: ["1","2","3"],
+    required: true
+  },
+  openTime: {
+    type: String,
+    required: true
+  },
+  closingTime: {
+    type: String,
+    required: true
+  }
 });
 
-restaurantSchema.methods.getReviews = function (restaurantId, callback){
+// restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
-}
+// }
 
-restaurantSchema.methods.stars = function(callback){
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
-}
-
-var Follow = mongoose.model("follow", FollowSchema);
+var Follow = mongoose.model('Follow', followSchema);
 
 module.exports = {
   User: mongoose.model('User', userSchema),

@@ -1,10 +1,9 @@
-{{! YOUR CODE HERE }}
-
 <h1>Profiles</h1>
 
 {{#each users}}
+
 <div>
-	<h2><a href=".profile/{{_id}}">{{email}}</a></h2>
+  <h2><a href="/profile/{{_id}}">{{email}}</a></h2>
 </div>
 
 {{/each}}
