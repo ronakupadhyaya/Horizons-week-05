@@ -8,15 +8,10 @@ Today, we will be using indexes to build on your work from yesterday to optimize
 ## Table of Contents
 
 * **Recap** 🔁
-* **Step 0:** Seeding Your Database 🌱
 * **Step 1:** Paging Your Results 📋
 * **Step 2:** Sorting Restaurants with Indexes 📊
-
-_Coming soon:_
-
 * **Step 3:** Connecting Pagination and Indexing 🙉
-* **Step 4:** Full-Text Search 🔭
-* **Part 2 Challenge** 🏆 
+* **Part 2 Challenge:** Full-Text Search 🏆 
 
 ## Recap 🔁
 
@@ -62,12 +57,6 @@ var Restaurant = new Schema({
 
 Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (scroll down to _Indexes_) to see more about usage of indexes with Mongoose.
 
-##Step 0: Seeding your Database 🌱 - `seed.js`
-
-Before we begin, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
-
-Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
-
 
 ##Step 1: Paging Your Results 📋
 The first thing we'll do is page your Restaurant results to allow for displaying large quantites of Restaurants to be more manageable. This time, we'll start with our routes, since understanding how paging will work will begin with the URL.
@@ -85,7 +74,7 @@ For example, given a database with 25 restaurants:
 
 Begin by setting up your routes to take in this new parameter (which is just a number) and for now, simply render your `restaurants` view the way you've always been doing and log your new parameter to keep it in the back of your mind. We'll use it soon!
 
-**Note:** Keep your previous `GET /restaurants` route intact! You'll want to update it to only pass in the first 10 documents.
+**Note:** _**Keep your previous `GET /restaurants` route intact!**_ We will be using this in **Step 2:** _Sorting Restaurants with Indexes_ 📊. 
 
 ### Modifying Models 💽 - `models/models.js (RestaurantSchema)`
 We want to change the way we query for Restaurants to only give us back the set of 10 that we need. To do this, we'll create a **static** on our `Restaurant` model.
@@ -117,6 +106,13 @@ app.get("/restaurants/list/:x", function(req, res) {
 
 **Hint:** To retrieve the next multiple of 10 restaurants, you will be using [`.skip()`](http://mongoosejs.com/docs/api.html#query_Query-skip) (which "skips" a certain number of documents in the database as a part of the query) and [`.limit()`](http://mongoosejs.com/docs/api.html#query_Query-limit) (which sets a cap on the number of documents returned)! Chain these together and retrieve the result using `.exec()` to write this static. 
 
+#### Seeding your Database 🌱 - `seed.js`
+
+Before we continue, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
+
+Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
+
+
 ### A Return to Routes 📥 - `routes/index.js`
 To implement your model static functions in your routes, simply call it on the model (which in your case is probably called `Restaurant` or `models.Restaurant`) and pass in the callback function to handle the results of the query. 
 
@@ -141,7 +137,7 @@ Each page number should act as a link to your route `GET /restaurants/list/PAGE_
 
 Keep in mind that you only want to render a certain number of these paging links that reflects `the number of restaurants in your database / 10`!
 
-**Suggestion:** You might use [`Restaurant.count`](http://mongoosejs.com/docs/api.html#model_Model.count) after retrieving the results from your static method to also pass in the total number of documents to your pagination component! Note that both `.count()` and your own static method both require callbacks as parameters.
+**Suggestion:** To render the correct number of pagination links for the number of restaurants in your database, try using an array (containing incrementing numbers, beginning at 1) of the length `number of restaurants in your database / 10`. Using this, you can use a Handlebars `{{#each}}` statement to iterate over the array and render the links you need: `/restaurants/list/1`, `/restaurants/list/2`, `/restaurants/list/3`, and so on.
 
 ### End Result, Step 1 🏅 - `http://localhost:3000`
 
@@ -231,7 +227,7 @@ Each Submit button should also take you to a separate route, with four possible 
 
 To support sorting in our routes, we will modify our existing `GET /restaurants/list` route to now handle possible sorting criteria first. 
 
-> **Note:** It's okay to be only implementing your sorting logic for routes in _only_ `GET /restaurants/list` for now - we will be combining pagination and sorting in the next Step! If you completed the previous Step correctly, you will only see the first 10 restaurants being sorted (since your `GET /restaurants/list` without a passed-in pagination number should be the same as `GET /restaurants/list/1`).
+> **Note:** It's okay to be only implementing your sorting logic for routes in _only_ `GET /restaurants/list` for now - we will be combining pagination and sorting in the next Step! In other words, you should be seeing a full list of unpaginated restaurants here!
 
 Use the `req.query` object to check for potential sorting criteria submitted by your form and sort before you pass in your `Restaurant` documents to your template!
 
@@ -241,7 +237,7 @@ You'll need to chain your existing `Restaurant.find({}).limit()` call with `.sor
 
 ```
 // "ascending", "asc", or 1 will all do the same thing!
-Restaurant.find({}).limit(10).sort({name: "ascending"}).exec(function(err, sortedRestaurants) {...});
+Restaurant.find({}).sort({name: "ascending"}).exec(function(err, sortedRestaurants) {...});
 ```
 will return you `sortedRestaurants` in ascending order by `name`.
 
@@ -291,9 +287,51 @@ At the end of Step 2, you should be able to do the following through your Yelp a
 2. Sort just by average rating, given by average number of stars for all reviews.
 3. Sort by both criteria, ascending or descending.
 
+## Step 3: Pagination & Sorting Extended 🙉
+At this point, you should have two kinds of routes for viewing Restaurant listings (note that _your_ actual route names may differ):
+
+* `GET /restaurants/list` - Displays unpaginated results (same as `/restaurants/list/1`) with sorting filters enabled
+* `GET /restaurants/list/:x` - Displays an unsorted list of 10 restaurants, offset by `req.params.x * 10` listings
+
+We now want to put these together - giving the ability for users to go through pages of sorted restaurants, 10 at a time.
+
+
+### Pagination + Sorting ⚔ - `routes/index.js`, `views/restaurants.hbs`
+
+Since you've already implemented the interface elements for giving users the option to sort the restaurants alphabetically or by rating, you only need to modify your route for `/restaurants/list/:x` to handle the same sorting process you created for `/restaurants/list`.  
+
+We previously used a static you implemented to grab the next 10 Restaurant documents from a collection, but to make things simpler, move that logic back into your route for `/restaurants/lists/:x`, directly calling `Restaurant.find({}).limit(10).skip((parseInt(req.params.x) - 1) * 10)` (_or whatever you used to offset your results_) inside of your `router.get("/restaurants/lists/:x", function(req, res) {...})`.
+
+Now, add `.sort()` to your query the same way you did for `GET /restaurants/list`!
+
+> **Note:** Make sure you are `.sort()`'ing _before_ you `.limit()` or `.skip()` so that your paginated links give you the _sorted_ results in order!
+
+One other change you'll have to make to your pagination element on your `restaurants` template is to append the same query string of a user's initial submit of search criteria (i.e. `?name=ascending&rating=descending`) to the each of the links on this component:
+
+<img src="http://cl.ly/0a1R0V0b2w26/Image%202016-06-28%20at%208.12.41%20AM.png" height="40">
+
+Each link on this pagination component must carry this query string through to be paginating through the same results - but _only if there was a query string before_! Make sure you are considering this in your routes file (`index.js`).
+
+**Suggestion:** Remember the array of numbers we suggested you pass into your Handlebars `restaurants` template from before to render the correct number of links with the correct `href`? You may find it simple enough to pass a potential query string in as well (to the context object, the second parameter of `res.render`) and appending that to the `href`'s of your paging links.
+
+### Advanced Pagination 📘 - `views/restaurants.hbs`, `routes/index.js`
+Up until this point, you've only allowed your user to browse through 10 Restaurant listings at a time. Now, you will allow your user to select how many listings they are able to see at a time.
+
+> **Note:** For the following instructions, you will primarily be working on your `GET /restaurants/list/:x` route - this is where we handle pagination!
+
+Begin by adding a new `<input>` (or `<select>`, if you want to define a preset number of choices for your user to select from) to the same `<form>` in your **`restaurants.hbs`** template that allows the user to determine how many listings to see per page. 
+
+Next, change your route to grab the `req.query.[name attribute of your <input> element]` and use _its number_ instead of 10 for your limiting and skipping logic. **Don't forget to keep this passed as your query string when navigating through other pages** - similarly to how we preserved the sorting criteria from the query string of sorting for each page of `GET /restaurants/list/:x`, we want to keep this as a part of our URL when we navigate to other pages.
+
+If you implement this correctly, setting the "Number of Restaurants per Page" to 50 should allow a user to click through each link in your pagination element and get 50 results back, sorted and offset properly.
+
+### End Result, Step 3 🏅 - `http://localhost:3000`
+
+By the end of Step 3, you will have a Restaurant listings view that allows you to sort by multiple criteria in an indexed database, navigate through pages of `x` number of listings, and allow the user to specify the number of listings they wish to see per page.
+
+If this End Result describes your finished product: congrats! You've finished Yelp! 🎉
+
 ---
 _coming soon_
-### Step 3: Connecting Pagination and Indexing 🙉
-### Step 4: Full-Text Search 🔭
-### Part 2 Challenge 🏆 
+### Part 2 Challenge: Full-Text Search 🏆 
 
