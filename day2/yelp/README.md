@@ -8,7 +8,6 @@ Today, we will be using indexes to build on your work from yesterday to optimize
 ## Table of Contents
 
 * **Recap** 🔁
-* **Step 0:** Seeding Your Database 🌱
 * **Step 1:** Paging Your Results 📋
 * **Step 2:** Sorting Restaurants with Indexes 📊
 * **Step 3:** Connecting Pagination and Indexing 🙉
