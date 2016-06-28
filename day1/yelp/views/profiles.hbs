@@ -1,1 +1,11 @@
-{{! YOUR CODE HERE }}
+<h1>Profiles</h1>
+
+{{#each users}}
+<div class="box">
+	<div class="displayName">Username: {{this.displayName}}</div>
+	<div class="email">Email: {{this.email}}</div>
+	<div class="location">Location: {{location}}</div>	
+	<a href="/profile/{{this._id}}">View Full Profile</a>
+</div>
+{{/each}}
+<a href="/logout">Logout</a>

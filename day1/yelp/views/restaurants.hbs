@@ -1,1 +1,6 @@
-{{! YOUR CODE HERE }}
+<ul>
+{{#each restaurants}}
+<li><h1>{{name}}</h1> - <strong>{{price}}</strong></li>
+<a href="/restaurant/{{_id}}">View Restaurant</a>
+{{/each}}
+</ul>
