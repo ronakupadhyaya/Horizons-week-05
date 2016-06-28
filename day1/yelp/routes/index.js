@@ -127,7 +127,6 @@ router.get('/reviews/new', function(req,res,next) {
     if (error) {
       res.redirect('/error', {error:error})
     } else {
-      console.log(JSON.stringify(food.map(function(a) {return a.name})))
       res.render('newReview',{
         data:JSON.stringify(food.map(function(a) {return a.name}))
       })
@@ -141,13 +140,11 @@ router.post('/reviews/new', function(req,res,next) {
       res.redirect('/reviews/new')
     } else {
       console.log('restaurant found')
-      console.log(food)
       var review = new Review()
       review.rId = food._id
       review.uId = req.user._id
       review.content = req.body.content
       review.stars = req.body.rating
-      console.log(review)
       review.save(function(err) {
         if (err) {
           res.redirect(err,{error:err})
