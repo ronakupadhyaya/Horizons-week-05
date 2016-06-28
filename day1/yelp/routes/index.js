@@ -25,7 +25,26 @@ router.get('/restaurant/:id',function(req,res){
   Restaurant.findById(req.params.id, function(err,rest){
     if(err) console.log(err)
     else{
-      res.render('singleRestaurant',{rest})
+      rest.getReviews(function(err,out){
+        if(err){
+          console.log(err)
+        }
+        else{
+          console.log(out)
+        out.find(function(){
+          var count=0;
+          for(var i=0; i<out.length; i++){
+            count+=out[i].stars
+          }
+          var avg= count/out.length;
+          res.render('singleRestaurant',{
+          rest,
+          out,
+          avg
+        })
+        })
+        }
+      })
     }
   })
 })
@@ -56,6 +75,32 @@ router.use(function(req, res, next){
     return next();
   }
 });
+
+router.get('/review/new/:id', function(req,res){
+  if(!req.user){
+    res.redirect('/login')
+  }
+  else{
+    res.render('newReview')
+  }
+})
+
+router.post('/review/new/:id', function(req,res){
+  var rev = new Review({
+    content: req.body.content,
+    stars: req.body.stars,
+    userId: req.user.id,
+    restaurantId: req.params.id
+  })
+  rev.save(function(err){
+    if(err){
+      console.log(err)
+    }
+    else{
+      res.redirect('/restaurant/'+req.params.id)
+    }
+  })
+})
 
 //only really need next with routes handler so that next will allow for you to reach
 //more routes later down the line
@@ -89,7 +134,7 @@ router.post('/restaurant/new', function(req, res, next) {
 });
 
 router.get('/', function(req,res){
-  res.render('restaurants')
+  res.redirect('restaurants')
 })
 
 router.get('/profiles', function(req,res){
@@ -106,11 +151,7 @@ router.get('/singleProfile/:id', function(req,res){
   // router.get('/profile/:id',function(req,res){
   User.findById(req.params.id,function(err,user){
    user.getFollows(function(following,followers){
-    //   var amIAlreadyFollowing=followers.filter(function(follow){
-    //     //check if im in the list of followers
-    //     console.log(follow.from._id===req.user._id);
-    //     return follow.from._id===req.user._id;
-    //   });
+    console.log(following)
     user.isFollowing(req.params.id,function(result){
       res.render('singleProfile',{
         user: user,

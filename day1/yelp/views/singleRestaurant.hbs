@@ -3,8 +3,15 @@
 <p><b>Cuisine:</b> {{rest.category}}</p>
 <p><b>Address:</b> {{rest.address}}</p>
 <img src="https://maps.googleapis.com/maps/api/staticmap?center={{rest.location.latitude}},{{rest.location.longitude}}&markers=color:red|{{rest.location.latitude}},{{rest.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyBlC-V34rzTsdTAujBmHnQnO-DuU8Vi5Po">
-<p>Reviews: </p>
-<form method="post">
-<textarea rows="5" name="review" placeholder="Add Review"></textarea>
-<input type="submit">
-</form>
+<p></p>
+<p>Average Rating: {{avg}} Stars</p>
+<p><a href="/review/new/{{rest._id}}">Add a Review</a></p>
+<h2>Reviews: ({{out.length}}) </h2>
+<ul>
+{{#each out}}
+<p></p>
+<h3><a href="/singleProfile/{{userId._id}}">{{userId.displayName}}</a></h3>
+<p>{{content}}</p>
+<p>{{stars}} Stars</p>
+<p></p>
+{{/each}}

@@ -91,7 +91,22 @@ var FollowsSchema = mongoose.Schema({
 });
 
 var reviewSchema = mongoose.Schema({
-
+  content: {
+    type: String,
+    required: true
+  },
+  stars: {
+    type: Number,
+    enum: [1,2,3,4,5]
+  },
+  restaurantId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Restaurant'
+  },
+  userId: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  }
 });
 
 
@@ -121,15 +136,30 @@ var restaurantSchema = mongoose.Schema({
   address: String
 });
 
-restaurantSchema.methods.getReviews = function (restaurantId, callback){
-
+restaurantSchema.methods.getReviews = function (callback){
+  Review.find({restaurantId: this._id}).populate('userId').exec(function(err,reviews){
+    if(err){
+      callback(err)
+    }
+    else{
+      callback(null,reviews)
+    }
+  })
 }
 
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
+userSchema.methods.getUserReviews = function (callback){
+  Review.find({userId: this._id}).populate('restaurantId').exec(function(err,reviews){
+    if(err){
+      callback(err)
+    }
+    else{
+      callback(null,reviews)
+    }
+  })
+}
 
 var Follow=mongoose.model('Follow',followSchema)
+var Review=mongoose.model('Review',reviewSchema)
 
 module.exports = {
   User: mongoose.model('User', userSchema),
