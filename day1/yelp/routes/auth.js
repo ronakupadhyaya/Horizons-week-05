@@ -24,14 +24,15 @@ module.exports = function(passport) {
       });
     }
     var u = new models.User({
-      email: req.body.username,
+      name: req.body.name,
+      email: req.body.email,
       password: req.body.password
     });
 
     u.save(function(err, user) {
       if (err) {
         console.log(err);
-        res.status(500).redirect('/register');
+        res.status(500).redirect('/signup');
         return;
       }
       console.log(user);

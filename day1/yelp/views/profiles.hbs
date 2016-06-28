@@ -1,1 +1,10 @@
-{{! YOUR CODE HERE }}
+<h1>Users</h1>
+
+{{#each users}}
+<div class="well">
+<h4><a href="http://localhost:3000/user/{{_id}}"><i class="fa fa-user fa-2x" aria-hidden="true"></i> {{name}}</a></h4>
+<h4>Email: {{email}}</h4>
+<a href="http://localhost:3000/follow/{{id}}" class="btn btn-primary">Follow</a>
+<a href="http://localhost:3000/unfollow/{{id}}" class="btn btn-danger">Unfollow</a>
+</div>
+{{/each}}

@@ -1,1 +1,13 @@
-{{! YOUR CODE HERE }}
+<h1>Restaurants <a href="http://localhost:3000/restaurants/new" class="btn btn-success">Add Restaurant</a></h1>
+
+{{#each restaurants}}
+<div class="well">
+<p>
+<b>name: </b> {{name}}
+</p>
+<p>
+<b>category: </b> {{category}}
+</p>
+<a href="http://localhost:3000/reviews/new/{{_id}}" class="btn btn-primary">Write Review</a>
+</div>
+{{/each}}

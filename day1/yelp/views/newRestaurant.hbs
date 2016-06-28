@@ -1,1 +1,26 @@
-{{! YOUR CODE HERE }}
+<h3>New Restaurant</h3>
+
+<form role="form" method="post" action="new">
+	<div class="form-group">
+		<label for="name">Name: </label>
+		<input type="text" class="form-control" id="name" name="name">
+	</div>
+	<div class="form-group">
+		<label for="price">Price: </label>
+		<input type="text" class="form-control" id="price" name="price">
+	</div>
+	<div class="form-group">
+		<label for="category">Category: </label>
+		<input type="text" class="form-control" id="category" name="category">
+	</div>
+	<div class="form-group">
+		<label for="open-time">Open Time: </label>
+		<input type="text" class="form-control" id="open-time" name="open-time">
+	</div>
+	<div class="form-group">
+		<label for="closing-time">Closing Time: </label>
+		<input type="text" class="form-control" id="closing-time" name="closing-time">
+	</div>
+	<button type="submit" class="btn btn-success">Save Restaurant</button>
+	<a href="http://localhost:3000/restaurants" class="btn btn-warning">Cancel</a>
+</form>

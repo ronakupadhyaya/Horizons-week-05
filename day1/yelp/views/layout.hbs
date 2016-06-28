@@ -9,6 +9,9 @@
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
+  <!-- font awesome -->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
@@ -17,8 +20,29 @@
 </head>
 <body>
   <div class="container">
-    <h1>Yelp!</h1>
-    {{{body}}}
+    <div class="row">
+      <div class="col-sm-3">
+      <a href="http://localhost:3000"><h1>Yelp!</h1></a>
+        <div class="well">
+          <div class="list-group">
+            <a href="http://localhost:3000/profile" class="list-group-item">Profile</a>
+            <a href="http://localhost:3000/restaurants" class="list-group-item">Restaurants</a>
+            <a href="http://localhost:3000/users" class="list-group-item">Users</a>
+          </div>
+        </div>
+        <div class="well">
+          <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search restaurant">
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+          </div><!-- /input-group -->
+        </div>
+      </div>
+      <div class="col-sm-9">
+        {{{body}}}
+      </div>
+    </div>
   </div>
 </body>
 </html>
