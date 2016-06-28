@@ -24,16 +24,14 @@ module.exports = function(passport) {
       });
     }
     var u = new models.User({
-      displayName: req.body.displayName,
-      email: req.body.email,
-      password: req.body.password,
-      location: {
+        displayName: req.body.displayName,
+        email: req.body.email,
+        password: req.body.password,
+        location: {
         city: req.body.city,
         state: req.body.state,
         country: req.body.country
       }
-
-
     });
 
     u.save(function(err, user) {
@@ -54,7 +52,7 @@ module.exports = function(passport) {
 
   // POST Login page
   router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+    res.redirect('/restaurants');
   });
 
   // GET Logout page

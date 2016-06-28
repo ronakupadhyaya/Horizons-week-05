@@ -1,4 +1,14 @@
 {{! YOUR CODE HERE }}
-Stars:
-<h4>Stars:</h4>
-<p>{{restaurant.start}}</p>
+<h4>Location:</h4>
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key={{key}}">
+
+<h4>Name:</h4>
+<p>{{restaurant.name}}</p> 
+<h4>Category:</h4>
+<p>{{restaurant.category}}</p> 
+<h4>Price:</h4>
+<p>{{restaurant.price}}</p> 
+<h4>Open from:</h4>
+<p>{{restaurant.openTime}}</p> 
+<h4>to:</h4>
+<p>{{restaurant.closingTime}}</p> 
