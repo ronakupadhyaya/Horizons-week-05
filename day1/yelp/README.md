@@ -101,7 +101,7 @@ Begin by defining a `Schema` - you'll need to do this in order to create `virtua
 
 This:
 
-```
+```javascript
 module.exports = {
 	User: mongoose.model("User", {
 		property1: String
@@ -110,7 +110,7 @@ module.exports = {
 ```
 is equivalent to this:
 
-```
+```javascript
 var userSchema = new mongoose.Schema({
  	property1: String
 })
@@ -151,7 +151,7 @@ Next, you want to create a function for each of the `User` models that allows us
 
 We will accomplish this by using Mongoose _methods_. The way we write Mongoose methods is like the following:
 
-```
+```javascript
 var userSchema = new mongoose.Schema({...});
 userSchema.methods.yourMethodName = function() {
 	/* define your method here! */
@@ -162,17 +162,18 @@ We want to write the following methods on our `User` Schema:
 
 > **Tip:** When creating your methods for `User`, use _callback functions_ to return data. For example, `getFollows` should be _used_ in a future route like:
 
-	req.user.getFollows(function(followers, following) {
-		/* do something with the result of the callback function */	
-	});
-	
+```javascript
+req.user.getFollows(function(followers, following) {
+	/* do something with the result of the callback function */	
+});
+```
 > To accomplish this, your implementation should take a parameter that represents a callback function that will later be called with the resulting data. See more about this below.
 
  
 - `follow` - should set a following relationship as on Twitter, Instagram, or any site that supports followers.
 	- **Note**: `follow` will be an _instance method_ that acts upon a user - it would be defined in the schema as something along the lines of:
 	
-	```
+	```javascript
 	userSchema.methods.follow = function (idToFollow, callback){...}
 	```
 	You should take in a parameter `idToFollow` of the user to follow; now, calling `.follow` on the logged-in user will follow the user given by `idToFollow`! `follow` should also check if you have followed that user already and prevent you from creating duplicate `Follow` documents.
@@ -183,7 +184,7 @@ We want to write the following methods on our `User` Schema:
 
 	When first retrieving the correct `Follow` documents relevant to a user, your `allFollowers` and `allFollowing` arrays will look something like:
 	
-	```
+	```javascript
 	allFollowers = [{
 		from: ID_OF_FOLLOWER,
 		to: YOUR_USER_ID
@@ -201,7 +202,7 @@ We want to write the following methods on our `User` Schema:
 
 	After using `.populate`, your data will look like this (callback with this populated set!):
 
-	```
+	```javascript
 	allFollowers = [{
 		from: {
 			_id: ID_OF_FOLLOWER,
@@ -250,7 +251,7 @@ Display something that looks like the following:
   		  
 When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):		
  		
- ```		
+ ```javascript		
  {		
  	user: {		
  		_id: PERSON_BEING_VIEWED,		
@@ -259,8 +260,8 @@ When creating your Single Profile template, imagine that you are passing in the 
 		location: "Probably making a PB&J"		
  	},		
  	reviews: [{		
- 		_id: 575xxxxxxxxxxxx,		
- 		restauraunt: 575xxxxxxxxxxxx,		
+ 		_id: "575xxxxxxxxxxxx",		
+ 		restauraunt: "575xxxxxxxxxxxx",		
  		content: "This food was okay"		
 	}],		
  	allFollowers: [{	
@@ -315,7 +316,7 @@ As aforementioned, we are going to leave many of these design decisions up to yo
 * A route to a single profile page (`singleProfile.hbs`) based on an ID (as a part of the URL, i.e. `/users/575xxxxxxxxx`) - pass in the relevant details of a User and their populated friends list. 
 	* Both `allFollowers` and `allFollowing` mentioned in the example context object above can be retrieved from using your `getFollows` method - remember that the results are passed into a callback! Example:
 	
-	```
+	```javascript
 	req.user.getFollows(function(followers, followings) {
 		res.render({
 			...,
@@ -392,7 +393,7 @@ When viewing all Restaurants, you should be able to see their basic information;
 
 In this template, imagine that your context object looks like the following:
 
-```
+```javascript
 [{
 	"name": "Brotherly Grub",
 	"category": "Food Trucks",
@@ -461,7 +462,7 @@ Great! Review models don't need any helpers or virtuals for their Schema, but ne
 ### Creating Restaurant Methods and Virtuals for Reviews 🌪 - `models/models.js (RestaurantSchema)`
 Remember that because our methods rely on asynchronous calls (namely, database queries such as `find`), we must take in a callback function for these methods to get the result of the function! For example, using the `getReviews` function in our routes will look _something_ like:
 
-```
+```javascript
 Restaurant.findById(req.params.id, function(err, rest) {
 	rest.getReviews(function(reviews) {
 		res.render('singleRestaurant', {
