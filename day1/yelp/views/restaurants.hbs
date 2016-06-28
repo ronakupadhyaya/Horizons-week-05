@@ -1,1 +1,29 @@
 {{! YOUR CODE HERE }}
+<div class="row">
+	<div class="col-xs-10 col-xs-offset-1">
+		{{#each restaurants}}
+		<div class="level">
+			<div style="padding-right:20px">
+				<img src="https://maps.googleapis.com/maps/api/staticmap?center={{latitude}},{{longitude}}&markers=color:red|{{latitude}},{{longitude}}&zoom=13&size=300x179&maptype=roadmap">
+			</div>
+			<div>
+				<a href="/restaurants/{{_id}}">
+					<h2>{{name}}</h2>
+				</a>
+				<h4>{{category}}</h4>
+				<div class="level">
+					<span class="glyphicon glyphicon-map-marker"></span>
+					<p class="loc">{{latitude}}, {{longitude}}</p>
+				</div>
+				<p>Cost: {{price}}</p>
+				<p>{{opentime}}-{{closingtime}}</p>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$('#browse').toggleClass('active')
+</script>

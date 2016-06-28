@@ -23,6 +23,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('secretCat'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ----------------------------------------------
+// Import models
+// ----------------------------------------------
+var User = require('./models/models').User;
 
 // Passport stuff here
 
@@ -51,7 +55,7 @@ passport.deserializeUser(function(id, done) {
 // passport strategy
 passport.use(new LocalStrategy(function(username, password, done) {
     // Find the user with the given username
-    models.User.findOne({ email: username }, function (err, user) {
+    User.findOne({ email: username }, function (err, user) {
       // if there's an error, finish trying to authenticate (auth failed)
       if (err) {
         console.error(err);
@@ -63,7 +67,8 @@ passport.use(new LocalStrategy(function(username, password, done) {
         return done(null, false, { message: 'Incorrect username.' });
       }
       // if passwords do not match, auth failed
-      if (user.password !== password) {
+      var validPassword = user.comparePassword(password);
+      if (!validPassword) {
         return done(null, false, { message: 'Incorrect password.' });
       }
       // auth has has succeeded

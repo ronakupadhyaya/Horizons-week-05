@@ -1,1 +1,45 @@
-{{! YOUR CODE HERE }}
+<form method="POST" style="max-width: 300px; margin: auto; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+	<h3>New Restaurant</h3>
+	<div class="form-group">
+		<label>Name of Establishment</label>
+		<input id="restaurant" type="text" name="name" class="form-control" value="{{name}}" data-provide="typeahead" autocomplete="off">
+	</div>
+	<div class="form-group">
+		<label>Review Body</label>
+		<textarea name="content" rows="5" class="form-control"></textarea>
+	</div>
+	<div class="form-group">
+		<label>Rating</label>
+		<div id="rating">
+			<div id="stars">
+				<span class="glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon-star"></span>
+				<span class="glyphicon glyphicon-star"></span>
+			</div>
+		</div>
+		<input type="text" name="rating" id="rating-score" value="5">
+	</div>
+	<div class="form-group">
+		<button class="btn btn-success">Save</button>
+	</div>
+</form>
+
+<script type="text/javascript">
+	$('#restaurant').typeahead({
+			source: {{{data}}}
+	})
+	$('#review').toggleClass('active')
+	$('span').mouseover(function(e) {
+		e.preventDefault();
+		$(this).nextAll().css('color','#333');
+		$(this).css('color','#f50a25');
+		$(this).prevAll().css('color','#f50a25');
+	})
+	$('span').click(function(e) {
+		e.preventDefault()
+		$('#rating-score').val(($(this).prevAll().length+1))
+	})
+</script>
+<!-- 1a86e3 -->

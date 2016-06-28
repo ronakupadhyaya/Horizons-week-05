@@ -1,1 +1,44 @@
-{{! YOUR CODE HERE }}
+<form method="POST" style="max-width: 300px; margin: auto; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+	<h3>New Restaurant</h3>
+	<div class="form-group">
+		<label>Name of Establishment</label>
+		<input type="text" name="name" class="form-control">
+	</div>
+	<div class="form-group">
+		<label>Category</label>
+		<input type="text" name="category" class="form-control">
+	</div>
+	<div class="form-group">
+		<label>Location</label>
+		<input type="text" name="address" class="form-control">
+	</div>
+	<div class="form-group">
+		<label>Opening Time</label>
+		<input type="text" name="opentime" class="form-control">
+	</div>
+	<div class="form-group">
+		<label>Closing Time</label>
+		<input type="text" name="closingtime" class="form-control">
+	</div>
+	<div class="btn-group form-group" data-toggle="buttons">
+		<label class="btn btn-primary active">
+			<input type="radio" name="price" id="option1" value="1" autocomplete="off" checked> $
+		</label>
+		<label class="btn btn-primary">
+			<input type="radio" name="price" id="option2" value="2" autocomplete="off"> $$
+		</label>
+		<label class="btn btn-primary">
+			<input type="radio" name="price" id="option3" value="3" autocomplete="off"> $$$
+		</label>
+	</div>
+	<div class="form-group">
+		<button class="btn btn-success">Save</button>
+	</div>
+</form>
+
+
+
+<script type="text/javascript">
+	$('#create').toggleClass('active')
+	$().button('toggle')
+</script>

@@ -1,8 +1,67 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Avenir Next", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+div.navbar-collapse ul, .navbar-form.navbar-left {
+	display: flex;
+	justify-content: flex-end;
+}
+.navbar-form.navbar-left .form-group {
+	width: 100%
+}
+.navbar {
+	min-height: 60px;
+}
+.navbar-header {
+	height: 58px;
+}
+.navbar-brand {
+	padding: 0 0 0 10px;
+}
+.navbar-collapse > form {
+	padding-top: 5px;
+}
+.loc {
+	padding-left: 5px;
+}
+.follow {
+	padding: 10px 0 0 10px;
+}
+.fo:hover {
+	color: #339942;
+}
+.un:hover {
+	color: #f50a25;
+}
+.level {
+	display: flex;
+	margin-bottom: 10px;
+}
+#network {
+	display: flex;
+	justify-content: space-between;
+}
+#network > div {
+	padding-bottom: 20px;
+}
+#network h4 {
+	color: #f50a25;
+}
+#masthead {
+	margin-top: 3px;
+	height: 50px;
+}
+#nav-search-button {
+	width: 40px;
+	height: 34px;
+	margin-left: 5px;
+}
+#rating-score {
+	display: none;
+}
+#rating span {
+	color: #f50a25;
 }
