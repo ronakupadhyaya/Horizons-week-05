@@ -26,7 +26,11 @@ module.exports = function(passport) {
     var u = new models.User({
       displayName: req.body.displayName,
       email: req.body.email,
-      location: req.body.location,
+      location: {
+        city: req.body.city,
+        state: req.body.state,
+        country: req.body.country
+      },
       password: req.body.password
     });
 

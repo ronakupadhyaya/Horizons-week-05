@@ -80,7 +80,7 @@ app.use('/', auth(passport));
 //   }
 //   else {
 //     res.redirect('/login');
-//   }
+//   } 
 // })
 app.use('/', routes);
 

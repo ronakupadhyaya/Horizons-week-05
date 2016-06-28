@@ -36,6 +36,7 @@ router.post('/restaurants/new', function(req, res, next) {
 
 router.get('/profiles', function(req, res, next) {
   User.find(function(error, usersFromMongo) {
+    if (error) return next(error);
     res.render('profiles', {
     users: usersFromMongo
   });
@@ -66,6 +67,8 @@ router.get('/singleProfile/:id', function(req, res, next) {
     user.getFollowers(function(err, followers, following) {
       if (err) return next(err);
       console.log(followers);
+
+
       res.render('singleProfile', {
         user: user,
         followers: followers,
@@ -76,5 +79,11 @@ router.get('/singleProfile/:id', function(req, res, next) {
   })
   
 })
+
+router.post('/unfollow/:id', function(req, res, next) {
+  var userId
+
+})
+
 
 module.exports = router;

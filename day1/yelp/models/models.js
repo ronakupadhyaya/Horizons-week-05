@@ -19,20 +19,38 @@ var userSchema = mongoose.Schema({
     required: true
   },
   location: {
-    type: String,
-    required: true
+    city: {
+      type: String,
+      required: true
+    },
+    state: {
+      type: String
+    },
+    country: {
+      type: String,
+      required: true
+    }
  
   }
 });
 
+// userSchema.virtual('name.full').get(function(){
+//   return this.name.first + ' ' + this.name.last;
+// })
+
+
+userSchema.virtual('location.full').get(function() {
+  return this.location.city + ", " + this.location.state + " " + this.location.country;
+});
+
 userSchema.methods.getFollowers = function (callback){
   var thisId = this._id;
-  Follow.find({to: this._id}).populate("from to").exec(function(err, following){
+  Follow.find({to: this._id}).populate("from to").exec(function(err, followers){
     if (err) {
       callback(err);
     } else {
       console.log(thisId);
-      Follow.find({from: thisId}).populate('to from').exec(function(err, followers){
+      Follow.find({from: thisId}).populate('to from').exec(function(err, following){
         callback(err, followers, following);
       });
     }
