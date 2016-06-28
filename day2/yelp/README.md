@@ -9,7 +9,11 @@ Today, we will be using indexes to build on your work from yesterday to optimize
 * **Recap** 🔁
 * **Step 1:** Paging Your Results 📋
 * **Step 2:** Sorting Restaurants with Indexes 📊
-* **Step 3:** Full-Text Search 🔭
+
+_Coming soon:_
+
+* **Step 3:** Connecting Pagination and Indexing 🙉
+* **Step 4:** Full-Text Search 🔭
 * **Part 2 Challenge** 🏆 
 
 ## Recap 🔁
@@ -27,6 +31,11 @@ So, to find something in a field, we require an average of N/2 block accesses to
 
 In this case, finding a restaurant would be as simple as finding the restaurant in the index table, reading where it points to, and reading data from its location.
 
+0. Before we begin, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder. Move `seed.js` to the route directory of the app you are working on. 
+
+Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `ctr` + `c` to exit out of the node session. Check mLAB, and behold 60 new restaurants for your database!
+
+
 1. Unique Index on username.
 
 * Hint: If you have users on your database that are duplicated, please delete them
@@ -34,7 +43,7 @@ before adding a unique index. Otherwise it will generate an error.
 
 In Mongoose, we can create new indexes like the following:
 
-```
+```javascript
 var Restaurant = new Schema({
     name: {
     	type: String, 
@@ -54,7 +63,7 @@ var Restaurant = new Schema({
 })
 ```
 
-Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (scroll down to _Indexes_) to see more about usage of indexes wiht Mongoose.
+Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (scroll down to _Indexes_) to see more about usage of indexes with Mongoose.
 
 
 ##Step 1: Paging Your Results 📋
@@ -84,7 +93,7 @@ The reason that we want to use a _static_ here is because we essentially want to
 
 The way we define a static in Mongoose is identical to how we define a method, with the slight change:
 
-```
+```javascript
 RestaurantSchema.statics.yourStaticNameHere = function(anyParams) {
 	/* your static definition here */
 }
@@ -94,7 +103,7 @@ You want to define a static that takes in any integer `n` (received from your ro
 
 Your static should also take a callback `cb` to call with an array of no more than 10 Restaurants after the query executes successfully. Your static will be called from routes like the following:
 
-```
+```javascript
 app.get("/restaurants/list/:x", function(req, res) {
 	// Below, the static is called getTen, but the name is up to you!
 	Restaurant.getTen(req.params.x, function(restaurants) {
@@ -161,10 +170,10 @@ Your completed Restaurant Schema will look like the following:
  
 Alright! Now that we have a persistent property on our MongoDB documents that we are able to use for indexing, it's time to create those in our model!
 
-### Adding Indexes to Your Models 🕵 - `models/models.js`
+### Adding Single Indexes to Your Models 🕵 - `models/models.js (RestaurantSchema)`
 Adding indexes to your Mongoose model is [pretty easy](http://mongoosejs.com/docs/guide.html) - all you need to do is add an extra field to one of your properties that looks like the following:
 
-```
+```javascript
 var restaurantSchema = new mongoose.Schema({
 	...
 	name: {
@@ -177,7 +186,7 @@ var restaurantSchema = new mongoose.Schema({
 
 This will allow you to run a fast sort through any of your `find` queries, which looks something along the lines of:
 
-```
+```javascript
 // Accepted values for "ascending" sort are 1, "asc", and "ascending"
 // Accepted values for "descending" sort are -1, "desc", and "descending"
 
@@ -185,37 +194,79 @@ Restaurant.find({}).sort({'name': 1}).exec(function(err, restaurants) {...})
 
 ```
 
+Add an index to the following properties that we will use for sorting later from your routes and views:
+
+* The name of the restaurant
+* The average rating of the restaurant (on the new property you defined earlier)
+
+We'll revisit these indexes in the sections to come - for now, we will add these knowing that our Restaurants are now indexed by these properties for fast sorting later!
+
+### Supporting Sorting in Your Views ↗️ - `views/restaurants.hbs`
+Before we connect sorting parameters in your routes, we want to make sure that our `restaurants` template has the ability to ask our server for sorted data.
+
+One way we can accomplish this is by use of a form with a `method="GET"`. This will put all search parameters in a query string that might look something like: `http://localhost:3000/restaurants/list/?name=ascending`.
+
+For now, since we are only working with single indexes, wrap a `<select>` element for `<option>`s "Ascending" and "Descending" inside separate forms that submit to the same route using a `GET` request.
+
+Give each one a separate Submit button as well, allowing you to submit these forms separately.
+
+If you do this correctly, your form should look like the following:
+
+<img src="http://cl.ly/1G2o153F3r44/Image%202016-06-28%20at%2011.50.14%20AM.png" height="65">
+<img src="http://cl.ly/0N3S0V3c1i3e/Image%202016-06-28%20at%2011.52.12%20AM.png" height="75">
+
+Each Submit button should also take you to a separate route, with four possible options:
+
+* `http://localhost:3000/restaurants/list/?name=ascending`
+* `http://localhost:3000/restaurants/list/?name=descending`
+* `http://localhost:3000/restaurants/list/?rating=ascending`
+	* (you know, in case you were looking for the _least popular_ restaurants in your area)
+* `http://localhost:3000/restaurants/list/?rating=descending`
 
 
-### Supporting Filtering in Your Views - `views/restaurants.hbs`
+### Supporting Sorting in Your Routes 🆙 - `routes/index.js`
+To support sorting in our routes, we will modify our existing `GET /restaurants/list` request to now handle possible sorting criteria first. 
 
+Use the `req.query` object to check for potential sorting criteria submitted by your form and sort before you pass in your `Restaurant` documents to your template!
+
+
+### Adding Composite Indexes to Your Models 🕵,🕵 - `models/models.js (RestaurantSchema)`
+
+Thanks to single indexes, we are now able to sort by either name or by rating individually in a quick and efficient way. The next step is to combine these criteria into more powerful queries - such as finding restaurants in ascending alphabetical order and descending average rating. To do this, we will be using **composite indexes** to create indexes by both name and average rating!
+
+Creating **composite indexes** is as simple as:
+
+```
+restaurantSchema.index({"name": 1, "averageRating": 1})
+```
+You want to create composite indexes to handle all four of these situations a user could be asking for sorted Restaurants in:
+
+* Restaurants sorted by ascending alphabetical order (`name: 1`) and ascending average rating (`averageRating: 1`)
+* Restaurants sorted by descending alphabetical order (`name: -1`) and ascending average rating (`averageRating: 1`)
+* Restaurants sorted by ascending alphabetical order (`name: 1`) and descending average rating (`averageRating: -1`)
+* Restaurants sorted by descending alphabetic order (`name: -1`) and descending average rating (`averageRating: -1`)
+
+Although we have four cases of sorting here, we only need to create two composite indexes with `name` and `averageRating` to cover all of them!
+
+Think about this: creating a composite index with `{name: 1, averageRating: 1}` will allow for us to easily sort for both ascending `name` and `averageRating` going forward through the index **_but also descending `name` and `averageRating` going backwards!_** <sup>1</sup>
+
+Create the following indexes on your `restaurantSchema` for both `name` and `averageRating`:
+
+* `name` ascending, `averageRating` ascending
+* `name` ascending, `averageRating` descending
+ 
+
+<sub>[1] For a more cohesive explanation of how this works, see MongoDB documentation on Compound Indexes: [https://docs.mongodb.com/manual/core/index-compound/](https://docs.mongodb.com/manual/core/index-compound/) </sub>
+
+### Compound Queries in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
 
 ### End Result, Step 2 🏅 - `http://localhost:3000`
 
-1. Sort by price, alphabetical. Sort can be in Increasing or decreasing order.
-- These are actual fields on db, properties of our restaurants.
--	Add a form of GET type on your Restaurants page. Add two drop-downs. one named "Sort By" and one named order for Ascending/Descending.
-1. Sort by stars
-- Mongo doesn't support joins, so the database engine doesn't know how many stars a restaurant has.
-Stars are currently virtual, meaning they get calculated on Mongoose, not on mongo.
-- Create a new field called "stars" on the restaurant's model. Additionally, we need to recalculate these every time someone leaves a review for a restaurant, computing the average.
-- Create a number of reviews field on the databaseToo. This will be calculated when a user leaves a review too.
-- Sort out by using the stars field when the user selects sort by stars.
+At the end of Step 2, you should be able to do the following through your Yelp application:
 
-
-1. Sort by distance:
-- Calculate current user's location. On latitude+longitude / Get it with maps API.
-- Get the restaurant's latitude+longitude
-- Calculate individual distances using the formula sqrt( square(latitude2-latitude2) + square(longitude-longitude2) )
-- Sort.
-
-
-## Step 3: Pagination & Sorting Extended
-
-### Pagination + Sorting
-
-### Custom Pagination
-
+1. Sort just by name, alphabetically. Sort can be in increasing or decreasing order.
+2. Sort just by average rating, given by average number of stars for all reviews.
+3. Sort by both criteria, ascending or descending.
 
 
 
