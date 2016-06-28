@@ -1,8 +1,10 @@
 {{#each restaurants}}
-    <a href="/restaurants/{{_id}}">
-    <div style = "border: 0.5px solid white; padding: 10px 30px 10px 30px; text-align: right; margin-bottom: 10px; max-width: 70%; display: inline-block; background-color: rgb(169,169,169); color: black; border-radius: 20px;clear: both">
-        <p style="font-size: 8pt; font-weight: 700; margin: 0">{{name}}</p>
-        <p style="font-size: 5pt; font-weight: 700; margin: 0">{{price}}</p>
-    </div>
-    </a>
+<a href="/restaurants/{{_id}}">
+    <form style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+        <p>{{name}}</p>
+        <p>{{range}}</p>
+    </form>
+</a>
 {{/each}}
+
+<a href="/restaurants/new" style="float: right">Want to Add a Restaurant?</a>

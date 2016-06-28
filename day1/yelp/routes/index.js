@@ -17,20 +17,23 @@ var geocoder = NodeGeocoder({
 
 
 
-
-
-
-// THE WALL - anything routes below this are protected!
-// router.use(function(req, res, next){
-//   if (!req.user) {
-//     res.redirect('/login');
-//   } else {
-//     return next();
-//   }
-// });
 router.get('/prank' , function(req, res) {
   res.render('prank');
 });
+
+// THE WALL - anything routes below this are protected!
+router.use(function(req, res, next){
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    return next();
+  }
+});
+
+router.get('/', function(req, res) {
+  res.render('restaurants');
+})
+
 
 router.get('/singleProfile/:id', function(req, res) {
   User.findById(req.params.id,function(error, user) {
@@ -39,11 +42,11 @@ router.get('/singleProfile/:id', function(req, res) {
         message: error
       })
     }
-    user.getFollowers(function(followers, followings) {
+    user.getFollowers(function(error, followers, following) {
       res.render('singleProfile',{
         user: user,
-        allFollowers: followers,
-        allFollowings: followings
+        followers: followers,
+        following: following
       })
     });
   });
@@ -55,6 +58,18 @@ router.get('/profiles' , function(req, res) {
 
 router.post('/follow/:id', function(req, res) {
   req.user.follow(req.params.id, function(error) {
+    if (error) {
+      return res.status(400).render('error', {
+        message:error
+      });
+    } else {
+      res.redirect('/singleProfile' + req.params.id)
+    }
+  })
+});
+
+router.post('/unfollow/:id', function(req, res) {
+  req.user.unfollow(req.params.id, function(error) {
     if (error) {
       return res.status(400).render('error', {
         message:error
@@ -93,12 +108,12 @@ router.post('/restaurants/new', function(req, res, next) {
       latitude: data[0].latitude,
       longitude: data[0].longitude,
       price: req.body.price,
-      opentime: parseInt(req.body.opentime),
-      closetime: parseInt(req.body.closetime),
+      opentime: req.body.opentime,
+      closetime: req.body.closetime,
       totalScore: 0,
       reviewCount: 0
     })
-    r.save(function(err, user) {
+    r.save(function(error, user) {
       if (error) {
         return res.status(400).render('error', {
           message:error
@@ -111,6 +126,11 @@ router.post('/restaurants/new', function(req, res, next) {
 
 router.get('/restaurants/:id', function(req, res, next) {
   Restaurant.findById(req.params.id, function(error, restaurant) {
+    if (error) {
+      return res.status(400).render('error', {
+        message:error
+      })
+    }     
       restaurant.getReviews(restaurant._id, function(error, reviews) {
       if (error) {
         return res.status(400).render('error', {
@@ -131,22 +151,27 @@ router.get('/restaurants/:id/review', function(req, res, next) {
 
 router.post('/restaurants/:id/review', function(req, res, next) {
   Restaurant.findById(req.params.id, function(error, restaurant) {
+    if (error) {
+      return res.status(400).render('error', {
+        message:error
+      });
+    }
     restaurant.totalScore += parseInt(req.body.stars);
     restaurant.reviewCount ++;
     var r = new models.Review({
       content: req.body.content,
-      stars: parseInt(req.body.stars),
+      stars: req.body.stars,
       restaurantId: req.params.id,
       userId: req.user._id
     })
-    restaurant.save(function(err, user) {
-      r.save(function(err, user) {
+    restaurant.save(function(error, user) {
+      r.save(function(error, user) {
         if (error) {
           return res.status(400).render('error', {
             message:error
           });
         }
-        res.redirect('/restaurants/:id');
+        res.redirect('/restaurants/' + req.params.id);
       })
     });
   })
