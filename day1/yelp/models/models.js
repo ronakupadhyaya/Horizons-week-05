@@ -34,8 +34,6 @@ userSchema.methods.getFollows = function (callback)
   .populate('from to')
   .exec(function(error, follows) 
   {
-
-    console.log("Follows: " + follows)
     var followers = [];
     var following = [];
     for (var i = 0; i < follows.length; i++) 
@@ -56,17 +54,14 @@ userSchema.methods.getFollows = function (callback)
 
 userSchema.methods.follow = function (idToFollow, callback){
 var model = new Follow({
-  from: this._id,
+  from: this.id,
   to: idToFollow
 })
   model.save(callback);
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-  this.model('Follow').find({ from: this.id, to: idToUnfollow }, function(error, unfollowing){
-    unfollowing.remove(callback);
-    }
-  );
+  this.model('Follow').remove({from: this.id, to: idToUnfollow }, callback);
 }
 
 userSchema.methods.isFollowing = function(id, callback){
@@ -136,6 +131,7 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 //
 //}
 
+var Follow = mongoose.model('Follow', FollowsSchema);
 
 module.exports = {
   User: mongoose.model('User', userSchema),

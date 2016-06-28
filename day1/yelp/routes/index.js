@@ -25,27 +25,48 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res, next){
-  res.render('singleProfile');//fix it
-})
+  User.find().exec(function(err, users) {
+    res.render('profiles', {
+      users: users
+    });
+  });
+});
 
 router.get('/user/:id', function(req, res, next){
   User.findById(req.params.id, function(error, user){
     user.getFollows(function(err, followers, following){
-      res.render('singleProfile',{user: user, followers: followers, following: following});
+      console.log("followers", followers);
+      console.log("following", following);
+      var isFollowing;
+      for (var i=0; i<followers.length; i++) {
+        if(followers[i].from._id.equals(req.user.id)) {
+          isFollowing = true;
+          break;
+        }
+      }
+      res.render('singleProfile',{
+        user: user,
+        followers: followers,
+        following: following,
+        isFollowing: isFollowing
+      });
     })
   })
-})
+});
 
 router.post('/unfollow/:id', function(req, res, next){
-User.findById(req.params.id, function(error, user){
-  user.unfollow(req.user.id, function(err){
-    if(err){
-      return next(err);
-      res.redirect('profile');
-    }
+  console.log(req.user.id);
+  req.user.unfollow(req.params.id, function(err) {
+    if (err) return next(err);
+    res.redirect('/user/' + req.params.id);
   });
-  res.rerender('singleProfile');
-})
+});
+
+router.post('/follow/:id', function(req, res, next) {
+  req.user.follow(req.params.id, function(err) {
+    if (err) return next(err);
+    res.redirect('/user/' + req.params.id);
+  });
 })
 
 router.get('/restaurants/new', function(req, res) {
@@ -55,9 +76,6 @@ router.get('/restaurants/new', function(req, res) {
 router.post('/restaurants/new', function(req, res, next) {
   // Geocoding - uncomment these lines when the README prompts you to!
   geocoder.geocode(req.body.location, function(err, data) {
-    console.log("Error:" + err);
-    console.log("Data: " + data);
-
       var rest = new Restaurant({
       name: req.body.name,
       category: req.body.category,

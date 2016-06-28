@@ -1,6 +1,8 @@
 {{#each users}}
 <h4>Name:</h4>
-<p>{{user.displayName}}</p>
+<p>{{displayName}}</p>
 <h4>Address:</h4>
-<p>{{user.address}}</p>
+<p>{{address}}</p>
+<a href="/user/{{_id}}">Visit profile</a>
+<br><br>
 {{/each}}

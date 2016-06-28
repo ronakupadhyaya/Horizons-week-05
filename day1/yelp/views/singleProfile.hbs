@@ -6,23 +6,35 @@
 
 <h4>Address:</h4>
 <p>{{user.address}}</p>
+<br>
 
-{{!-- <h4>Id:</h4>
-<p>{{user._id}}</p> --}}
+{{#if isFollowing}}
+<form action="/unfollow/{{user._id}}" method="post">
+	<input style="display: inline;" type="submit" value="Unfollow this user">
+</form>
+{{else}}
+<form action="/follow/{{user._id}}" method="post">
+	<input style="display: inline;" type="submit" value="Follow this user">
+</form>
+{{/if}}
+
+<br><br>
 
 <h4>Reviews:</h4>
 <p>{{user.reviews}}</p>
 
 <h4>Following:</h4>
 {{#each following}}
-  <div>{{from.displayName}}
+  <div>{{to.displayName}}
   <form href="/unfollow/:id" method="post">
     <input style="display: inline;" type="submit" value="Unfollow">
   </form>
 </div>
 {{/each}}
 
+
+
 <h4>Followers:</h4>
 {{#each followers}}
-  <p>{{to.displayName}}</p>
+  <p>{{from.displayName}}</p>
 {{/each}}
