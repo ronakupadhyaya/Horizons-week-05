@@ -96,7 +96,29 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
-
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"]
+  },
+  location: {
+    latitude: Number,
+    longitude: Number
+  },
+  price: {
+    type: Number,
+    enum: [1,2,3]
+  },
+  openTime: {
+    type: Number
+  },
+  closingTime: {
+    type: Number
+  },
+  address: String
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){

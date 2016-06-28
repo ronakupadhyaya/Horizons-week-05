@@ -6,14 +6,47 @@ var Follow = models.Follow;
 var Restaurant = models.Restaurant;
 var Review = models.Review;
 
+
+
+router.get('/restaurant/new', function(req,res){
+  res.render('newRestaurant')
+});
+
+router.get('/restaurants', function(req,res){
+  Restaurant.find(function(err,rest){
+    if(err) console.log(err)
+    else{
+      res.render('restaurants',{rest})
+    }
+  })
+})
+
+router.get('/restaurant/:id',function(req,res){
+  Restaurant.findById(req.params.id, function(err,rest){
+    if(err) console.log(err)
+    else{
+      res.render('singleRestaurant',{rest})
+    }
+  })
+})
+
+//below the wall=authenticated: 
 // Geocoding - uncomment these lines when the README prompts you to!
-// var NodeGeocoder = require('node-geocoder');
-// var geocoder = NodeGeocoder({
-//   provider: "google",
-//   apiKey: process.env.GEOCODING_API_KEY || "YOUR KEY HERE",
-//   httpAdapter: "https",
-//   formatter: null
-// });
+var NodeGeocoder = require('node-geocoder');
+var geocoder = NodeGeocoder({
+  provider: "google",
+  apiKey: process.env.GEOCODING_API_KEY || "AIzaSyCKIt8l4B_Lzbkmf1H9D5O0a0jpivtL-l4",
+  httpAdapter: "https",
+  formatter: null
+});
+
+//example to demonstrate what geocode data looks like when output
+// router.post('/loc', function(req.res){
+//   geocoder.geocode(req.body.address, function(err,data){
+//     console.log(err);
+//     res.send(data)
+//   }
+// })
 
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
@@ -24,14 +57,35 @@ router.use(function(req, res, next){
   }
 });
 
-router.post('/restaurants/new', function(req, res, next) {
+//only really need next with routes handler so that next will allow for you to reach
+//more routes later down the line
+router.post('/restaurant/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
-  // geocoder.geocode(req.body.address, function(err, data) {
-  //   console.log(err);
-  //   console.log(data);
-  // });
+  geocoder.geocode(req.body.address, function(err, salmon) {
+    //console.log(err);
+    //console.log(salmon[0]);
+    var rest = new Restaurant({
+    name: req.body.name,
+    category: req.body.category,
+    price: req.body.price,
+    openTime: req.body.openTime,
+    closingTime: req.body.closeTime,
+    location: {
+      latitude: salmon[0].latitude,
+      longitude: salmon[0].longitude
+    },
+    address: salmon[0].formattedAddress
+  })
+  rest.save(function(err,r){
+    if(err){
+      console.log(err)
+      return
+    }
+    res.redirect('/restaurants')
+  })
   
+  });
 });
 
 router.get('/', function(req,res){
@@ -69,6 +123,14 @@ router.get('/singleProfile/:id', function(req,res){
   })
 })
 
+// router.get('/users', function(req,res,next){
+//   User.find(function(err,users){
+//     if(err) return next(err);
+//     res.render('users', {
+//       users: users
+//     })
+//   })
+// })
 
 router.post('/profile/:id/follow', function(req,res){
   // res.redirect('/singleProfile/'+req.params.id)
@@ -83,7 +145,6 @@ router.post('/profile/:id/unfollow', function(req,res){
     res.redirect('/singleProfile/'+req.params.id)
   })
 })
-
 
 
 
