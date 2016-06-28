@@ -1,12 +1,37 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Joy Yee Noodle",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Sesame Chicken",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Sesame",
+        "Chicken"
+      ]
+    },
+    {
+      "name": "Bibimbap",
+      "price": 10,
+      "ingredients": [
+        "Rice",
+        "Beef",
+        "carrots"
+      ]
+    },
+    {
+      "name": "Orange Chicken",
+      "price": 11,
+      "ingredients": [
+        "Chicken"
+      ]
+    },
+    {
+      "name": "Beef Chapchae",
+      "price": 9,
+      "ingredients": [
+        "Beef",
+        "Green Onion",
+        "Noodle"
       ]
     }
   ]
