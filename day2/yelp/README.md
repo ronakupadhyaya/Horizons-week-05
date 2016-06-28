@@ -133,14 +133,62 @@ Keep in mind that you only want to render a certain number of these paging links
 
 ### End Result, Step 1 🏅 - `http://localhost:3000`
 
-After this step, you will be able to visit your Restaurant listings page and have the ability to 
+After this step, you will be able to visit your Restaurant listings page and have the ability to click through pages of 10 restaurants at a time, using a component or list of links at the bottom with the correct number of pages to navigate through your entire collection of Restaurant documents.
 
 
 ##Step 2: Sorting Restaurants with Indexes 📊
+Next, we'll be adding some more features to the restaurant listings template that will allow us to find what we are looking for with a more fine-grained search - say, by highest rating or by closest location. We will accomplish this by use of indexes for optimal performance!
 
 ### More Model Modifications 👋 - `models/models.js`
+First off, some modifications to our `Restaurant` model. Remember our virtual `averageRating` (the one that calculated `totalScore / reviewsCount` for us on the fly)? 
+
+The trouble with this virtual is that although it is available to us seemingly wherever we need, it is notably missing **_in the MongoDB database itself_**. This is because the `virtual` is a Mongoose-specific property that is a part of our models, being "virtually" available to us but not persisting to the actual MongoDB document. If we want to be able to index by `averageRating` (and thus allowing us to sort Restaurants by rating with much greater performance), we will have to change this from a virtual to an actual property.
+
+Add a property `averageRating` (of type _Number_) that is recalculated (using the existing `totalScore` and `reviewsCount` properties) and saved to the model every time a new `Review` is posted. 
+
+Your completed Restaurant Schema will look like the following:
+
+ - `name` - The name of the Restaurant
+ - `price` - A Number on a scale of 1-3
+ - `category` - A String that describes the type of restaurant represented
+ - `latitude` - A Number representing the geographic location of the restaurant
+ - `longitude` - Another Number representing the geographic location of the restaurant
+ - `openTime` - A Number from 0-23 representing the hour the restaurant opens
+ - `closingTime` - A Number from 0-23 representing the hour the restaurant closes
+ - `totalScore` - A Number that represents the total stars a Restaurant has from all Reviews associated with it
+ - `reviewsCount` A Number that represents the total amount of Reviews a Restaurant has associated with it
+ - `averageRating` - A Number that represents the average rating that a Restaurant has across all of its reviews, on a scale of 1-5
+ 
+Alright! Now that we have a persistent property on our MongoDB documents that we are able to use for indexing, it's time to create those in our model!
 
 ### Adding Indexes to Your Models 🕵 - `models/models.js`
+Adding indexes to your Mongoose model is [pretty easy](http://mongoosejs.com/docs/guide.html) - all you need to do is add an extra field to one of your properties that looks like the following:
+
+```
+var restaurantSchema = new mongoose.Schema({
+	...
+	name: {
+		type: String,
+		index: true
+	}
+})
+
+```
+
+This will allow you to run a fast sort through any of your `find` queries, which looks something along the lines of:
+
+```
+// Accepted values for "ascending" sort are 1, "asc", and "ascending"
+// Accepted values for "descending" sort are -1, "desc", and "descending"
+
+Restaurant.find({}).sort({'name': 1}).exec(function(err, restaurants) {...})
+
+```
+
+
+
+### Supporting Filtering in Your Views - `views/restaurants.hbs`
+
 
 ### End Result, Step 2 🏅 - `http://localhost:3000`
 
@@ -150,7 +198,7 @@ After this step, you will be able to visit your Restaurant listings page and hav
 1. Sort by stars
 - Mongo doesn't support joins, so the database engine doesn't know how many stars a restaurant has.
 Stars are currently virtual, meaning they get calculated on Mongoose, not on mongo.
-- Create a new field called "stars" on the restaurant's model. Additionaly, we need to recalculate these every time someone leaves a review for a restaurant, computing the average.
+- Create a new field called "stars" on the restaurant's model. Additionally, we need to recalculate these every time someone leaves a review for a restaurant, computing the average.
 - Create a number of reviews field on the databaseToo. This will be calculated when a user leaves a review too.
 - Sort out by using the stars field when the user selects sort by stars.
 
@@ -162,37 +210,12 @@ Stars are currently virtual, meaning they get calculated on Mongoose, not on mon
 - Sort.
 
 
-##Phase 3 Search Functionality
-1. New query: Case-folded name field for search. (write name to lower case field).
-- Add a search form with a name field to your restaurants page.
--	Users can write queries in many different forms. For example "Cat" or "cát" would yield different results. To fix this,
-we have to case-fold texts, meaning making them as plain as possible, and as standard as possibe. Take a look at this link and try case-folding yourself! http://www.alistapart.com/articles/accent-folding-for-auto-complete/
-1. Single field index (on folded name) that starts with name.
-- Create a new field on users that contains the folded name that you are looking for.
-- Create an index for that field, allowing you you query faster through folded names.
-1. Write a prefix query on the thing that you are searching
-- Create a query that finds users that start with the prefix, using the new index.
-1. Composite indexes
-- MongoDB supports compound indexes, where a single index references many fields in a document:
-`db.collection.createIndex( { <field1>: <type>, <field2>: <type2>, ... } )` The value of the field in the index specification describes the kind of index for that field. For example, a value of 1 specifies an index that orders items in ascending order. A value of -1 specifies an index that orders items in descending order.
-- An example of creating a compound index is `{ userid: 1, score: -1 }` it holds two fields in one index.
-- The user is sort out ascending by userId, and descending by score.
+## Step 3: Pagination & Sorting Extended
 
-- Lets say you have our restaurants:
-```
-{
-	"_id": ObjectId(...),
-	"name": "McDonalds",
-	"location": "4th Street Store",
-	"stars": 4
-}
-```
-- To create an ascending index on item and stock you would:
-` db.products.createIndex( { "name": 1, "stars": 1 } ) `
-- The index supports queries on the item field as well as both item and stock fields:
-`db.products.find( { item: "name", stars: { gt: 5 } } )`
+### Pagination + Sorting
 
-* Show them explain plan as you go - make them take out index and re-insert index
+### Custom Pagination
 
-##Bonus:
-1. Use Yelp API or open street API to get JSON file of businesses
+
+
+
