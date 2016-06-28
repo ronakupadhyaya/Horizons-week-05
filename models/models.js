@@ -43,7 +43,6 @@ userSchema.methods.getFollowers = function (callback){
       callback(null, allFollowers, allFollowing);
     });
   });
-
 }
 
 userSchema.methods.follow = function (idToFollow, callback){
@@ -128,9 +127,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
