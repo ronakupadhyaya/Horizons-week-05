@@ -61,6 +61,12 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
   })
 }
 
+// userScema.methods.getReviews = function(userId, callback) {
+//     this.model('Review').find({userId: userId}).populate('content stars restaurantId').exec(function(err, reviews) {
+//       callback(err, reviews);
+//   })
+// }
+
 var FollowsSchema = mongoose.Schema({
   // userFrom is the person following someone else 
   userFrom: {
@@ -84,13 +90,14 @@ var reviewSchema = mongoose.Schema({
     required: true
   },
   restaurantId: {
-    type: mongoose.Schema.ObjectId
+    type: mongoose.Schema.ObjectId,
+    ref: 'Restaurant'
   },
   userId: {
-    type: mongoose.Schema.ObjectId
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
   }
 });
-
 
 var restaurantSchema = mongoose.Schema({
 //   Name (String) - the name of the Restaurant
@@ -130,11 +137,28 @@ var restaurantSchema = mongoose.Schema({
   }
 });
 
-restaurantSchema.methods.getReviews = function (restaurantId, callback){
-  Restaurant.find({restaurantId: restaurantId}).pop()
+restaurantSchema.methods.getReviews = function (restaurantId, callback) {
+ // var that = this;
+ //  this.model('Follow').find({
+ //    userFrom: this._id
+ //  })
+ //    .populate('userTo')
+ //    .exec(function(err, followers) {
+ //        that.model('Follow').find({
+ //          userTo: that._id
+ //        })
+ //          .populate('userFrom')
+ //          .exec(function(err, following) {
+ //            cb(err, followers, following);
+ //          })
+ //    })
+ 
+  this.model('Review').find({restaurantId: restaurantId}).populate('userID').exec(function(err, reviews) {
+      callback(err, reviews);
+  })
 }
 
-//restaurantSchema.methods.stars = function(callback){
+//restaurantSchema.methods.stars = function(callback)
 //
 //}
 

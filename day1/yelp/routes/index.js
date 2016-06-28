@@ -24,8 +24,6 @@ router.use(function(req, res, next){
   }
 });
 
-
-
 router.get('/profiles/:id', function(req, res, next) {
   User.findById(req.params.id, function(err, user) {
     user.getFollowers(function(err, followers, following) {
@@ -75,9 +73,14 @@ router.get('/restaurants', function(req, res, next) {
 // individual restaurants not showing up
 router.get('/restaurants/:id', function(req, res, next) {
   Restaurant.findById(req.params.id, function(err, restaurants) {
+    restaurants.getReviews(req.params.id, function(err, reviews) {
+      //console.log(reviews);
       res.render('singleRestaurant', {
         restaurants: restaurants,
+        reviews: reviews,
+       // stars: stars
       })
+    })
   })
 })
 
@@ -105,5 +108,23 @@ router.post('/restaurant/new', function(req, res, next) {
     res.redirect('/restaurants');
   })
 });
+
+router.get('/newReview/:id', function(req, res, next) {
+  Restaurant.findById(req.params.id, function(err, review) {
+    res.render('newReview');
+  })
+})
+
+router.post('/newReview/:id', function(req, res, next) {
+  var review = new Review({
+    content: req.body.content,
+    stars: req.body.stars,
+    restaurantId: req.params.id,
+    userId: req.user.id,
+  })
+  review.save(function(err) {
+    res.redirect('/restaurants/' + req.params.id);
+  })
+})
 
 module.exports = router;

@@ -56,10 +56,13 @@ app.get('/', function(req, res) {
   .skip(10*(page-1))
   .sort({title: -1})
   .exec(function(err, books) {
+    var displayBooks = books.slice(0,20);
     res.render('index', {
-      books: books
+      books: displayBooks,
+      page: page,
       // prev: page - 1,
       // next: page + 1
+      hasNext: books.length === 21;
     });
   });
 });

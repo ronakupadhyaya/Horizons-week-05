@@ -1,23 +1,29 @@
 <h4>Name:</h4>
-<p>{{restaurant.name}}</p>
+<p>{{restaurants.name}}</p>
 
 <h4>Category:</h4>
-<p>{{restaurant.category}}</p>
+<p>{{restaurants.category}}</p>
 
 <h4>Price:</h4>
-<p>{{restaurant.price}}</p>
+<p>{{restaurants.price}}</p>
 
 <!-- <h4>Address:</h4>
 <p>{{restaurant.lat}}</p>
 <p>{{restaurant.long}}</p> -->
 
 <h4>Price:</h4>
-<p>{{restaurant.price}}</p>
+<p>{{restaurants.price}}</p>
 
 <h4>Open Time</h4>
-<p>{{restaurant.openTime}}</p>
+<p>{{restaurants.openTime}}</p>
 
 <h4>Close Time</h4>
-<p>{{restaurant.closeTime}}</p>
+<p>{{restaurants.closeTime}}</p>
+
+<h4>Reviews</h4>
+<p>{{reviews.content}}</p>
+<p>{{reviews.stars}}</p>
+
+<a class="btn btn-default" href="/newReview/:id">Add a review</a></td>
 
 <img src="https://maps.googleapis.com/maps/api/staticmap?center=[LATITUDE],[LONGITUDE]&markers=color:red|[LATITUDE],[LONGITUDE]&zoom=13&size=600x300&maptype=roadmap">
