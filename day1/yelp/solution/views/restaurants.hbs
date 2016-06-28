@@ -20,6 +20,11 @@
         <a href="/restaurants/{{id}}">Restaurant Page</a>
       </td>
     </tr>
+    {{#if review}}
+    <tr>
+      <td>{{../content}}</td>
+    </tr>
+    {{/if}}
     {{/each}}
   </tbody>
 </table>
