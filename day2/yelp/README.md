@@ -34,7 +34,7 @@ before adding a unique index. Otherwise it will generate an error.
 
 In Mongoose, we can create new indexes like the following:
 
-```
+```javascript
 var Restaurant = new Schema({
     name: {
     	type: String, 
@@ -84,7 +84,7 @@ The reason that we want to use a _static_ here is because we essentially want to
 
 The way we define a static in Mongoose is identical to how we define a method, with the slight change:
 
-```
+```javascript
 RestaurantSchema.statics.yourStaticNameHere = function(anyParams) {
 	/* your static definition here */
 }
@@ -164,7 +164,7 @@ Alright! Now that we have a persistent property on our MongoDB documents that we
 ### Adding Single Indexes to Your Models 🕵 - `models/models.js (RestaurantSchema)`
 Adding indexes to your Mongoose model is [pretty easy](http://mongoosejs.com/docs/guide.html) - all you need to do is add an extra field to one of your properties that looks like the following:
 
-```
+```javascript
 var restaurantSchema = new mongoose.Schema({
 	...
 	name: {
@@ -177,7 +177,7 @@ var restaurantSchema = new mongoose.Schema({
 
 This will allow you to run a fast sort through any of your `find` queries, which looks something along the lines of:
 
-```
+```javascript
 // Accepted values for "ascending" sort are 1, "asc", and "ascending"
 // Accepted values for "descending" sort are -1, "desc", and "descending"
 
