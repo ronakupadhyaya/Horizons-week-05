@@ -119,6 +119,7 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
   var user = this;
   Follow.find({user1Id:user._id, user2Id: idToUnfollow}).remove(function(err) {
     callback(err)
+    user.tick = false;
   })
 }
 

@@ -24,17 +24,16 @@
 		e.preventDefault()
 		console.log('clicked follow!')
 		console.log($(this).attr('id'))
+		var name = ($(this).prev().text()).trim()
 		var id = "#" + ($(this).attr('id'));
-		console.log(id.split("-"));
 		var fstatus = id.split("-")
 		fstatus = fstatus[1];
 		$.ajax({
 			type: "POST",
 			url:'/user/'+($(this).attr('id')).replace('-','/'),
 			success: function() {
-				if(confirm("You " + fstatus + "ed " + "the user!")){
-				    window.location.reload();  
-				}
+				$(id).hide()
+				alert("You " + fstatus + "ed " + name)
 			}
 		})
 	})
