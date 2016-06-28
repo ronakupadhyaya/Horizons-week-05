@@ -279,18 +279,7 @@ With your indexes now ready for handling sorting by both `price` and `averageRat
 
 This means you'll only need one Submit button as well! If all goes well, you'll have something that looks like this instead:
 
-<b>Price</b>
-<select>
-<option>ascending</option>
-<option>descending</option>
-</select>
-<br>
-<b>Rating</b>
-<select>
-<option>ascending</option>
-<option>descending</option>
-</select>
-<button>Submit</button>
+<img src="http://cl.ly/131o1q1k1K2C/Image%202016-06-28%20at%206.11.23%20PM.png" height="60">
 
 
 You'll also need to make sure your **`index.js`** handles your form submit with both parameters together! Make sure that both `req.query` properties matching the `name` properties of your `<select>` elements are being passed into `.sort()`.
