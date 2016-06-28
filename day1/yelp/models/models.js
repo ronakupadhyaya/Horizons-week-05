@@ -24,6 +24,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 userSchema.methods.getFollowers = function (callback){
   var that = this
   this.model('Follow').find({
@@ -43,6 +44,10 @@ userSchema.methods.getFollowers = function (callback){
       callback(null, allFollowers, allFollowing);
     });
   })
+=======
+userSchema.methods.getFollows = function (id, callback){
+
+>>>>>>> refs/remotes/origin/master
 }
 userSchema.methods.follow = function (idToFollow, callback){
   var that = this
