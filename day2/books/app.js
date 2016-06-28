@@ -67,7 +67,7 @@ app.get('/import/books', function(req, res) {
 
   function finalize() {
     if (inputDone && completed === started) {
-      res.send('Done');
+      res.redirect('/');
     }
   }
 
