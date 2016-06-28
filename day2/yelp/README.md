@@ -269,15 +269,15 @@ Create the following indexes on your `restaurantSchema` for both `price` and `av
 
 <sub>[1] For a more cohesive explanation of how this works, see MongoDB documentation on Compound Indexes: [https://docs.mongodb.com/manual/core/index-compound/](https://docs.mongodb.com/manual/core/index-compound/) </sub>
 
-### Compound Queries in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
+### Composite Indexes in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
+
+With your indexes now ready for handling sorting by both `price` and `averageRating` criteria, it's time to update your views and routes to handle the ability to sort by both!
 
 First, we need to update our view to take in a new input for selecting "Ascending" or "Descending" for "Price" in addition to "Name" and "Average Rating." Put the new `<select>` input for Price in the same `<form>` as the Rating `<select>` input - we will be _either_ sorting solely alphabetically _or_ by both Rating and Price). 
 
 > **Note:** If you want to allow a user to sort by Price or Rating individually, you should add an empty `<option>` element and handle that in your form (i.e., if an input is empty String, do not sort by that criterion).
 
-With your indexes now ready for handling sorting by both `price` and `averageRating` criteria, it's time to update your views and routes to handle the ability to sort by both! Firstly, in your `restaurants` Handlebars template, update your two option selectors to submit with the same `<form>` (still with a `method="GET"`).
-
-This means you'll only need one Submit button as well! If all goes well, you'll have something that looks like this instead:
+If all goes well, you'll have something that looks like this instead:
 
 <img src="http://cl.ly/131o1q1k1K2C/Image%202016-06-28%20at%206.11.23%20PM.png" height="60">
 
