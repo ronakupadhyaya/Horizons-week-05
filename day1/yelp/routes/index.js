@@ -48,7 +48,7 @@ router.get('/user/:id', function(req,res,next) {
 // ----------------------------------------------
 router.post('/user/:id/:request', function(req,res,next) {
   if (req.params.request==='follow' || req.params.request==='unfollow')
-    req.user[req.params.request].call(req.user, req.params.id, function() {return})
+    req.user[req.params.request].call(req.user, req.params.id, function() {res.sendStatus(200)})
 })
 
 // ----------------------------------------------
