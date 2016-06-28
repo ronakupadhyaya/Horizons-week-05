@@ -22,6 +22,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 userSchema.methods.getFollowers = function (id, callback){
   Follow.find({userTo: id}).populate('userFrom').exec(function(err, followers){
     if(followers) {
@@ -31,6 +32,9 @@ userSchema.methods.getFollowers = function (id, callback){
     }
   });
 };
+=======
+userSchema.methods.getFollows = function (id, callback){
+>>>>>>> master
 
 userSchema.methods.follow = function (idToFollow, callback){
   var id = this._id;
@@ -136,9 +140,15 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
+<<<<<<< HEAD
 restaurantSchema.methods.averageRating = function(callback){
 
 }
+=======
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
+>>>>>>> master
 
 
 module.exports = {
