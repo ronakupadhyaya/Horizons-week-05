@@ -31,6 +31,11 @@ So, to find something in a field, we require an average of N/2 block accesses to
 
 In this case, finding a restaurant would be as simple as finding the restaurant in the index table, reading where it points to, and reading data from its location.
 
+0. Before we begin, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder. Move `seed.js` to the route directory of the app you are working on. 
+
+Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `ctr` + `c` to exit out of the node session. Check mLAB, and behold 60 new restaurants for your database!
+
+
 1. Unique Index on username.
 
 * Hint: If you have users on your database that are duplicated, please delete them
