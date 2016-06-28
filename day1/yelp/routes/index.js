@@ -32,10 +32,13 @@ router.get('/', function(req,res,next) {
 router.get('/user/:id', function(req,res,next) {
   User.findById(req.params.id, function(err,user) {
     user.getFollowers(req.params.id,function(err,followers,following) {
-      res.render('user', {
-        user:user,
-        followers:followers,
-        following:following
+      user.getReviews(req.params.id, function(err,reviews) {
+        res.render('user', {
+          user:user,
+          followers:followers,
+          following:following,
+          reviews: reviews
+        })
       })
     })
   })
@@ -45,7 +48,7 @@ router.get('/user/:id', function(req,res,next) {
 // ----------------------------------------------
 router.post('/user/:id/:request', function(req,res,next) {
   if (req.params.request==='follow' || req.params.request==='unfollow')
-  req.user[req.params.request].call(req.user, req.params.id, function() {return})
+    req.user[req.params.request].call(req.user, req.params.id, function() {return})
 })
 
 // ----------------------------------------------
@@ -89,7 +92,7 @@ router.post('/restaurants/new', function(req, res, next) {
   // Geocoding - uncomment these lines when the README prompts you to!
   geocoder.geocode(req.body.address, function(err, data) {
     if (err) {return}
-    var restaurant = new Restaurant();
+      var restaurant = new Restaurant();
     restaurant.name = req.body.name
     restaurant.category = req.body.category
     restaurant.latitude = data[0].latitude
@@ -146,7 +149,7 @@ router.post('/reviews/new', function(req,res,next) {
         } else {
           console.log('review saved')
           Restaurant.update({_id:food._id}, {$inc: {
-            totalScore: req.body.stars, // still returns NaN
+            totalScore: review.stars, // still returns NaN
             reviewCount: 1
           }}, function(error) {
             if (error) {console.log('error!!!!!')}
