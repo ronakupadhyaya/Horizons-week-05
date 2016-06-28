@@ -1,13 +1,14 @@
-## Step 3: Pagination & Sorting Extended 🙉
 
-### Pagination + Sorting
 
-### Custom Pagination
+
+### Advanced Pagination 📘 - `routes/index.js`
+
+
 
 ### End Result, Step 3 🏅 - `http://localhost:3000`
 
 
-## Step 4: Full-Text Search 🔭
+## Part 2 Challenge: Full-Text Search 🏆
 
 ### Case Folding Restaurant Names
 
