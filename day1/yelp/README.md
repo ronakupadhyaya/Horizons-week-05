@@ -99,7 +99,7 @@ Begin by defining a `Schema` - you'll need to do this in order to create `virtua
 
 This:
 
-```
+```javascript
 module.exports = {
 	User: mongoose.model("User", {
 		property1: String
@@ -108,7 +108,7 @@ module.exports = {
 ```
 is equivalent to this:
 
-```
+```javascript
 var userSchema = new mongoose.Schema({
  	property1: String
 })
@@ -149,7 +149,7 @@ Next, you want to create a function for each of the `User` models that allows us
 
 We will accomplish this by using Mongoose _methods_. The way we write Mongoose methods is like the following:
 
-```
+```javascript
 var userSchema = new mongoose.Schema({...});
 userSchema.methods.yourMethodName = function() {
 	/* define your method here! */
@@ -160,17 +160,18 @@ We want to write the following methods on our `User` Schema:
 
 > **Tip:** When creating your methods for `User`, use _callback functions_ to return data. For example, `getFollows` should be _used_ in a future route like:
 
-	req.user.getFollows(function(followers, following) {
-		/* do something with the result of the callback function */	
-	});
-	
+```javascript
+req.user.getFollows(function(followers, following) {
+  /* do something with the result of the callback function */	
+});
+```	
 > To accomplish this, your implementation should take a parameter that represents a callback function that will later be called with the resulting data. See more about this below.
 
  
 - `follow` - should set a following relationship as on Twitter, Instagram, or any site that supports followers.
 	- **Note**: `follow` will be an _instance method_ that acts upon a user - it would be defined in the schema as something along the lines of:
 	
-	```
+	```javascript
 	userSchema.methods.follow = function (idToFollow, callback){...}
 	```
 	You should take in a parameter `idToFollow` of the user to follow; now, calling `.follow` on the logged-in user will follow the user given by `idToFollow`! `follow` should also check if you have followed that user already and prevent you from creating duplicate `Follow` documents.
@@ -181,7 +182,7 @@ We want to write the following methods on our `User` Schema:
 
 	When first retrieving the correct `Follow` documents relevant to a user, your `allFollowers` and `allFollowing` arrays will look something like:
 	
-	```
+	```javascript
 	allFollowers = [{
 		follower: ID_OF_FOLLOWER,
 		following: YOUR_USER_ID
@@ -199,7 +200,7 @@ We want to write the following methods on our `User` Schema:
 
 	After using `.populate`, your data will look like this (callback with this populated set!):
 
-	```
+	```javascript
 	allFollowers = [{
 		follower: {
 			_id: ID_OF_FOLLOWER,
@@ -249,7 +250,7 @@ Display something that looks like the following:
   		  
  When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):		
  		
- ```		
+ ```javascript		
  {		
  	user: {		
  		_id: YOUR_USER_ID,		
@@ -376,7 +377,7 @@ When viewing all Restaurants, you should be able to see their basic information;
 
 In this template, imagine that your context object looks like the following:
 
-```
+```javascript
 [{
 	"name": "Brotherly Grub",
 	"category": "Food Trucks",
