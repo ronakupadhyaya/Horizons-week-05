@@ -167,43 +167,31 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
-  restName: {
+  name: {
     type: String,
     required: true
   },
-  restPrice: {
+  price: {
     type: Number,
     required: true
   },
-  restCategory: {
+  category: {
     type: String,
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "Other"],
     required: true
   },
-  latitude: {
+  location: {
+    latitude: Number,
+    longitude: Number
+  },
+  openTime: {
     type: Number,
     required: true
   },
-  longitude: {
-    type: Number,
-    required: true
-  },
-  restOpen: {
-    type: Number,
-    required: true
-  },
-  restClose: {
-    type: Number,
-    required: true
-  },
-  totalScore: {
-    type: Number,
-    required: true
-  },
-  reviewCount: {
+  closingTime: {
     type: Number,
     required: true
   }
-
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){

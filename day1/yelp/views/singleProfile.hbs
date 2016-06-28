@@ -1,4 +1,4 @@
-{{if amIAlreadyFollowing}}
+{{!-- {{if amIAlreadyFollowing}}
 <form action="/profile/{{user._id}}/follow" method="POST">
 		<input type="submit" value="Follow"></input></form>
 		<form action="/unfollow/{{id}}" method="POST">
@@ -23,7 +23,7 @@
     <input style="display: inline;" type="submit" value="Unfollow">
   </form>
 </div> --}}
-<li>{{to.email}}
+{{!-- <li>{{to.email}}
 {{/each}}
 
 <h4>Followers:</h4>
@@ -31,4 +31,34 @@
   <p>{{from.email}}</p>
 {{/each}}
 
-<button><a href="/user">All Users</a></button>
+<button><a href="/user">All Users</a></button> --}}
+
+{{#if amIAlreadyFollowing}}
+<form action="/profile/{{user._id}}/unfollow" method="post">
+  <input type="submit" value="Unfollow">
+</form>
+{{else}}
+<form action="/profile/{{user._id}}/follow" method="post">
+  <input type="submit" value="Follow">
+</form>
+{{/if}}
+
+<h4>Name:</h4>
+<p>{{user.displayName}}</p>
+
+<h4>Email:</h4>
+<p>{{user.email}}</p>
+
+<h4>Following:</h4>
+<ul>
+{{#each following}}
+  <li>{{to.email}}</li>
+{{/each}}
+</ul>
+
+<h4>Followers:</h4>
+<ul>
+{{#each followers}}
+  <li>{{from.email}}</li>
+{{/each}}
+</ul>
