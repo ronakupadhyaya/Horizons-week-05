@@ -24,8 +24,10 @@ module.exports = function(passport) {
       });
     }
     var u = new models.User({
-      email: req.body.username,
-      password: req.body.password
+      email: req.body.email,
+      password: req.body.password,
+      location: req.body.location,
+      displayName: req.body.displayName
     });
 
     u.save(function(err, user) {
@@ -53,6 +55,14 @@ module.exports = function(passport) {
   router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/login');
+  });
+
+  router.use(function(req, res, next) {
+    if (!req.user) {
+      res.redirect('/login');
+    } else {
+      next();
+    }
   });
 
   return router;

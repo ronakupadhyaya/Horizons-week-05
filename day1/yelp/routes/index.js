@@ -16,22 +16,42 @@ var Review = models.Review;
 // });
 
 // THE WALL - anything routes below this are protected!
-router.use(function(req, res, next){
-  if (!req.user) {
-    res.redirect('/login');
-  } else {
-    return next();
-  }
+// router.use(function(req, res, next){
+//   if (!req.user) {
+//     res.redirect('/login');
+//   } else {
+//     return next();
+//   }
+// });
+
+router.get('/profile', function(req, res) {
+  User.find(function(err, users) {
+    res.render('profiles', {
+      users: users
+    });
+  });
 });
 
-router.post('/restaurants/new', function(req, res, next) {
+router.post('/profile/:id/follow', function(req, res) {
+  req.user.follow(req.params.id, function(err) {
+    res.redirect('/profile/' + req.params.id);
+  });
+});
 
-  // Geocoding - uncomment these lines when the README prompts you to!
-  // geocoder.geocode(req.body.address, function(err, data) {
-  //   console.log(err);
-  //   console.log(data);
-  // });
-  
+router.get('/profile/:id', function(req,res) {
+  User.findById(req.params.id, function(err, users) {
+    User.getFollowers(function(usersImFollowing, usersWhoFollowMe) {
+      var amIAlreadyFollowing = followers.filter(function(follow) {
+        return follow.from._id !== req.user._id;
+      }).length > 0;
+      res.render('singleProfile', {
+        users: users,
+        following: usersImFollowing,
+        followers: usersWhoFollowMe,
+        amIAlreadyFollowing: amIAlreadyFollowing
+      });
+    });
+  });
 });
 
 module.exports = router;
