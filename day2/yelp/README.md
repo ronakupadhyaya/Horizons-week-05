@@ -300,7 +300,11 @@ We now want to put these together - giving the ability for users to go through p
 
 Since you've already implemented the interface elements for giving users the option to sort the restaurants alphabetically or by rating, you only need to modify your route for `/restaurants/list/:x` to handle the same sorting process you created for `/restaurants/list`.  
 
-Not too bad, right? Make sure you are `.sort()`'ing _before_ you `.limit()` or `.skip()` so that your paginated links give you the _sorted_ results in order!
+We previously used a static you implemented to grab the next 10 Restaurant documents from a collection, but to make things simpler, move that logic back into your route for `/restaurants/lists/:x`, directly calling `Restaurant.find({}).limit(10).skip((parseInt(req.params.x) - 1) * 10)` (_or whatever you used to offset your results_) inside of your `router.get("/restaurants/lists/:x", function(req, res) {...})`.
+
+Now, add `.sort()` to your query the same way you did for `GET /restaurants/list`!
+
+> **Note:** Make sure you are `.sort()`'ing _before_ you `.limit()` or `.skip()` so that your paginated links give you the _sorted_ results in order!
 
 One other change you'll have to make to your pagination element on your `restaurants` template is to append the same query string of a user's initial submit of search criteria (i.e. `?name=ascending&rating=descending`) to the each of the links on this component:
 
@@ -308,7 +312,24 @@ One other change you'll have to make to your pagination element on your `restaur
 
 Each link on this pagination component must carry this query string through to be paginating through the same results - but _only if there was a query string before_! Make sure you are considering this in your routes file (`index.js`).
 
-**Suggestion:** 
+**Suggestion:** Remember the array of numbers we suggested you pass into your Handlebars `restaurants` template from before to render the correct number of links with the correct `href`? You may find it simple enough to pass a potential query string in as well (to the context object, the second parameter of `res.render`) and appending that to the `href`'s of your paging links.
+
+### Advanced Pagination 📘 - `views/restaurants.hbs`, `routes/index.js`
+Up until this point, you've only allowed your user to browse through 10 Restaurant listings at a time. Now, you will allow your user to select how many listings they are able to see at a time.
+
+> **Note:** For the following instructions, you will primarily be working on your `GET /restaurants/list/:x` route - this is where we handle pagination!
+
+Begin by adding a new `<input>` (or `<select>`, if you want to define a preset number of choices for your user to select from) to the same `<form>` in your **`restaurants.hbs`** template that allows the user to determine how many listings to see per page. 
+
+Next, change your route to grab the `req.query.[name attribute of your <input> element]` and use _its number_ instead of 10 for your limiting and skipping logic. **Don't forget to keep this passed as your query string when navigating through other pages** - similarly to how we preserved the sorting criteria from the query string of sorting for each page of `GET /restaurants/list/:x`, we want to keep this as a part of our URL when we navigate to other pages.
+
+If you implement this correctly, setting the "Number of Restaurants per Page" to 50 should allow a user to click through each link in your pagination element and get 50 results back, sorted and offset properly.
+
+### End Result, Step 3 🏅 - `http://localhost:3000`
+
+By the end of Step 3, you will have a Restaurant listings view that allows you to sort by multiple criteria in an indexed database, navigate through pages of `x` number of listings, and allow the user to specify the number of listings they wish to see per page.
+
+If this End Result describes your finished product: congrats! You've finished Yelp! 🎉
 
 ---
 _coming soon_
