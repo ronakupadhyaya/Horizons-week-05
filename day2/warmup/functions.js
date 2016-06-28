@@ -42,5 +42,9 @@ module.exports = {
   //  onceLog(); -> does nothing
   once: function(f) {
     // YOUR CODE HERE
+    var called = false;
+    if (!called) {
+      called = true
+    }
   }
 };
