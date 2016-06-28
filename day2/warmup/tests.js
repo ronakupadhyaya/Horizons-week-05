@@ -1,5 +1,5 @@
-TODO clean this
-describe("Example 2.1: run()", function() {
+var toolbox = require('./functions');
+describe("Part 1: run()", function() {
   var run = toolbox.run;
   var hasRun = false;
   function markRan() {
@@ -15,7 +15,7 @@ describe("Example 2.1: run()", function() {
   });
 });
 
-describe("Exercise 2.2: runOneAfterAnother()", function() {
+describe("Part 2: runOneAfterAnother()", function() {
   var runOneAfterAnother = toolbox.runOneAfterAnother;
   var state = 0;
   function state1() {
@@ -35,7 +35,7 @@ describe("Exercise 2.2: runOneAfterAnother()", function() {
   });
 });
 
-describe("Example 2.5: once()", function() {
+describe("Bonus: once()", function() {
   var once = toolbox.once;
   var count = 0;
   function inc() {
@@ -47,37 +47,5 @@ describe("Example 2.5: once()", function() {
       f();
     }
     expect(count).toBe(1);
-  });
-});
-
-describe("Example 2.6: only()", function() {
-  var only = toolbox.only;
-  var count = 0;
-  function inc() {
-    count++;
-  }
-
-  beforeEach(function() {
-    count = 0;
-  });
-
-  it('only(1, f) runs f only once', function() {
-    var f = only(1, inc);
-    for (var i = 0; i < 10; i++) {
-      f();
-    }
-    expect(count).toBe(1);
-  });
-  it('calling only(2, f) less than 1 time should call f() once', function() {
-    var f = only(2, inc);
-    f();
-    expect(count).toBe(1);
-  });
-  it('calling only(3, f) more than 3 times should call f() 3 times', function() {
-    var f = only(3, inc);
-    for (var i = 0; i < 10; i++) {
-      f();
-    }
-    expect(count).toBe(3);
   });
 });
