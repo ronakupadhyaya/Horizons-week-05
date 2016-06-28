@@ -1,7 +1,7 @@
 <h1>Books</h1>
 
-<a href="?page=1" class="btn btn-default">Previous Page</a>
-<a href="?page=2" class="btn btn-default">Next Page</a>
+<a class="btn btn-default" id='prev'>Previous Page</a>
+<a class="btn btn-default" id='next'>Next Page</a>
 
 <table class="table table-striped table-bordered">
   <tr>
@@ -17,3 +17,19 @@
   </td>
 {{/each}}
 </table>
+<script>
+  var page = 0;
+  $('#prev').click(function() {
+    if (page > 0) {
+      page--;
+    }
+    $(this).attr('href', "?page=" + page);
+  });
+  $('#next').click(function() {
+    console.log(page);
+    if (page < 5) {
+      page++;
+    }
+    $(this).attr('href', "?page=" + page);
+  });
+</script>
