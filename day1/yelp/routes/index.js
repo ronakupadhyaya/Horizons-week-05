@@ -110,4 +110,35 @@ router.post('/restaurants/new', function(req, res, next) {
     })
   });
 });
+// ----------------------------------------------
+// REVIEW ROUTES
+// ----------------------------------------------
+router.get('/reviews/new', function(req,res,next) {
+  Restaurant.find({},{title:1}, function(error, food) {
+    if (error) {
+      res.redirect('/error', {error:error})
+    } else {
+      res.render('newReview',{data:food})
+    }
+  })
+})
+router.post('/reviews/new', function(req,res,next) {
+  Restaurant.find({name:req.body.name}, function(error,food) {
+    if (error) {
+      res.redirect('/error', {error:error})
+    } else {
+      var review = new Review()
+      review.name = food.name
+      review.content = req.body.content
+      review.stars = req.body.stars
+      review.save(function(err) {
+        if (err) {
+          res.redirect(err,{error:err})
+        } else {
+          res.redirect('/restaurants')
+        }
+      })
+    }
+  })
+})
 module.exports = router;

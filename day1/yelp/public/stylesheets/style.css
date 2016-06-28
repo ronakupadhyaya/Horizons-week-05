@@ -59,4 +59,12 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 	height: 34px;
 	margin-left: 5px;
 }
-
+#rating-score {
+	display: none;
+}
+#rating span {
+	color: #f50a25;
+}
+#rating span:hover ~ span {
+  color: #333 !important;
+}
