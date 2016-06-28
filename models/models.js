@@ -72,7 +72,7 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
   //only unfollow if following in the first place
     this.model('Follow').remove({
     user1: this._id,
-    user2: idToFollow
+    user2: idToUnfollow
   }, callback);
 }
 
@@ -89,7 +89,22 @@ var FollowSchema = mongoose.Schema({
 });
 
 var reviewSchema = mongoose.Schema({
-
+  content: {
+    type: String,
+    required: true
+  },
+  stars: {
+    type: Number,
+    required: true
+  },
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Restaurant"
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 });
 
 var restaurantSchema = mongoose.Schema({
@@ -120,16 +135,66 @@ var restaurantSchema = mongoose.Schema({
  closetime: {
    type: Number,
    required: true
+ },
+ totalScore: {
+  type: Number,
+  required: true
+ },
+ reviewCount: {
+  type: Number,
+  required: true
  }
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-
+ this.model('Review').find({
+   restaurantId: restaurantId
+ }).populate('userId').exec(function(error, reviews) {
+   if (error) {
+     callback(error);
+     return
+   }
+   callback(null, reviews);
+ });
 }
 
 //restaurantSchema.methods.stars = function(callback){
 //
 //}
+
+reviewSchema.virtual('score').get(function() {
+ if (this.stars === 0) {
+   return "☆☆☆☆☆"
+ } else if (this.stars === 1) {
+   return "★☆☆☆☆"
+ } else if (this.stars === 2) {
+   return "★★☆☆☆" 
+ } else if (this.stars === 3) {
+   return "★★★☆☆"
+ } else if (this.stars === 4) {
+   return "★★★★☆"
+ } else if (this.stars === 5) {
+   return "★★★★★"
+ }
+});
+
+restaurantSchema.virtual('averageRating').get(function() {
+ if (this.reviewCount>0) {
+   if (Math.floor(this.totalScore/this.reviewCount) === 0) {
+     return "☆☆☆☆☆"
+   } else if (Math.floor(this.totalScore/this.reviewCount) === 1) {
+     return "★☆☆☆☆"
+   } else if (Math.floor(this.totalScore/this.reviewCount) === 2) {
+     return "★★☆☆☆"
+   } else if (Math.floor(this.totalScore/this.reviewCount) === 3) {
+     return "★★★☆☆"
+   } else if (Math.floor(this.totalScore/this.reviewCount) === 4) {
+     return "★★★★☆"
+   } else if (Math.floor(this.totalScore/this.reviewCount) === 5) {
+     return "★★★★★"
+   }
+ }
+});
 
 
 module.exports = {

@@ -16,16 +16,17 @@
 
 <h4>Following:</h4>
 {{#each following}}
-  <div>{{uid2.displayName}}
-	{{uid2.location}}
-  <form  action="/unfollow/{{uid2.id}}" method="post">
-    <input style="display: inline;" type="submit" value="Unfollow">
-  </form>
-</div>
+  	<div>
+	  	{{user2.name}}
+		{{user2.location}}
+		<form  action="/unfollow/{{user2.id}}" method="post">
+			<input style="display: inline;" type="submit" value="Unfollow">
+		</form>
+	</div>
 {{/each}}
 
 <h4>Followers:</h4>
 {{#each followers}}
-  <p>{{uid1.displayName}}</p>
-  <p>{{uid1.location}}
+  <p>{{user1.name}}</p>
+  <p>{{user1.location}}
 {{/each}}
