@@ -33,6 +33,7 @@ router.use(function(req, res, next){
 router.get('/', function(req,res,next) {
   res.redirect('/user/'+req.user._id)
 })
+
 router.get('/user/:id', function(req,res,next) {
   User.findById(req.params.id, function(err,user) {
     user.getFollowers(req.params.id,function(err,followers,following) {
@@ -59,7 +60,7 @@ router.post('/user/:id/:request', function(req,res,next) {
 // ROUTE TO PROFILES LIST
 // ----------------------------------------------
 router.get('/profiles', function(req,res,next) {
-  User.find(function(err, users) {
+  User.find().nin('_id', [req.user._id]).exec(function(err, users) {
     if (err) {
       res.redirect('/error', {error:err})
     } else {
