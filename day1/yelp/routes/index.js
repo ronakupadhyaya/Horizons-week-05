@@ -62,10 +62,18 @@ router.post('/unfollow/:id', function(req, res, next) {
 })
 
 router.get('/restaurants', function(req, res, next) {
-  Restaurant.find(function(err, restaurants) {
+  var list = parseInt(req.query.list || 1);
+  Restaurant.find().limit(10).skip(10*(list-1)).sort({name: 1}).exec(function(err, restaurants) {
     if (err) return next(err);
+    var arr = [];
+    var pageOffset = 10;
+    for (var i=list; i < list + pageOffset; i++) {
+      arr.push(i); //- Math.floor(pageOffset / 2));
+    }
     res.render('restaurants', {
-      restaurants: restaurants
+      restaurants: restaurants,
+      list: list,
+      pageNumber: arr
     })
   })
 })
@@ -120,6 +128,7 @@ router.get('/newReview/:id', function(req, res, next) {
   })
 })
 
+// not saving new reviews properly
 router.post('/newReview/:id', function(req, res, next) {
   var review = new Review({
     content: req.body.content,

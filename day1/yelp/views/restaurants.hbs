@@ -1,4 +1,11 @@
 <h3>All restaurants</h3>
+
+<a href="?list=1" class="btn btn-default">Previous Page</a>
+{{#each pageNumber}}
+<a href="?list={{this}}" class="btn btn-default">{{this}}</a>
+{{/each}}
+<a href="?list=2" class="btn btn-default">Next Page</a>
+
 {{#each restaurants}}
 <p>Name: {{name}}</p>
 <p>Category: {{category}}</p>

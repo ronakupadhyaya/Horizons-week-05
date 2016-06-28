@@ -109,11 +109,15 @@ var restaurantSchema = mongoose.Schema({
 // Closing Time (Number) - an hour of closing time between 0-23
   name: {
     type: String,
+    index: {
     required: true
+    }
   },
   category: {
     type: String,
+    index: {
     required: true
+    }
   },
   // lat: {
   //   type: Number,
@@ -125,15 +129,21 @@ var restaurantSchema = mongoose.Schema({
   // },
   price: {
     type: Number,
+    index: {
     required: true
+    }
   },
   openTime: {
     type: Number,
+    index: {
     required: true
+    }
   },
   closeTime: {
     type: Number,
+    index: {
     required: true
+    }
   }
 });
 
@@ -162,6 +172,10 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback) {
 //
 //}
 
+// RestaurantSchema.statics.getTen = function(n) {
+//     var x = n*10;
+//     this.model('Restaurant').find()
+// }
 
 module.exports = {
   User: mongoose.model('User', userSchema),
