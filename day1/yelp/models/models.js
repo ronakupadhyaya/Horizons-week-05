@@ -22,6 +22,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 var FollowsSchema = mongoose.Schema({
   follower: { //from
     type: mongoose.Schema.ObjectId,
@@ -32,6 +33,9 @@ var FollowsSchema = mongoose.Schema({
     ref: "User"
   }
 });
+=======
+userSchema.methods.getFollows = function (id, callback){
+>>>>>>> master
 
 userSchema.methods.getFollows = function (callback){
   var that = this;
@@ -128,9 +132,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
