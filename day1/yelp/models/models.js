@@ -15,7 +15,6 @@ var userSchema = mongoose.Schema({
   }
 });
 
-<<<<<<< HEAD
 var followSchema = mongoose.Schema({
   from: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,9 +25,9 @@ var followSchema = mongoose.Schema({
     ref: 'User'
   }
 });
-=======
-userSchema.methods.getFollows = function (id, callback){
->>>>>>> master
+
+// userSchema.methods.getFollows = function (id, callback){
+
 
 userSchema.methods.getFollows = function (callback){
   var that = this;
@@ -54,13 +53,37 @@ userSchema.methods.follow = function (idToFollow, callback){
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-
+  Follow.remove({from: this._id, to: idToUnfollow}, callback)
 }
 
 var reviewSchema = mongoose.Schema({
-
+  content: {
+    type: String,
+    required: true
+  },
+  stars: {
+    type: Number,
+    enum: ["1","2","3","4","5"],
+    required: true
+  },
+  restaurantId: {
+    type: mongoose.Schema.Types.ObjectId,
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+  }
 });
 
+// reviewSchema.virtual('totalRating').get(function () {
+//   return this.Stars.reduce(function (prev, cur) {
+//     return prev + cur.contributionAmount;
+//   }, 0);
+// })
+
+// reviewSchema.virtual('rating').get(function () {
+//   var rating = this.totalRating;
+//   return rating/5;
+// })
 
 var restaurantSchema = mongoose.Schema({
   name: {
@@ -69,7 +92,7 @@ var restaurantSchema = mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"],
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO", "Seafood"],
     required: true
   },
   location: {
@@ -78,7 +101,7 @@ var restaurantSchema = mongoose.Schema({
   },
   price: {
     type: Number,
-    enum: ["1","2","3"],
+    enum: ["1","2","3","4"],
     required: true
   },
   openTime: {
@@ -88,26 +111,67 @@ var restaurantSchema = mongoose.Schema({
   closingTime: {
     type: String,
     required: true
+  },
+  totalScore: {
+    type: Number,
+    required: true
+  },
+  reviewCount: {
+    type: Number,
+    required: true
   }
 });
 
-// restaurantSchema.methods.getReviews = function (restaurantId, callback){
+restaurantSchema.virtual('rating').get(function () {
+  if(this.reviewCount === 0) {
+    return "Not Rated Yet";
+  }
+  return parseInt(this.totalScore/this.reviewCount);
+})
 
-<<<<<<< HEAD
-// }
-=======
+restaurantSchema.virtual('relativePrice').get(function () {
+  if (this.price === 1) {
+    return "$"
+  } else if (this.price === 2) {
+    return "$$"
+  } else if (this.price === 3) {
+    return "$$$"
+  } else if (this.price === 4) {
+    return "$$$$"
+  }
+})
+
+restaurantSchema.statics.getTen = function (pageNum, callback) {
+  var page = parseInt(pageNum);
+  Restaurant.find()
+  .limit(10)
+  .skip(10*(page-1)).exec(function(error, restaurant) {
+    callback(restaurant);
+  })
 }
->>>>>>> master
+
+
+restaurantSchema.methods.getReviews = function (callback){
+  var that = this;
+  Review.find({restaurantId: this._id}).populate('userId')
+  .exec(function(error, review) {
+    callback(review)
+  })
+}
+
+
 
 //restaurantSchema.methods.stars = function(callback){
 //
 //}
 
 var Follow = mongoose.model('Follow', followSchema);
+var Review = mongoose.model('Review', reviewSchema);
+var Restaurant = mongoose.model('Restaurant', restaurantSchema)
 
 module.exports = {
   User: mongoose.model('User', userSchema),
-  Restaurant: mongoose.model('Restaurant', restaurantSchema),
-  Review: mongoose.model('Review', reviewSchema),
+  Restaurant: Restaurant,
+  Review: Review,
   Follow: Follow
 };

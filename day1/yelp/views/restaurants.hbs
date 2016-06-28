@@ -1,6 +1,6 @@
 {{! YOUR CODE HERE }}
 
-<h3>Contacts</h3>
+<h3>Restaurants</h3>
 <table class="table table-hover">
   <thead>
     <td><b>Name</b></td>
@@ -11,6 +11,10 @@
     <td><b>Links</b></td>
   </thead>
   <tbody>
+
+  <h3> Page: {{page}} </h3>
+	<a href="/restaurants/lists{{prev}}" class="btn btn-default">Previous Page</a>
+	<a href="/restaurants/lists{{next}}" class="btn btn-default">Next Page</a>
     {{#each restaurants}}
     <tr>
       <td>{{name}}</td>

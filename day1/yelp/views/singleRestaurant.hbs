@@ -1,1 +1,31 @@
 {{! YOUR CODE HERE }}
+
+<h4>Restaurant:</h4>
+<p>{{restaurant.name}}</p>
+
+<h6>Hours Today:</h6>
+<p>{{restaurant.openTime}} to {{restaurant.closingTime}}</p>
+
+<h6>Relative Price:</h6>
+<p>{{restaurant.relativePrice}}</p>
+
+<h6>Relative Rating:</h6>
+<p>{{restaurant.rating}}</p>
+
+
+<ul>
+	{{#each reviews}}
+		<li>{{content}}</li>
+	{{/each}}
+</ul>
+
+<form method="POST" action="/restaurants/{{restaurant._id}}/reviews">
+	<input type="number" name="stars" placeholder="stars" />
+	<input type="text" name="content" placeholder="review" />
+	<input type="submit" value="Add Review" />
+</form>
+
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key={{token}}">
+
+
+<a href="/restaurants/">Back to Restaurants</a>

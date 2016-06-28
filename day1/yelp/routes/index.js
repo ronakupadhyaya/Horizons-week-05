@@ -20,6 +20,12 @@ router.post('/profile/:id/follow', function(req, res) {
   });
 });
 
+router.post('/profile/:id/unfollow', function(req, res) {
+  req.user.unfollow(req.params.id, function() {
+    res.redirect('/profile/' + req.params.id);
+  });
+});
+
 router.get('/profile/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
     user.getFollows(function(following, followers) {
@@ -37,7 +43,7 @@ router.get('/profile/:id', function(req, res) {
   });
 });
 
-router.get('/restaurant/new', function(req, res) {
+router.get('/restaurants/new', function(req, res) {
   res.render('newRestaurant');
 })
 
@@ -49,8 +55,62 @@ var geocoder = NodeGeocoder({
   formatter: null
 });
 
-router.post('/restaurant/new', function(req, res) {
+router.get('/restaurants/:id', function(req, res) {
+  Restaurant.findById(req.params.id, function(err, restaurants) {
+    if (err) console.log(err);
+    restaurants.getReviews(function(reviews) {
+      res.render('singleRestaurant', {
+        restaurant: restaurants,
+        // name: restaurants.name,
+        // openTime: restaurants.openTime,
+        // closingTime: restaurants.closingTime,
+        // latitude: restaurants.location.latitude,
+        // longitude: restaurants.location.longitude,
+        token: "AIzaSyAx0BDtke8HjGsa3kVcuW2Bju_foD949kM",
+        reviews: reviews
+      })
+    })
+  })
+})
+
+router.get('/restaurants/lists/:page', function(req, res) {
+  var page=parseInt(req.params.page || 1);
+  Restaurant.getTen(req.params.page, function(restaurant) {
+    res.render('restaurants', {
+      restaurants: restaurant,
+      prev: page - 1,
+      next: page + 1,
+      page: page
+    })
+  })
+})
+
+router.post('/restaurants/:id/reviews', function(req, res, next) {
+  var review = new Review({
+    content: req.body.content,
+    stars: req.body.stars,
+    restaurantId: req.params.id,
+    userId: req.user._id
+  })
+
+  review.save(function(err, succ) {
+    if (succ) {
+      Restaurant.findByIdAndUpdate(req.params.id, {
+      $inc: {totalScore: parseInt(req.body.stars), reviewCount:1} }, function(err, rest) {
+        if (rest) {
+          res.redirect('/restaurants/' + req.params.id);
+        }
+      })
+    }
+    if (err) {
+      res.send(err);
+    }
+  })
+})
+
+router.post('/restaurants/new', function(req, res) {
   geocoder.geocode(req.body.location, function(err, data) {
+    console.log(data);
     var rest = new Restaurant({
       name: req.body.name,
       category: req.body.category,
@@ -58,11 +118,12 @@ router.post('/restaurant/new', function(req, res) {
       openTime: req.body.openTime,
       closingTime: req.body.closingTime,
       location: {
-        latitude: data.latitude,
-        longitude: data.longitude
-      }
+        latitude: data[0].latitude,
+        longitude: data[0].longitude
+      },
+      totalScore: 0,
+      reviewCount: 0
     })
-
     rest.save(function(err, r) {
       console.log(err);
       res.redirect('/restaurants')
@@ -77,6 +138,7 @@ router.get('/restaurants', function(req, res) {
     })
   })
 })
+
 // router.post('/loc', function(req, res) {
 //   geocoder.geocode(req.body.address, function(err, data) {
 //     res.
