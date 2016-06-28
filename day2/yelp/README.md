@@ -58,12 +58,6 @@ var Restaurant = new Schema({
 
 Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (scroll down to _Indexes_) to see more about usage of indexes with Mongoose.
 
-##Step 0: Seeding your Database 🌱 - `seed.js`
-
-Before we begin, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
-
-Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
-
 
 ##Step 1: Paging Your Results 📋
 The first thing we'll do is page your Restaurant results to allow for displaying large quantites of Restaurants to be more manageable. This time, we'll start with our routes, since understanding how paging will work will begin with the URL.
@@ -112,6 +106,13 @@ app.get("/restaurants/list/:x", function(req, res) {
 ```
 
 **Hint:** To retrieve the next multiple of 10 restaurants, you will be using [`.skip()`](http://mongoosejs.com/docs/api.html#query_Query-skip) (which "skips" a certain number of documents in the database as a part of the query) and [`.limit()`](http://mongoosejs.com/docs/api.html#query_Query-limit) (which sets a cap on the number of documents returned)! Chain these together and retrieve the result using `.exec()` to write this static. 
+
+#### Seeding your Database 🌱 - `seed.js`
+
+Before we continue, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
+
+Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
+
 
 ### A Return to Routes 📥 - `routes/index.js`
 To implement your model static functions in your routes, simply call it on the model (which in your case is probably called `Restaurant` or `models.Restaurant`) and pass in the callback function to handle the results of the query. 
