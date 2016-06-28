@@ -19,19 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 var Restaurant = mongoose.model('Restaurant', {
-  restaurant:{
-    type: String,
-    required: true
-  },
-  menu: [
-  {
-    name: String,
-    price: Number,
-    ingredients: Array
-  }
-  ]
-
-
+  // YOUR MODEL HERE
 });
 
 app.get('/', function(req, res) {
@@ -41,7 +29,6 @@ app.get('/', function(req, res) {
     });
   });
 });
-
 
 app.get('/create', function(req, res) {
   var r = new Restaurant(require('./menu.json'));
