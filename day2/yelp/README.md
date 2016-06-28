@@ -7,6 +7,7 @@ Today, we will be using indexes to build on your work from yesterday to optimize
 ## Table of Contents
 
 * **Recap** 🔁
+* **Step 0:** Seeding Your Database 🌱
 * **Step 1:** Paging Your Results 📋
 * **Step 2:** Sorting Restaurants with Indexes 📊
 
@@ -59,6 +60,12 @@ var Restaurant = new Schema({
 ```
 
 Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (scroll down to _Indexes_) to see more about usage of indexes with Mongoose.
+
+##Step 0: Seeding your Database 🌱 - `seed.js`
+
+Before we begin, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
+
+Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
 
 
 ##Step 1: Paging Your Results 📋
