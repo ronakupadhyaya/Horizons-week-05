@@ -23,12 +23,18 @@ var userSchema = mongoose.Schema({
   }
 });
 
+
 userSchema.methods.getFollowers = function (id, callback){
   this.model('Follow').find({userTo: id}).populate('userFrom').exec(function(error, followers) {
     Follow.find({userFrom: id}).populate('userTo').exec(function(error, following) {
       callback(followers, following);
     });
   });
+}
+
+userSchema.methods.getFollows = function (id, callback){
+
+
 }
 
 userSchema.methods.follow = function (idToFollow, callback){
@@ -127,9 +133,7 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.averageRating = function(callback){
 
-}
 
 
 module.exports = {
