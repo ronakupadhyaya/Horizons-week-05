@@ -1,21 +1,26 @@
-<form>
+<form method="POST">
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" name="name" placeholder="Email">
+    <input type="text" class="form-control" name="name" placeholder="Name">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <input type="text" class="form-control" name="category" placeholder="Category">
   </div>
   <div class="form-group">
-    <label for="exampleInputFile">File input</label>
-    <input type="file" id="exampleInputFile">
-    <p class="help-block">Example block-level help text here.</p>
+    <select class="form-control" name="price" required>
+      <option value="" style="display: none;" disabled="disabled" selected="selected">Relative Price</font></option>
+      <option value="1">$</option>
+      <option value="2">$$</option>
+      <option value="3">$$$</option>
+    </select>
   </div>
-  <div class="checkbox">
-    <label>
-      <input type="checkbox"> Check me out
-    </label>
+  <div class="form-group">
+    <input type="text" class="form-control" name="address" placeholder="Address">
+  </div>
+  <div class="form-group col-sm-6">
+    <input type="text" class="form-control" name="openTime" placeholder="Open Time">
+  </div>
+  <div class="form-group col-sm-6">
+    <input type="text" class="form-control" name="closeTime" placeholder="Close Time">
   </div>
   <button type="submit" class="btn btn-default">Submit</button>
 </form>

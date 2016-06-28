@@ -1,1 +1,10 @@
-{{! YOUR CODE HERE }}
+<ul>
+{{#each restaurants}}
+<li>
+<h4><a href="/singleRestaurant/{{this._id}}">{{name}}</a></h4>
+<p>Price: {{price}}</p>
+<p>Category: {{category}}</p>
+<p>Location: {{address}}</p>
+</li>
+{{/each}}
+</ul>

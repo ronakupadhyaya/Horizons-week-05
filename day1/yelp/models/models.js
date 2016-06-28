@@ -160,31 +160,42 @@ var reviewSchema = mongoose.Schema({
 
 var restaurantSchema = mongoose.Schema({
   name: {
-    type: String
+    type: String,
+    required: true
   },
   price: {
     type: Number,
     min: [1, 'Choose a number between 1-3'],
-    max: [3, 'Choose a number between 1-3']
+    max: [3, 'Choose a number between 1-3'],
+    required: true
   },
   category: {
-    type: String
+    type: String,
+     required: true
+  },
+  address: {
+    type: String,
+     required: true
   },
   latitude: {
-    type: Number
+    type: Number,
+     required: true
   },
-  longitutde: {
-    type: Number
+  longitude: {
+    type: Number,
+    required: true
   },
   openTime: {
     type: Number,
     min: 0,
-    max: [23, 'Choose a number between 0-23']
+    max: [23, 'Choose a number between 0-23'],
+     required: true
   },
   closingTime: {
     type: Number,
     min: 0,
-    max: [23, 'Choose a number between 0-23']
+    max: [23, 'Choose a number between 0-23'],
+     required: true
   },
   totalScore: {
     type: Number
