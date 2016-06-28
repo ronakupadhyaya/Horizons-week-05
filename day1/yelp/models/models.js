@@ -24,7 +24,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
-<<<<<<< HEAD
+
 userSchema.methods.getFollowers = function (callback){
   var that = this;
   Follow.find({from: this._id}).populate('to').exec(function(err, following) {
@@ -32,10 +32,6 @@ userSchema.methods.getFollowers = function (callback){
       callback(following, followers);
     });
   });
-=======
-userSchema.methods.getFollows = function (id, callback){
-
->>>>>>> master
 }
 
 userSchema.methods.follow = function (idToFollow, callback){
@@ -162,15 +158,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
   });
 }
 
-<<<<<<< HEAD
 restaurantSchema.methods.stars = function(callback){
   return (this.totalScore/this.reviewCount);
 }
-=======
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
->>>>>>> master
 
 
 FollowsSchema.plugin(findOrCreate);
