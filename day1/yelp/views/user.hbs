@@ -6,32 +6,34 @@
 		<p class="loc">{{user.location}}</p>
 	</div>
 	<div id="network">
-		<div>
-			<h4>Followers ({{followers.length}})</h4>
-			{{#each followers}}
-				<div>
-					<a href="/user/{{user1Id._id}}">
-						<h5>{{user1Id.displayName}}</h5>
-					</a>
-					<div class="level">
-						<span class="glyphicon glyphicon-map-marker"></span><p class="loc">{{user1Id.location}}</p>
+		<!-- <div id="follower-following"> -->
+			<div>
+				<h4>Followers ({{followers.length}})</h4>
+				{{#each followers}}
+					<div>
+						<a href="/user/{{user1Id._id}}">
+							<h5>{{user1Id.displayName}}</h5>
+						</a>
+						<div class="level">
+							<span class="glyphicon glyphicon-map-marker"></span><p class="loc">{{user1Id.location}}</p>
+						</div>
 					</div>
-				</div>
-			{{/each}}
-		</div>
-		<div>
-			<h4>Following ({{following.length}})</h4>
-			{{#each following}}
-				<div>
-					<a href="/user/{{user2Id._id}}">
-						<h5>{{user2Id.displayName}}</h5>
-					</a>
-					<div class="level">
-						<span class="glyphicon glyphicon-map-marker"></span><p class="loc">{{user2Id.location}}</p>
+				{{/each}}
+			</div>
+			<div>
+				<h4>Following ({{following.length}})</h4>
+				{{#each following}}
+					<div>
+						<a href="/user/{{user2Id._id}}">
+							<h5>{{user2Id.displayName}}</h5>
+						</a>
+						<div class="level">
+							<span class="glyphicon glyphicon-map-marker"></span><p class="loc">{{user2Id.location}}</p>
+						</div>
 					</div>
-				</div>
-			{{/each}}				
-		</div>
+				{{/each}}
+			</div>
+		<!-- </div> -->
 		<div>
 			<h4>Reviews ({{reviews.length}})</h4>
 			{{#each reviews}}
@@ -59,3 +61,20 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	var wrapped = false;
+	if ($(window).width()<=767) {
+		$('#network > div:not(:last-child)').wrapAll('<div id="wrapped" />')
+		wrapped = true
+	}
+	$(window).resize(function(e) {
+		e.preventDefault()
+		if ($(window).width()>=768 && wrapped) {
+			$('#wrapped').contents().unwrap()
+			wrapped = false
+		} else if ($(window).width()<=767 && !wrapped){
+			$('#network > div:not(:last-child)').wrapAll('<div id="wrapped" />')
+			wrapped = true
+		}
+	})
+</script>

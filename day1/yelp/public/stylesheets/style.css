@@ -60,11 +60,8 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 	.level * {
 		max-width: 300px;
 	}
-	.level > div {
-		/*width: 300px;*/
-	}
 }
-#network {
+#network, #followers-following {
 	display: flex;
 	justify-content: space-between;
 }
