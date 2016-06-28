@@ -1,1 +1,3 @@
-{{! YOUR CODE HERE }}
+<h1>{{restaurant.name}}</h1>
+
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&maptype=roadmap">

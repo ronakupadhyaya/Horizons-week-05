@@ -1,1 +1,9 @@
-{{! YOUR CODE HERE }}
+<h1>Restaurants</h1>
+
+{{#each restaurants}}
+<div class="panel panel-default" style="max-width: 50%; border: 0.5px solid gray; padding: 15px">
+  <div class="panel-body">
+    <a href='/restaurants/{{_id}}'><h3>{{name}}</h3></a>
+  </div>
+</div>
+{{/each}}
