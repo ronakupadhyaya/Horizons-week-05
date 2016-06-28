@@ -17,12 +17,17 @@ var geocoder = NodeGeocoder({
 });
 
 // THE WALL - anything routes below this are protected!
+
 router.use(function(req, res, next){
   if (!req.user) {
     res.redirect('/login');
   } else {
     return next();
   }
+});
+
+router.get('/', function(req, res){
+  res.redirect('/restaurants');
 });
 
 router.get('/singleProfile/:id', function(req, res){
@@ -32,11 +37,11 @@ router.get('/singleProfile/:id', function(req, res){
         message: err
       });
     }
-    user.getFollowers(function(followers, followings) {
+    user.getFollowers(function(error, followers, following) {
       res.render('singleProfile', {
         user: user,
-        allFollowers: followers,
-        allFollowings: followings
+        followers: followers,
+        following: following
       })
     })
   });
@@ -99,7 +104,9 @@ router.post('/restaurants/new', function(req, res, next) {
       longitude: data[0].longitude,
       price: req.body.price,
       opentime: parseInt(req.body.opentime),
-      closetime: parseInt(req.body.closetime)
+      closetime: parseInt(req.body.closetime),
+      totalScore: 0,
+      reviewCount: 0
     }).save(function(err2, user){
         if(err2){
           return res.status(400).render('error', {
@@ -118,8 +125,48 @@ router.get('/restaurants/:id', function(req, res, next){
           message: error
         });
     }
-    res.render('singleRestaurant', {
-      restaurant: restaurant
+    restaurant.getReviews(restaurant._id, function(error, reviews){
+      if(error){
+            return res.status(400).render('error', {
+            message: error
+          });
+      }
+      res.render('singleRestaurant', {
+        restaurant: restaurant,
+        reviews: reviews
+      });
+    });
+  });
+});
+
+router.get('/restaurants/:id/review', function(req, res, next){
+  res.render('newReview');
+});
+
+router.post('/restaurants/:id/review', function(req, res, next){
+  Restaurant.findById(req.params.id, function(error, restaurant){
+    if(error){
+      return res.status(400).render('error', {
+      message: error
+      });
+    }
+    if(!req.body.content){
+      return res.redirect('/restaurants/:id/review');
+    }
+    restaurant.totalScore += req.body.stars;
+    restaurant.reviewCount++;
+    var r = new Review({
+      content: req.body.content,
+      stars: parseInt(req.body.stars),
+      restaurantId: req.params.id,
+      userId: req.user._id
+    }).save(function(error, review){
+      if(error){
+        return res.status(400).render('error', {
+        message: error
+        });
+      }
+      res.redirect('/restaurants/' + restaurant._id);
     });
   });
 });
