@@ -1,7 +1,9 @@
 body {
   font: 14px "Avenir Next", Helvetica, Arial, sans-serif;
 }
-
+h2 {
+	margin-top: 10px;
+}
 a {
   color: #00B7FF;
 }
@@ -39,6 +41,16 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 .level {
 	display: flex;
 	margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+	.restaurant-container > .level {
+		display: block;
+	}
+	.restaurant-container {
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+	}
 }
 #network {
 	display: flex;
