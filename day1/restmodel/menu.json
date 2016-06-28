@@ -8,6 +8,30 @@
         "INGREDIENT 1 HERE",
         "INGREDIENT 1 HERE"
       ]
+    },
+    {
+      "name": "HO-LEE SHRIMP",
+      "price": 9.64,
+      "ingredients": [
+        "SHRIMP TEMPURA",
+        "SPICY MAYO",
+        "ASIAN SLAW",
+        "FRESH BEETS",
+        "AVOCADO SALSA"
+      ]
+    },
+    {
+      "name": "FLAMIN’ TUNA",
+      "price": 10.33,
+      "ingredients": [
+        "YELLOWFIN TUNA TARTARE",
+        "GOCHUJANG SAUCE",
+        "ROMAINE",
+        "CARROT",
+        "FRESH BEETS",
+        "AND AVOCADO SALSA"
+      ]
     }
+
   ]
 }

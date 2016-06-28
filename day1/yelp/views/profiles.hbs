@@ -1,1 +1,7 @@
-{{! YOUR CODE HERE }}
+{{#each users}}
+<li>
+	<a href="/singleProfile/{{_id}}">{{displayName}}</a>
+	<p>{{location.full}}</p>
+</li>
+{{/each}}	
+
