@@ -5,7 +5,7 @@ var connect = process.env.MONGODB_URI || require('./connect');
 mongoose.connect(connect);
 
 var userSchema = mongoose.Schema({
-  email: {
+  username: {
     type: String,
     required: true
   },
@@ -18,48 +18,43 @@ var userSchema = mongoose.Schema({
     required: true
   },
   location: {
-      type: String,
-      required: true
+      type: String
   }
 });
 
-userSchema.methods.getFollows = function (id, callback){
- this.model('follow').find({ //this refers to the user that's calling it --> the model
-  followed: id
+var FollowsSchema = mongoose.Schema({
+  follower: { //from
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+  },
+  followed: { //to
+    type: mongoose.Schema.ObjectId,
+    ref: "User"
+  }
 });
-.populate('follower')
-.exec(function(err, myFollowers){
-    //do another find function to find all the people who we follow
+
+userSchema.methods.getFollows = function (callback){
+  var that = this;
+  Follow.find({
+    follower: this._id
+  }).populate('followed')
+  .exec(function(error, usersImFollowing) {
     Follow.find({
-        follower:id
-    })
-    .populate('followed')
-    .exec(function(err, myFollowed){
-      callback(err, myFollowers, myFollowed)
-    })
+      followed: that._id
+    }).populate('follower')
+    .exec(function(error, usersWhoFollowMe) {
+      console.log(usersWhoFollowMe)
+      callback(usersImFollowing, usersWhoFollowMe);
+    });
+  });
 }
-)
-}
+
 userSchema.methods.follow = function (idToFollow, callback){
-    this.model('Follow').findOne({
-      follower: this._id,
-      followed: idToFollow
-    }), function(err, pair){
-        if(!err && pair === null){
-            var n = new Follow({
-                follower: this._id,
-                followed:idToFollow
-            });
-            n.save(function(error){
-                if(error){ callback(error); }
-            });
-        } else if(err){
-            callback(err);
-        } else { callback(pair); }
-    }
 
+  var f = new Follow ({
+    follower: this._id,
+    followed: idToFollow}).save(callback)
 }
-
 userSchema.methods.unfollow = function (idToUnfollow, callback){
   this.model('Follow').findOne({
     follower: this._id,
@@ -75,18 +70,21 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
         callback (deleted);
       }
     });
-  }})
+  }}
 
-var FollowsSchema = mongoose.Schema({
-  follower: {
-    type: mongoose.Schema.ObjectId,
-    ref: User,
-  },
-  followed: {
-    type: mongoose.Schema.ObjectId,
-    ref: User
-  }
+userSchema.methods.isFollowing = function (id, callback){
+  this.model('Follow').findOne({
+    follower: this._id,
+    followed: isFollowing
+}, function(err,pair){
+    if(err){
+        callback(err);
+      } else {
+        callback(true);
+    }
 });
+}
+
 
 var reviewSchema = mongoose.Schema({
   stars: Number,
@@ -97,20 +95,34 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
-  name: String,
-  price: String,
+  name: {
+      type: String,
+      required: true},
+  price: {
+    type: Number,
+    enum: [1,2,3],
+    required: true
+  },
   category: {
     type: String,
-    enum: ["Korean", "French", "American", "Indian"]
+    enum: ["Korean", "French", "American", "Indian", "BYO"]
   },
-  latitude: Number,
-  longitude: Number,
-  openTime: Number,
-  closingTime: Number,
+  location: {
+      latitude: Number,
+      longitude: Number
+    },
+  openTime: {
+    type: Number,
+    required: true
+  },
+  closingTime: {
+      type: Number,
+      required: true
+  },
   totalScore: Number,
   reviewCount: Number
-  }
 });
+
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
