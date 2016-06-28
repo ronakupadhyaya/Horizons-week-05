@@ -50,13 +50,16 @@ app.get('/', function(req, res) {
   // Task 2: Limit to 20 results
   // Task 3: Implement a query parameter req.query.page that lets users page
   //         through books with .skip()
-  Book.find()
+  var page = parseInt(req.query.page || 1)
+  Book.find({'title' :{$regex: /^(b)/i}})
     .sort('title')
     .skip(20*(req.query.page-1))
     .limit(21)
     .exec(function(err, books) {
-    res.render('index', {
-      books: books
+      res.render('index', {
+      books: books,
+      prev: page-1,
+      next: page+1
     });
   });
 });
