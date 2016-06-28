@@ -1,15 +1,19 @@
 <form action="/profile/{{user._id}}/follow" method="post">
-  <input type="submit" value="follow"
+  <input type="submit" value="follow" />
+</form>
+
+<form action="/profile/{{user._id}}/unfollow" method="post">
+  <input type="submit" value="unfollow" />
 </form>
 
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
 
 <h4>Email:</h4>
-<p>{{user.username}}</p>
+<p>{{user.email}}</p>
 
-<h4>Address:</h4>
-<p>{{user.address}}</p>
+<!-- <h4>Address:</h4>
+<p>{{user.address}}</p> -->
 
 <h4>Reviews:</h4>
 <p>{{user.reviews}}</p>
@@ -26,15 +30,10 @@
 
 <h4>Followers:</h4>
 <ul>
-{{#each follower}}
+{{#each followers}}
 <!--  iterate over each person you follow and list their email  -->
   <li>
     {{follower.email}}
   </li>
 {{/each}}
 </ul>
-
-<h4>Followers:</h4>
-{{#each followers}}
-  <p>{{uid1.displayName}}</p>
-{{/each}}

@@ -46,16 +46,40 @@ var Book = mongoose.model('Book', {
 });
 
 app.get('/', function(req, res) {
-  // Task 1: Sort these books by title
-  // Task 2: Limit to 20 results
-  // Task 3: Implement a query parameter req.query.page that lets users page
-  //         through books with .skip()
-  Book.find(function(err, books) {
-    res.render('index', {
-      books: books
-    });
-  });
+  var page = parseInt(req.query.page || 1);
+    book.find(function(err, books){
+      var displayBooks = books.slice(0,20);
+      res.render('index',{
+        books: displayBooks,
+        page: page,
+        prev: page -1,
+        next: page +1,
+        hasNext: books.length === 21
+      });
+    }).limit(21).skip(20*(page-1)).sort({title:1});
 });
+
+
+
+  // Task 1: Sort these books by title
+
+//
+//   Book.sort(function(a, b){
+//     if(a.title < b.title) return -1;
+//     if(a.title>b.title) return 1;
+//     res.render('index', {
+//       title: title
+//     });
+//   });
+//   // Task 2: Limit to 20 results
+//   // Task 3: Implement a query parameter req.query.page that lets users page
+//   //         through books with .skip()
+//   Book.find(function(err, books) {
+//     res.render('index', {
+//       books: books
+//     });
+//   });
+// });
 
 app.get('/import/books', function(req, res) {
   var input = fs.createReadStream(path.join(__dirname, 'books.csv'));

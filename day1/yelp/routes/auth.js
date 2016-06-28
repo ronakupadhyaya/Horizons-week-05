@@ -26,13 +26,14 @@ module.exports = function(passport) {
     var u = new models.User({
       email: req.body.username,
       password: req.body.password,
-      displayName: req.body.displayName
+      displayName: req.body.displayName, 
+      location: req.body.location
     });
 
     u.save(function(err, user) {
       if (err) {
         console.log(err);
-        res.status(500).redirect('/register');
+        res.status(500).redirect('/signup');
         return;
       }
       console.log(user);
@@ -47,7 +48,7 @@ module.exports = function(passport) {
 
   // POST Login page
   router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+    res.redirect('/profile/'+ req.user._id);
   });
 
   // GET Logout page

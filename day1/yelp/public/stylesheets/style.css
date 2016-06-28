@@ -1,5 +1,5 @@
 html {
-  background: url(http://67.media.tumblr.com/b92879483bd60c7db0871cc64b694b05/tumblr_n9hyqfJavs1st5lhmo1_1280.jpg) no-repeat center center fixed;
+  background: url(https://cdn.tookapic.com/photos/2015/261/8/6/86dd58030f395f4c1ed43be6041d80ee.jpg?w=770&q=80&sharp=3&mark=watermark-tileable.png&markfill=1&markalpha=7&s=0eb1109a763690b14a0ca441bdf65bd3) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -8,9 +8,11 @@ html {
   padding:0;
 }
 body {
+  background-color: transparent;;
   /*padding: 50px;*/
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   text-align: center;
+
 }
 
 a {
@@ -18,5 +20,19 @@ a {
 }
 
 .well {
-  background-color: rgba(245, 245, 245, 0.4);
+  background-color: rgba(245, 245, 245, 0.8);
+}
+
+.header1 {
+  background-color: rgba(245, 245, 245, 0.5);
+  display: flex;
+  justify-content: center;
+}
+
+.navbar {
+background-color: rgba(245, 245, 245, 0.8);
+}
+
+.navbar-brand{
+  color: black;
 }

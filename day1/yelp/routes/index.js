@@ -28,7 +28,7 @@ router.use(function(req, res, next){
 router.get('/profile', function(req,res){
   User.find(function(err, users){
       res.render('profiles', {
-        "users": users //why do we do this...
+        "users": users
       });
     });
 });
@@ -37,22 +37,29 @@ router.get('/profile/:id', function(req, res){
   User.findById(req.params.id, function(err, user){
     user.getFollows(function(usersImFollowing, usersWhoFollowMe){
       //check if i am in the list of followers currently
-      var amIAlreadyFollowing = followers.filter(function(follow) {
-        return followed._id !== req.user._id;
+      var amIAlreadyFollowing = usersWhoFollowMe.filter(function(follow) {
+        return usersImFollowing._id !== req.user._id;
       }).length > 0;
       res.render('singleProfile', {
           user: user,
-          following: following,
-          followers: followers,
-          amIAlreadyFollowing: amIAlreadyFollowing
+          following: usersImFollowing,
+          followers: usersWhoFollowMe
       });
     });
   });
 });
 
-router.post('/profile/:id/follow', function(req, res){
-  req.user.follow(req.params.id, function(err){ //Passport-related......empty until you log in and when you login it is the current user
-    res.redirect('/profile'+req.params.id);
+router.post('/profile/:id/follow', function(req, res, next){
+  req.user.follow(req.params.id, function(err){
+    if(err) { return next(err); }
+    res.redirect('/profile/'+req.params.id);
+  });
+});
+
+router.post('/profile/:id/unfollow', function(req, res, next){
+  req.user.unfollow(req.params.id, function(err){
+    if(err) { return next(err); }
+    res.redirect('/profile/'+req.params.id);
   });
 });
 
@@ -85,19 +92,33 @@ router.post('/restaurant/new', function(req, res, next) {
 });
 
   router.get('/restaurants', function(req, res){
-    Restaurant.find(function(err, restaurants) {
+    var page = parseInt(req.query.page || 1);
+    Restaurant.find()
+      .limit(20)
+      .skip(10*(page-1))
+      .exec(function(err,restaurants){
+        console.log(restaurants)
         res.render('restaurants', {
-            restaurants: restaurants
+            restaurants: restaurants})
+
+        });
+    });
+
+
+  router.get('/restaurants/:id', function(req, res){
+    console.log("here");
+    Restaurant.findById( req.params.id, function(err, rest) {
+      console.log("got Restaurant");
+      rest.getReviews(function(reviews) {
+        console.log("got reviews");
+        res.render('singleRestaurant', {
+            restaurants: rest,
+            reviews: reviews
+          });
         });
     });
   });
 
-  router.get('/restaurants/:id', function(req, res){
-    Restaurant.findById( req.params.id, function(err, rest) {
-        res.render('singleRestaurant', {
-            restaurants: rest
-        });
-    });
-  });
+
 
 module.exports = router;
