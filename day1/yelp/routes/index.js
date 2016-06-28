@@ -24,6 +24,30 @@ router.use(function(req, res, next){
   }
 });
 
+router.get('/users/:id', function(req, res, next){
+  var id = req.params.id;
+  User.findById(id, function(err, user) {
+    User.getFollowers(id, function(err, followers, following) {
+      User.isFollowing(req.user._id, function(err, isFollowing){
+        res.render('singleProfile', {
+        user: user,
+        followers: followers,
+        following: following,
+        isFollowing: isFollowing
+        });
+      });
+    });
+  });
+});
+
+router.get('/users', function(req, res, next){
+  User.find(function(err, users){
+    res.render('profiles', {
+      users: users
+    });
+  });
+});
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
