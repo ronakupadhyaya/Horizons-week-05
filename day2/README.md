@@ -6,3 +6,7 @@
 1. [Inline exercise: Pagination with books](books/README.md)
 
 ## Pair Programming Exercise
+<<<<<<< HEAD
+=======
+1. [Yelp! Part 2!](yelp/README.md)
+>>>>>>> master

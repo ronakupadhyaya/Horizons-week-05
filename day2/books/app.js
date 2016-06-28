@@ -50,6 +50,7 @@ app.get('/', function(req, res) {
   // Task 2: Limit to 20 results
   // Task 3: Implement a query parameter req.query.page that lets users page
   //         through books with .skip()
+<<<<<<< HEAD
   var page = parseInt(req.query.page || 1);
   if (page < 1) {
     res.status(400).send('Bad page index'); // to prevent crashing our server;
@@ -62,6 +63,11 @@ app.get('/', function(req, res) {
       prev: page - 1,
       next: page + 1,
       hasNext: books.length === 21 // only a next if there is one after the current page
+=======
+  Book.find(function(err, books) {
+    res.render('index', {
+      books: books
+>>>>>>> master
     });
   });
 });

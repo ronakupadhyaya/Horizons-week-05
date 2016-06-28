@@ -36,9 +36,13 @@ var userSchema = mongoose.Schema({
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 // userSchema.virtual('name.full').get(function(){
 //   return this.name.first + ' ' + this.name.last;
 // })
+=======
+userSchema.methods.getFollows = function (id, callback){
+>>>>>>> master
 =======
 userSchema.methods.getFollows = function (id, callback){
 >>>>>>> master
