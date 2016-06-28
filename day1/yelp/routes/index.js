@@ -34,11 +34,8 @@ router.get('/singleRestaurant/:id', function(req, res, next) {
       console.log(restaurant.latitude);
       console.log(restaurant.longitude);
     res.render('singleRestaurant', {
-      restaurant: restaurant
-      // url: "https://maps.googleapis.com/maps/api/staticmap?center=" 
-      // + restaurant.latitude + "," 
-      // + restaurant.longitude + "&zoom=15&size=600x300&maptype=roadmap&markers=color:red|" 
-      // + restaurant.latitude + "," + restaurant.longitude 
+      restaurant: restaurant,
+      key: process.env.GEOCODING_API_KEY
     });
   })
   
