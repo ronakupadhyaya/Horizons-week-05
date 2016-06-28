@@ -25,7 +25,9 @@ module.exports = function(passport) {
     }
     var u = new models.User({
       email: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      name: req.body.displayName,
+      location: 'Michigan'
     });
 
     u.save(function(err, user) {
@@ -46,8 +48,10 @@ module.exports = function(passport) {
 
   // POST Login page
   router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
+    res.redirect('/profiles');
   });
+
+
 
   // GET Logout page
   router.get('/logout', function(req, res) {

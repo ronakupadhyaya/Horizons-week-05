@@ -48,7 +48,7 @@ router.get('/profile/:id', function(req, res) {
     if (err) return next(err);
     User.getFollowers(user.id, function(err, followers, following) {
       if (err) return next(err);
-      res.render('profile', {
+      res.render('singleProfile', {
         user: user,
         following: following,
         followers: followers

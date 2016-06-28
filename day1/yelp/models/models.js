@@ -23,42 +23,19 @@ var userSchema = mongoose.Schema({
   }
 });
 
-userSchema.methods.getFollowers = function (id, callback) {
-// create array of all followers and all following
-// populate allFollowers and allFollowing arrays with the ids corresponding to this user's followers
-// allFollowers = [{
-//     from: {
-//         _id: ID_OF_FOLLOWER,
-//         displayName: "Moose Paksoy",
-//         email: "moose@joinhorizons.com",
-//         location: "San Francisco"
-//     },
-//     to: YOUR_USER_ID
-// }, {
-//     from: {
-//         _id: ID_OF_FOLLOWER,
-//         displayName: "Fast Lane",
-//         email: "lane@joinhorizons.com",
-//         location: "New York City"
-//     },
-//     to: YOUR_USER_ID
-// }];
-
-// allFollowing = [{
-//     from: YOUR_USER_ID,
-//     to: {
-//         _id: ID_OF_USER_YOU_ARE_FOLLOWING,
-//         displayName: "Josh",
-//         email: "josh@joinhorizons.com",
-//         location: "Rutgers"
-//     }
-// }]
-
-  this.model('Follow').find({userFrom: id})
-    .populate('userTo').exec(function(err, followers) {
-        this.model('Follow').find({userTo: id})
-          .populate('userFrom').exec(function(err, following) {
-            callback(err, followers, following);
+userSchema.methods.getFollowers = function (cb) {
+  var that = this;
+  this.model('Follow').find({
+    userFrom: this._id
+  })
+    .populate('userTo')
+    .exec(function(err, followers) {
+        that.model('Follow').find({
+          userTo: that._id
+        })
+          .populate('userFrom')
+          .exec(function(err, following) {
+            cb(err, followers, following);
           })
     })
 }
@@ -77,7 +54,7 @@ userSchema.methods.follow = function (idToFollow, callback) {
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-  this.model('Follow').find({userFrom: this._id, userTo: idToFollow}).remove(function(err) {
+  this.model('Follow').find({userFrom: this._id, userTo: idToUnFollow}).remove(function(err) {
     callback(err);
   })
 }
@@ -86,12 +63,12 @@ var FollowsSchema = mongoose.Schema({
   // userFrom is the person following someone else 
   userFrom: {
     type: mongoose.Schema.ObjectId,
-    ref: User
+    ref: 'User'
   },
   // userTo is the person being followed
   userTo: {
     type: mongoose.Schema.ObjectId,
-    ref: User
+    ref: 'User'
   }
 });
 
@@ -101,7 +78,41 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
-
+//   Name (String) - the name of the Restaurant
+// Category (String) - the type of the Restaurant ("Korean", "Barbeque", "Casual")
+// Latitude (Number) - the latitude of the Restaurant's location
+// Longitude (Number) - the longitude of the Restaurant's location
+// Price (Number) - the descriptive scaling of a restaurants price, on a scale of 1-3
+// Open Time (Number) - an hour of opening time (assume Eastern Time, UTC-4) between 0-23
+// Closing Time (Number) - an hour of closing time between 0-23
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  // lat: {
+  //   type: Number,
+  //   required: true
+  // },
+  // long: {
+  //   type: Number,
+  //   required: true
+  // },
+  price: {
+    type: Number,
+    required: true
+  },
+  openTime: {
+    type: Number,
+    required: true
+  },
+  closeTime: {
+    type: Number,
+    required: true
+  }
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){

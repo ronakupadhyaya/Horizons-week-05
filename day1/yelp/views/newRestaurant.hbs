@@ -1,1 +1,24 @@
-{{! YOUR CODE HERE }}
+<form method="POST">
+
+<h4>Name:</h4>
+<input type="text" value="{{restaurant.name}}" name="name" class="form-control">
+
+<h4>Category:</h4>
+<input type="text" value="{{restaurant.category}}" name="category" class="form-control">
+
+<h4>Price:</h4>
+<input type="text" value="{{restaurant.price}}" name="price" class="form-control">
+
+<!-- <h4>Address:</h4>
+<p>{{restaurant.lat}}</p>
+<p>{{restaurant.long}}</p>
+<input type="text" value="{{contact.name}}" name="name" class="form-control"> -->
+
+<h4>Open Time</h4>
+<input type="text" value="{{restaurant.openTime}}" name="openTime" class="form-control">
+
+<h4>Close Time</h4>
+<input type="text" value="{{restaurant.closeTime}}" name="closeTime" class="form-control">
+
+<button class="btn btn-success">Save restaurant</button>
+</form>

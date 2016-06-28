@@ -1,4 +1,7 @@
 <h4>Users:</h4>
 {{#each users}}
-<p>{{user.name}}</p>
+<p>{{name}}</p>
+<a class="btn btn-default" href="/profiles/{{_id}}">View profile</a></td>
+<a class="btn btn-default" href="/restaurant/new">Add a restaurant</a></td>
+
 {{/each}}
