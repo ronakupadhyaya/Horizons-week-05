@@ -1,0 +1,24 @@
+<h1>Books</h1>
+
+Page: {{page}}
+{{#if prev}}
+<a href="?page={{prev}}" class="btn btn-default">Previous Page</a>
+{{/if}} 
+{{#if hasNext}}
+<a href="?page={{next}}" class="btn btn-default">Next Page</a>
+{{/if}} 
+
+<table class="table table-striped table-bordered">
+  <tr>
+    <th>
+      Title
+    </th>
+  </tr>
+{{#each books}}
+  <tr>
+    <td>
+      {{title}}
+    </td>
+  </td>
+{{/each}}
+</table>

@@ -59,18 +59,20 @@ router.get("/restaurants", function(req, res){
             .exec(function(err, restaurants){
     res.render("restaurants",{
       restaurants: restaurants,
+      page : page,
+      hasPrev: page>1,
       prev : page - 1,
       next : page +1
     })
   })
 })
-router.get("/restaurants", function(req, res){
-  Restaurant.find(function(err, restaurants){
-    res.render("restaurants",{
-      restaurants: restaurants
-    })
-  })
-})
+// router.get("/restaurants", function(req, res){
+//   Restaurant.find(function(err, restaurants){
+//     res.render("restaurants",{
+//       restaurants: restaurants
+//     })
+//   })
+// })
 
 router.get("/restaurants/:id", function(req, res){
   Restaurant.findById(req.params.id, function(err, restaurants){

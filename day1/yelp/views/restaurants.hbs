@@ -1,8 +1,12 @@
 {{! YOUR CODE HERE }}
 <ul>
+Page: {{page}}
+{{#if prev}}
+	<a href="?page={{prev}}">Previous page</a>
+	{{/if}}	
+	<a href="?page={{next}}">Next page</a>
 
-{{!-- 	<a href="?page={{prev}}">Previous page</a>
- --}}	
+	
 {{#each restaurants}}
 <li><a href="/restaurants/{{_id}}"><h1>{{name}}</h1> - <strong>{{price}}</strong> - 
 

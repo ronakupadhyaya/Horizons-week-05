@@ -32,6 +32,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+<<<<<<< HEAD
 // userSchema.virtual("name.full").get(function(){
 //   return this.name.first + ' ' + this.name.last;
 // })
@@ -52,6 +53,10 @@ userSchema.methods.getFollows = function (callback){
     });
   }
   });
+=======
+userSchema.methods.getFollows = function (id, callback){
+
+>>>>>>> master
 }
 
 userSchema.methods.follow = function (idToFollow, callback){
@@ -146,9 +151,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 this.model("Review").find({Restaurant: restaurantId})
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
