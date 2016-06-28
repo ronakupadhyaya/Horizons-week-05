@@ -152,8 +152,6 @@ var restaurantSchema = mongoose.Schema({
   reviewCount: {type: Number, default: 0}
 });
 
-var Restaurant = mongoose.model('Restaurant', restaurantSchema);
-
 // gets reviews for a particular restaurant ID
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
   Review.find({rId: restaurantId}).populate('uId').exec(function(err, reviews){
@@ -161,7 +159,6 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
   });
 }
 
-Restaurant = mongoose.model('Restaurant', Restaurant);
 
 restaurantSchema.virtual('averageRating').get(function(callback){
   var average = this.totalScore / this.reviewCount;
@@ -171,7 +168,7 @@ restaurantSchema.virtual('averageRating').get(function(callback){
 
 module.exports = {
   User: mongoose.model('User', userSchema),
-  Restaurant: Restaurant,
+  Restaurant: mongoose.model('Restaurant', restaurantSchema),
   Review: Review,
   Follow: Follow
 };
