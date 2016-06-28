@@ -10,7 +10,7 @@ The goal of this exercise is to get comfortable using `.sort()`,
 ## Instructions
 
 1. Install dependencies `npm install`
-1. Copy out `connect.js` into `week05/day2/books`
+1. Copy your `connect.js` into `week05/day2/books`
 1. Start your app with `npm start`
 1. Import books into your table using [http://localhost:3000/import/books](http://localhost:3000/import/books)
 1. Open `app.js` and `index.hbs`
