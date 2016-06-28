@@ -20,7 +20,11 @@
 <p>{{user.location}}</p>
 
 <h4>Reviews:</h4>
-<p>{{user.reviews}}</p>
+{{#each reviews}}
+<p><strong>{{this.restaurant.name}}</strong></p>
+<p>{{this.content}}</p>
+<p>rating: {{this.stars}}</p>
+{{/each}}
 
 <h4>Following:</h4>
 <ul>

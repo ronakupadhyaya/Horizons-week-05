@@ -1,6 +1,17 @@
+{{#if prev}}
+<a href="/restaurants/?page={{prev}}" class="btn btn-default">Previous Page</a>
+{{/if}}
+{{#if hasNext}}
+<a href="/restaurants/?page={{next}}" class="btn btn-default">Next Page</a>
+{{/if}}
+
 <ul>
 {{#each restaurants}}
 <li><h1>{{name}}</h1> - <strong>{{price}}</strong></li>
 <a href="/restaurant/{{_id}}">View Restaurant</a>
 {{/each}}
+
 </ul>
+
+<a href="/restaurant/new">Add a restaurant</a>
+<a href="/">Back</a>

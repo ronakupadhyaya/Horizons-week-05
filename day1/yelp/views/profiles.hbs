@@ -6,6 +6,16 @@
 	<div class="email">Email: {{this.email}}</div>
 	<div class="location">Location: {{location}}</div>	
 	<a href="/profile/{{this._id}}">View Full Profile</a>
+	<!-- {{#if amIAlreadyFollowing}}
+		<form action="/profile/{{this._id}}/unfollow" method="post">
+			<input type="submit" value="Unfollow">
+		</form>
+		{{else}}
+		<form action="/profile/{{this._id}}/follow" method="post">
+			<input type="submit" value="Follow">
+		</form>
+	{{/if}} -->
 </div>
 {{/each}}
+<a href="/restaurants">View all restaurants</a>
 <a href="/logout">Logout</a>

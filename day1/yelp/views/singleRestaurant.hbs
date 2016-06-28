@@ -1,1 +1,15 @@
 <h1>{{restaurant.name}}</h1>
+<div>Category: {{restaurant.category}}</div>
+<div>Price: {{restaurant.price}}</div>
+<div>Opens at: {{restaurant.openTime}}</div>
+<div>Closes at: {{restaurant.closingTime}}</div>
+<div>Rating: {{restaurant.averageRating}}</div>
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key={{key}}">
+<h2>Reviews:</h2>
+{{#each reviews}}
+<div><strong>{{this.user.displayName}}</strong></div>
+<div>{{this.content}}</div>
+<div>rating: {{this.stars}}</div>
+{{/each}}
+<a href="/review/{{restaurant._id}}/new">Add review</a>
+<a href='/restaurants'>Back to restaurants</a>
