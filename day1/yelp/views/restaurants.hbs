@@ -13,7 +13,7 @@
 				<h4>{{category}}</h4>
 				<div class="level">
 					<span class="glyphicon glyphicon-map-marker"></span>
-					<p class="loc">{{latitude}}, {{longitude}}</p>
+					<p class="loc" id="loc{{_id}}"></p>
 				</div>
 				<div class="level">
 					<div style="padding-right:20px">
@@ -45,6 +45,13 @@
 				var flooredVal = Math.floor({{totalScore}}/{{reviewCount}}) || 0
 				$('#stars{{_id}} span:nth-child('+flooredVal+')').nextAll().css('color','#333')
 				$('#rating{{_id}}').text('('+val+')')
+				$.ajax({
+					type: "GET",
+					url: "https://maps.googleapis.com/maps/api/geocode/json?latlng={{latitude}},{{longitude}}&key=AIzaSyDHY_Z52IV3Et-b4q-KrcOK-6r5FXW4cxw",
+					success: function(data) {
+						$('#loc{{_id}}').text(data.results[0].formatted_address)
+					}
+				})
 			</script>
 		</div>
 		{{/each}}
@@ -54,4 +61,5 @@
 
 <script type="text/javascript">
 	$('#browse').toggleClass('active')
+	$('#loc').text()
 </script>
