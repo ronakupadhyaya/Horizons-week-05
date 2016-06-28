@@ -1,11 +1,12 @@
 <h4>Name:</h4>
-<p>{{user.displayName}}</p>
+
+<p>{{displayName}}</p>
 
 <h4>Email:</h4>
-<p>{{user.username}}</p>
+<p>{{email}}</p>
 
 <h4>Address:</h4>
-<p>{{user.address}}</p>
+<p>{{address}}</p>
 
 <h4>Reviews:</h4>
 <p>{{user.reviews}}</p>
@@ -23,3 +24,11 @@
 {{#each followers}}
   <p>{{uid1.displayName}}</p>
 {{/each}}
+
+<a href = '/profiles' ><p>LE PROFILES!!!</p></a>
+
+<form method="post">
+
+<input type="submit" name = "follow" value="{{follow}}">
+
+</form>

@@ -1,1 +1,8 @@
-{{! YOUR CODE HERE }}
+Users: {{length}}
+
+
+{{#each users}}
+
+<a href="/user/{{_id}}"><p>{{displayName}}</p></a>
+<p>{{location}}</p>
+{{/each}}

@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 var Restaurant = mongoose.model('Restaurant', {
-  // YOUR MODEL HERE
+  
 });
 
 app.get('/', function(req, res) {
