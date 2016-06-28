@@ -132,9 +132,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
