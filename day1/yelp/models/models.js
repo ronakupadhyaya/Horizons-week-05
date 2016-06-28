@@ -24,7 +24,6 @@ var userSchema = mongoose.Schema({
 userSchema.methods.getFollows = function (callback)
 {
   var id = this._id;
-  console.log("ID:" + id);
   this.model('Follow').find({
     "$or": 
     [
