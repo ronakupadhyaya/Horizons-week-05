@@ -23,7 +23,7 @@ app.use(cookieParser());
 // Enable mongodb debug messages!
 mongoose.set('debug', true);
 
-var Book = mongoose.model('Book', {
+var bookSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -45,14 +45,30 @@ var Book = mongoose.model('Book', {
   }
 });
 
+bookSchema.index({
+  title: 1
+});
+
+var Book = mongoose.model('Book', bookSchema);
+
 app.get('/', function(req, res) {
   // Task 1: Sort these books by title
   // Task 2: Limit to 20 results
   // Task 3: Implement a query parameter req.query.page that lets users page
   //         through books with .skip()
-  Book.find(function(err, books) {
+  var pageNumber = parseInt(req.query.page) || 1;
+  if (pageNumber < 1) {
+    res.redirect('/');
+    return;
+  }
+  Book.find().sort({title: 1}).limit(21).skip((pageNumber-1) * 20).exec(function(err, books) {
+    var displayBooks = books.slice(0, 20);
     res.render('index', {
-      books: books
+      books: displayBooks,
+      page: pageNumber,
+      prev: pageNumber -1,
+      next: pageNumber +1,
+      hasNext: books.length === 21
     });
   });
 });
