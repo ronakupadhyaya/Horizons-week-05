@@ -52,19 +52,20 @@ var Book = mongoose.model('Book', {
 app.get('/', function(req, res) {
   //use query page parameter to keep track of page, can ultilize
   //through simple algorithm to keep order straight
-  var page=parseInt(req.qeury.page || 1}
+  var page=parseInt(req.query.page || 1)
   // Task 1: Sort these books by title
   // Task 2: Limit to 20 results
   // Task 3: Implement a query parameter req.query.page that lets users page
   //         through books with .skip()
   Book.find() //returns array o all things, whereas findOne only returns one thing
-  .limit(10) //direcive to mongoose to only return 10 things
-  .skip(10*page-1)//skip the first 10 and get the next 10
+  .limit(21) //direcive to mongoose to only return 10 things
+  .skip(20*page-1)//skip the first 10 and get the next 10
   .sort({title:1}) //sort bualphabetical order (-1= reverse alphabetical order)
   //when storing by multiple items can sort by multiple items but will take the 
   //keys in subsequenct order
   ///can use variables to add in pagination
   .exec(function(err, books) {
+    if(page!==1 && books.length===21){
     res.render('index', {
       books: books,
       //eventually want to remove previous page button at 1 and
@@ -72,6 +73,23 @@ app.get('/', function(req, res) {
       prev: page-1,
       next: page+1
     });
+  }
+  if(page===1){
+    res.render('index', {
+      books: books,
+      //eventually want to remove previous page button at 1 and
+      //next page button on last page
+      next: page+1
+    });
+  }
+  if(books.length!==21){
+    res.render('index', {
+      books: books,
+      //eventually want to remove previous page button at 1 and
+      //next page button on last page
+      prev: page-1
+    });
+  }
   });
 });
 
