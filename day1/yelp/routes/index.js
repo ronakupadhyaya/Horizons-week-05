@@ -31,7 +31,27 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(err);
   //   console.log(data);
   // });
-  
+
 });
+
+router.get('/singleProfile/:id', function(req, res, next){
+  User.find({id: req.params._id}, function(err, user){
+    if(err){
+      console.log(err);
+    }else{
+      user.getFollows(user.id, function(followers, followings){
+        res.render({
+          user: user,
+          following: following,
+          followers: followers
+        })
+      });
+    }
+  });
+});
+
+  
+
+
 
 module.exports = router;
