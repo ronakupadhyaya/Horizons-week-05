@@ -51,6 +51,20 @@ router.post("/restaurant/new", function(req, res, next){
 })
 
 router.get("/restaurants", function(req, res){
+  var page = parseInt(req.query.page || 1)
+  Restaurant.find()
+            .limit(10)
+            .skip(10 * (page -1)
+            .sort({name: 1})  
+            .exec(function(err, restaurants){
+    res.render("restaurants",{
+      restaurants: restaurants,
+      prev : page - 1,
+      next : page +1
+    })
+  })
+})
+router.get("/restaurants", function(req, res){
   Restaurant.find(function(err, restaurants){
     res.render("restaurants",{
       restaurants: restaurants
