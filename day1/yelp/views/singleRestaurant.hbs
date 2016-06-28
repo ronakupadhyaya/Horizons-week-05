@@ -1,1 +1,9 @@
-{{! YOUR CODE HERE }}
+<div style = "border: 0.5px solid white; padding: 10px 30px 10px 30px; text-align: right; margin-bottom: 10px; max-width: 70%; display: inline-block; background-color: rgb(169,169,169); color: black; border-radius: 20px;clear: both">
+    <p style="font-size: 8pt; font-weight: 700; margin: 0">{{restaurant.name}}</p>
+    <p style="font-size: 5pt; font-weight: 700; margin: 0">{{restaurant.price}}</p>
+</div>
+<h1>Reviews</h1>
+{{#each reviews}} 
+<p>{{stars}}</p>
+<p>{{content}}</p>
+{{/each}}
