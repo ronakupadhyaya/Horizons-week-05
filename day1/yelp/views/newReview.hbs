@@ -2,7 +2,7 @@
 	<h3>New Restaurant</h3>
 	<div class="form-group">
 		<label>Name of Establishment</label>
-		<input id="restaurant" type="text" name="name" class="form-control" value="{{name}}">
+		<input id="restaurant" type="text" name="name" class="form-control" value="{{name}}" data-provide="typeahead" autocomplete="off">
 	</div>
 	<div class="form-group">
 		<label>Review Body</label>
@@ -19,7 +19,7 @@
 				<span class="glyphicon glyphicon-star"></span>
 			</div>
 		</div>
-		<input type="text" name="rating" id="rating-score">
+		<input type="text" name="rating" id="rating-score" value="5">
 	</div>
 	<div class="form-group">
 		<button class="btn btn-success">Save</button>
@@ -33,10 +33,13 @@
 	$('#review').toggleClass('active')
 	$('span').mouseover(function(e) {
 		e.preventDefault();
-		$('#rating-score').val(($(this).prevAll().length+1))
 		$(this).nextAll().css('color','#333');
 		$(this).css('color','#f50a25');
 		$(this).prevAll().css('color','#f50a25');
+	})
+	$('span').click(function(e) {
+		e.preventDefault()
+		$('#rating-score').val(($(this).prevAll().length+1))
 	})
 </script>
 <!-- 1a86e3 -->

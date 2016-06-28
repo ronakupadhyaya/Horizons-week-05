@@ -65,6 +65,3 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 #rating span {
 	color: #f50a25;
 }
-#rating span:hover ~ span {
-  color: #333 !important;
-}

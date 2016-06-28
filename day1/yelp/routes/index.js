@@ -98,6 +98,7 @@ router.post('/restaurants/new', function(req, res, next) {
     restaurant.opentime = req.body.opentime
     restaurant.closingtime = req.body.closingtime
     restaurant.reviewCount = 0
+    restaurant.totalScore = 0
 
     restaurant.save(function(error) {
       if (error) {
@@ -114,27 +115,42 @@ router.post('/restaurants/new', function(req, res, next) {
 // REVIEW ROUTES
 // ----------------------------------------------
 router.get('/reviews/new', function(req,res,next) {
-  Restaurant.find({},{title:1}, function(error, food) {
+  Restaurant.find({},{name:1, _id:0}, function(error, food) {
     if (error) {
       res.redirect('/error', {error:error})
     } else {
-      res.render('newReview',{data:food})
+      console.log(JSON.stringify(food.map(function(a) {return a.name})))
+      res.render('newReview',{
+        data:JSON.stringify(food.map(function(a) {return a.name}))
+      })
     }
   })
 })
 router.post('/reviews/new', function(req,res,next) {
-  Restaurant.find({name:req.body.name}, function(error,food) {
+  console.log('post noticed')
+  Restaurant.findOne({name:req.body.name}, function(error,food) {
     if (error) {
-      res.redirect('/error', {error:error})
+      res.redirect('/reviews/new')
     } else {
+      console.log('restaurant found')
+      console.log(food)
       var review = new Review()
-      review.name = food.name
+      review.rId = food._id
+      review.uId = req.user._id
       review.content = req.body.content
-      review.stars = req.body.stars
+      review.stars = req.body.rating
+      console.log(review)
       review.save(function(err) {
         if (err) {
           res.redirect(err,{error:err})
         } else {
+          console.log('review saved')
+          Restaurant.update({_id:food._id}, {$inc: {
+            totalScore: req.body.stars, // still returns NaN
+            reviewCount: 1
+          }}, function(error) {
+            if (error) {console.log('error!!!!!')}
+          })
           res.redirect('/restaurants')
         }
       })

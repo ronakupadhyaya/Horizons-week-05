@@ -141,8 +141,8 @@ var restaurantSchema = mongoose.Schema({
   price: {type: String, required: true},
   opentime: {type: Number, required: true},
   closingtime: {type: Number, required: true},
-  totalScore: {type: Number},
-  reviewCount: {type: Number}
+  totalScore: {type: Number, default: 0},
+  reviewCount: {type: Number, default: 0}
 });
 
 
