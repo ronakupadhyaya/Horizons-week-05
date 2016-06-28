@@ -23,11 +23,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('secretCat'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+var connect = process.env.MONGODB_URI || require('./models/connect');
+mongoose.connect(connect);
 
 // Passport stuff here
 
 app.use(session({
-    secret: process.env.SECRET || "Secret",
+    secret: process.env.SECRET,
     name: 'Catscoookie',
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     proxy: true,
@@ -51,7 +53,7 @@ passport.deserializeUser(function(id, done) {
 // passport strategy
 passport.use(new LocalStrategy(function(username, password, done) {
     // Find the user with the given username
-    models.User.findOne({ email: username }, function (err, user) {
+    models.User.findOne({ username: username }, function (err, user) {
       // if there's an error, finish trying to authenticate (auth failed)
       if (err) {
         console.error(err);
