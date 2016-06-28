@@ -1,7 +1,9 @@
 {{! YOUR CODE HERE }}
 <nav id="pagination">
   <ul class="pager">
+  	{{#if prev}}
     <li class="previous clicker"><a href="/restaurants/list/{{prev}}"><span aria-hidden="true">&lt;</span></a></li>
+    {{/if}}
     <li class="next clicker"><a href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
   </ul>
 </nav>
@@ -68,9 +70,6 @@
 <script type="text/javascript">
 	$('#browse').toggleClass('active')
 	$('#loc').text()
-	if (!{{prev}}) {
-		$('.previous.clicker').toggleClass('disabled')
-	}
 	if (!{{isNext}}) {
 		$('.next.clicker').toggleClass('disabled')
 	}

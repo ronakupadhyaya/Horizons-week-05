@@ -39,6 +39,19 @@
   -webkit-animation: one 1.5s;
   -webkit-animation-direction: alternate;
   -webkit-animation-iteration-count:infinite;
+
+  -moz-animation: one 1.5s;
+  -moz-animation-direction: alternate;
+  -moz-animation-iteration-count: infinite;
+
+  -ms-animation: one 1.5s;
+  -ms-animation-direction: alternate;
+  -ms-animation-iteration-count: infinite;
+
+  -o-animation: one 1.5s;
+  -o-animation-direction: alternate;
+  -o-animation-iteration-count: infinite;
+
 }
 #logo > #center {
   animation-name: blip;
@@ -49,6 +62,18 @@
   -webkit-animation: blip 1.5s;
   -webkit-animation-direction: alternate;
   -webkit-animation-iteration-count:infinite;
+
+  -moz-animation: blip 1.5s;
+  -moz-animation-direction: alternate;
+  -moz-animation-iteration-count: infinite;
+
+  -ms-animation: blip 1.5s;
+  -ms-animation-direction: alternate;
+  -ms-animation-iteration-count: infinite;
+
+  -o-animation: blip 1.5s;
+  -o-animation-direction: alternate;
+  -o-animation-iteration-count: infinite;
 }
 
 
@@ -62,10 +87,46 @@
   0% {height: 0%}
   100% {height: 50%}
 }
+
 @-webkit-keyframes one {
+  0% {height: 0%}
   100% {height: 50%}
 }
 @-webkit-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+
+@-moz-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-moz-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+
+@-ms-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-ms-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+
+@-o-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-o-keyframes blip {
+  0% {width: 0%}
   30% {width: 0%}
   90% {width: 30%;}
   100% {width: 30%;}
