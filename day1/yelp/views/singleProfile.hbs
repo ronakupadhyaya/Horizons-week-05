@@ -16,21 +16,21 @@
 <p>{{user.location}}</p>
 
 <h4>Reviews:</h4>
-<p>{{user.reviews}}</p>
+{{#each reviews}}
+{{#each stars}}
+  <span>☆</span>
+{{/each}}
+<!-- <ul><h3>{{stars}} <span class="glyphicon glyphicon-star" aria-hidden="true"></span> -->
+</h3>{{content}}<p style="color: grey">{{restaurant.name}}</p></ul>
+
+{{/each}}
 
 <h4>Following:</h4>
 {{#each following}}
-  <!-- <li>{{this}}</li> -->
-  <div><li>{{to.displayName}} <p style="color: grey">{{to.email}}</p></li>
-  <form  action="/profile/{{_id}}/unfollow" method="post">
-    <input style="display: inline;" type="submit" value="Unfollow">
-  </form>
-  <p>{{following.location}}</p>
-</div>
+    <ul>{{to.displayName}} <p style="color: grey">{{to.email}} {{to.location}}</p></ul>
 {{/each}}
 
 <h4>Followers:</h4>
-{{#each allFollowers}}
-  <p>{{from.displayName}}</p>
-  <p>{{from.location}}</p>
+{{#each followers}}
+  <ul>{{from.displayName}} <p style="color: grey">{{from.location}}</p></ul>
 {{/each}}

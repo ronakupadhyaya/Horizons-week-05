@@ -42,43 +42,19 @@ userSchema.methods.getFollows = function (callback){
   var that = this;
   Follow.find({
     from: this._id
-  })
+  }).populate('to') //this is the following
   .exec(function(error, allFollowing) {
     if(error) return callback(error);
     Follow.find({
       to: that._id
-    }).populate('from to')
+    }).populate('from')
     .exec(function(error, allFollowers) {
-      console.log(allFollowers)
+      // console.log("DARWISH", allFollowing)
+      // console.log("DARWISH 2", allFollowers)
       callback(error, allFollowing, allFollowers);
     });
   });
 }
-
-  //   Follow.find({
-  //     from: this._id
-  //   }, function(err, allFollowing) {
-  //     callback(allFollowing)
-  //   });
-  // };
-
-//   this.model('Follow').find({
-//     to: this._id
-//   })
-//     .populate('from')
-//     .exec(function(err, allFollowing){
-//       console.log("He " + allFollowing);
-//       this.model('Follow').find({
-//         from: this._id
-//       })
-//         .populate('to')
-//         .exec(function(err, allFollowers){
-//           callback(err, allFollowing, allFollowers)
-//       });
-//     }.bind(this)
-//   )
-// }
-
 
 userSchema.methods.follow = function (idToFollow, callback){
   new Follow({
@@ -108,6 +84,14 @@ userSchema.methods.isFollowing = function(id, callback){
   })
 }
 
+userSchema.methods.getReviews = function (userId, callback){
+  Review.find({user: userId}).populate('restaurant')
+  .exec(function(error, allReviews) {
+    console.log(allReviews);
+    callback(error, allReviews);
+  });
+}
+
 var FollowsSchema = mongoose.Schema({
   //the id of the user that follows
   from: {
@@ -122,26 +106,76 @@ var FollowsSchema = mongoose.Schema({
 });
 
 var reviewSchema = mongoose.Schema({
-
+  stars: {type: Number, enum: [1,2,3,4,5]},
+  content: String,
+  restaurant: {type: mongoose.Schema.ObjectId, ref: 'Restaurant'},
+  user: { type: mongoose.Schema.ObjectId, ref: 'User'}
 });
 
+// reviewSchema.methods.stars = function(callback){
+//     callback(stars)
+// }
 
 var restaurantSchema = mongoose.Schema({
-
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"]
+  },
+  location:{
+    latitude: Number,
+    longitude: Number,
+  },
+  price:{
+    type: Number,
+    enum: [1,2,3],
+    required: true
+  },
+  openTime:{
+    type: Number,
+    required: true
+  },
+  closingTime:{
+    type: Number,
+    required: true
+  },
+  address: String,
+  totalScore: {
+    type: Number,
+    default: 0
+  },
+  reviewCount: {
+    type: Number,
+    default: 0
+  }
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
+  Review.find({restaurant: restaurantId}).populate('user')
+  .exec(function(error, allReviews) {
+    console.log(allReviews);
+    callback(error, allReviews);
+  });
+};
 
-}
+restaurantSchema.virtual('averageRating').get(function () {
+  return this.totalScore / this.reviewCount;
+});
 
 restaurantSchema.methods.stars = function(callback){
-
+    //return the Number
+    callback(this.averageRating)
 }
 
-var Follow = mongoose.model('Follow', FollowsSchema)
+var Follow = mongoose.model('Follow', FollowsSchema);
+var Review = mongoose.model('Review', reviewSchema);
+
 module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: mongoose.model('Restaurant', restaurantSchema),
-  Review: mongoose.model('Review', reviewSchema),
+  Review: Review,
   Follow: Follow
 };

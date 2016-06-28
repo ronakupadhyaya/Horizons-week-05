@@ -1,1 +1,33 @@
-{{! YOUR CODE HERE }}
+<h1>{{restaurant.name}}</h1>
+
+{{#each stars}}
+  <span>☆</span>
+{{/each}}
+
+<h4>Pricing:</h4>
+<p>{{restaurant.price}}</p>
+
+<h4>Location:</h4>
+<p>{{restaurant.address}}</p>
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyDGqKYgbJofVu8GkKNnoqve12JXuMc5ASY">
+
+<h4>Hours:</h4>
+<p>{{restaurant.openTime}} – {{restaurant.closingTime}}</p>
+
+<h2>Reviews:</h2>
+{{#each reviews}}
+
+<p>{{content}}</p>
+<p>{{user.displayName}}</p>
+{{/each}}
+<!-- <textarea name="textarea" rows="10" cols="50" placeholder="Write a review!"></textarea> -->
+<!-- <form action="/profile/{{user._id}}/unfollow" method="post">
+    <input type="submit" name="unfollow" value="Unfollow">
+</form> -->
+<a href="/restaurant/{{restaurant._id}}/review" method="post">
+    <input type="submit" name="review" value="Review">
+</a>
+
+<div>
+<a href="/restaurants">Return to Restaurants</a>
+</div>

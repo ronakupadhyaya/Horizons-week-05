@@ -6,3 +6,38 @@ body {
 a {
   color: #00B7FF;
 }
+
+div.starss {
+  width: 270px;
+  display: inline-block;
+}
+
+input.stars { display: none; }
+
+label.stars {
+  float: right;
+  padding: 10px;
+  font-size: 36px;
+  color: #444;
+  transition: all .2s;
+}
+
+input.stars:checked ~ label.stars:before {
+  content: '\f005';
+  color: #FD4;
+  transition: all .25s;
+}
+
+input.stars-5:checked ~ label.stars:before {
+  color: #FE7;
+  text-shadow: 0 0 20px #952;
+}
+
+input.stars-1:checked ~ label.stars:before { color: #F62; }
+
+label.stars:hover { transform: rotate(-15deg) scale(1.3); }
+
+label.stars:before {
+  content: '\f006';
+  font-family: FontAwesome;
+}

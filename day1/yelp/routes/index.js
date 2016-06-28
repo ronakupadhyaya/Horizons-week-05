@@ -6,14 +6,99 @@ var Follow = models.Follow;
 var Restaurant = models.Restaurant;
 var Review = models.Review;
 
+//RESTAURANTS
+router.get('/restaurant/new', function(req,res, next){
+  res.render('newRestaurant');
+})
+
 // Geocoding - uncomment these lines when the README prompts you to!
-// var NodeGeocoder = require('node-geocoder');
-// var geocoder = NodeGeocoder({
-//   provider: "google",
-//   apiKey: process.env.GEOCODING_API_KEY || "YOUR KEY HERE",
-//   httpAdapter: "https",
-//   formatter: null
-// });
+var NodeGeocoder = require('node-geocoder');
+var geocoder = NodeGeocoder({
+  provider: "google",
+  apiKey: process.env.GEOCODING_API_KEY || "AIzaSyDGqKYgbJofVu8GkKNnoqve12JXuMc5ASY",
+  httpAdapter: "https",
+  formatter: null
+});
+
+//EXAMPLE OF GEOCODING
+// router.get('/loc', function(req,res){
+//   geocoder.geocode(req.body.address, function(err, data){
+//     console.log(err);
+//     res.send(data);
+//   })
+// })
+
+router.post('/restaurant/new', function(req, res, next) {
+  geocoder.geocode(req.body.address, function(err, data) {
+    console.log(err);
+    console.log(data);
+    var rest = new Restaurant({
+      name: req.body.name,
+      category: req.body.category,
+      price: req.body.price,
+      openTime: req.body.openTime,
+      closingTime: req.body.closeTime,
+      location: {
+        latitude: data[0].latitude,
+        longitude: data[0].longitude
+      },
+      address: data[0].formattedAddress
+    });
+    rest.save(function(err,r){
+      console.log(r);
+      res.redirect('/restaurants');
+    });
+  });
+});
+
+router.get('/restaurants/list/:x', function(req,res){
+  Restaurant.find(function(err, restaurants){
+    res.render('restaurants', {
+      restaurants: restaurants
+    })
+  })
+})
+
+router.get('/restaurant/:id', function(req,res){
+  Restaurant.findById(req.params.id, function(err, rest){
+    rest.getReviews(rest._id, function(err, reviews) {
+      rest.stars(function(numStars) {
+        // console.log("averageRating", rest.averageRating)
+        // console.log("stars", numStars);
+        var arr = [];
+        for(var i=0; i<Math.floor(numStars); i++) {
+          arr.push(i);
+        }
+        res.render('singleRestaurant', {
+          restaurant: rest,
+          reviews: reviews,
+          stars: arr
+        })
+      })
+    })
+  })
+});
+
+router.get('/restaurant/:id/review', function(req,res){
+  Restaurant.findById(req.params.id, function(err, rest){
+  res.render('newReview', {
+    restaurant: rest,
+    user: req.user
+      });
+    })
+  })
+
+router.post('/restaurant/:id/review', function(req, res){
+  rev = new Review({
+    stars: req.body.stars,
+    content: req.body.content,
+    restaurant: req.params.id,
+    user: req.user
+  }).save(function(err, review){
+    if (err) console.log(err)
+    res.redirect('/restaurant/'+ req.params.id);
+  });
+})
 
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
@@ -28,6 +113,14 @@ router.use(function(req, res, next){
 router.get('/profile/:id', function(req, res, next){
   User.findById(req.params.id, function(err, user){
     console.log(user);
+    user.getReviews(user._id, function(err, reviews) {
+      // review.stars(function(numStars) {
+      //   // console.log("averageRating", rest.averageRating)
+        console.log("stars", reviews.stars);
+        var arr = [];
+        for(var i=0; i<Math.floor(reviews.stars); i++) {
+          arr.push(i);
+        }
     user.getFollows(function(err, following, followers){
       if (err) console.log(err);
       user.isFollowing(req.params.id, function(result) {
@@ -35,8 +128,11 @@ router.get('/profile/:id', function(req, res, next){
           user: user,
           following: following,
           followers: followers,
-          iAmFollowing: result
+          iAmFollowing: result,
+          reviews: reviews
         });
+        // console.log("followers TO" + followers);
+        // console.log("following FROM" + following);
       })
       // var amIAlreadyFollowing=followers.filter(function(follow){
       //   return follow.from._id === req.user._id;
@@ -46,6 +142,8 @@ router.get('/profile/:id', function(req, res, next){
       })
     })
   })
+})
+// })
 
 router.get('/profile', function(req, res){
   User.find(function(err, users){
@@ -68,14 +166,5 @@ router.post('/profile/:id/unfollow', function(req, res){
   });
 });
 
-router.post('/restaurants/new', function(req, res, next) {
-
-  // Geocoding - uncomment these lines when the README prompts you to!
-  // geocoder.geocode(req.body.address, function(err, data) {
-  //   console.log(err);
-  //   console.log(data);
-  // });
-
-});
 
 module.exports = router;
