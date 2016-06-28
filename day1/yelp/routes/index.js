@@ -68,32 +68,35 @@ router.get('/profiles', function(req,res,next) {
 // ROUTES TO RESTAURANTS
 // ----------------------------------------------
 
-// NEW ROUTE FOR DAY 2
 router.get('/restaurants/list/:x', function(req,res,next) {
-  var page = parseInt(req.query.x || 1);
-  Restaurant.getTen(page, function(err, food, prev, next) {
+  var current = parseInt(req.params.x)
+  if (!current) {
+    res.redirect('/restaurants/list/1')
+  } else {
+    Restaurant.find()
+      .sort({'reviewCount':-1})
+      .skip(10*(req.params.x-1))
+      .limit(11)
+      .exec(function(err,food) {
       if (err) {
         res.redirect('/error', {error:err})
+      } else if (food.length===0) {
+        res.render('sneaky')
       } else {
-        res.render('restaurants', {restaurants:food, prev:prev, next:next})
+        res.render('restaurants', {
+          prev: current-1,
+          next: current+1,
+          isNext:food.slice(10).length,
+          restaurants:food.slice(0,10)
+        })
       }
-  });
-})
-
-router.get('/restaurants', function(req,res,next) {
-  Restaurant.find()
-    .sort({'reviewCount':-1})
-    .exec(function(err,food) {
-    if (err) {
-      res.redirect('/error', {error:err})
-    } else {
-      res.render('restaurants', {restaurants:food})
-    }
-  })
+    })
+  }
 })
 router.get('/restaurants/new', function(req,res,next) {
   res.render('newRestaurant')
 })
+
 router.get('/restaurants/:id', function(req,res,next) {
   Restaurant.findById(req.params.id, function(err,food) {
     if (err) {
@@ -171,7 +174,7 @@ router.post('/reviews/new', function(req,res,next) {
           }}, function(error) {
             if (error) {console.log('error!!!!!')}
           })
-          res.redirect('/restaurants')
+          res.redirect('/restaurants/list/1')
         }
       })
     }

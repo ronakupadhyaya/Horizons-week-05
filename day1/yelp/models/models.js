@@ -161,19 +161,7 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
   });
 }
 
-restaurantSchema.statics.getTen = function(params) {
-    Restaurant.find()
-                    .skip(10*(params-1))
-                    .limit(11)
-                    .exec(function(err, restaurants){
-                      callback(err, restaurants, params-1, params+1)
-                    });
-}
-
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
-
+Restaurant = mongoose.model('Restaurant', Restaurant);
 
 restaurantSchema.virtual('averageRating').get(function(callback){
   var average = this.totalScore / this.reviewCount;
