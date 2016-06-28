@@ -12,6 +12,8 @@ module.exports = {
   // run(function() { return 1; }) -> 1
   run: function(fun) {
     // YOUR CODE HERE
+    return fun();
+    //can also use: return fun.call()
   },
 
   // Part 2: 2.2 runOneAfterAnother(fun1, fun2)
@@ -26,6 +28,8 @@ module.exports = {
   // runOneAfterAnother(logA, logB) -> outputs to console 'A' followed by 'B'
   runOneAfterAnother: function(fun1, fun2) {
     // YOUR CODE HERE
+     console.log(fun1());
+     console.log(fun2());
   },
 
   // Example 2.5 once(f)
@@ -42,5 +46,24 @@ module.exports = {
   //  onceLog(); -> does nothing
   once: function(f) {
     // YOUR CODE HERE
+    //variables live inside function (otherwise global)
+    //variable in outer function is visible in inner function
+
+    //you are calling the inner function g, not the outer function f...
+    //variable lives inside function but function inside function is called
+    //so once is only called once, when the inner function f() is being called,
+    //and in subsequent calls the inner function f is called so once is evaded and
+    //solely functions to hold the other function f() so called is only established once
+    //and then retains its new value as defined by the inner funtion f()
+    var called=false;
+    return function(){
+      //because called on inside can see everuthing on outside
+      if(!called){
+        called=true;
+        f()
+      }
+    }
   }
+
+
 };
