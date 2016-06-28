@@ -136,7 +136,7 @@ var restaurantSchema = mongoose.Schema({
   category: {type: String, required: true},
   latitude: {type: Number, required: true},
   longitude: {type: Number, required: true},
-  price: {type: Number, required: true},
+  price: {type: String, required: true},
   opentime: {type: Number, required: true},
   closingtime: {type: Number, required: true},
   totalScore: {type: Number},

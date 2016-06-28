@@ -64,7 +64,19 @@ router.get('/profiles', function(req,res,next) {
 // ----------------------------------------------
 // ROUTES TO RESTAURANTS
 // ----------------------------------------------
-router.get('/restaurant/:id', function(req,res,next) {
+router.get('/restaurants', function(req,res,next) {
+  Restaurant.find(function(err,food) {
+    if (err) {
+      res.redirect('/error', {error:err})
+    } else {
+      res.render('restaurants', {restaurants:food})
+    }
+  })
+})
+router.get('/restaurants/new', function(req,res,next) {
+  res.render('newRestaurant')
+})
+router.get('/restaurants/:id', function(req,res,next) {
   Restaurant.findById(req.params.id, function(err,food) {
     if (err) {
       res.redirect('/error', {error:err})
@@ -73,29 +85,26 @@ router.get('/restaurant/:id', function(req,res,next) {
     }
   })
 })
-router.get('/restaurants/new', function(req,res,next) {
-  res.render('newRestaurant')
-})
 router.post('/restaurants/new', function(req, res, next) {
   // Geocoding - uncomment these lines when the README prompts you to!
   geocoder.geocode(req.body.address, function(err, data) {
-    console.log(err);
-    console.log(data);
-
+    if (err) {return}
     var restaurant = new Restaurant();
     restaurant.name = req.body.name
     restaurant.category = req.body.category
-    restaurant.latitude
-    restaurant.longitude
+    restaurant.latitude = data[0].latitude
+    restaurant.longitude = data[0].longitude
     restaurant.price = '$'.repeat(req.body.price)
     restaurant.opentime = req.body.opentime
     restaurant.closingtime = req.body.closingtime
     restaurant.reviewCount = 0
 
-    restaurant.save(function(err) {
-      if (err) {
-        res.redirect('/error',{error:err})
+    restaurant.save(function(error) {
+      if (error) {
+        console.log('error!!!!!')
+        res.redirect('/error',{error:error})
       } else {
+        console.log('saved!!!!!!')
         res.redirect('/restaurants')
       }
     })

@@ -5,14 +5,15 @@ body {
 a {
   color: #00B7FF;
 }
-div.navbar-collapse ul {
+div.navbar-collapse ul, .navbar-form.navbar-left {
 	display: flex;
+	justify-content: flex-end;
+}
+.navbar-form.navbar-left .form-group {
+	width: 100%
 }
 .navbar {
-	height: 60px;
-}
-.navbar ul * {
-	height: 59px;
+	min-height: 60px;
 }
 .navbar-header {
 	height: 58px;
@@ -37,6 +38,7 @@ div.navbar-collapse ul {
 }
 .level {
 	display: flex;
+	margin-bottom: 10px;
 }
 #network {
 	display: flex;
@@ -51,5 +53,10 @@ div.navbar-collapse ul {
 #masthead {
 	margin-top: 3px;
 	height: 50px;
+}
+#nav-search-button {
+	width: 40px;
+	height: 34px;
+	margin-left: 5px;
 }
 
