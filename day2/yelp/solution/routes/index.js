@@ -15,7 +15,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res, next) {
-    res.render('home');
+    res.render('home')
 });
 
 // Users
@@ -39,7 +39,7 @@ router.get('/profile', function(req, res) {
         following: following,
         followers: followers
       });
-    });
+    })
   });
 });
 
@@ -48,12 +48,12 @@ router.get('/profile/:id', function(req, res) {
     if (err) return next(err);
     User.getFollowers(user.id, function(err, followers, following) {
       if (err) return next(err);
-      res.render('singleProfile', {
+      res.render('profile', {
         user: user,
         following: following,
         followers: followers
       });
-    });
+    })
   });
 });
 
@@ -94,47 +94,22 @@ router.post('/restaurants/new', function(req, res, next) {
   restaurant.save(function(err) {
     if (err) return next(err);
     res.redirect('/restaurants');
-  });
+  })
 });
 
-// Calculates the straight-line distance (pythagorean distance)
-var distanceFrom = function(pointA, pointB) {
-  var sum;
-  var partial;
-  for (var key in pointA) {
-    partial = pointA[key] - pointB[key];
-    partial *= partial;
-    sum += partial;
-  }
-  return Math.sqrt(sum);
-};
-
 router.get('/restaurants', function(req, res, next) {
-  var ihp = {
-    "latitude": 39.9553176,
-    "longitude": -75.197408
-  };
-  var now = Math.ceil(new Date().getHours() + new Date().getMinutes() / 60);
-  var q = Restaurant.find();
-  if (req.params.price) {
-    q = q.where('price').gte(req.params.price);
-  }
-  if (req.params.open !== false) {
-    q = q.where('openHoursEST.openTime').lt(now).where('openHoursEST.closingTime').gt(now);
-  } else {
-    q = q.where('openHoursEST.openTime').gt(now).where('openHoursEST.closingTime').lt(now);
-  }
-  if (req.params.category) {
-    q = q.where('category').equals(req.params.category);
-  }
-  q.exec(function(err, restaurants) {
+
+// Sort by price and alphabetical.
+var field = null;
+var order = req.query.order==='dsc' ? -1 : 1;
+if (req.query.sort==='price' || req.query.sort==='stars') { field = req.query.sort }
+if (req.query.sort==='alphabetical'){  field = 'name'; }
+var obj = {};
+obj[field]=order;
+
+  Restaurant.find().sort(obj).exec(function(err, restaurants) {
     if (err) return next(err);
-    //  console.log(restaurants)
-    if (req.params.maxDist !== undefined) {
-      restaurants = restaurants.filter(function(r) {
-        return (distanceFrom(ihp, r.location) < req.params.maxDist);
-      });
-    }
+    // Sort by distance, ratings, # of reviews
     res.render('restaurants', {
       restaurants: restaurants
     });
