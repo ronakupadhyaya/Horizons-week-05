@@ -59,15 +59,16 @@ app.get('/', function(req, res) {
   //         through books with .skip()
   Book.find() //returns array o all things, whereas findOne only returns one thing
   .limit(21) //direcive to mongoose to only return 10 things
-  .skip(20*page-1)//skip the first 10 and get the next 10
+  .skip(20*(page-1))//skip the first 10 and get the next 10
   .sort({title:1}) //sort bualphabetical order (-1= reverse alphabetical order)
   //when storing by multiple items can sort by multiple items but will take the 
   //keys in subsequenct order
   ///can use variables to add in pagination
   .exec(function(err, books) {
+    var displaybooks=books.slice(0,20);
     if(page!==1 && books.length===21){
     res.render('index', {
-      books: books,
+      books: displaybooks,
       //eventually want to remove previous page button at 1 and
       //next page button on last page
       prev: page-1,
@@ -76,7 +77,7 @@ app.get('/', function(req, res) {
   }
   if(page===1){
     res.render('index', {
-      books: books,
+      books: displaybooks,
       //eventually want to remove previous page button at 1 and
       //next page button on last page
       next: page+1
@@ -84,7 +85,7 @@ app.get('/', function(req, res) {
   }
   if(books.length!==21){
     res.render('index', {
-      books: books,
+      books: displaybooks,
       //eventually want to remove previous page button at 1 and
       //next page button on last page
       prev: page-1
