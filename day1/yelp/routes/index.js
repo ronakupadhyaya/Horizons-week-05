@@ -72,10 +72,13 @@ router.get('/restaurants', function(req, res, next) {
 
 // individual restaurants not showing up
 router.get('/restaurants/:id', function(req, res, next) {
+  console.log('id', req.params.id);
   Restaurant.findById(req.params.id, function(err, restaurants) {
+    console.log(restaurants);
     restaurants.getReviews(req.params.id, function(err, reviews) {
       //console.log(reviews);
       res.render('singleRestaurant', {
+        restaurantId: req.params.id,
         restaurants: restaurants,
         reviews: reviews,
        // stars: stars
@@ -110,7 +113,9 @@ router.post('/restaurant/new', function(req, res, next) {
 });
 
 router.get('/newReview/:id', function(req, res, next) {
+  console.log(req.params.id);
   Restaurant.findById(req.params.id, function(err, review) {
+    if (err) return next(err);
     res.render('newReview');
   })
 })
