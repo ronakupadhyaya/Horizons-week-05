@@ -74,34 +74,29 @@ router.get('/profiles', function(req,res,next) {
 // ----------------------------------------------
 
 router.get('/restaurants/list/:x', function(req,res,next) {
-  var current = parseInt(req.params.x)
-  if (!current) {
-    res.redirect('/restaurants/list/1')
-  } else {
-    Restaurant.find()
-      .sort({'reviewCount':-1})
-      .skip(10*(req.params.x-1))
-      .limit(11)
-      .exec(function(err,food) {
-      if (err) {
-        res.redirect('/error', {error:err})
-      } else if (food.length===0) {
-        res.render('sneaky')
-      } else {
-        res.render('restaurants', {
-          prev: current-1,
-          next: current+1,
-          isNext:food.slice(10).length,
-          restaurants:food.slice(0,10)
-        })
-      }
-    })
-  }
+  var current = parseInt(req.params.x) || 1
+  Restaurant.find()
+    .sort({'reviewCount':-1})
+    .skip(10*(req.params.x-1))
+    .limit(11)
+    .exec(function(err,food) {
+    if (err) {
+      res.redirect('/error', {error:err})
+    } else if (food.length===0) {
+      res.render('sneaky')
+    } else {
+      res.render('restaurants', {
+        prev: current-1,
+        next: current+1,
+        isNext:food.slice(10).length,
+        restaurants:food.slice(0,10)
+      })
+    }
+  })
 })
 router.get('/restaurants/new', function(req,res,next) {
   res.render('newRestaurant')
 })
-
 router.get('/restaurants/:id', function(req,res,next) {
   Restaurant.findById(req.params.id, function(err,food) {
     if (err) {
@@ -118,7 +113,6 @@ router.get('/restaurants/:id', function(req,res,next) {
   })
 })
 router.post('/restaurants/new', function(req, res, next) {
-  // Geocoding - uncomment these lines when the README prompts you to!
   geocoder.geocode(req.body.address, function(err, data) {
     if (err) {return}
       var restaurant = new Restaurant();

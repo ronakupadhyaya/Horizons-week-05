@@ -2,9 +2,9 @@
 <nav id="pagination">
   <ul class="pager">
   	{{#if prev}}
-    <li class="previous clicker"><a href="/restaurants/list/{{prev}}"><span aria-hidden="true">&lt;</span></a></li>
+    <li class="previous clicker"><a id="prev" href="/restaurants/list/{{prev}}"><span aria-hidden="true">&lt;</span></a></li>
     {{/if}}
-    <li class="next clicker"><a href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
+    <li class="next clicker"><a id="next" href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
   </ul>
 </nav>
 <div class="row">
@@ -73,4 +73,11 @@
 	if (!{{isNext}}) {
 		$('.next.clicker').toggleClass('disabled')
 	}
+	$(window).keydown(function(e) {
+		if (e.which===39 && {{isNext}}) {
+			window.location.replace($('#next').attr('href'))
+		} else if (e.which===37 && {{prev}}) {
+			window.location.replace($('#prev').attr('href'))
+		}
+	})
 </script>
