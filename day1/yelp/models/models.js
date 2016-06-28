@@ -75,7 +75,20 @@ var FollowsSchema = mongoose.Schema({
 });
 
 var reviewSchema = mongoose.Schema({
-
+  content: {
+    type: String,
+    required: true
+  },
+  stars: {
+    type: Number,
+    required: true
+  },
+  restaurantId: {
+    type: mongoose.Schema.ObjectId
+  },
+  userId: {
+    type: mongoose.Schema.ObjectId
+  }
 });
 
 
@@ -118,7 +131,7 @@ var restaurantSchema = mongoose.Schema({
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-
+  Restaurant.find({restaurantId: restaurantId}).pop()
 }
 
 //restaurantSchema.methods.stars = function(callback){

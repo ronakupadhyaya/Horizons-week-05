@@ -72,6 +72,7 @@ router.get('/restaurants', function(req, res, next) {
   })
 })
 
+// individual restaurants not showing up
 router.get('/restaurants/:id', function(req, res, next) {
   Restaurant.findById(req.params.id, function(err, restaurants) {
       res.render('singleRestaurant', {
