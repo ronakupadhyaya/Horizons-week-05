@@ -49,73 +49,43 @@ router.get('/profiles', function(req,res){
 })
 
 router.get('/singleProfile/:id', function(req,res){
-//   User.findById(req.params.id, function(err, person){
-//     if(err){
-//       console.log(err);
-//       return;
-//     }
-//     else{
-//     req.user.getFollows(person._id, function(err,obj){
-
-//     res.render('singleProfile',{
-//     user: {
-//       _id: person._id,
-//       displayName: person.displayName,
-//       email: person.email,
-//       location: person.location
-//     },
-//     reviews: [],
-//     allFollowers: obj.followers,
-//     allFollowing: obj.following,
-//     isFollowing: req.user.isFollowing(person._id,function(err,ret){
-//       return ret.status
-//     })
-//   });
-//   });
-//   };
-// });
-router.get('/profile/:id',function(req,res){
+  // router.get('/profile/:id',function(req,res){
   User.findById(req.params.id,function(err,user){
-    user.getFollows(function(following,followers){
-      followers.filter(function(users){
-        //check if im in the list of followers
-        return from._id===req.user._id;
-      }).length>0;
-      }
+   user.getFollows(function(following,followers){
+    //   var amIAlreadyFollowing=followers.filter(function(follow){
+    //     //check if im in the list of followers
+    //     console.log(follow.from._id===req.user._id);
+    //     return follow.from._id===req.user._id;
+    //   });
+    user.isFollowing(req.params.id,function(result){
       res.render('singleProfile',{
         user: user,
-        following: usersImFollowing,
-        followers: usersWhoFollowMe
+        following: following,
+        followers: followers,
+        amIAlreadyFollowing: result
+         })
       })
     })
   })
 })
-});
+
 
 router.post('/profile/:id/follow', function(req,res){
   // res.redirect('/singleProfile/'+req.params.id)
   req.user.follow(req.params.id, function(){
-    res.redirect('/singleProfile'+req.params.id)
+    res.redirect('/singleProfile/'+req.params.id)
+  })
+})
+
+router.post('/profile/:id/unfollow', function(req,res){
+  // res.redirect('/singleProfile/'+req.params.id)
+  req.user.unfollow(req.params.id, function(){
+    res.redirect('/singleProfile/'+req.params.id)
   })
 })
 
 
 
-// router.post('/unfollow/:id', function(req,res){
-//   console.log('unfollow')
-//   // req.user.unfollow(req.params.id, function(err,follows){
-//   //   console.log('func unfollow')
-//   //   res.render('/singleProfile/'+req.params.id)
-//   // });
-// });
-
-// router.post('/follow/:id', function(){
-//   console.log('follow')
-//   //   req.user.follow(req.params.id, function(err,follows){
-//   //     consle.log('func follow')
-//   //   res.render('/singleProfile/'+req.params.id)
-//   // });
-// });
 
 
 module.exports = router;

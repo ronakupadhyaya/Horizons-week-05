@@ -1,22 +1,16 @@
-<form action="/profile/{{user._id}}/follow" method="post">
-<input type="submit" value="follow">
+{{amIAlreadyFollowing}}
+{{#if amIAlreadyFollowing}}
+<form action="/profile/{{user._id}}/unfollow" method="post">
+<input type="submit" value="unfollow" name="unfollow">
 </form>
+{{else}}
+<form action="/profile/{{user._id}}/follow" method="post">
+	<input type="submit" value="follow" name="follow">
+</form>
+{{/if}}
 
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
-{{#if isFollowing}}
-<!-- <form role="form">
-<div>
-<button type="submit" class="btn btn-default" method="post" action="/unfollow/{{user._id}}">Unfollow {{user.displayName}}</button>
-</div>
-</form>
-{{else}}
-<form role="form">
-<div>
-<button type="submit" class="btn btn-default" method="post" action="/follow/{{user._id}}">Follow {{user.displayName}}</button>
-</div>
-{{/if}}
-</form> -->
 
 
 <h4>Email:</h4>
