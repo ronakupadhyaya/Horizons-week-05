@@ -9,7 +9,8 @@ Today, we will be using indexes to build on your work from yesterday to optimize
 * **Recap** 🔁
 * **Step 1:** Paging Your Results 📋
 * **Step 2:** Sorting Restaurants with Indexes 📊
-* **Step 3:** Connecting Pagination with Indexes 🔭
+* **Step 3:** Connecting Pagination and Indexing 🙉
+* **Step 4:** Full-Text Search 🔭
 * **Part 2 Challenge** 🏆 
 
 ## Recap 🔁
@@ -223,7 +224,33 @@ Use the `req.query` object to check for potential sorting criteria submitted by 
 
 ### Adding Composite Indexes to Your Models 🕵,🕵 - `models/models.js (RestaurantSchema)`
 
-Thanks to single indexes, we are now able to sort by either name or by rating individually in a quick and efficient way. The next step is to combine these criteria into more powerful queries - such as finding restaurants in ascending alphabetical order and descending average rating.
+Thanks to single indexes, we are now able to sort by either name or by rating individually in a quick and efficient way. The next step is to combine these criteria into more powerful queries - such as finding restaurants in ascending alphabetical order and descending average rating. To do this, we will be using **composite indexes** to create indexes by both name and average rating!
+
+Creating **composite indexes** is as simple as:
+
+```
+restaurantSchema.index({"name": 1, "averageRating": 1})
+```
+You want to create composite indexes to handle all four of these situations a user could be asking for sorted Restaurants in:
+
+* Restaurants sorted by ascending alphabetical order (`name: 1`) and ascending average rating (`averageRating: 1`)
+* Restaurants sorted by descending alphabetical order (`name: -1`) and ascending average rating (`averageRating: 1`)
+* Restaurants sorted by ascending alphabetical order (`name: 1`) and descending average rating (`averageRating: -1`)
+* Restaurants sorted by descending alphabetic order (`name: -1`) and descending average rating (`averageRating: -1`)
+
+Although we have four cases of sorting here, we only need to create two composite indexes with `name` and `averageRating` to cover all of them!
+
+Think about this: creating a composite index with `{name: 1, averageRating: 1}` will allow for us to easily sort for both ascending `name` and `averageRating` going forward through the index **_but also descending `name` and `averageRating` going backwards!_** <sup>1</sup>
+
+Create the following indexes on your `restaurantSchema` for both `name` and `averageRating`:
+
+* `name` ascending, `averageRating` ascending
+* `name` ascending, `averageRating` descending
+ 
+
+<sub>[1] For a more cohesive explanation of how this works, see MongoDB documentation on Compound Indexes: [https://docs.mongodb.com/manual/core/index-compound/](https://docs.mongodb.com/manual/core/index-compound/) </sub>
+
+### Compound Queries in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
 
 ### End Result, Step 2 🏅 - `http://localhost:3000`
 
@@ -234,11 +261,58 @@ At the end of Step 2, you should be able to do the following through your Yelp a
 3. Sort by both criteria, ascending or descending.
 
 
-## Step 3: Pagination & Sorting Extended
+## Step 3: Pagination & Sorting Extended 🙉
 
 ### Pagination + Sorting
 
 ### Custom Pagination
+
+### End Result, Step 3 🏅 - `http://localhost:3000`
+
+
+## Step 4: Full-Text Search 🔭
+
+### Case Folding Restaurant Names
+
+### Text Indexes on Names and Categories
+
+1. New query: Case-folded name field for search. (write name to lower case field).
+- Add a search form with a name field to your restaurants page.
+-	Users can write queries in many different forms. For example "Cat" or "cát" would yield different results. To fix this,
+we have to case-fold texts, meaning making them as plain as possible, and as standard as possibe. Take a look at this link and try case-folding yourself! http://www.alistapart.com/articles/accent-folding-for-auto-complete/
+1. Single field index (on folded name) that starts with name.
+- Create a new field on users that contains the folded name that you are looking for.
+- Create an index for that field, allowing you you query faster through folded names.
+1. Write a prefix query on the thing that you are searching
+- Create a query that finds users that start with the prefix, using the new index.
+1. Composite indexes
+- MongoDB supports compound indexes, where a single index references many fields in a document:
+`db.collection.createIndex( { <field1>: <type>, <field2>: <type2>, ... } )` The value of the field in the index specification describes the kind of index for that field. For example, a value of 1 specifies an index that orders items in ascending order. A value of -1 specifies an index that orders items in descending order.
+- An example of creating a compound index is `{ userid: 1, score: -1 }` it holds two fields in one index.
+- The user is sort out ascending by userId, and descending by score.
+
+- Lets say you have our restaurants:
+```
+{
+	"_id": ObjectId(...),
+	"name": "McDonalds",
+	"location": "4th Street Store",
+	"stars": 4
+}
+```
+- To create an ascending index on item and stock you would:
+` db.products.createIndex( { "name": 1, "stars": 1 } ) `
+- The index supports queries on the item field as well as both item and stock fields:
+`db.products.find( { item: "name", stars: { gt: 5 } } )`
+
+* Show them explain plan as you go - make them take out index and re-insert index
+
+### End Result, Step 4 🏅 - `http://localhost:3000`
+
+
+
+##Bonus:
+1. Use Yelp API or open street API to get JSON file of businesses
 
 
 
