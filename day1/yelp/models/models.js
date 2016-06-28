@@ -45,6 +45,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
+
 // ----------------------------------------------
 // Hashes password before saving it
 // ----------------------------------------------
@@ -131,6 +132,7 @@ var reviewSchema = mongoose.Schema({
 var Review = mongoose.model('Review', reviewSchema);
 
 
+
 var restaurantSchema = mongoose.Schema({
   name: {type: String, required: true, index: { unique: true }},
   category: {type: String, required: true},
@@ -149,6 +151,11 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
     callback(err, reviews);
   });
 }
+
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
+
 
 restaurantSchema.virtual('averageRating').get(function(callback){
   var average = this.totalScore / this.reviewCount;
