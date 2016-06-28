@@ -50,8 +50,9 @@ passport.deserializeUser(function(id, done) {
 
 // passport strategy
 passport.use(new LocalStrategy(function(username, password, done) {
+  console.log(username, password)
     // Find the user with the given username
-    models.User.findOne({ email: username }, function (err, user) {
+    models.User.findOne({email:username}, function (err, user) {
       // if there's an error, finish trying to authenticate (auth failed)
       if (err) {
         console.error(err);
@@ -60,7 +61,7 @@ passport.use(new LocalStrategy(function(username, password, done) {
       // if no user present, auth failed
       if (!user) {
         console.log(user);
-        return done(null, false, { message: 'Incorrect username.' });
+        return done(null, false, { message: 'Incorrect email.' });
       }
       // if passwords do not match, auth failed
       if (user.password !== password) {

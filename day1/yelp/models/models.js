@@ -8,7 +8,7 @@ var userSchema = mongoose.Schema({
   displayName: {
     type: String,
     requred: true
-  }
+  },
   email: {
     type: String,
     required: true
@@ -18,12 +18,11 @@ var userSchema = mongoose.Schema({
     required: true
   },
   location: {
-    type: String,
-    required: true
+    type: String
   }
 });
 
-<<<<<<< HEAD
+
 userSchema.methods.getFollowers = function (id, callback) {
 return this.model('Follow').find({
     followed: id
@@ -38,12 +37,8 @@ return this.model('Follow').find({
 
           callback(err, myFollowers, myFollowed)
         })}
-        );
-=======
-userSchema.methods.getFollows = function (id, callback){
-
->>>>>>> refs/remotes/origin/master
-}
+        )
+};
 
 userSchema.methods.follow = function (idToFollow, callback) {
   this.model('Follow').findOne({
@@ -87,14 +82,25 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
   })
 }
 
+userSchema.methods.isFollowing = function(isFollowing, callback) {
+  this.model('Follow').findOne({
+    follower: this._id,
+    followed: isFollowing
+  }, function(err, pair) {
+    if (err) {
+      callback(err)
+    } else {callback (pair === null)}
+  })
+}
+
 var FollowsSchema = mongoose.Schema({
   follower: {
-    type: mongoose.Schema.Types.objectId,
-    ref: User
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
   followed: {
-    type: mongoose.Schema.Types.objectId,
-    ref: User
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 });
 
@@ -104,6 +110,32 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"],
+    required: true
+  },
+  location: {
+    latitude: Number,
+    longitude: Number,
+  },
+  price: {
+    type: Number,
+    enum: [1, 2, 3],
+    required: true
+  },
+  openTime: {
+    type: String,
+    required: true
+  },
+  closingTime: {
+    type: String,
+    required: true
+  }
 
 });
 
@@ -111,9 +143,7 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
+
 
 
 module.exports = {
