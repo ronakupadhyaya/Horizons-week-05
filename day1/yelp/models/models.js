@@ -15,7 +15,7 @@ var userSchema = mongoose.Schema({
   }
 });
 
-userSchema.methods.getFollowers = function (id, callback){
+userSchema.methods.getFollows = function (id, callback){
 
 }
 userSchema.methods.follow = function (idToFollow, callback){
@@ -43,9 +43,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-restaurantSchema.methods.stars = function(callback){
-
-}
+//restaurantSchema.methods.stars = function(callback){
+//
+//}
 
 
 module.exports = {
