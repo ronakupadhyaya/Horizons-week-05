@@ -11,7 +11,8 @@ module.exports = {
   // ex. another way of saying the same thing as above
   // run(function() { return 1; }) -> 1
   run: function(fun) {
-    // YOUR CODE HERE
+    return fun();
+    //or return fun.call();
   },
 
   // Part 2: 2.2 runOneAfterAnother(fun1, fun2)
@@ -25,7 +26,8 @@ module.exports = {
   // }
   // runOneAfterAnother(logA, logB) -> outputs to console 'A' followed by 'B'
   runOneAfterAnother: function(fun1, fun2) {
-    // YOUR CODE HERE
+      fun1();
+      fun2();
   },
 
   // Example 2.5 once(f)
@@ -40,7 +42,19 @@ module.exports = {
   //  onceLog(); -> outputs 'called log' to console
   //  onceLog(); -> does nothing
   //  onceLog(); -> does nothing
+
+  //Tried to do this with the variable outside the larger function, but it didn't
+  //work, so you have to put it inside the function and then make a new function inside
+  //or it. 
+
   once: function(f) {
-    // YOUR CODE HERE
+    var done = false;
+    return protectedFunction = function(){
+      if(!done){
+        done = true;
+        f.call();
+      }
+    }
+   return protectedFunction;
   }
 };
