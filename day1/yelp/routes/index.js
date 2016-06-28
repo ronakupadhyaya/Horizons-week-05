@@ -68,7 +68,9 @@ router.get('/profiles', function(req,res,next) {
 // ROUTES TO RESTAURANTS
 // ----------------------------------------------
 router.get('/restaurants', function(req,res,next) {
-  Restaurant.find(function(err,food) {
+  Restaurant.find()
+    .sort({'reviewCount':-1})
+    .exec(function(err,food) {
     if (err) {
       res.redirect('/error', {error:err})
     } else {
