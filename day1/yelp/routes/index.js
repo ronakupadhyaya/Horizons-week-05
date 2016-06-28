@@ -32,7 +32,8 @@ router.post("/restaurant/new", function(req, res, next){
     closingTime: req.body.closingTime,
     location:{
       latitude: addrs[0].latitude,
-      longitude: addrs[0].longitude
+      longitude: addrs[0].longitude,
+      address: req.body.location
     }
   })
   rest.save(function(err,r){
@@ -79,6 +80,17 @@ router.get("/restaurants/:id", function(req, res){
       key : process.env.GEOCODING_API_KEY,
     })
   })
+})
+
+
+
+router.get("/restaurants/list/:id", function(req, res) {
+    var n = parseInt(req.params.id)
+    Restaurant.getTen(n, function(restaurants) {
+        res.render("restaurants"){
+          restaurants: restaurants
+    });
+  
 })
 
 // THE WALL - anything routes below this are protected!
@@ -132,21 +144,26 @@ router.post("/singleProfile/:id", function(req, res, next){
     if(err){
       res.send("You are already following")
     } else {
-      res.send("Congrats, you just followed this person")
+      res.redirect("/singleProfile/" + idToFollow)
     }
   }
   req.user.follow(idToFollow, cb)
 })
 
 router.post("/unfollow/:id", function(req, res, next){
-var id = req.params.id;
-User.findById(id, function(error, user){
-user.unfollow(function(err, idToUnfollow, callback){
+  var idToUnfollow = req.params.id;
+    User.findById(req.user, function(error, user){
+    user.unfollow(idToUnfollow, function(foo){
+      if(!foo){
+      res.send("You are already unfollowing")
+    } else {
+      res.redirect("/singleProfile/" + req.user._id)
+    }
+    })
+   })
+})
 
-})
-})
 
-})
 router.get("/", function(req, res){
   res.render("login")
 })

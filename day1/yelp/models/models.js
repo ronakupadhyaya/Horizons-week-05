@@ -83,10 +83,15 @@ userSchema.methods.isFollowing = function (idToFollow, callback){
 userSchema.methods.unfollow = function (idToUnfollow, callback){
   Follow.find({
     follower: this._id, 
-    following: idToFollow
+    following: idToUnfollow
   }, function(err, follow){
     if(follow){
-      follow.remove(callback(err))
+      Follow.remove(follow, function(err){
+        if (err) throw "Error";
+        else {
+          callback(this._id, "Success")
+        }
+      })
      }
   })
 }
@@ -107,7 +112,22 @@ var FollowsSchema = mongoose.Schema({
 
 var Follow = mongoose.model("Follow", FollowsSchema);
 
+
 var reviewSchema = mongoose.Schema({
+  content:{
+    type: String,
+  },
+  stars:{
+    type: Number
+  },
+  restaurantId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Restaurant"
+  },
+  userId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }
 
 });
 
@@ -124,7 +144,8 @@ var restaurantSchema = mongoose.Schema({
   },
   location:{
     latitude: Number,
-    longitude: Number
+    longitude: Number,
+    address: String
   },
   price: {
     type: Number,
@@ -138,15 +159,44 @@ var restaurantSchema = mongoose.Schema({
   closingTime: {
     type: Number,
     required: true
-  }
+  }, 
+  totalScore: Number,
+  reviewCount: Number,
 
 });
 
+var Restaurant = mongoose.model("Restaurant", restaurantSchema);
+
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-this.model("Review").find({Restaurant: restaurantId})
+Review.find({restaurantId: restaurantId}).populate("userId").exec(function(error, reviewArray){
+  if(err){
+      callback(err);
+    } else {
+callback(err, reviewArray)
+}
+})
 }
 
-restaurantSchema.methods.stars = function(callback){
+
+restaurantSchema.virtual('averageRating').get(function () {
+  return this.totalScore / this.reviewCount;
+});
+
+// restaurantSchema.methods.stars = function(callback){
+
+// }
+
+restaurantSchema.statics.findTheNextTen = function(n, cb) {
+Restaurant.find()
+          .limit(10)
+          .skip(10 * (page -1))
+          .sort({name : 1})
+          .exec(function(error, restaurants){
+            if error return next(error)
+              else {
+                cb(restaurants)
+              }
+          })
 
 }
 
