@@ -1,4 +1,18 @@
-##Phase 3 Search Functionality
+## Step 3: Pagination & Sorting Extended 🙉
+
+### Pagination + Sorting
+
+### Custom Pagination
+
+### End Result, Step 3 🏅 - `http://localhost:3000`
+
+
+## Step 4: Full-Text Search 🔭
+
+### Case Folding Restaurant Names
+
+### Text Indexes on Names and Categories
+
 1. New query: Case-folded name field for search. (write name to lower case field).
 - Add a search form with a name field to your restaurants page.
 -	Users can write queries in many different forms. For example "Cat" or "cát" would yield different results. To fix this,
@@ -30,5 +44,12 @@ we have to case-fold texts, meaning making them as plain as possible, and as sta
 
 * Show them explain plan as you go - make them take out index and re-insert index
 
+### End Result, Step 4 🏅 - `http://localhost:3000`
+
+
+
 ##Bonus:
 1. Use Yelp API or open street API to get JSON file of businesses
+
+
+
