@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 // Enable mongodb debug messages!
-mongoose.set('debug', true);
+// mongoose.set('debug', true);
 
 var Book = mongoose.model('Book', {
   title: {
@@ -50,7 +50,11 @@ app.get('/', function(req, res) {
   // Task 2: Limit to 20 results
   // Task 3: Implement a query parameter req.query.page that lets users page
   //         through books with .skip()
-  Book.find(function(err, books) {
+  Book.find()
+    .sort('title')
+    .skip(20*(req.query.page-1))
+    .limit(21)
+    .exec(function(err, books) {
     res.render('index', {
       books: books
     });
