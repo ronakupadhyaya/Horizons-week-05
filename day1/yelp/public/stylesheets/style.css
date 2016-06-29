@@ -112,6 +112,24 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 	width: 90vw;
 	left: 5vw;
 }
+#radioBtn .notActive{
+    color: #3276b1;
+    background-color: #fff;
+}
+#radioBtn {
+	display: flex;
+}
+#sort-group {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: flex-end;
+}
+#sort-group > .form-group {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+}
 #secret {
 	z-index: -2;
 	height: 100vh;

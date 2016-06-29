@@ -1,12 +1,101 @@
 <!-- PAGINATION -->
 <nav id="pagination">
-  <ul class="pager">
-  	{{#if prev}}
-    <li class="previous clicker"><a id="prev" href="/restaurants/list/{{prev}}"><span aria-hidden="true">&lt;</span></a></li>
-    {{/if}}
-    <li class="next clicker"><a id="next" href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
-  </ul>
+	<ul class="pager">
+		{{#if prev}}
+		<li class="previous clicker"><a id="prev" href="/restaurants/list/{{prev}}"><span aria-hidden="true">&lt;</span></a></li>
+		{{/if}}
+		<li class="next clicker"><a id="next" href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
+	</ul>
 </nav>
+<!-- BUTTONS FOR SORTING -->
+<!-- Bootstrap radio button styling from tonnevillec on bootsnipp.com -->
+<div id="sort-group">
+	<div class="form-group">
+		<label for="name" class="col-sm-4 col-md-4 control-label text-left">Name</label>
+		<div class="col-sm-7 col-md-7">
+			<div class="input-group">
+				<div id="radioBtn" class="btn-group">
+					<a class="btn btn-primary btn-sm notActive" data-toggle="name" data-title="ascending">
+						<span class="glyphicon glyphicon-arrow-up"></span>
+					</a>
+					<a class="btn btn-primary btn-sm notActive" data-toggle="name" data-title="descending">
+						<span class="glyphicon glyphicon-arrow-down"></span>
+					</a>
+					<a class="btn btn-primary btn-sm active" data-toggle="name" data-title="">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</div>
+				<input type="hidden" name="name" id="name">
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="price" class="col-sm-4 col-md-4 control-label text-left">Price</label>
+		<div class="col-sm-7 col-md-7">
+			<div class="input-group">
+				<div id="radioBtn" class="btn-group">
+					<a class="btn btn-primary btn-sm notActive" data-toggle="price" data-title="ascending">
+						<span class="glyphicon glyphicon-arrow-up"></span>
+					</a>
+					<a class="btn btn-primary btn-sm notActive" data-toggle="price" data-title="descending">
+						<span class="glyphicon glyphicon-arrow-down"></span>
+					</a>
+					<a class="btn btn-primary btn-sm active" data-toggle="price" data-title="">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</div>
+				<input type="hidden" name="price" id="price">
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="rating" class="col-sm-4 col-md-4 control-label text-left">Rating</label>
+		<div class="col-sm-7 col-md-7">
+			<div class="input-group">
+				<div id="radioBtn" class="btn-group">
+					<a class="btn btn-primary btn-sm notActive" data-toggle="rating" data-title="ascending">
+						<span class="glyphicon glyphicon-arrow-up"></span>
+					</a>
+					<a class="btn btn-primary btn-sm notActive" data-toggle="rating" data-title="descending">
+						<span class="glyphicon glyphicon-arrow-down"></span>
+					</a>
+					<a class="btn btn-primary btn-sm active" data-toggle="rating" data-title="">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</div>
+				<input type="hidden" name="rating" id="rating">
+			</div>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-7 col-md-7">
+			<div class="input-group">
+				<div id="radioBtn" class="btn-group">
+					<a class="btn btn-primary btn-sm active" id="submit">
+						<span class="glyphicon glyphicon-search"></span>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$('#radioBtn a').on('click', function(){
+    var sel = $(this).data('title')
+    var tog = $(this).data('toggle')
+    $('#'+tog).prop('value', sel)
+    
+    $('a[data-toggle="'+tog+'"]').not('[data-title="'+sel+'"]').removeClass('active').addClass('notActive')
+    $('a[data-toggle="'+tog+'"][data-title="'+sel+'"]').removeClass('notActive').addClass('active')
+	})
+	$('#submit').click(function(e) {
+		e.preventDefault()
+		var rating = '?rating='+$('#rating')[0].value
+		var price = '?price='+$('#price')[0].value
+		var name = '?name='+$('#name')[0].value
+		window.location.replace(window.location.pathname + rating+price+name)
+	})
+</script>
 <!-- RESTAURANT CONTAINER -->
 <div class="row">
 	<div class="col-sm-10 col-sm-offset-1 restaurant-container">
