@@ -1,1 +1,10 @@
-{{! YOUR CODE HERE }}
+<h2>Restaurants:</h2>
+{{#each restaurants}}
+<h4>Name:</h4>
+<p> {{name}} </p>
+<h4>Time:</h4>
+<p>{{openTime}} until {{closeTime}}</p>
+<a href="/restaurants/{{_id}}"> <p> View Restaurant </p> </a>
+{{/each}}
+<a href="/restaurants/new"> <p> Add a New Restaurant </p> </a>
+<a href="/"> <p> Return to User Page </p> </a>

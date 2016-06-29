@@ -1,5 +1,16 @@
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
+{{#if alreadyFollowing}}
+  <form action="/unfollow/{{user._id}}" method="post">
+    <input type="submit" value="Unfollow">
+  </form>
+  {{else}}
+   <form action="/follow/{{user._id}}" method="post">
+    <input type="submit" value="Follow">
+  </form>
+{{/if}}
+
+
 
 <h4>Email:</h4>
 <p>{{user.email}}</p>
@@ -12,14 +23,12 @@
 
 <h4>Following:</h4>
 {{#each following}}
-  <div>{{from.displayName}}
-  <form href="/unfollow/:id" method="post">
-    <input style="display: inline;" type="submit" value="Unfollow">
-  </form>
-</div>
+	<a href="/user/{{to._id}}"> <p> {{to.displayName}} </p></a>
 {{/each}}
 
 <h4>Followers:</h4>
 {{#each followers}}
-  <p>{{to.displayName}}</p>
+  <a href="/user/{{from._id}}"> <p>{{from.displayName}}</p> </a>
 {{/each}}
+
+<a href="/"> Go back to profile </a>

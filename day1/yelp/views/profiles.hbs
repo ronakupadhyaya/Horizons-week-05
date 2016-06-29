@@ -1,6 +1,10 @@
+User: {{user.displayName}}
+<a href="/restaurants"> <p> View Restaurants </p> </a>
+<h2>Users:</h2>
 {{#each users}}
 <h4>Name:</h4>
-<p>{{user.displayName}}</p>
+<a href="/user/{{_id}}"> <p> {{displayName}} </p> </a>
 <h4>Address:</h4>
-<p>{{user.address}}</p>
+<p>{{address}}</p>
 {{/each}}
+<a href="/logout"> Logout </a>

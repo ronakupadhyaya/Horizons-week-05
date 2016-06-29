@@ -21,11 +21,9 @@ var userSchema = mongoose.Schema({
   }
 });
 
-<<<<<<< HEAD
 userSchema.methods.getFollows = function (callback)
 {
   var id = this._id;
-  console.log("ID:" + id);
   this.model('Follow').find({
     "$or": 
     [
@@ -36,15 +34,12 @@ userSchema.methods.getFollows = function (callback)
   .populate('from to')
   .exec(function(error, follows) 
   {
-
-    console.log("Follows: " + follows)
     var followers = [];
     var following = [];
     for (var i = 0; i < follows.length; i++) 
     {
       if(String(follows[i].from._id) === String(id)) 
       {
-        console.log("adding following");
         following.push(follows[i]);
       } else 
         {
@@ -53,30 +48,22 @@ userSchema.methods.getFollows = function (callback)
     }
     callback(error, followers, following);
   });
-=======
-userSchema.methods.getFollows = function (id, callback){
-
->>>>>>> refs/remotes/origin/master
 }
 
-
-userSchema.methods.follow = function (idToFollow, callback){
+userSchema.methods.follow = function (currentId, idToFollow, callback){
 var model = new Follow({
-  from: this._id,
+  from: currentId,
   to: idToFollow
 })
   model.save(callback);
 }
 
-userSchema.methods.unfollow = function (idToUnfollow, callback){
-  this.model('Follow').find({ from: this.id, to: idToUnfollow }, function(error, unfollowing){
-    unfollowing.remove(callback);
-    }
-  );
+userSchema.methods.unfollow = function (currentId, idToUnfollow, callback){
+  this.model('Follow').remove({ from: currentId, to: idToUnfollow }, callback)
 }
 
 userSchema.methods.isFollowing = function(id, callback){
-this.model('Follow').find({ from: this.id, to: id }, function(error, isFollowing)
+this.model('Follow').findOne({ from: this.id, to: id }, function(error, isFollowing)
   {
     if(isFollowing)
     {
@@ -106,7 +93,32 @@ var reviewSchema = mongoose.Schema({
 
 
 var restaurantSchema = mongoose.Schema({
-
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"],
+    required: true
+  },
+  location: {
+    latitude: Number,
+    longitude: Number
+  },
+  price: {
+    type: Number,
+    enum: [$, $$, $$$],
+    required: true
+  },
+  openTime: {
+    type: Number,
+    required: true
+  },
+  closeTime: {
+    type: Number,
+    required: true
+  }
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
@@ -117,6 +129,7 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 //
 //}
 
+var Follow = mongoose.model('Follow', FollowsSchema)
 
 module.exports = {
   User: mongoose.model('User', userSchema),

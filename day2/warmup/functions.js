@@ -12,6 +12,7 @@ module.exports = {
   // run(function() { return 1; }) -> 1
   run: function(fun) {
     // YOUR CODE HERE
+    return fun();
   },
 
   // Part 2: 2.2 runOneAfterAnother(fun1, fun2)
@@ -26,6 +27,9 @@ module.exports = {
   // runOneAfterAnother(logA, logB) -> outputs to console 'A' followed by 'B'
   runOneAfterAnother: function(fun1, fun2) {
     // YOUR CODE HERE
+    fun1();
+    fun2();
+    return;
   },
 
   // Example 2.5 once(f)
@@ -42,5 +46,12 @@ module.exports = {
   //  onceLog(); -> does nothing
   once: function(f) {
     // YOUR CODE HERE
+    var called = false;
+    var protectedFunction = function(){
+    if(!called){
+      f.call();
+      called = true;
+    }
+  }
   }
 };
