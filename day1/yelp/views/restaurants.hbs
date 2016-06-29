@@ -3,3 +3,23 @@
   <li><h3><a href="/restaurant/{{_id}}">{{name}}</a></h3> <strong>Price: {{price}}</strong></li>
   {{/each}}
 </ul>
+
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="/restaurants/?page={{i-10}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+
+    {{#each list}}
+    <li><a href="/restaurants/?page={{i}}">{{i}}</a></li>
+    {{/each}}
+
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>

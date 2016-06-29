@@ -117,40 +117,19 @@ var reviewSchema = mongoose.Schema({
 // }
 
 var restaurantSchema = mongoose.Schema({
-  name: {
-    type: String,
-    required: true
-  },
-  category: {
-    type: String,
-    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"]
-  },
-  location:{
-    latitude: Number,
-    longitude: Number,
-  },
-  price:{
-    type: Number,
-    enum: [1,2,3],
-    required: true
-  },
-  openTime:{
-    type: Number,
-    required: true
-  },
-  closingTime:{
-    type: Number,
-    required: true
-  },
-  address: String,
-  totalScore: {
-    type: Number,
-    default: 0
-  },
-  reviewCount: {
-    type: Number,
-    default: 0
-  }
+  name: String,
+  // MAKE SURE TO UPDATE YOUR ENUMS TO
+  // ["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"]
+  category : String,
+  rating : Number,
+  latitude : Number,
+  longitude : Number,
+  open : Number,
+  close : Number,
+  totalScore: {Number, default: 0},
+  reviewsCount: {Number, default: 0},
+  price : Number,
+  address: String
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
@@ -170,18 +149,19 @@ restaurantSchema.methods.stars = function(callback){
     callback(this.averageRating)
 }
 
-RestaurantSchema.statics.findTheNextTen = function(anyParams) {
-    // return this.where('name', new RegExp(name, 'i')).exec(cb);
-    MyModel.find(query, fields, { skip: 10, limit: 5 }, function(err, results) { ... });
-}
-}
+restaurantSchema.statics.findTheNextTen = function(n, cb) {
+    Restaurant.find().skip(10*n).limit(10).exec(function(err, rests){
+      cb(rests)
+    })
+};
 
 var Follow = mongoose.model('Follow', FollowsSchema);
 var Review = mongoose.model('Review', reviewSchema);
+var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
 module.exports = {
   User: mongoose.model('User', userSchema),
-  Restaurant: mongoose.model('Restaurant', restaurantSchema),
+  Restaurant: Restaurant,
   Review: Review,
   Follow: Follow
 };

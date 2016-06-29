@@ -51,19 +51,35 @@ router.post('/restaurant/new', function(req, res, next) {
   });
 });
 
-router.get('/restaurants', function(req,res){
-  Restaurant.find(function(err, restaurants){
-    res.render('restaurants', {
-      restaurants: restaurants
-    })
-  })
-})
+// router.get('/restaurants', function(req,res){
+//   Restaurant.find(function(err, restaurants){
+//     res.render('restaurants', {
+//       restaurants: restaurants
+//     })
+//   })
+// })
 
 //PAGINATION
-router.get('/restaurants/lists/:x', function(req,res){
-  Restaurant.find(function(err, restaurants){
-    res.render('restaurants', {
-      restaurants: restaurants
+router.get('/restaurants/', function(req,res){
+  var page = parseInt(req.query.page || 1);
+  var arr =[];
+  var multi;
+  Restaurant.find({}, function(err, rest){
+    console.log(rest.length);
+    var len = rest.length;
+    if(len%10 ===0){
+      multi=len/10;
+    }else{
+      multi = (len/10) + 1;
+    }
+    for (var i = 1; i<= multi; i++){
+      arr.push({i: i});
+    }
+    Restaurant.findTheNextTen(page, function(rests){
+      res.render('restaurants', {
+        restaurants: rests,
+        list: arr
+      })
     })
   })
 })
