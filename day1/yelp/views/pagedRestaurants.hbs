@@ -1,0 +1,37 @@
+<h1>Restaurants</h1>
+<!-- {{#if prev}}
+<a href="/restaurants/list/{{prev}}" class="btn btn-default">Previous Page</a>
+{{/if}}
+{{#if next}}
+<a href="/restaurants/list/{{next}}" class="btn btn-default">Next Page</a>
+{{/if}} -->
+
+<nav>
+  <ul class="pagination">
+    {{#if prev}}
+    <li>
+      <a href="/restaurants/list/{{prev}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{/if}}
+    {{#each nums}}
+    <li><a href="/restaurants/list/{{this}}">{{this}}</a></li>
+    {{/each}}
+    {{#if next}}
+    <li>
+      <a href="/restaurants/list/{{next}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {{/if}}
+  </ul>
+</nav>
+
+<ul>
+{{#each rest}}
+<h2><a href="/restaurant/{{_id}}" <b>{{name}}</a></h2>
+<p>Cuisine: {{category}}</p>
+<p>Price Range: {{price}}</p>
+<p>Hours: {{openTime}}-{{closingTime}}</p>
+{{/each}}

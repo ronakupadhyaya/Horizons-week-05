@@ -4,7 +4,7 @@
 <p><b>Address:</b> {{rest.address}}</p>
 <img src="https://maps.googleapis.com/maps/api/staticmap?center={{rest.location.latitude}},{{rest.location.longitude}}&markers=color:red|{{rest.location.latitude}},{{rest.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyBlC-V34rzTsdTAujBmHnQnO-DuU8Vi5Po">
 <p></p>
-<p>Average Rating: {{avg}} Stars</p>
+<p>Average Rating: {{rest.averageRating}} Stars</p>
 <p><a href="/review/new/{{rest._id}}">Add a Review</a></p>
 <h2>Reviews: ({{out.length}}) </h2>
 <ul>

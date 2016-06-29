@@ -117,7 +117,7 @@ var restaurantSchema = mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"]
+    enum: ["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"]
   },
   location: {
     latitude: Number,
@@ -125,7 +125,7 @@ var restaurantSchema = mongoose.Schema({
   },
   price: {
     type: Number,
-    enum: [1,2,3]
+    enum: [1,2,3,4]
   },
   openTime: {
     type: Number
@@ -133,7 +133,10 @@ var restaurantSchema = mongoose.Schema({
   closingTime: {
     type: Number
   },
-  address: String
+  address: String,
+  totalScore: Number,
+  reviewsCount: Number,
+  averageRating: Number
 });
 
 restaurantSchema.methods.getReviews = function (callback){
@@ -143,6 +146,20 @@ restaurantSchema.methods.getReviews = function (callback){
     }
     else{
       callback(null,reviews)
+    }
+  })
+}
+
+restaurantSchema.statics.getTen = function(n,cb){
+  Restaurant.find()
+  .limit(11)
+  .skip(10*(n-1))
+  .exec(function(err,result){
+    if(err){
+      cb("error")
+    }
+    else{
+      cb(null,result)
     }
   })
 }
@@ -160,6 +177,7 @@ userSchema.methods.getUserReviews = function (callback){
 
 var Follow=mongoose.model('Follow',followSchema)
 var Review=mongoose.model('Review',reviewSchema)
+var Restaurant=mongoose.model('Restaurant',restaurantSchema)
 
 module.exports = {
   User: mongoose.model('User', userSchema),

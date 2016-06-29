@@ -21,6 +21,53 @@ router.get('/restaurants', function(req,res){
   })
 })
 
+router.get('/restaurants/list/:pg', function(req,res){
+  var page=(parseInt(req.params.pg) || 1)
+  Restaurant.find(function(err,list){
+    var nums=[];
+    if(list.length%10){
+      for(var i=1; i<=Math.floor(list.length/10)+1; i++){
+        nums.push(i)
+      }
+    }
+    else{
+      for(var i=1; i<=list.length/10; i++){
+        nums.push(i)
+      }
+    }
+  Restaurant.getTen(page, function(err,rest){
+    if(err){
+      console.log(err)
+    }
+    else{
+      var displayrest=rest.slice(0,10)
+    if(page===1){
+    res.render('pagedRestaurants', {
+      rest: displayrest,
+      next: page+1,
+      nums: nums
+      });
+    }
+  if(page!==1 && rest.length===11){
+        res.render('pagedRestaurants',{
+          rest: displayrest,
+          prev: page-1,
+          next: page+1,
+          nums:nums
+        })
+      }
+  if(rest.length!==11){
+    res.render('pagedRestaurants', {
+      rest: displayrest,
+      prev: page-1,
+      nums: nums
+      });
+    }
+  }
+  });
+  });
+  });
+
 router.get('/restaurant/:id',function(req,res){
   Restaurant.findById(req.params.id, function(err,rest){
     if(err) console.log(err)
@@ -30,19 +77,18 @@ router.get('/restaurant/:id',function(req,res){
           console.log(err)
         }
         else{
-          console.log(out)
-        out.find(function(){
-          var count=0;
-          for(var i=0; i<out.length; i++){
-            count+=out[i].stars
+          //console.log(out)
+          if(!out[0]){
+            res.render('singleRestaurant', {
+              rest
+            })
           }
-          var avg= count/out.length;
+        else{
           res.render('singleRestaurant',{
           rest,
-          out,
-          avg
+          out
         })
-        })
+        }
         }
       })
     }
@@ -58,14 +104,6 @@ var geocoder = NodeGeocoder({
   httpAdapter: "https",
   formatter: null
 });
-
-//example to demonstrate what geocode data looks like when output
-// router.post('/loc', function(req.res){
-//   geocoder.geocode(req.body.address, function(err,data){
-//     console.log(err);
-//     res.send(data)
-//   }
-// })
 
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
@@ -97,7 +135,23 @@ router.post('/review/new/:id', function(req,res){
       console.log(err)
     }
     else{
-      res.redirect('/restaurant/'+req.params.id)
+      Restaurant.findById(req.params.id, function(err,r){
+        var count= r.reviewsCount+1;
+        var score = parseInt(req.body.stars)+r.totalScore;
+        var avg = (score/count).toFixed(1);
+        Restaurant.update({_id: req.params.id}, {
+          reviewsCount: count,
+          totalScore: score,
+          averageRating: avg
+        }, {upsert: true}, function(err,x){
+          if(err){
+            console.log(err)
+          }
+          else{
+             res.redirect('/restaurant/'+req.params.id)
+          }
+        })
+      })
     }
   })
 })
