@@ -23,13 +23,28 @@ router.get('/restaurants', function(req,res){
 
 router.get('/restaurants/list/:pg', function(req,res){
   if(req.query.rating){
-    //console.log(req.query.rating)
     Restaurant.find({}).sort({averageRating:req.query.rating})
     .exec(function(err,rest){
-      res.render('restaurants',{rest})
-    })
-    return
-  }
+    res.render('restaurants',{rest})
+      var page=(parseInt(req.params.pg) || 1)
+      var nums=[]
+      //if not divisible by 10, need extra row
+      if(rest.length%10){
+        for(var i=1; i<=Math.floor(rest.length/10)+1; i++){
+        nums.push(i)
+      }
+      }
+      //if divsible all rows of 
+      else{
+      for(var i=1; i<=rest.length/10; i++){
+        nums.push(i)
+      }
+    }
+//console.log(nums)
+console.log(rest)
+return
+}
+
 
   if(req.query.name){
    //console.log(req.query.name)
