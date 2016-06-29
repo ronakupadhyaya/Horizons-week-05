@@ -60,53 +60,139 @@ router.post("/restaurant/new", function(req, res, next){
 //     })
 //   })
 // })
-            
+
+
+// router.get("/restaurants/list/:id", function(req, res) {
+//     var n = parseInt(req.params.id || 1)
+//     var rating = req.query.rating
+//     var name = req.query.name
+//     var price = req.query.price
+//     var pageArr = [];
+//     Restaurant.getTen(n, function(error, restaurants){
+//       var count = Restaurant.count(function(err, count){
+//         var arrLength = count / 10;
+//         for (var i = 1; i <= arrLength; i++){
+//           pageArr.push(i)
+//         }
+//         if(error) return (error)
+//         res.render("restaurants",{
+//           restaurants: restaurants,
+//           pageArr : pageArr,
+//           prev : n - 1,
+//           next : n +1,
+//           page: n
+//         });
+//       })
+//     });
+// })    
+
+
+
+
+router.get("/restaurants/list/:id", function(req, res) {
+    var n = parseInt(req.params.id || 1)
+    var rating = req.query.rating
+    var name = req.query.name
+    var price = req.query.price
+    var pageArr = [];
+    var query = Restaurant.find()
+    if (name) {
+      query = query.sort({'name': name})
+    }
+    if (rating) {
+      query = query.sort({'rating':rating})
+    }
+    if(price){
+      query = query.sort({'price':price})
+    }
+    query
+              .limit(10)
+              .skip((parseInt(req.params.id) - 1) * 10)
+              .exec(n, function(error, restaurants){
+      var count = Restaurant.count(function(err, count){
+        var arrLength = count / 10;
+        for (var i = 1; i <= arrLength; i++){
+          pageArr.push(i)
+        }
+        if(error) return (error)
+        res.render("restaurants",{
+          restaurants: restaurants,
+          pageArr : pageArr,
+          prev : n - 1,
+          next : n +1,
+          page: n
+        });
+      })
+    });
+}) 
+
 
 router.get("/restaurants", function(req, res){
     var rating = req.query.rating
     var name = req.query.name
     var price = req.query.price
-    if(name){
-       Restaurant.find()
-            .limit(10)
-            .sort({name: name})
-            .exec(function(err, restaurants){
-          console.log(restaurants)
-    res.render("restaurants",{
-      restaurants: restaurants
-    })
-  })
+
+    var query = Restaurant.find()
+
+    if (name) {
+      query = query.sort({'name': name})
     }
-    if(rating){
-       Restaurant.find()
-            .limit(10)
-            .sort({rating: rating})
-            .exec(function(err, restaurants){
-          console.log(restaurants)
-    res.render("restaurants",{
-      restaurants: restaurants
-    })
-  })
+    if (rating) {
+      query = query.sort({'rating':rating})
     }
     if(price){
-       Restaurant.find()
-            .limit(10)
-            .sort({price: price})
-            .exec(function(err, restaurants){
-          console.log(restaurants)
-    res.render("restaurants",{
-      restaurants: restaurants
-    })
-  })
+      query = query.sort({'price':price})
     }
-    else{
-       Restaurant.find(function(err, restaurants){
+    query
+      .limit(10)
+      .exec(function(err, restaurants){
           console.log(restaurants)
-    res.render("restaurants",{
-      restaurants: restaurants
+          res.render("restaurants",{
+              restaurants: restaurants
+        })
     })
-  })
-    }
+
+  //   if(name){
+  //      Restaurant.find()
+  //           .limit(10)
+  //           .sort({name: name})
+  //           .exec(function(err, restaurants){
+  //         console.log(restaurants)
+  //   res.render("restaurants",{
+  //     restaurants: restaurants
+  //   })
+  // })
+  //   }
+  //   if(rating){
+  //      Restaurant.find()
+  //           .limit(10)
+  //           .sort({rating: rating})
+  //           .exec(function(err, restaurants){
+  //         console.log(restaurants)
+  //   res.render("restaurants",{
+  //     restaurants: restaurants
+  //   })
+  // })
+  //   }
+  //   if(price){
+  //      Restaurant.find()
+  //           .limit(10)
+  //           .sort({price: price})
+  //           .exec(function(err, restaurants){
+  //         console.log(restaurants)
+  //   res.render("restaurants",{
+  //     restaurants: restaurants
+  //   })
+  // })
+  //   }
+  //   else{
+  //      Restaurant.find(function(err, restaurants){
+  //         console.log(restaurants)
+  //   res.render("restaurants",{
+  //     restaurants: restaurants
+  //   })
+  // })
+  //   }
 
 // res.redirect("/restaurants/list/1")
 })
@@ -124,28 +210,6 @@ router.get("/restaurants/:id", function(req, res){
 })
 
 
-
-router.get("/restaurants/list/:id", function(req, res) {
-    var n = parseInt(req.params.id || 1)
-    var pageArr = [];
-    Restaurant.getTen(n, function(error, restaurants){
-      var count = Restaurant.count(function(err, count){
-        var arrLength = count / 10;
-        for (var i = 1; i <= arrLength; i++){
-          pageArr.push(i)
-        }
-      
-        if(error) return (error)
-        res.render("restaurants",{
-          restaurants: restaurants,
-          pageArr : pageArr,
-          prev : n - 1,
-          next : n +1,
-          page: n
-        });
-      })
-    });
-})
 
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
