@@ -15,6 +15,7 @@ var Review = models.Review;
 //   formatter: null
 // });
 
+
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
   if (!req.user) {
@@ -23,6 +24,21 @@ router.use(function(req, res, next){
     return next();
   }
 });
+
+router.get('/users/:id', function(req, res, next) {
+  User.findOne({_id: req.param.id}, function(err, user) {
+    user._id.getFollows(function(following) {
+      user._id.getGardens(function(garden) {
+        res.render('/profile', {
+          user: user,
+          following: following,
+          garden: garden
+        })
+      })
+    })
+  })
+})
+
 
 router.post('/restaurants/new', function(req, res, next) {
 
