@@ -121,7 +121,7 @@ var restaurantSchema = mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Korean", "French", "American", "Indian", "BYO", "Mexican"]
+    enum: ["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"]
   },
   location: {
       latitude: Number,
@@ -136,7 +136,8 @@ var restaurantSchema = mongoose.Schema({
       required: true
   },
   totalScore: Number,
-  reviewCount: Number
+  reviewCount: Number,
+  rating: Number
 });
 
 

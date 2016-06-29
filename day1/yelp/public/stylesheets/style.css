@@ -14,7 +14,10 @@ body {
   text-align: center;
 
 }
-
+.restName {
+    text-align: center;
+    /*text-shadow: 10px;*/
+}
 a {
   color: #00B7FF;
 }
@@ -22,11 +25,18 @@ a {
 .well {
   background-color: rgba(245, 245, 245, 0.8);
 }
+#login {
+  display:flex;
+  justify-content: right;
+  text-align: center;
+  margin: auto;
+  }
 
 .header1 {
-  background-color: rgba(245, 245, 245, 0.5);
+  /*background-color: rgba(245, 245, 245, 0.5);*/
   display: flex;
   justify-content: center;
+  text-align: left;
 }
 
 .navbar {

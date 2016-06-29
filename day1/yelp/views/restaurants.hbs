@@ -1,10 +1,9 @@
 <h1> Restaurant List:</h1>
 {{#each restaurants}}
 <div class="well">
-<h4> <a href='/restaurants/{{_id}}'>Name:</a></h4>
-<p>
-  {{name}}
-</p>
+  <div class="restName">
+<h3> <a href='/restaurants/{{_id}}'>{{name}}</a></h3>
+  </div>
 <h4> Price:</h4>
 <p>
   {{price}}
@@ -32,7 +31,7 @@
 
 {{#each reviews}}
 <p>
-  {{user.displaName}}
+  {{user.displayName}}
 </p>
 <p>
   {{stars}}
@@ -63,3 +62,27 @@
 {{/each}}
 
 </div>
+
+<nav>
+  <ul class="pagination">
+    {{#if hasPrev}}
+    <li>
+      <a href="/restaurants/list/{{prev}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{/if}}
+    <li><a href="/restaurants/list/1">1</a></li>
+    <li><a href="/restaurants/list/2">2</a></li>
+    <li><a href="/restaurants/list/3">3</a></li>
+    <li><a href="/restaurants/list/4">4</a></li>
+    <li><a href="/restaurants/list/5">5</a></li>
+    {{#if hasNext}}
+    <li>
+      <a href="/restaurants/list/{{next}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {{/if}}
+  </ul>
+</nav>

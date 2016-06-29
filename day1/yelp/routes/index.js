@@ -91,19 +91,38 @@ router.post('/restaurant/new', function(req, res, next) {
 });
 });
 
-  router.get('/restaurants', function(req, res){
-    var page = parseInt(req.query.page || 1);
-    Restaurant.find()
-      .limit(20)
-      .skip(10*(page-1))
-      .exec(function(err,restaurants){
-        console.log(restaurants)
-        res.render('restaurants', {
-            restaurants: restaurants})
+  // router.get('/restaurants', function(req, res){
+  //   var page = parseInt(req.query.page || 1);
+  //   Restaurant.find()
+  //     .limit(2)
+  //     .skip(10*(page-1))
+  //     .exec(function(err,restaurants){
+  //       console.log(restaurants)
+  //       res.render('restaurants', {
+  //           restaurants: restaurants})
+  //
+  //       });
+  //   });
 
-        });
-    });
+    router.get('/restaurants/list/:page', function(req, res){
 
+      var page = parseInt(req.params.page || 1); //before a question, it's params
+      var hasPrev = page > 1;
+      var hasNext =
+      Restaurant.find()
+        .limit(6)
+        .skip(5*(page-1))
+        .exec(function(err,restaurants){
+          console.log(restaurants)
+          res.render('restaurants', {
+              restaurants: restaurants.slice(0,5),
+              hasNext: restaurants.length === 6,
+              hasPrev: hasPrev,
+              prev: page - 1,
+              next: page + 1
+            });
+          });
+      });
 
   router.get('/restaurants/:id', function(req, res){
     console.log("here");

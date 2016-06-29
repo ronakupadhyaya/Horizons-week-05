@@ -5,19 +5,19 @@ var restaurants = [{"name":"Revolution Taco","category":"Mexican","rating":4,"la
 restaurants.forEach(function(restaurant){
 
 /*
-	EDIT CODE BELOW TO MATCH THE FIELD NAMES IN YOUR RESTAURANT MODEL 
-*/ 
+	EDIT CODE BELOW TO MATCH THE FIELD NAMES IN YOUR RESTAURANT MODEL
+*/
 
 	var restaurant = new Restaurant({
 		"name": restaurant.name,
-		// MAKE SURE TO UPDATE YOUR ENUMS TO 
+		// MAKE SURE TO UPDATE YOUR ENUMS TO
 		// ["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"]
 		"category" : restaurant.category,
 		"rating" : restaurant.rating,
 		"latitude" : restaurant.latitude,
 		"longitude" : restaurant.longitude,
-		"open" : restaurant.open,
-		"close" : restaurant.close,
+		"openTime" : restaurant.open,
+		"closingTime" : restaurant.close,
 		"totalScore": restaurant.rating,
 		"reviewsCount": 1,
 		"price" : Math.floor(Math.random() * 4 )+1,
@@ -27,9 +27,9 @@ restaurants.forEach(function(restaurant){
 		if(err){
 			console.log(err)
 		} else {
-			console.log("saved restaurant");	
+			console.log("saved restaurant");
 		}
-		
+
 	})
 
 })
