@@ -140,11 +140,12 @@ var Review = mongoose.model("Review", reviewSchema);
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   category: {
     type: String,
-    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"]
+    enum: ["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"]
   },
   location: {
     latitude: Number,
@@ -152,7 +153,7 @@ var restaurantSchema = mongoose.Schema({
   },
   price: {
     type: Number,
-    enum: [1, 2, 3],
+    enum: [1, 2, 3, 4, 5],
     required: true
   },
   openTime: {
@@ -170,6 +171,12 @@ var restaurantSchema = mongoose.Schema({
   reviewCount: {
     type: Number,
     default: 0
+  },
+  averageRating: {
+    type: Number,
+    default: 0,
+    required: true,
+    index: true
   }
 });
 
@@ -177,9 +184,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
   Review.find({restaurant: restaurantId}).populate('user').exec(function(error, reviews) {callback(reviews)})
 }
 
-restaurantSchema.virtual('averageRating').get(function() {
-  return this.totalScore / this.reviewCount;
-})
+// restaurantSchema.virtual('averageRating').get(function() {
+//   return this.totalScore / this.reviewCount;
+// })
 
 
 

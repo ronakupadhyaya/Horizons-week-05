@@ -1,13 +1,52 @@
-{{#if prev}}
-<a href="/restaurants/?page={{prev}}" class="btn btn-default">Previous Page</a>
+{{#if name}}
+	{{#if prev}}
+	<a href="/restaurants/{{prev}}?name={{name}}" class="btn btn-default">Previous Page</a>
+	{{/if}}
+	{{#if hasNext}}
+	<a href="/restaurants/{{next}}?name={{name}}" class="btn btn-default">Next Page</a>
+	{{/if}}
+{{else if rating}}
+	{{#if prev}}
+	<a href="/restaurants/{{prev}}?rating={{rating}}" class="btn btn-default">Previous Page</a>
+	{{/if}}
+	{{#if hasNext}}
+	<a href="/restaurants/{{next}}?rating={{rating}}" class="btn btn-default">Next Page</a>
+	{{/if}}
+{{else}}
+	{{#if prev}}
+	<a href="/restaurants/{{prev}}" class="btn btn-default">Previous Page</a>
+	{{/if}}
+	{{#if hasNext}}
+	<a href="/restaurants/{{next}}" class="btn btn-default">Next Page</a>
+	{{/if}}
 {{/if}}
-{{#if hasNext}}
-<a href="/restaurants/?page={{next}}" class="btn btn-default">Next Page</a>
-{{/if}}
+
+
+<div>Sort by:
+	<div> Name:
+		<form>
+			<select name="name">
+				<option value="1">Ascending</option>
+				<option value="-1">Descending</option>
+			</select>
+			<input type="submit" value="submit">
+		</form>
+	</div>
+	<div> Rating: 
+		<form>
+			<select name="rating">
+				<option value="1">Ascending</option>
+				<option value="-1">Descending</option>
+			</select>
+			<input type="submit" value="submit">
+		</form>
+	</div>
+</div>
 
 <ul>
 {{#each restaurants}}
-<li><h1>{{name}}</h1> - <strong>{{price}}</strong></li>
+<li><h1>{{name}}({{averageRating}})</h1> - <strong>{{price}}</strong></li>
+
 <a href="/restaurant/{{_id}}">View Restaurant</a>
 {{/each}}
 

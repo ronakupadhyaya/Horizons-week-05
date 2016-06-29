@@ -45,15 +45,22 @@ router.get('/restaurant/new', function(req, res) {
   res.render('newRestaurant');
 });
 
-router.get('/restaurants', function(req, res) {
-  var page = parseInt(req.query.page || 1)
-  Restaurant.find()
-  .limit(4)
+router.get('/restaurants/:page', function(req, res) {
+  var page = parseInt(req.params.page || 1);
+  var q = Restaurant.find();
+  if (req.query.name) {
+    q = q.sort({name: req.query.name});
+  } else if (req.query.rating) {
+    q = q.sort({averageRating: req.query.rating});
+  }
+  q.limit(4)
   .skip(3*(page-1))
   .exec(function(error, restaurants) {
     var displayRest = restaurants.slice(0,3);
     res.render('restaurants', {
       restaurants: displayRest,
+      name: req.query.name,
+      rating: req.query.rating,
       prev: page -1,
       next: page +1,
       hasNext: restaurants.length === 4
@@ -140,12 +147,54 @@ router.post('/review/:id/new', function(req, res, next) {
   })
   r.save(function(error, review) {
     if (error) return next(error);
-    Restaurant.findByIdAndUpdate(req.params.id, {$inc: {totalScore: review.stars, reviewCount: 1}}, function(error, restaurant) {
+    Restaurant.findById(req.params.id, function(error, restaurant) {
       if (error) return next(error);
-      res.redirect('/restaurant/'+req.params.id)
+      restaurant.totalScore += review.stars;
+      restaurant.reviewCount ++;
+      restaurant.averageRating = restaurant.totalScore / restaurant.reviewCount;
+      restaurant.save(function(error, restaurant) {
+        if (error) return next(error);
+        res.redirect('/restaurant/'+req.params.id)
+      })
     })
   })
 })
 
-router
+// router.post('/restaurants/:page', function(req, res, next) {
+//   if (req.body.name) {
+//     var page = parseInt(req.params.page || 1)
+//     Restaurant.find().sort({name: req.body.name})
+//     .limit(4)
+//     .skip(3*(page-1))
+//     .exec(function(error, restaurants) {
+//       var displayRest = restaurants.slice(0,3);
+//       res.render('restaurants', {
+//         restaurants: displayRest,
+//         prev: page -1,
+//         next: page +1,
+//         hasNext: restaurants.length === 4
+//       })
+//     })
+//   }
+//   if (req.body.rating) {
+//     var page = parseInt(req.params.page || 1)
+//     Restaurant.find().sort({averageRating: req.body.rating})
+//     .limit(4)
+//     .skip(3*(page-1))
+//     .exec(function(error, restaurants) {
+//       var displayRest = restaurants.slice(0,3);
+//       res.render('restaurants', {
+//         restaurants: displayRest,
+//         prev: page -1,
+//         next: page +1,
+//         hasNext: restaurants.length === 4
+//       })
+//     })
+//   }
+// })
+
+// router.post('/restaurants/?rating', function(req, res, next) {
+//   Restaurants.find().sort({})
+// })
+
 module.exports = router;
