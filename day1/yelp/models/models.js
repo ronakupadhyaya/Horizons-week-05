@@ -166,6 +166,7 @@ var Review = mongoose.model('Review', reviewSchema);
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
+    index: true,
     required: true
   },
   price: {
@@ -211,6 +212,12 @@ var restaurantSchema = mongoose.Schema({
   },
   reviewCount: {
     type: Number
+  },
+  averageRating: {
+    type: Number,
+    index: true,
+    min: 1,
+    max: 5
   }
 
 });
@@ -224,9 +231,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
     })
   }
-restaurantSchema.virtual('averageRating').get(function() {
-  return this.totalScore / this.reviewCount;
-})
+// restaurantSchema.virtual('averageRating').get(function() {
+//   return this.totalScore / this.reviewCount;
+// });
 
 restaurantSchema.statics.getTen = function(n, cb) {
   Restaurant.find().limit(10).skip(10*(n-1)).sort({name: 1}).exec(function(err, restaurants) {

@@ -74,17 +74,41 @@ router.post('/restaurants/new', function(req, res, next) {
 });
 
 router.get('/restaurants', function(req, res, next) {
-  Restaurant.find(function(err, restaurants) {
+  var rating = parseInt(req.query.rating);
+  var name = req.query.name;
+  if (name) {
+    Restaurant.find({}).limit(10).sort({name: name}).exec(function(err, sortedRestaurants) {
+    if (err) return next(err);
+    res.render('restaurants', {
+      restaurants: sortedRestaurants
+    });
+  })
+  }
+  if (rating) {
+    Restaurant.find({}).limit(10).sort({rating: rating}).exec(function(err, sortedRestaurants) {
+    if (err) return next(err);
+    res.render('restaurants', {
+      restaurants: sortedRestaurants
+    });
+  })
+}
+else {
+     Restaurant.find(function(err, restaurants) {
     if (err) return next(err);
     res.render('restaurants', {
       restaurants: restaurants
     });
   })
+   }
   
-})
+    })
+  // res.redirect('/restaurants/1')
+  
+
 
 router.get('/restaurants/:x', function(req, res, next){
-  var n = parseInt(req.params.x);
+  
+  var n = parseInt(req.params.x || 1);
     var pageArr = [];
   Restaurant.getTen(n, function(err, restaurants){
     Restaurant.count(function(err, count) {
