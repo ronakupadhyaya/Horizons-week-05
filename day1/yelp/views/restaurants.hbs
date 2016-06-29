@@ -1,1 +1,5 @@
-{{! YOUR CODE HERE }}
+{{#each restaurants}}
+<a class="btn" href="/restaurants/{{_id}}"><div class="container rest-list">
+<h2>{{name}}</h2>
+</div></a>
+{{/each}}

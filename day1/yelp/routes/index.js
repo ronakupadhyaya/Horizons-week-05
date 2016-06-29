@@ -10,7 +10,7 @@ var Review = models.Review;
 var NodeGeocoder = require('node-geocoder');
 var geocoder = NodeGeocoder({
   provider: "google",
-  apiKey: process.env.GEOCODING_API_KEY || "AIzaSyDp2U6H3ju79vdV2hvccmHr2qOQ6fwQwL8",
+  apiKey: process.env.GEOCODING_API_KEY || "AIzaSyAXrOcI2vMYurPGdWg1radfOkKuvNVmrZI",
   httpAdapter: "https",
   formatter: null
 });
@@ -69,12 +69,15 @@ router.post('/follow/:id', function(req, res, next) {
   });
 })
 
+//restaurants
+
 router.get('/restaurants/new', function(req, res) {
   res.render('newRestaurant');
-})
+});
 
 router.post('/restaurants/new', function(req, res, next) {
   // Geocoding - uncomment these lines when the README prompts you to!
+
   geocoder.geocode(req.body.location, function(err, data) {
       var rest = new Restaurant({
       name: req.body.name,
@@ -83,16 +86,32 @@ router.post('/restaurants/new', function(req, res, next) {
       openTime: req.body.openTime,
       closeTime: req.body.closeTime,
       location: {
-        latitude: data.latitude,
-        longitude: data.longitude
+        latitude: data[0].latitude,
+        longitude: data[0].longitude
       }
     });
-
     rest.save(function(err, r) {
       console.log(r);
       res.redirect('/restaurants/new');
     })
-  }); 
+  });
+
+});
+
+router.get('/restaurants', function(req, res) {
+    Restaurant.find().exec(function(err, rests) {
+    res.render('restaurants', {
+      restaurants: rests
+    });
+  });
+});
+
+router.get('/restaurants/:id', function(req, res, next){
+  Restaurant.findById(req.params.id, function(error, rest){
+    res.render('singleRestaurant', {
+      rest: rest
+    });
+  });
 });
 
 module.exports = router;

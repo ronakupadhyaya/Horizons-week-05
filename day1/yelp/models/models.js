@@ -101,7 +101,7 @@ var restaurantSchema = mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Korean", "Italian", "Chinese", "Mexican", "BYO"],
+    enum: ["American", "Italian", "Chinese", "Mexican", "BYO"],
     required: true
   },
   location: {
@@ -117,7 +117,7 @@ var restaurantSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  closingTime: {
+  closeTime: {
     type: Number,
     required: true
   }
@@ -132,6 +132,7 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 //}
 
 var Follow = mongoose.model('Follow', FollowsSchema);
+var Restaurant =  mongoose.model('Restaurant', restaurantSchema);
 
 module.exports = {
   User: mongoose.model('User', userSchema),
