@@ -1,4 +1,4 @@
-# Week 5 Day 1 Exercises
+# Week 5 Day 2 Exercises
 
 ## Inline Exercises
 
