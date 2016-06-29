@@ -8,7 +8,6 @@ Today, we will be using indexes to build on your work from yesterday to optimize
 ## Table of Contents
 
 * **Recap** 🔁
-* **Step 0:** Seeding Your Database 🌱
 * **Step 1:** Paging Your Results 📋
 * **Step 2:** Sorting Restaurants with Indexes 📊
 * **Step 3:** Connecting Pagination and Indexing 🙉
@@ -58,12 +57,6 @@ var Restaurant = new Schema({
 
 Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (scroll down to _Indexes_) to see more about usage of indexes with Mongoose.
 
-##Step 0: Seeding your Database 🌱 - `seed.js`
-
-Before we begin, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
-
-Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
-
 
 ##Step 1: Paging Your Results 📋
 The first thing we'll do is page your Restaurant results to allow for displaying large quantites of Restaurants to be more manageable. This time, we'll start with our routes, since understanding how paging will work will begin with the URL.
@@ -112,6 +105,13 @@ app.get("/restaurants/list/:x", function(req, res) {
 ```
 
 **Hint:** To retrieve the next multiple of 10 restaurants, you will be using [`.skip()`](http://mongoosejs.com/docs/api.html#query_Query-skip) (which "skips" a certain number of documents in the database as a part of the query) and [`.limit()`](http://mongoosejs.com/docs/api.html#query_Query-limit) (which sets a cap on the number of documents returned)! Chain these together and retrieve the result using `.exec()` to write this static. 
+
+#### Seeding your Database 🌱 - `seed.js`
+
+Before we continue, we are going to seed our database with 60 restaurants pulled from Yelp! Checkout `seed.js` in this folder and move `seed.js` to the root directory of your project.
+
+Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
+
 
 ### A Return to Routes 📥 - `routes/index.js`
 To implement your model static functions in your routes, simply call it on the model (which in your case is probably called `Restaurant` or `models.Restaurant`) and pass in the callback function to handle the results of the query. 
@@ -248,34 +248,39 @@ Thanks to single indexes, we are now able to sort by either name or by rating in
 Creating **composite indexes** is as simple as:
 
 ```
-restaurantSchema.index({"name": 1, "averageRating": 1})
+restaurantSchema.index({"price": 1, "averageRating": 1})
 ```
 You want to create composite indexes to handle all four of these situations a user could be asking for sorted Restaurants in:
 
-* Restaurants sorted by ascending alphabetical order (`name: 1`) and ascending average rating (`averageRating: 1`)
-* Restaurants sorted by descending alphabetical order (`name: -1`) and ascending average rating (`averageRating: 1`)
-* Restaurants sorted by ascending alphabetical order (`name: 1`) and descending average rating (`averageRating: -1`)
-* Restaurants sorted by descending alphabetic order (`name: -1`) and descending average rating (`averageRating: -1`)
+* Restaurants sorted by ascending price (`price: 1`) and ascending average rating (`averageRating: 1`)
+* Restaurants sorted by descending price (`price: -1`) and ascending average rating (`averageRating: 1`)
+* Restaurants sorted by ascending price (`price: 1`) and descending average rating (`averageRating: -1`)
+* Restaurants sorted by descending price (`price: -1`) and descending average rating (`averageRating: -1`)
 
-Although we have four cases of sorting here, we only need to create two composite indexes with `name` and `averageRating` to cover all of them!
+Although we have four cases of sorting here, we only need to create two composite indexes with `price` and `averageRating` to cover all of them!
 
-Think about this: creating a composite index with `{name: 1, averageRating: 1}` will allow for us to easily sort for both ascending `name` and `averageRating` going forward through the index **_but also descending `name` and `averageRating` going backwards!_** <sup>1</sup>
+Think about this: creating a composite index with `{price: 1, averageRating: 1}` will allow for us to easily sort for both ascending `price` and `averageRating` going forward through the index **_but also descending `price` and `averageRating` going backwards!_** <sup>1</sup>
 
-Create the following indexes on your `restaurantSchema` for both `name` and `averageRating`:
+Create the following indexes on your `restaurantSchema` for both `price` and `averageRating`:
 
-* `name` ascending, `averageRating` ascending
-* `name` ascending, `averageRating` descending
+* `price` ascending, `averageRating` ascending
+* `price` ascending, `averageRating` descending
  
 
 <sub>[1] For a more cohesive explanation of how this works, see MongoDB documentation on Compound Indexes: [https://docs.mongodb.com/manual/core/index-compound/](https://docs.mongodb.com/manual/core/index-compound/) </sub>
 
-### Compound Queries in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
+### Composite Indexes in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
 
-With your indexes now ready for handling sorting by both `name` and `averageRating` criteria , it's time to update your views and routes to handle the ability to sort by both! Firstly, in your `restaurants` Handlebars template, update your two option selectors to submit with the same `<form>` (still with a `method="GET"`).
+With your indexes now ready for handling sorting by both `price` and `averageRating` criteria, it's time to update your views and routes to handle the ability to sort by both!
 
-This means you'll only need one Submit button as well! If all goes well, you'll have something that looks like this instead:
+First, we need to update our view to take in a new input for selecting "Ascending" or "Descending" for "Price" in addition to "Name" and "Average Rating." Put the new `<select>` input for Price in the same `<form>` as the Rating `<select>` input - we will be _either_ sorting solely alphabetically _or_ by both Rating and Price). 
 
-<img src="http://cl.ly/2u0v1V0t353P/Image%202016-06-28%20at%201.32.52%20PM.png" height="70">
+> **Note:** If you want to allow a user to sort by Price or Rating individually, you should add an empty `<option>` element and handle that in your form (i.e., if an input is empty String, do not sort by that criterion).
+
+If all goes well, you'll have something that looks like this instead:
+
+<img src="http://cl.ly/131o1q1k1K2C/Image%202016-06-28%20at%206.11.23%20PM.png" height="60">
+
 
 You'll also need to make sure your **`index.js`** handles your form submit with both parameters together! Make sure that both `req.query` properties matching the `name` properties of your `<select>` elements are being passed into `.sort()`.
 
@@ -285,7 +290,7 @@ At the end of Step 2, you should be able to do the following through your Yelp a
 
 1. Sort just by name, alphabetically. Sort can be in increasing or decreasing order.
 2. Sort just by average rating, given by average number of stars for all reviews.
-3. Sort by both criteria, ascending or descending.
+3. Sort by both price and average rating, ascending or descending.
 
 ## Step 3: Pagination & Sorting Extended 🙉
 At this point, you should have two kinds of routes for viewing Restaurant listings (note that _your_ actual route names may differ):
