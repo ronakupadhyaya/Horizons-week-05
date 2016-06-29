@@ -19,7 +19,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 hbs.registerHelper('unless_get', function(obj, key, options) {
-      console.log(obj, key);
       if(obj[key]){
         return options.fn(this);
       } else{

@@ -24,7 +24,6 @@
 	$(".follow").click(function(e) {
 		e.preventDefault()
 		console.log('clicked follow!')
-		console.log($(this).attr('id'))
 		var name = ($(this).prev().text()).trim()
 		var id = "#" + ($(this).attr('id'));
 		var fstatus = id.split("-")

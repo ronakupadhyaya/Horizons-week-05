@@ -48,10 +48,17 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 .navbar-nav.navbar-right {
 	margin: 0;
 }
+
 @media (min-width: 768px) {
 	.navbar-nav.navbar-right, .navbar-nav.navbar-right * {
 		height: 60px;
 	}
+	#nav-collapse {
+		padding-right: 0;
+	}
+	.restaurant-info {
+	max-width: 275px;
+}
 }
 @media (max-width: 767px) {
 	.navbar-form.navbar-left {

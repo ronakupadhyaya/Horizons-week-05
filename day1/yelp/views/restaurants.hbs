@@ -1,4 +1,3 @@
-{{! YOUR CODE HERE }}
 <nav id="pagination">
   <ul class="pager">
   	{{#if prev}}
@@ -14,7 +13,7 @@
 			<div style="padding-right:20px">
 				<img src="https://maps.googleapis.com/maps/api/staticmap?center={{latitude}},{{longitude}}&markers=color:red|{{latitude}},{{longitude}}&zoom=13&size=300x179&maptype=roadmap&key=AIzaSyDHY_Z52IV3Et-b4q-KrcOK-6r5FXW4cxw">
 			</div>
-			<div style="padding-right:20px">
+			<div class="restaurant-info">
 				<a href="/restaurants/{{_id}}">
 					<h2>{{name}}</h2>
 				</a>
