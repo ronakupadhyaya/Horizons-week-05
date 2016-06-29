@@ -21,6 +21,7 @@ restaurants.forEach(function(restaurant){
 		"close" : restaurant.close,
 		"totalScore": restaurant.rating,
 		"reviewsCount": 1,
+		"price" : Math.floor(Math.random() * 4 )+1,
 	})
 
 	restaurant.save(function(err){
