@@ -110,6 +110,7 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
  name: {
    type: String,
+   index: true,
    required: true
  },
  category: {
@@ -125,7 +126,8 @@ var restaurantSchema = mongoose.Schema({
    required: true
  },
  price: {
-   type: String,
+   type: Number,
+   index: true,
    required: true
  },
  opentime: {
@@ -143,6 +145,11 @@ var restaurantSchema = mongoose.Schema({
  reviewCount: {
   type: Number,
   required: true
+ },
+ rating: { //average rating
+  type: Number,
+  required: true,
+  index: true
  }
 });
 
@@ -178,6 +185,18 @@ reviewSchema.virtual('score').get(function() {
  }
 });
 
+restaurantSchema.virtual('range').get(function() {
+ if (this.price === 1) {
+   return "$";
+ } else if (this.price === 2) {
+   return "$$";
+ } else if (this.price === 3) {
+   return "$$$";
+ } else if (this.price ===4){
+  return "$$$$";
+ }
+});
+
 restaurantSchema.virtual('averageRating').get(function() {
  if (this.reviewCount>0) {
    if (Math.floor(this.totalScore/this.reviewCount) === 0) {
@@ -196,6 +215,22 @@ restaurantSchema.virtual('averageRating').get(function() {
  }
 });
 
+restaurantSchema.statics.findNextTen = function(page, cb) {
+  
+  this.find()
+  .skip(10*(page-1))
+  .limit(11)
+  .exec(function(error, restaurants){
+    if(error){
+      cb(error, null);
+    }
+    cb(null, restaurants);
+  });
+}
+
+//composite indexes
+restaurantSchema.index({"price": 1, "averageRating": 1})
+restaurantSchema.index({"price": 1, "averageRating": -1})
 
 module.exports = {
   User: mongoose.model('User', userSchema),

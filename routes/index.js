@@ -48,7 +48,16 @@ router.get('/singleProfile/:id', function(req, res){
 });
 
 router.get('/profiles', function(req, res){
-  res.render('profile');
+  User.find(function(error, users){
+    if(error){
+      return res.status(400).render('error', {
+        message: err
+      });
+    }
+    res.render('profiles', {
+      users: users
+    });
+  });
 });
 
 router.post('/follow/:id', function(req, res){
@@ -76,17 +85,127 @@ router.post('/unfollow/:id', function(req, res){
 });
 
 router.get('/restaurants', function(req, res, next){
-  Restaurant.find(function(error, restaurants){
-    if (error) {
-      return res.status(400).render('error', {
-        message: error
-      });
+  res.redirect('/restaurants/list/1');
+});
+
+router.get('/restaurants/list/:page', function(req, res, next){
+
+  var page = parseInt(req.params.page);
+    if (page < 1){
+      res.status(400).send('Bad page index');
+      return;
     }
-    res.render('restaurants', {
-      restaurants: restaurants
+
+  var q = Restaurant.find()
+  var name =  parseInt(req.query.name);
+  var rating = parseInt(req.query.rating);
+  var price = parseInt(req.query.price);
+  var quantPages = parseInt(req.query.quant) || 10;
+
+  if (name) {
+    q = q.sort({name: name});
+  } else if (rating && price){
+    q = q.sort({rating: rating, price: price});
+  } else if (rating && (!price)){
+    q = q.sort({rating: rating});
+  } else if ((!rating) && price){
+    q = q.sort({price: price});
+  }
+
+  // if (name && (name !== req.session.sortName)) {
+  //   q = q.sort({name: name});
+  // } else if ((rating && (rating !== req.session.sortRating) && 
+  //   (price && (price !== price.session.sortPrice)))){
+  //   q = q.sort({rating: rating, price: price});
+  // } else if ((rating && (rating !== req.session.sortRating)) && (!parseInt(req.query.price))){
+  //   q = q.sort({rating: rating});
+  // } else if ((!parseInt(rating)) && (price !== price.session.sortPrice)){
+  //   q = q.sort({price: price});
+  // }
+
+  q.skip(10*(page-1))
+  .limit(11)
+  .exec(function(error, restaurants){
+    if (error){
+      res.status(400).send(error);
+      return;
+    }
+    var restLength = restaurants.length;
+    var displayRestaurants = restaurants.splice(0, 10);
+    var pageTotal = [];
+    Restaurant.count(function(error, totalRestaurants){
+      if (error){
+        res.status(400).send(error);
+        return;
+      }
+      var pageNum = Math.floor((totalRestaurants/ 10));
+      if(totalRestaurants % 10) pageNum++;
+      for (var i = 1; i <= pageNum; i++){
+        pageTotal.push(i);
+      }
+      res.render('restaurants', {
+        restaurants: displayRestaurants,
+        page: page,
+        prev: page - 1,
+        next: page + 1,
+        hasNext: restLength === 11,
+        pageTotal: pageTotal
+      });
     });
   })
 });
+
+// router.get('/restaurants/list/:page', function(req, res, next){
+
+//   var page = parseInt(req.params.page);
+//   if (page < 1){
+//     res.status(400).send('Bad page index');
+//     return;
+//   }
+
+//   var q = Restaurant.find()
+//     var name = parseInt(req.query.name);
+//     var rating = parseInt(req.query.rating);
+//     var price = parseInt(req.query.price);
+//     if (name) {
+//       q = q.sort({name: name});
+//     } else if (rating && price){
+//       q = q.sort({rating: rating, price: price});
+//     } else if (rating && (!price)){
+//       q = q.sort({rating: rating});
+//     } else if ((!rating) && price){
+//       q = q.sort({price: price});
+//     }
+
+//   // Restaurant.findNextTen(page, function(error, restaurants){
+//   //   if (error){
+//   //     res.status(400).send(error);
+//   //     return;
+//   //   }
+//     var restLength = restaurants.length;
+//     var displayRestaurants = restaurants.splice(0, 9);
+//     var pageTotal = [];
+//     Restaurant.count(function(error, totalRestaurants){
+//       if (error){
+//         res.status(400).send(error);
+//         return;
+//       }
+//       var pageNum = Math.floor((totalRestaurants/ 10));
+//       if(totalRestaurants % 10) pageNum++;
+//       for (var i = 1; i <= pageNum; i++){
+//         pageTotal.push(i);
+//       }
+//       res.render('restaurants', {
+//         restaurants: displayRestaurants,
+//         page: page,
+//         prev: page - 1,
+//         next: page + 1,
+//         hasNext: restLength === 11,
+//         pageTotal: pageTotal
+//       });
+//     });
+//   // });
+// });
 
 router.get('/restaurants/new', function(req, res, next){
   res.render('newRestaurant');
@@ -106,7 +225,8 @@ router.post('/restaurants/new', function(req, res, next) {
       opentime: parseInt(req.body.opentime),
       closetime: parseInt(req.body.closetime),
       totalScore: 0,
-      reviewCount: 0
+      reviewCount: 0,
+      rating: 0
     }).save(function(err2, user){
         if(err2){
           return res.status(400).render('error', {
