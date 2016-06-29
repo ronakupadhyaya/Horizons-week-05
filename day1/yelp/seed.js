@@ -16,10 +16,11 @@ restaurants.forEach(function(restaurant){
 		"rating" : restaurant.rating,
 		"latitude" : restaurant.latitude,
 		"longitude" : restaurant.longitude,
-		"open" : restaurant.open,
-		"close" : restaurant.close,
+		"opentime" : restaurant.open,
+		"closetime" : restaurant.close,
 		"totalScore": restaurant.rating,
-		"reviewsCount": 1,
+		"reviewCount": 1,
+		"price": Math.floor(Math.random() * 4 )+1
 	})
 
 	restaurant.save(function(err){
