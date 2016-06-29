@@ -115,6 +115,7 @@ router.post('/restaurants/new', function(req, res, next) {
   });
 
     rest.save(function(err, r){
+      if (err) { return next(err) }
       console.log(r);
       res.redirect('/restaurants')
     })
