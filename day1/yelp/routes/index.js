@@ -16,12 +16,53 @@ var Review = models.Review;
 // });
 
 // THE WALL - anything routes below this are protected!
-router.use(function(req, res, next){
+router.use(function(req, res, next) {
   if (!req.user) {
     res.redirect('/login');
   } else {
     return next();
   }
+});
+
+router.get('/', function(req, res, next) {
+  res.render('home');
+})
+
+router.get('/users', function(req, res, next) {
+  User.find(function(err, users) {
+    if (err) return next(err);
+    res.render('profiles', {
+      users: users,
+    });
+  });
+});
+
+router.get('/users/:id', function(req, res, next) {
+  User.findById(req.params.id, function(err, user) {
+    if (err) return next(err);
+    user.getFollows(function(err, followers, following) {
+      if (err) return next(err);
+      res.render('singleProfile', {
+        user: user,
+        followers: followers,
+        following: following
+      })
+    })
+  })
+})
+
+router.post('/follow/:id', function(req, res, next) {
+  req.user.follow(req.params.id, function(err) {
+    if (err) return next(err);
+    res.redirect('/users');
+  });
+});
+
+router.post('/unfollow/:id', function(req, res, next) {
+  req.user.unfollow(req.params.id, function(err) {
+    if (err) return next(err);
+    res.redirect('/users');
+  });
 });
 
 router.post('/restaurants/new', function(req, res, next) {
@@ -31,7 +72,7 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(err);
   //   console.log(data);
   // });
-  
+
 });
 
 module.exports = router;
