@@ -68,8 +68,8 @@
 </div>
 
 <script type="text/javascript">
-	var val = Math.round({{restaurant.totalScore}}/{{restaurant.reviewCount}}*100)/100 || 0 
-	var flooredVal = Math.floor({{restaurant.totalScore}}/{{restaurant.reviewCount}}) || 0
+	var val = Math.round({{restaurant.averageRating}}*100)/100 || 0 
+	var flooredVal = Math.floor({{restaurant.averageRating}}) || 0
 	$('#stars{{restaurant._id}} span:nth-child('+flooredVal+')').nextAll().css('color','#333')
 	$('#rating{{restaurant._id}}').text('('+val+')')
 	$.ajax({

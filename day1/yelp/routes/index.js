@@ -7,6 +7,20 @@ var Follow = models.Follow;
 var Restaurant = models.Restaurant;
 var Review = models.Review;
 
+// ----------------------------------------------
+// ADD AVG RATING ATTRIBUTE TO RESTAURANTS
+// ----------------------------------------------
+// Restaurant.find({},function(err,data) {
+//   if (!err) {
+//     console.log('updating....')
+//     _.forEach(data, function(element) {
+//       Restaurant.update({_id:element._id}, {
+//         averageRating: element.totalScore/element.reviewCount
+//       },function() {})
+//     })
+//   }
+// })
+
 // Geocoding - uncomment these lines when the README prompts you to!
 var NodeGeocoder = require('node-geocoder');
 var geocoder = NodeGeocoder({
@@ -178,9 +192,13 @@ router.post('/reviews/new', function(req,res,next) {
           res.redirect(err,{error:err})
         } else {
           console.log('review saved')
-          Restaurant.update({_id:food._id}, {$inc: {
-            totalScore: review.stars, // still returns NaN
-            reviewCount: 1
+          // update score values of restaurant
+          Restaurant.update({_id:food._id}, {
+            $inc: {
+              totalScore: review.stars,
+              reviewCount: 1,}, 
+            $set: {
+              averageRating: (food.totalScore+review.stars)/(food.reviewCount+1)
           }}, function(error) {
             if (error) {console.log('error!!!!!')}
           })

@@ -149,7 +149,8 @@ var restaurantSchema = mongoose.Schema({
   opentime: {type: Number, required: true},
   closingtime: {type: Number, required: true},
   totalScore: {type: Number, default: 0},
-  reviewCount: {type: Number, default: 0}
+  reviewCount: {type: Number, default: 0},
+  averageRating: {type: Number, default: 0}
 });
 
 // gets reviews for a particular restaurant ID
@@ -160,10 +161,10 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 }
 
 
-restaurantSchema.virtual('averageRating').get(function(callback){
-  var average = this.totalScore / this.reviewCount;
-  return average;
-});
+// restaurantSchema.virtual('averageRating').get(function(callback){
+//   var average = this.totalScore / this.reviewCount;
+//   return average;
+// });
 
 
 module.exports = {
