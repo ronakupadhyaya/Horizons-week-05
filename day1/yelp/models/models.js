@@ -92,15 +92,24 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
 	name:{
 		type: String,
+		index: true
 	},
 	category: String,
+	rating: {
+		type: Number,
+		index: true
+	},
 	latitude: Number,
 	longitude: Number,
 	price: Number,
-	openTime: String,
-	closeTime: String
+	open: Number,
+	close: Number,
+	totalScore: Number,
+	reviewsCount: Number,
 	
 });
+restaurantSchema.index({"name" :1, "averageRating": 1});
+restaurantSchema.index({"name" :1, "averageRating": -1});
 
 restaurantSchema.methods.getReviews = function (callback){
 	Review.findById(this.id).populate('user').exec(function(error, reviews){
@@ -109,7 +118,12 @@ restaurantSchema.methods.getReviews = function (callback){
 	
 }
 
-<<<<<<< HEAD
+restaurantSchema.statics.findTheNextTen = function(n, callback) {
+	Restaurant.find().skip(10*n).limit(10).exec(function(error, rests){
+		callback(rests);
+	})
+}
+
 restaurantSchema.virtual('averageRating').set(function(){
 	var sum = 0;
 	Review.find({restaurant: this.id}, function(error, restaurant){
@@ -121,13 +135,10 @@ restaurantSchema.virtual('averageRating').set(function(){
 })
 var Follow = mongoose.model('Follow', FollowsSchema);
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
-=======
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
 
 
->>>>>>> master
+
+
 module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: Restaurant,

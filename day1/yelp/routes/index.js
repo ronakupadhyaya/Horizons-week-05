@@ -58,6 +58,7 @@ router.post('/user/:id', function(req, res, next){
 	
 })
 
+
 router.get('/profiles', function(req, res, next){
 	
 	User.find({},function(error, users){
@@ -68,14 +69,52 @@ router.get('/profiles', function(req, res, next){
 	})
 })
 
-router.get('/restaurants', function(req, res, next){
+router.get('/restaurants/', function(req, res, next){
+//	var page = parseInt(req.query.page || 1);
+//	var ob = [];
+//	var multi;
+//	Restaurant.find({},function(error, restu){
+//		 	
+//		console.log(restu.length);
+//		var len = restu.length;
+//		if(len%10 === 0 ){
+//			console.log("in")
+//			multi = len/10;
+//			console.log(multi);
+//		} else {
+//			multi = (len/10) + 1;
+//		}
+//		for(var i = 1; i <= multi; i++){
+//			ob.push({i: i});
+//		}
+//		Restaurant.findTheNextTen(page, function(rests){
+//		console.log(ob);
+//		
+//			res.render('restaurants', {
+//			rest: rests,
+//			list: ob
+//		})
+//	})
+//	})
 	
-	Restaurant.find({}, function(error, restuarants){
-		res.render('restaurants', {
-			rest: restuarants
+	if(req.query){
+		console.log(req.query);
+		Restaurant.find({}).sort({name: req.query.name, rating: req.query.rating}).exec(function(err, sorted){
+			res.render('restaurants',{
+				rest: sorted
+			});
+		
 		})
-	})
+	} else {
+		res.render('restaurants');
+	}
+
+	
+	
+
 })
+
+router.post('/restaurants/')
 
 router.get('/restaurants/:id', function(req, res, next){
 	

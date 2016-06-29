@@ -1,6 +1,50 @@
-{{#each rest}}
+<form method="get">
+Name:
+<select name = "name">
+	<option value = "ascending">Ascending</option>
+	<option value = "descending">descending</option>
+</select>
 
+Rating:
+<select name = "rating">
+	<option value = "ascending">Ascending</option>
+	<option value = "descending">descending</option>
+</select>
+
+<input type = "submit">
+
+</form>
+
+
+{{#each rest}}
+<br>
 {{name}}
 {{category}}
 {{Price}}
 {{/each}}
+
+
+
+
+
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+	  
+	{{#each list}}
+	  <li><a href="/restaurants/?page={{i}}">{{i}}</a></li>
+
+	  {{/each}}
+	  
+	  
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
