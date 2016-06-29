@@ -62,7 +62,7 @@ router.post('/user/:id/:request', function(req,res,next) {
 router.get('/profiles', function(req,res,next) {
   User.find().nin('_id', [req.user._id]).exec(function(err, users) {
     if (err) {
-      res.redirect('/error', {error:err})
+      res.render('/error', {error:err})
     } else {
       res.render('profiles', {users:users})
     }
@@ -81,9 +81,9 @@ router.get('/restaurants/list/:x', function(req,res,next) {
     .limit(11)
     .exec(function(err,food) {
     if (err) {
-      res.redirect('/error', {error:err})
+      res.render('/error', {error:err})
     } else if (food.length===0) {
-      res.render('sneaky')
+      res.render('sneaky', {data:true})
     } else {
       res.render('restaurants', {
         prev: current-1,
@@ -100,7 +100,7 @@ router.get('/restaurants/new', function(req,res,next) {
 router.get('/restaurants/:id', function(req,res,next) {
   Restaurant.findById(req.params.id, function(err,food) {
     if (err) {
-      res.redirect('/error', {error:err})
+      res.render('/error', {error:err})
     } else {
       console.log(food)
       food.getReviews(food._id, function(error, reviews) {
@@ -129,7 +129,7 @@ router.post('/restaurants/new', function(req, res, next) {
     restaurant.save(function(error) {
       if (error) {
         console.log('error!!!!!')
-        res.redirect('/error',{error:error})
+        res.render('/error',{error:error})
       } else {
         console.log('saved!!!!!!')
         res.redirect('/restaurants')
@@ -143,7 +143,7 @@ router.post('/restaurants/new', function(req, res, next) {
 router.get('/reviews/new', function(req,res,next) {
   Restaurant.find({},{name:1, _id:0}, function(error, food) {
     if (error) {
-      res.redirect('/error', {error:error})
+      res.render('/error', {error:error})
     } else {
       res.render('newReview',{
         data:JSON.stringify(food.map(function(a) {return a.name}))

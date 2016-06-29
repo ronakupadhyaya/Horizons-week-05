@@ -45,7 +45,20 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 	display: flex;
 	margin-bottom: 10px;
 }
+.navbar-nav.navbar-right {
+	margin: 0;
+}
+@media (min-width: 768px) {
+	.navbar-nav.navbar-right, .navbar-nav.navbar-right * {
+		height: 60px;
+	}
+}
 @media (max-width: 767px) {
+	.navbar-form.navbar-left {
+		margin: 0;
+		padding-top: 10px;
+		border-top: 0;
+	}
 	.restaurant-container > .level {
 		display: block;
 	}
