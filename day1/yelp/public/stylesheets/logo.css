@@ -30,6 +30,9 @@
   top: 47.5%;
   left: 35%;
 }
+/* ------------------------------------------- */
+/* HORIZONS LOGO ANIMATION */
+/* ------------------------------------------- */
 #logo > #left, #logo > #right {
   animation-name: one;
   animation-duration: 1.5s;
@@ -130,4 +133,69 @@
   30% {width: 0%}
   90% {width: 30%;}
   100% {width: 30%;}
+}
+/* ------------------------------------------- */
+/* EASTER EGG LOCATION AND ANIMATION */
+/* ------------------------------------------- */
+#e1, #e2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  max-height: 30vh;
+  opacity: 0;
+}
+#logo:hover > #e1 {
+  animation: eggOne 1s forwards;
+  -webkit-animation: eggOne 1.5s forwards;
+  -moz-animation: eggOne 1.5s forwards;
+  -ms-animation: eggOne 1.5s forwards;
+  -o-animation: eggOne 1.5s forwards;
+}
+@keyframes eggOne {
+  0% {transform: rotate(20deg)}
+  100% {transform: rotate(-40deg) translate(-10vw,-16vh); opacity: 1;}
+}
+@-webkit-keyframes eggOne {
+  0% {-webkit-transform: rotate(20deg)}
+  100% {-webkit-transform: rotate(-40deg) translate(-10vw,-16vh); opacity: 1;}
+}
+@-moz-keyframes eggOne {
+  0% {-moz-transform: rotate(20deg)}
+  100% {-moz-transform: rotate(-40deg) translate(-10vw,-16vh); opacity: 1;}
+}
+@-ms-keyframes eggOne {
+  0% {-ms-transform: rotate(20deg)}
+  100% {-ms-transform: rotate(-40deg) translate(-10vw,-16vh); opacity: 1;}
+}
+@-o-keyframes eggOne {
+  0% {-o-transform: rotate(20deg)}
+  100% {-o-transform: rotate(-40deg) translate(-10vw,-16vh); opacity: 1;}
+}
+
+#logo:hover > #e2 {
+  animation: eggTwo 1s forwards;
+  -webkit-animation: eggTwo 1.5s forwards;
+  -moz-animation: eggTwo 1.5s forwards;
+  -ms-animation: eggTwo 1.5s forwards;
+  -o-animation: eggTwo 1.5s forwards;
+}
+@keyframes eggTwo {
+  0% {transform: rotate(-10deg)}
+  100% {transform: rotate(35deg) translate(2vw,-28vh); opacity: 1;}
+}
+@-webkit-keyframes eggTwo {
+  0% {-webkit-transform: rotate(-10deg)}
+  100% {-webkit-transform: rotate(35deg) translate(2vw,-28vh); opacity: 1;}
+}
+@-moz-keyframes eggTwo {
+  0% {-moz-transform: rotate(-10deg)}
+  100% {-moz-transform: rotate(35deg) translate(2vw,-28vh); opacity: 1;}
+}
+@-ms-keyframes eggTwo {
+  0% {-ms-transform: rotate(-10deg)}
+  100% {-ms-transform: rotate(35deg) translate(2vw,-28vh); opacity: 1;}
+}
+@-o-keyframes eggTwo {
+  0% {-o-transform: rotate(-10deg)}
+  100% {-o-transform: rotate(35deg) translate(2vw,-28vh); opacity: 1;}
 }
