@@ -24,6 +24,61 @@ router.use(function(req, res, next){
   }
 });
 
+router.get('/profile', function(req, res,  next) {
+  User.findById(req.user._id, function(err, user) {
+    if (err) return next(err);
+    User.getFollows(req.user._id, function(err, followers, following) {
+      if (err) return next(err)
+      req.user.isFollowing(user._id, function(err, isFollowing) {
+        if (err) return next(err);
+        console.log("isFollowing:", isFollowing);
+        res.render('singleProfile', {
+        user: user,
+        followers: followers,
+        following: following,
+        isFollowing: isFollowing
+        })
+      });
+    })
+  })
+})
+
+router.get('/profile/:id', function(req, res, next) {
+  User.findById(req.params.id, function(err, user) {
+    if (err) return next(err);
+    User.getFollows(user._id, function(err, followers, following) {
+      if (err) return next(err);
+      req.user.isFollowing(user._id, function(isFollowing) {
+        console.log("isFollowing:", isFollowing);
+        res.render('singleProfile', {
+        user: user,
+        followers: followers,
+        following: following,
+        isFollowing: isFollowing
+        })
+      });
+    })
+  })
+})
+
+router.get('/', function(req, res, next) {
+  User.find(function(err, users) {
+    res.render('profiles', {
+      users: users
+    })
+  })
+})
+
+router.post('/follow/:id', function(req, res, next) {
+  req.user.follow(req.params.id);
+  res.redirect('/profile/' + req.params.id)
+})
+
+router.post('/unfollow/:id', function(req, res, next) {
+  // req.user.unfollow(req.params.id);
+  // res.redirect('/profile/' + req.params.id)
+})
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!

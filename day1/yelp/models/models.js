@@ -23,34 +23,63 @@ var userSchema = mongoose.Schema({
   }
 });
 
-userSchema.methods.getFollows = function (callback){
-  var that = this;
-  Follow.find({ from: this._id }).populate('to')
-    .exec(function(error, allFollowing) {
-      Follow.find({ to: that._id }).populate('from')
-        .exec(function(error, allFollowers){
-          console.log(allFollowers)
-          callback(allFollowing, allFollowers);
-        })
+userSchema.statics.getFollows = function (id, callback){
+  Follow.find({ from: id }).populate('to').exec(function(err, allFollowing) {
+    Follow.find({ to: id }).populate('from').exec(function(err, allFollowers){
+      callback(err, allFollowing, allFollowers);
     })
+  })
 }
 userSchema.methods.follow = function (idToFollow, callback){
-
+  var that = this;
+  User.findById(idToFollow, function(err, toUser) {
+    Follow.find({ from: this, to: toUser })
+    .exec(function(err, follows) {
+      if (err) return next(err);
+      if (follows.length <= 0) {
+          if (err) return next(err);
+          var follow = new Follow ({
+          from: that,
+          to: toUser
+          })
+          console.log(follow);
+          follow.save(callback);
+      } else {
+        callback(null)
+      }
+    })
+  })
 }
 
 userSchema.methods.unfollow = function (idToUnfollow, callback){
-
+  Follow.findOneAndRemove({ from: this._id, to: idToUnfollow }).exec(function (err) {
+      callback(err)
+  });
 }
 
-var followsSchema = mongoose.Schema({
+userSchema.methods.isFollowing = function(idToCheck, callback) {
+  Follow.find({ from: this._id, to: idToCheck }).exec(function (err, follows) {
+    if (err) return next(err);
+    if (follows.length >= 1) {
+      callback(true);
+    } else if (follows.length <= 0) {
+      callback(false);
+    } else {
+      console.log("isFollowing Error")
+      callback(null)
+    }
+  });
+}
+
+var followSchema = mongoose.Schema({
   from: {
     type: mongoose.Schema.ObjectId,
-    ref: 'userSchema'
+    ref: 'User'
   },
   //user being followed
   to: {
     type: mongoose.Schema.ObjectId,
-    ref: 'userSchema'
+    ref: 'User'
   }
 });
 
@@ -71,10 +100,13 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 //
 //}
 
+var User = mongoose.model('User', userSchema);
+var Follow = mongoose.model('Follow', followSchema);
+
 
 module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: mongoose.model('Restaurant', restaurantSchema),
   Review: mongoose.model('Review', reviewSchema),
-  Follow: mongoose.model('Follow', followsSchema)
+  Follow: mongoose.model('Follow', followSchema)
 };
