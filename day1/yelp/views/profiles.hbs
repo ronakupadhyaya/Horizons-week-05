@@ -5,10 +5,11 @@
 					<span>
 						<a href="/user/{{_id}}"><h4>{{displayName}}</h4></a>
 					</span>
-						<span class="glyphicon glyphicon-ok follow fo" id="{{_id}}-follow"></span>
-						</span>
+						{{#unless_get ../fObj _id}}
 						<span class="glyphicon glyphicon-remove follow un" id="{{_id}}-unfollow"></span>
-						</span>
+						{{else}}
+						<span class="glyphicon glyphicon-ok follow fo" id="{{_id}}-follow"></span>
+						{{/unless_get}}
 				</div>
 				<div class="level">
 					<span class="glyphicon glyphicon-map-marker"></span>
@@ -32,8 +33,9 @@
 			type: "POST",
 			url:'/user/'+($(this).attr('id')).replace('-','/'),
 			success: function() {
-				$(id).hide()
-				alert("You " + fstatus + "ed " + name)
+				if(confirm("You " + fstatus + "ed " + name)){
+					window.location.reload(); 
+				}
 			}
 		})
 	})
