@@ -2,8 +2,8 @@
 	<h1>Page:{{n}}</h1>
 	
 	<form class="form-inline">
-		<div class="form-group col-sm-6">
-	<label>
+		<div class="form-group col-sm-3">
+	<label>Name</name>
 	<select class="form-control" style="width:20vw" name="name">
 		<option value="ascending">Ascending</option>
 		<option value="descending">Descending</option>
@@ -14,8 +14,16 @@
 
 
 <form class="form-inline">
-	<div class="form-group col-sm-6">
+	<div class="form-group col-sm-9">
+	<label>Rating</label>
 	<select class="form-control" style="width:20vw" name="rating">
+		<option></option>
+		<option value="ascending">Ascending</option>
+		<option value="descending">Descending</option>
+	</select>
+	<label>Price</label>
+	<select class="form-control" style="width:20vw" name="price">
+		<option></option>
 		<option value="ascending">Ascending</option>
 		<option value="descending">Descending</option>
 	</select>
@@ -47,6 +55,7 @@
 <p>Price: {{price}}</p>
 <p>Category: {{category}}</p>
 <p>Location: {{address}}</p>
+<p>Rating: {{rating}} </p>
 </li>
 {{/each}}
 </ul>

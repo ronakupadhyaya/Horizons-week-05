@@ -247,6 +247,10 @@ restaurantSchema.statics.getTen = function(n, cb) {
 
 }
 
+restaurantSchema.index({"price": 1, "averageRating": 1});
+restaurantSchema.index({"price": 1, "averageRating": -1});
+
+
 var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 // userSchema.virtual('name.full').get(function(){
 //   return this.name.first + ' ' + this.name.last;

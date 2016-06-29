@@ -74,8 +74,9 @@ router.post('/restaurants/new', function(req, res, next) {
 });
 
 router.get('/restaurants', function(req, res, next) {
-  var rating = parseInt(req.query.rating);
+  var rating = req.query.rating;
   var name = req.query.name;
+  var price = req.query.price;
   if (name) {
     Restaurant.find({}).limit(10).sort({name: name}).exec(function(err, sortedRestaurants) {
     if (err) return next(err);
@@ -86,6 +87,14 @@ router.get('/restaurants', function(req, res, next) {
   }
   if (rating) {
     Restaurant.find({}).limit(10).sort({rating: rating}).exec(function(err, sortedRestaurants) {
+    if (err) return next(err);
+    res.render('restaurants', {
+      restaurants: sortedRestaurants
+    });
+  })
+}
+if (price) {
+  Restaurant.find({}).limit(10).sort({price: price}).exec(function(err, sortedRestaurants) {
     if (err) return next(err);
     res.render('restaurants', {
       restaurants: sortedRestaurants
