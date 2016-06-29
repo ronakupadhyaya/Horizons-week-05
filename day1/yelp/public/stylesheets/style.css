@@ -1,13 +1,18 @@
 body {
   font: 14px "Avenir Next", Helvetica, Arial, sans-serif;
 }
-
+h2 {
+	margin-top: 0px;
+}
 a {
   color: #00B7FF;
 }
 div.navbar-collapse ul, .navbar-form.navbar-left {
 	display: flex;
 	justify-content: flex-end;
+}
+.one-review {
+	margin-bottom: 30px;
 }
 .navbar-form.navbar-left .form-group {
 	width: 100%
@@ -40,7 +45,36 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 	display: flex;
 	margin-bottom: 10px;
 }
-#network {
+.navbar-nav.navbar-right {
+	margin: 0;
+}
+@media (min-width: 768px) {
+	.navbar-nav.navbar-right, .navbar-nav.navbar-right * {
+		height: 60px;
+	}
+}
+@media (max-width: 767px) {
+	.navbar-form.navbar-left {
+		margin: 0;
+		padding-top: 10px;
+		border-top: 0;
+	}
+	.restaurant-container > .level {
+		display: block;
+	}
+	.restaurant-container {
+		display: flex;
+		flex-flow: column;
+		align-items: center;
+	}
+	h2 {
+		margin-top: 10px;
+	}
+	.level * {
+		max-width: 300px;
+	}
+}
+#network, #followers-following {
 	display: flex;
 	justify-content: space-between;
 }
@@ -64,4 +98,18 @@ div.navbar-collapse ul, .navbar-form.navbar-left {
 }
 #rating span {
 	color: #f50a25;
+}
+#pagination {
+	position: fixed;
+	top: 50vh;
+	width: 90vw;
+	left: 5vw;
+}
+#secret {
+	height: 100vh;
+	width: 100vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #333;
 }

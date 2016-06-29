@@ -1,0 +1,133 @@
+/* ------------------------------------------- */
+/* HORIZONS LOGO STYLING */
+/* ------------------------------------------- */
+#logo {
+  background-color: rgb(252,90,95);
+  width: 30vh;
+  height: 30vh;
+  max-width: 90vw;
+  max-height: 90vw;
+  position:relative;
+}
+#logo > div {
+  position: absolute;
+  background-color: #fff;
+}
+#left, #right {
+  height: 50%;
+  width: 5%;
+  top: 25%;
+}
+#left {
+  left: 30%;
+}
+#right {
+  right: 30%;
+}
+#center {
+  height: 5%;
+  width: 30%;
+  top: 47.5%;
+  left: 35%;
+}
+#logo > #left, #logo > #right {
+  animation-name: one;
+  animation-duration: 1.5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+
+  -webkit-animation: one 1.5s;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-iteration-count:infinite;
+
+  -moz-animation: one 1.5s;
+  -moz-animation-direction: alternate;
+  -moz-animation-iteration-count: infinite;
+
+  -ms-animation: one 1.5s;
+  -ms-animation-direction: alternate;
+  -ms-animation-iteration-count: infinite;
+
+  -o-animation: one 1.5s;
+  -o-animation-direction: alternate;
+  -o-animation-iteration-count: infinite;
+
+}
+#logo > #center {
+  animation-name: blip;
+  animation-duration: 1.5s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+
+  -webkit-animation: blip 1.5s;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-iteration-count:infinite;
+
+  -moz-animation: blip 1.5s;
+  -moz-animation-direction: alternate;
+  -moz-animation-iteration-count: infinite;
+
+  -ms-animation: blip 1.5s;
+  -ms-animation-direction: alternate;
+  -ms-animation-iteration-count: infinite;
+
+  -o-animation: blip 1.5s;
+  -o-animation-direction: alternate;
+  -o-animation-iteration-count: infinite;
+}
+
+
+@keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+@keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+
+@-webkit-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-webkit-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+
+@-moz-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-moz-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+
+@-ms-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-ms-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}
+
+@-o-keyframes one {
+  0% {height: 0%}
+  100% {height: 50%}
+}
+@-o-keyframes blip {
+  0% {width: 0%}
+  30% {width: 0%}
+  90% {width: 30%;}
+  100% {width: 30%;}
+}

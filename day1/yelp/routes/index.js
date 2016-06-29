@@ -23,19 +23,27 @@ router.use(function(req, res, next){
     return next();
   }
 });
+
+// ----------------------------------------------\\
+// PROTECTION STARTS!!!!!!!                      \\
+// ----------------------------------------------\\
 // ----------------------------------------------
 // ROUTES TO USER PAGES
 // ----------------------------------------------
 router.get('/', function(req,res,next) {
   res.redirect('/user/'+req.user._id)
 })
+
 router.get('/user/:id', function(req,res,next) {
   User.findById(req.params.id, function(err,user) {
     user.getFollowers(req.params.id,function(err,followers,following) {
-      res.render('user', {
-        user:user,
-        followers:followers,
-        following:following
+      user.getReviews(req.params.id, function(err,reviews) {
+        res.render('user', {
+          user:user,
+          followers:followers,
+          following:following,
+          reviews: reviews
+        })
       })
     })
   })
@@ -45,16 +53,16 @@ router.get('/user/:id', function(req,res,next) {
 // ----------------------------------------------
 router.post('/user/:id/:request', function(req,res,next) {
   if (req.params.request==='follow' || req.params.request==='unfollow')
-  req.user[req.params.request].call(req.user, req.params.id, function() {return})
+    req.user[req.params.request].call(req.user, req.params.id, function() {res.sendStatus(200)})
 })
 
 // ----------------------------------------------
 // ROUTE TO PROFILES LIST
 // ----------------------------------------------
 router.get('/profiles', function(req,res,next) {
-  User.find(function(err, users) {
+  User.find().nin('_id', [req.user._id]).exec(function(err, users) {
     if (err) {
-      res.redirect('/error', {error:err})
+      res.render('/error', {error:err})
     } else {
       res.render('profiles', {users:users})
     }
@@ -64,12 +72,25 @@ router.get('/profiles', function(req,res,next) {
 // ----------------------------------------------
 // ROUTES TO RESTAURANTS
 // ----------------------------------------------
-router.get('/restaurants', function(req,res,next) {
-  Restaurant.find(function(err,food) {
+
+router.get('/restaurants/list/:x', function(req,res,next) {
+  var current = parseInt(req.params.x) || 1
+  Restaurant.find()
+    .sort({'reviewCount':-1})
+    .skip(10*(req.params.x-1))
+    .limit(11)
+    .exec(function(err,food) {
     if (err) {
-      res.redirect('/error', {error:err})
+      res.render('/error', {error:err})
+    } else if (food.length===0) {
+      res.render('sneaky', {data:true})
     } else {
-      res.render('restaurants', {restaurants:food})
+      res.render('restaurants', {
+        prev: current-1,
+        next: current+1,
+        isNext:food.slice(10).length,
+        restaurants:food.slice(0,10)
+      })
     }
   })
 })
@@ -79,17 +100,22 @@ router.get('/restaurants/new', function(req,res,next) {
 router.get('/restaurants/:id', function(req,res,next) {
   Restaurant.findById(req.params.id, function(err,food) {
     if (err) {
-      res.redirect('/error', {error:err})
+      res.render('/error', {error:err})
     } else {
-      res.render('singleRestaurant', {restaurant:food})
+      console.log(food)
+      food.getReviews(food._id, function(error, reviews) {
+        res.render('singleRestaurant', {
+          restaurant:food,
+          reviews:reviews
+        })        
+      })
     }
   })
 })
 router.post('/restaurants/new', function(req, res, next) {
-  // Geocoding - uncomment these lines when the README prompts you to!
   geocoder.geocode(req.body.address, function(err, data) {
     if (err) {return}
-    var restaurant = new Restaurant();
+      var restaurant = new Restaurant();
     restaurant.name = req.body.name
     restaurant.category = req.body.category
     restaurant.latitude = data[0].latitude
@@ -103,7 +129,7 @@ router.post('/restaurants/new', function(req, res, next) {
     restaurant.save(function(error) {
       if (error) {
         console.log('error!!!!!')
-        res.redirect('/error',{error:error})
+        res.render('/error',{error:error})
       } else {
         console.log('saved!!!!!!')
         res.redirect('/restaurants')
@@ -117,9 +143,8 @@ router.post('/restaurants/new', function(req, res, next) {
 router.get('/reviews/new', function(req,res,next) {
   Restaurant.find({},{name:1, _id:0}, function(error, food) {
     if (error) {
-      res.redirect('/error', {error:error})
+      res.render('/error', {error:error})
     } else {
-      console.log(JSON.stringify(food.map(function(a) {return a.name})))
       res.render('newReview',{
         data:JSON.stringify(food.map(function(a) {return a.name}))
       })
@@ -133,25 +158,23 @@ router.post('/reviews/new', function(req,res,next) {
       res.redirect('/reviews/new')
     } else {
       console.log('restaurant found')
-      console.log(food)
       var review = new Review()
       review.rId = food._id
       review.uId = req.user._id
       review.content = req.body.content
       review.stars = req.body.rating
-      console.log(review)
       review.save(function(err) {
         if (err) {
           res.redirect(err,{error:err})
         } else {
           console.log('review saved')
           Restaurant.update({_id:food._id}, {$inc: {
-            totalScore: req.body.stars, // still returns NaN
+            totalScore: review.stars, // still returns NaN
             reviewCount: 1
           }}, function(error) {
             if (error) {console.log('error!!!!!')}
           })
-          res.redirect('/restaurants')
+          res.redirect('/restaurants/list/1')
         }
       })
     }

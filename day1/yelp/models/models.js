@@ -122,6 +122,13 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
   })
 }
 
+// gets reviews for a particular user ID
+userSchema.methods.getReviews = function (userId, callback){
+  Review.find({uId: userId}).populate('rId').exec(function(err, reviews){
+    callback(err, reviews);
+  });
+}
+
 var reviewSchema = mongoose.Schema({
   content: {type: String, required: true},
   stars: {type: Number, required: true},
@@ -145,16 +152,12 @@ var restaurantSchema = mongoose.Schema({
   reviewCount: {type: Number, default: 0}
 });
 
-
+// gets reviews for a particular restaurant ID
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
   Review.find({rId: restaurantId}).populate('uId').exec(function(err, reviews){
     callback(err, reviews);
   });
 }
-
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
 
 
 restaurantSchema.virtual('averageRating').get(function(callback){

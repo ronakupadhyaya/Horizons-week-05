@@ -1,22 +1,69 @@
+<<<<<<< HEAD
+=======
+{{! YOUR CODE HERE }}
+<nav id="pagination">
+  <ul class="pager">
+  	{{#if prev}}
+    <li class="previous clicker"><a id="prev" href="/restaurants/list/{{prev}}"><span aria-hidden="true">&lt;</span></a></li>
+    {{/if}}
+    <li class="next clicker"><a id="next" href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
+  </ul>
+</nav>
+>>>>>>> b992c2e6a77584682082c8cc7511672a663b1504
 <div class="row">
-	<div class="col-xs-10 col-xs-offset-1">
+	<div class="col-sm-10 col-sm-offset-1 restaurant-container">
 		{{#each restaurants}}
 		<div class="level">
 			<div style="padding-right:20px">
-				<img src="https://maps.googleapis.com/maps/api/staticmap?center={{latitude}},{{longitude}}&markers=color:red|{{latitude}},{{longitude}}&zoom=13&size=300x179&maptype=roadmap">
+				<img src="https://maps.googleapis.com/maps/api/staticmap?center={{latitude}},{{longitude}}&markers=color:red|{{latitude}},{{longitude}}&zoom=13&size=300x179&maptype=roadmap&key=AIzaSyDHY_Z52IV3Et-b4q-KrcOK-6r5FXW4cxw">
 			</div>
-			<div>
+			<div style="padding-right:20px">
 				<a href="/restaurants/{{_id}}">
 					<h2>{{name}}</h2>
 				</a>
 				<h4>{{category}}</h4>
 				<div class="level">
 					<span class="glyphicon glyphicon-map-marker"></span>
-					<p class="loc">{{latitude}}, {{longitude}}</p>
+					<p class="loc" id="loc{{_id}}"></p>
 				</div>
-				<p>Cost: {{price}}</p>
-				<p>{{opentime}}-{{closingtime}}</p>
+				<div class="level">
+					<div style="padding-right:20px">
+						<p>Cost: {{price}}</p>
+						<p>Open: {{opentime}}-{{closingtime}}</p>
+					</div>
+					<div>
+						<div>
+							<h4 style="margin-top:0">Reviews ({{reviewCount}})</h4>
+						</div>
+						<div class="level">
+							<div id="rating" style="padding-right:5px">
+								<div id="stars{{_id}}">
+									<span class="glyphicon glyphicon-star"></span>
+									<span class="glyphicon glyphicon-star"></span>
+									<span class="glyphicon glyphicon-star"></span>
+									<span class="glyphicon glyphicon-star"></span>
+									<span class="glyphicon glyphicon-star"></span>
+								</div>
+							</div>
+							<p id="rating{{_id}}"></p>
+						</div>
+					</div>
+				</div>
 			</div>
+			
+			<script type="text/javascript">
+				var val = Math.round({{totalScore}}/{{reviewCount}}*100)/100 || 0 
+				var flooredVal = Math.floor({{totalScore}}/{{reviewCount}}) || 0
+				$('#stars{{_id}} span:nth-child('+flooredVal+')').nextAll().css('color','#333')
+				$('#rating{{_id}}').text('('+val+')')
+				$.ajax({
+					type: "GET",
+					url: "https://maps.googleapis.com/maps/api/geocode/json?latlng={{latitude}},{{longitude}}&key=AIzaSyDHY_Z52IV3Et-b4q-KrcOK-6r5FXW4cxw",
+					success: function(data) {
+						$('#loc{{_id}}').text(data.results[0].formatted_address)
+					}
+				})
+			</script>
 		</div>
 		{{/each}}
 	</div>
@@ -25,4 +72,15 @@
 
 <script type="text/javascript">
 	$('#browse').toggleClass('active')
+	$('#loc').text()
+	if (!{{isNext}}) {
+		$('.next.clicker').toggleClass('disabled')
+	}
+	$(window).keydown(function(e) {
+		if (e.which===39 && {{isNext}}) {
+			window.location.replace($('#next').attr('href'))
+		} else if (e.which===37 && {{prev}}) {
+			window.location.replace($('#prev').attr('href'))
+		}
+	})
 </script>
