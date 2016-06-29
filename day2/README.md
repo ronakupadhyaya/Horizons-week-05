@@ -1,4 +1,4 @@
-# Week 5 Day 1 Exercises
+# Week 5 Day 2 Exercises
 
 ## Inline Exercises
 
@@ -6,3 +6,4 @@
 1. [Inline exercise: Pagination with books](books/README.md)
 
 ## Pair Programming Exercise
+1. [Yelp! Part 2!](yelp/README.md)
