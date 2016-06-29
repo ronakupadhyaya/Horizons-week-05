@@ -1,3 +1,22 @@
+<nav>
+	<h1>Page:{{n}}</h1>
+  <ul class="pagination">
+    <li>
+      <a href="{{prev}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{#each pages}}
+    <li><a href="{{this}}">{{this}}</a></li>
+    {{/each}}
+    
+    <li>
+      <a href="{{next}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 <ul>
 {{#each restaurants}}
 <li>

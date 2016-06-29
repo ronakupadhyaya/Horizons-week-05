@@ -26,13 +26,10 @@ router.use(function(req, res, next){
 
 router.get('/singleRestaurant/:id', function(req, res, next) {
   var id = req.params.id;
-  console.log('test');
+  
   Restaurant.findById(id, function(error, restaurant) {
     if (error) return next(error);
-    console.log('im here');
-      console.log(restaurant);
-      console.log(restaurant.latitude);
-      console.log(restaurant.longitude);
+   
     res.render('singleRestaurant', {
       restaurant: restaurant,
       key: process.env.GEOCODING_API_KEY
@@ -51,8 +48,8 @@ router.post('/restaurants/new', function(req, res, next) {
   // Geocoding - uncomment these lines when the README prompts you to!
   geocoder.geocode(req.body.address, function(err, data) {
     if (err) return next(err);
-      console.log(data);
-      console.log(data[0].longitude);
+      
+     
       var newRestaurant = new Restaurant({
       name: req.body.name,
       price: req.body.price,
@@ -88,11 +85,24 @@ router.get('/restaurants', function(req, res, next) {
 
 router.get('/restaurants/:x', function(req, res, next){
   var n = parseInt(req.params.x);
+    var pageArr = [];
   Restaurant.getTen(n, function(err, restaurants){
+    Restaurant.count(function(err, count) {
+      var arrLength = count / 10;
+    for (var i = 1; i <= arrLength; i++) {
+      pageArr.push(i);
+    }
     if (err) return next(err);
-    res.render('restaurants', {
-      restaurant: restaurants
+    else {res.render('restaurants', {
+      restaurants: restaurants,
+      pages: pageArr,
+      n: n,
+      prev: n-1,
+      next: n+1
     })
+    }
+    
+  })
   })
 })
 
@@ -145,7 +155,7 @@ router.get('/singleProfile/:id', function(req, res, next) {
     }
     user.getFollowers(function(err, followers, following) {
       if (err) return next(err);
-      console.log(followers);
+      
 
 
       res.render('singleProfile', {
