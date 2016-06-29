@@ -113,7 +113,7 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    index: true
   },
   category: {
     type: String,
@@ -136,7 +136,10 @@ var restaurantSchema = mongoose.Schema({
   address: String,
   totalScore: Number,
   reviewsCount: Number,
-  averageRating: Number
+  averageRating: {
+    type: Number,
+    index: true
+  }
 });
 
 restaurantSchema.methods.getReviews = function (callback){
