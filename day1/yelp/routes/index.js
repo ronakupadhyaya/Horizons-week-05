@@ -22,6 +22,24 @@ router.get('/restaurants', function(req,res){
 })
 
 router.get('/restaurants/list/:pg', function(req,res){
+  if(req.query.rating){
+    //console.log(req.query.rating)
+    Restaurant.find({}).sort({averageRating:req.query.rating})
+    .exec(function(err,rest){
+      res.render('restaurants',{rest})
+    })
+    return
+  }
+
+  if(req.query.name){
+   //console.log(req.query.name)
+     Restaurant.find({}).sort({name:req.query.name})
+    .exec(function(err,rest){
+      res.render('restaurants',{rest})
+      return
+    })
+  }
+
   var page=(parseInt(req.params.pg) || 1)
   Restaurant.find(function(err,list){
     var nums=[];

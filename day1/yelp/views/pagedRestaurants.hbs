@@ -1,11 +1,14 @@
 <h1>Restaurants</h1>
-<!-- {{#if prev}}
-<a href="/restaurants/list/{{prev}}" class="btn btn-default">Previous Page</a>
-{{/if}}
-{{#if next}}
-<a href="/restaurants/list/{{next}}" class="btn btn-default">Next Page</a>
-{{/if}} -->
-
+<div class="dropdown">
+  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort
+  <span class="caret"></span></button>
+  <ul class="dropdown-menu">
+    <li><a href="/restaurants/list/1/?name=1">By Restaurant (A-Z)</a></li>
+    <li><a href="/restaurants/list/1/?name=-1">By Restaurant (Z-A)</a></li>
+    <li><a href="/restaurants/list/1/?rating=1">By Rating (High-Low)</a></li>
+    <li><a href="/restaurants/list/1/?rating=-1">By Rating (Low-High)</a></li>
+  </ul>
+</div>
 <nav>
   <ul class="pagination">
     {{#if prev}}
@@ -27,7 +30,7 @@
     {{/if}}
   </ul>
 </nav>
-
+<p></p>
 <ul>
 {{#each rest}}
 <h2><a href="/restaurant/{{_id}}" <b>{{name}}</a></h2>
