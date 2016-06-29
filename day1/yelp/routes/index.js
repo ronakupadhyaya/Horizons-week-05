@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var models = require('../models/models');
+var _ = require('underscore');
 var User = models.User;
 var Follow = models.Follow;
 var Restaurant = models.Restaurant;
@@ -15,7 +16,11 @@ var geocoder = NodeGeocoder({
   formatter: null
 });
 
-// THE WALL - anything routes below this are protected!
+// -----------------------------------------------------\\
+// PROTECTION STARTS!!!!!!!-----------------------------\\
+// THE WALL - anything routes below this are protected!-\\
+// -----------------------------------------------------\\
+
 router.use(function(req, res, next){
   if (!req.user) {
     res.redirect('/login');
@@ -24,9 +29,6 @@ router.use(function(req, res, next){
   }
 });
 
-// ----------------------------------------------\\
-// PROTECTION STARTS!!!!!!!                      \\
-// ----------------------------------------------\\
 // ----------------------------------------------
 // ROUTES TO USER PAGES
 // ----------------------------------------------
@@ -64,7 +66,15 @@ router.get('/profiles', function(req,res,next) {
     if (err) {
       res.render('/error', {error:err})
     } else {
-      res.render('profiles', {users:users})
+      User.findById(req.user._id, function(err,user) {
+        user.getFollowers(req.user._id,function(err,followers,following) {
+          var countData = _.countBy(following, function(val){
+            return val.user2Id._id;
+          });
+          console.log(countData);
+          res.render('profiles', {users:users, fObj:countData});
+        })
+      })
     }
   })
 })

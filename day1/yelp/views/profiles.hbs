@@ -1,20 +1,22 @@
 <div class="row">
 	<div class="col-xs-10 col-xs-offset-1">
 		{{#each users}}
-		<div class="level">
-			<span>
-				<a href="/user/{{_id}}"><h4>{{displayName}}</h4></a>
-			</span>
-			<span class="glyphicon glyphicon-ok follow fo" id="{{_id}}-follow"></span>
-			<span class="glyphicon glyphicon-remove follow un" id="{{_id}}-unfollow"></span>
-		</span>
+				<div class="level">
+					<span>
+						<a href="/user/{{_id}}"><h4>{{displayName}}</h4></a>
+					</span>
+						{{#unless_get ../fObj _id}}
+						<span class="glyphicon glyphicon-remove follow un" id="{{_id}}-unfollow"></span>
+						{{else}}
+						<span class="glyphicon glyphicon-ok follow fo" id="{{_id}}-follow"></span>
+						{{/unless_get}}
+				</div>
+				<div class="level">
+					<span class="glyphicon glyphicon-map-marker"></span>
+					<p class="loc">{{location}}</p>
+				</div>
+		{{/each}}
 	</div>
-	<div class="level">
-		<span class="glyphicon glyphicon-map-marker"></span>
-		<p class="loc">{{location}}</p>
-	</div>
-	{{/each}}
-</div>
 </div>
 
 
@@ -22,7 +24,6 @@
 	$(".follow").click(function(e) {
 		e.preventDefault()
 		console.log('clicked follow!')
-		console.log($(this).attr('id'))
 		var name = ($(this).prev().text()).trim()
 		var id = "#" + ($(this).attr('id'));
 		var fstatus = id.split("-")
@@ -31,8 +32,9 @@
 			type: "POST",
 			url:'/user/'+($(this).attr('id')).replace('-','/'),
 			success: function() {
-				$(id).hide()
-				alert("You " + fstatus + "ed " + name)
+				if(confirm("You " + fstatus + "ed " + name)){
+					window.location.reload(); 
+				}
 			}
 		})
 	})

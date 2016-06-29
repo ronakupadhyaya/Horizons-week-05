@@ -11,11 +11,20 @@ var routes = require('./routes/index');
 var auth = require('./routes/auth');
 var MongoStore = require('connect-mongo/es5')(session);
 var mongoose = require('mongoose');
+var hbs = require('hbs');
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+hbs.registerHelper('unless_get', function(obj, key, options) {
+      if(obj[key]){
+        return options.fn(this);
+      } else{
+        return options.inverse(this);
+      }
+});
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
