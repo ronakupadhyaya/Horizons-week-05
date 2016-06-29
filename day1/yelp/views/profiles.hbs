@@ -1,8 +1,16 @@
+<h1>All users</h1>
+<br>
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Email</th>
+	<th></th>
+</tr>
 {{#each users}}
-<h4>Name:</h4>
-<p>{{displayName}}</p>
-<h4>Address:</h4>
-<p>{{address}}</p>
-<a href="/user/{{_id}}">Visit profile</a>
-<br><br>
+<tr>
+	<td>{{displayName}}</td>
+	<td>{{email}}</td>
+	<td><a class="btn btn-default btn-red" href="/user/{{_id}}">Visit profile</a></td>
+</tr>
 {{/each}}
+</table>

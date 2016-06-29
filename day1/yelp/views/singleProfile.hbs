@@ -1,12 +1,10 @@
-<h4>Name:</h4>
-<p>{{user.displayName}}</p>
-
-<h4>Email:</h4>
-<p>{{user.email}}</p>
-
-<h4>Address:</h4>
-<p>{{user.address}}</p>
+<div class="container rest">
+<h1>{{user.displayName}}</h1>
+<h4>{{user.email}}</h4>
 <br>
+
+{{!-- <h4>Address:</h4>
+<p>{{user.address}}</p> --}}
 
 {{#if isFollowing}}
 <form action="/unfollow/{{user._id}}" method="post">
@@ -17,13 +15,14 @@
 	<input style="display: inline;" type="submit" value="Follow this user">
 </form>
 {{/if}}
+</div>
 
 <br><br>
 
 <h4>Reviews:</h4>
 <p>{{user.reviews}}</p>
 
-<h4>Following:</h4>
+{{!-- <h4>Following:</h4>
 {{#each following}}
 	<a href="/user/{{to._id}}"><p>{{to.displayName}}</p></a>
 {{/each}}
@@ -33,7 +32,41 @@
 <h4>Followers:</h4>
 {{#each followers}}
   <a href="/user/{{from._id}}"><p>{{from.displayName}}</p></a>
+{{/each}} --}}
+
+<h4>Following:</h4>
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Email</th>
+	<th></th>
+</tr>
+{{#each following}}
+<tr>
+	<td>{{to.displayName}}</td>
+	<td>{{to.email}}</td>
+	<td><a class="btn btn-default btn-red" href="/user/{{to._id}}">Visit profile</a></td>
+</tr>
 {{/each}}
+</table>
+
+<h4>Followers:</h4>
+<table class="table table-striped">
+<tr>
+	<th>Name</th>
+	<th>Email</th>
+	<th></th>
+</tr>
+{{#each followers}}
+<tr>
+	<td>{{from.displayName}}</td>
+	<td>{{from.email}}</td>
+	<td><a class="btn btn-default btn-red" href="/user/{{from._id}}">Visit profile</a></td>
+</tr>
+{{/each}}
+</table>
+
+
 
 
 <a href="/">Go back to all users</a>

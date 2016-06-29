@@ -13,6 +13,7 @@ nav {
 	display: inline-block;
 	padding: 5px;
 	margin-bottom: 20px;
+	min-height: 75px;
 }
 
 nav h1, nav h3 {
@@ -21,9 +22,19 @@ nav h1, nav h3 {
 	margin-left: 20px;
 }
 
+.yelp-logo {
+	margin-right: 10px;
+	position: relative;
+	bottom: 5px;
+}
+
 .nav-right {
 	float: right;
 	margin-right: 20px;
+}
+
+.nav-left {
+	float: left;
 }
 
 .rest-list {
@@ -35,4 +46,20 @@ nav h1, nav h3 {
 .rest-list:hover {
 	background-color: #4d4d4d;
 	color: white;
+}
+
+.btn-red:hover {
+	background-color: #C41200 !important;
+	color: white !important;
+}
+
+.rest {
+	background-color: #EEEEEE;
+	padding-bottom: 15px;
+	text-align: center;
+	border-radius: 5px;
+}
+
+.rest h2 {
+	font-weight: bold;
 }

@@ -17,12 +17,19 @@
 </head>
 <body>
     <nav>
-      <h1>Yelp!</h1>
-      <a href="/"><h3>Users</h3></a>
-      <a href="/restaurants"><h3>Restaurants</h3></a>
+      <a class="nav-left yelp-logo" href="/"><h1>Yelp!</h1></a>
+      <a class="nav-left" href="/"><h3>Users</h3></a>
+      <a class="nav-left" href="/restaurants"><h3>Restaurants</h3></a>
+
+      {{#if users}}
+      <a class="nav-right" href="/logout"><h3>Logout</h3></a>
+      {{else}}
+      <a class="nav-right" href="/signup"><h3>Sign Up</h3></a>
+      <a class="nav-right" href="/login"><h3>Login</h3></a>
+      {{/if}}
+
       <a class="nav-right" href="/restaurants/new"><h3>New restaurant</h3></a>
     </nav>
-
   <div class="container">
     {{{body}}}
   </div>

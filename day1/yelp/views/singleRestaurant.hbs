@@ -1,8 +1,11 @@
+<div class="container rest">
 <h2>{{rest.name}}</h2>
-<h3>{{rest.category}}</h3>
+<h3><i>{{rest.category}}</i></h3>
 <h4>Price: ${{rest.price}}.00</h4>
 <p>Opens at {{rest.openTime}} and closes at {{rest.closeTime}}</p>
 <img src="https://maps.googleapis.com/maps/api/staticmap?center={{rest.location.latitude}},{{rest.location.longitude}}&markers=color:red|{{rest.location.latitude}},{{rest.location.longitude}}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyAXrOcI2vMYurPGdWg1radfOkKuvNVmrZI">
+</div>
+
 <br><br>
 <a href="/restaurants"><h4>Back to all restaurants</h4></a>
 <br>

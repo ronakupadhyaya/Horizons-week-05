@@ -35,8 +35,6 @@ router.get('/', function(req, res, next){
 router.get('/user/:id', function(req, res, next){
   User.findById(req.params.id, function(error, user){
     user.getFollows(function(err, followers, following){
-      console.log("followers", followers);
-      console.log("following", following);
       var isFollowing;
       for (var i=0; i<followers.length; i++) {
         if(followers[i].from._id.equals(req.user.id)) {
