@@ -24,12 +24,13 @@ var userSchema = mongoose.Schema({
 
 
 userSchema.methods.getFollowers = function (id, callback) {
+var that = this;
 return this.model('Follow').find({
     followed: id
   })
   .populate('follower')
   .exec(function(err, myFollowers) {
-      Follow.find({
+      that.model('Follow').find({
         follower: id
         })
         .populate('followed')
@@ -41,13 +42,14 @@ return this.model('Follow').find({
 };
 
 userSchema.methods.follow = function (idToFollow, callback) {
+  var myId = this._id;
   this.model('Follow').findOne({
     follower: this._id,
     followed: idToFollow
   }, function(err, pair) {
     if (! err && pair === null) {
         var n = new Follow({
-          follower: this._id,
+          follower: myId,
           followed: idToFollow
         })
         n.save(function(error) {
@@ -59,7 +61,7 @@ userSchema.methods.follow = function (idToFollow, callback) {
     } else if (err) {
       callback(err);
     } else {
-      callback(pair);
+      callback(err, pair);
     }
   })
 }
@@ -76,7 +78,7 @@ userSchema.methods.unfollow = function (idToUnfollow, callback){
       if(error) {
         callback(error);
       } else {
-        callback(deleted)
+        callback(err, deleted)
       }
     })
   })
@@ -89,7 +91,7 @@ userSchema.methods.isFollowing = function(isFollowing, callback) {
   }, function(err, pair) {
     if (err) {
       callback(err)
-    } else {callback (pair === null)}
+    } else {callback (err, pair !== null)}
   })
 }
 
@@ -112,7 +114,10 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: {
+      unique: true
+    }
   },
   category: {
     type: String,
@@ -139,11 +144,31 @@ var restaurantSchema = mongoose.Schema({
 
 });
 
+restaurantSchema.statics.getTen = function(n, callback) {
+    var page = parseInt(n);
+    Restaurant.find()
+    .sort({'name': 1})
+    .limit(6)
+    .skip(5 * (page - 1))
+    .exec(function(err, restaurants) {
+      var displayRest = restaurants.slice(0,5);
+      callback(displayRest, page > 1, page + 1, page - 1, restaurants.length === 6)
+    });
+}
+
+
+
+
+
+
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
 
 }
 
-
+  var User = mongoose.model('User', userSchema);
+  var Restaurant = mongoose.model('Restaurant', restaurantSchema);
+  var Review = mongoose.model('Review', reviewSchema);
+  var Follow = mongoose.model('Follow', FollowsSchema);
 
 
 module.exports = {

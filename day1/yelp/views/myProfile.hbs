@@ -1,17 +1,6 @@
 <h4>Name:</h4>
 <p>{{user.displayName}}</p>
 
-{{#if tf}}
-  <form  action="/unfollow/{{user._id}}" method="post">
-    <input style="display: inline;" type="submit" value="Unfollow">
-  </form>
-</div>
-{{else}}
-  <form  action="/follow/{{user._id}}" method="post">
-    <input style="display: inline;" type="submit" value="Follow">
-  </form>
-</div>
-{{/if}}
 
 <h4>Email:</h4>
 <p>{{user.email}}</p>
@@ -25,6 +14,10 @@
 <h4>Following:</h4>
 {{#each following}} 
   <div>{{followed.displayName}}
+  <form  action="/unfollow/{{followed.id}}" method="post">
+    <input class="hidden-url" type="hidden" name="fromMe" value="true">
+    <input style="display: inline;" type="submit" value="Unfollow">
+  </form>
 </div>
 {{/each}}
 
@@ -33,3 +26,8 @@
   <p>{{follower.displayName}}</p>
 {{/each}}
 
+<script>
+// $(function() {
+//   $('.hidden-url').val(window.location.href);
+// });
+</script>

@@ -16,6 +16,7 @@ var geocoder = NodeGeocoder({
 
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
+  console.log("THE WALL")
   if (!req.user) {
     console.log("help")
     res.redirect('/login');
@@ -25,15 +26,14 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res, next) {
-  res.render('singleProfile', {
-    user: req.user
-  });
+  console.log(req.user._id);
+  res.redirect('/profiles/' + req.user._id)
 })
 
 
 router.get('/restaurants/new', function(req, res, next) {
     res.render('newRestaurant');
-  })
+})
 
 router.post('/restaurants/new', function(req, res, next){
 
@@ -68,6 +68,38 @@ router.get('/restaurants', function(req, res){
   })
 })
 
+router.get('/restaurants/list', function(req, res){
+  res.redirect('/restaurants/list/1');
+})
+
+router.get('/restaurants/list/:page', function(req, res){
+  Restaurant.count(function(err, count) {
+    var num = Math.floor(count / 5) + 1;
+    var array = [];
+    for (var i = 1; i < num+1; i++) {
+      array.push(i);
+    }
+
+    console.log("HELLO" + count)
+
+  Restaurant.getTen(req.params.page || 1, function(display, hasPrev, Next, Previous, hasNext) {
+              console.log(display);
+              console.log(hasPrev);
+              console.log(Next);
+              console.log(Previous);
+              console.log(hasNext);
+              res.render('restaurants', {
+                restaurants: display,
+                hasPrev: hasPrev,
+                next: Next,
+                prev: Previous,
+                hasNext: hasNext,
+                array: array
+              })
+          })
+  })
+})
+
 router.get('/restaurants/:id', function(req, res) {
   Restaurant.findById(req.params.id, function(err, rest) {
     res.render('singleRestaurant', {
@@ -75,6 +107,7 @@ router.get('/restaurants/:id', function(req, res) {
     })
   })
 })
+
 
 router.get('/profiles', function(req,res) {
   User.find(function(err, user) {
@@ -88,17 +121,46 @@ router.get('/profiles', function(req,res) {
 
 });
 
-router.get('/:id'), function(req,res) {
+router.get('/profiles/:id', function(req, res) {
   User.findById(req.params.id, function(err, user) {
-    user.getFollowers(this._id, function(err, myFollowers, myFollowed) {
-
-    })
-    res.render('singleProfile', {
-      user: user
+    console.log(err, user)
+    user.getFollowers(user._id, function(err, myFollowers, myFollowed) {
+      req.user.isFollowing(user._id, function(err, iAmFollowing) {
+        console.log(req.user._id);
+        console.log(req.params.id);
+        if(req.user._id == req.params.id) {
+          res.render('myProfile', {
+            user: user,
+            following: myFollowed,
+            followers: myFollowers
+          });
+        }
+        console.log(iAmFollowing);
+        res.render('singleProfile', {
+          user: user,
+          following: myFollowed,
+          followers: myFollowers,
+          tf: iAmFollowing
+       })
+      })  
     })
   })
+})
 
-}
+router.post('/follow/:id', function(req, res) {
+  req.user.follow(req.params.id, function(err, pair) {
+      res.redirect('/profiles/' + req.params.id)
+  })
+})
 
+router.post('/unfollow/:id', function(req, res) {
+  req.user.unfollow(req.params.id, function(err, deleted) {
+      if(req.body.fromMe) {
+        res.redirect('/');
+      } else {
+        res.redirect('/profiles/' + req.params.id);
+      }
+  })
+})
 
-module.exports = router;
+module.exports = router; 
