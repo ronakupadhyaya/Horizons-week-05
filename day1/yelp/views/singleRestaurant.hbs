@@ -1,3 +1,22 @@
 <h1>{{restaurant.name}}</h1>
+<p>Rating: {{restaurant.averageRating}}</p>
 
-<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&maptype=roadmap">
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.location.latitude}},{{restaurant.location.longitude}}&markers=color:red|{{restaurant.location.latitude}},{{restaurant.location.longitude}}&zoom=13&size=600x300&key=AIzaSyCYR5XqLDG48sPWbdtGh_lQ4lP4f6bBsfg&maptype=roadmap">
+<br>
+<br>
+
+<form method = "post">
+	 <a class="btn btn-success"href="/restaurants/review/{{restaurant._id}}">Write a Review</a>
+	 <a href="/restaurants">See all restaurants</a>
+</form>
+
+<h2>Reviews</h2>
+<div class="panel panel-default" style="max-width:600px; margin:auto border: 0.5px solid gray; padding: 15px">
+{{#each reviews}}
+	<div class="panel-body">
+		<h3><strong>{{userId.displayName}}</strong></h3>
+		<h5>{{userId.location}}</h5>
+		<p>Stars: {{stars}}</p>
+		<p>{{content}}</p>
+	</div>
+{{/each}}

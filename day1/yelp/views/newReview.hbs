@@ -1,1 +1,11 @@
-{{! YOUR CODE HERE }}
+<form method="post" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+  <h3>Register</h3>
+  <div class="form-group">
+    <label>Review</label>
+    <textarea type="text" name="review" rows="4" cols="50" class="form-control" placeholder="Write Review Here"></textarea>
+    <br>
+    <label>Rate (0-5 stars)</label>
+    <input type="number" name="stars" min="0" max="5">
+  </div>
+  <button class="btn btn-success">Submit Review</button>
+</form>

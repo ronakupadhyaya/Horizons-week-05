@@ -18,11 +18,11 @@ var userSchema = mongoose.Schema({
     required: true
   },
   location: {
-    type: String
+    type: String,
+    required: true
   }
 });
 
-<<<<<<< HEAD
 userSchema.methods.getFollowers = function (id, callback){
   Follow.find({userTo: id}).populate('userFrom').exec(function(err, followers){
     if(followers) {
@@ -32,11 +32,8 @@ userSchema.methods.getFollowers = function (id, callback){
     }
   });
 };
-=======
-userSchema.methods.getFollows = function (id, callback){
->>>>>>> master
 
-userSchema.methods.follow = function (idToFollow, callback){
+userSchema.methods.follow = function(idToFollow, callback){
   var id = this._id;
   Follow.find({userFrom: id, userTo: idToFollow}, function(err, follow){
     // if(err){
@@ -94,6 +91,7 @@ var reviewSchema = mongoose.Schema({
   },
   stars: {
     type: Number,
+    enum:[1,2,3,4,5],
     required: true
   },
     restaurantId: {
@@ -111,10 +109,12 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   category: {
     type: String,
+    enum:["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"],
     required: true
   },
   location: {
@@ -127,28 +127,41 @@ var restaurantSchema = mongoose.Schema({
     required: true
   },
   openTime: {
-    type: Number,
+    type: String,
     required: true
   },
   closingTime: {
+    type: String,
+    required: true
+  },
+  totalScore: {
     type: Number,
     required: true
+  },
+  reviewCount: {
+    type: Number,
+    required:true
+  },
+  averageRating: {
+    type: Number,
+    required: true,
+    index: true
   }
 });
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
-
+  this.model('Review').findById({restaurantId:restaurantId}).populate('userId').exec(
+    function(err, reviews){
+        callback(err, reviews);
+  })
 }
 
-<<<<<<< HEAD
-restaurantSchema.methods.averageRating = function(callback){
+restaurantSchema.virtual('averageRating').get(function() {
+  if(this.reviewCount === 0){
+    return "Not Rated Yet";}
+  return parseInt(this.totalScore/this.reviewCount);
+});
 
-}
-=======
-//restaurantSchema.methods.stars = function(callback){
-//
-//}
->>>>>>> master
 
 
 module.exports = {

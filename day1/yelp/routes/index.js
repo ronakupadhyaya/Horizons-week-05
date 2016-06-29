@@ -32,6 +32,10 @@ router.get('/users', function(req, res, next){
   })
 });
 
+router.get('/', function(req, res, next){
+  res.redirect('/restaurants')
+});
+
 router.post('/unfollow/:id', function(req, res, next){
   var id = req.params.id;
   User.unfollow(id, function(err, removed){
@@ -84,10 +88,23 @@ router.post('/users/:id', function(req, res, next){
 
 
 router.get('/restaurants', function(req, res, next){
-  Restaurant.find(function(err, restaurants){
-    res.render('restaurants', {
-    restaurants: restaurants
-  })
+  var page = parseInt(req.query.page) || 1;
+  Restaurant.count(function(err, count){
+    Restaurant.find().limit(10).skip(10*(page -1)).exec(function(err, restaurants){
+      console.log(restaurants)
+      var ifPrev = (page > 1);
+      var prev = page-1;
+      var ifNext = ((page*10) < count);
+      var next = page + 1;
+
+      res.render('restaurants', {
+      restaurants: restaurants,
+      prev: prev,
+      next: next,
+      ifNext: ifNext,
+      ifPrev: ifPrev
+      })
+    })
   })
 })
 
@@ -109,6 +126,8 @@ router.post('/restaurants/new', function(req, res, next) {
       price: req.body.price,
       openTime: req.body.open,
       closingTime: req.body.close,
+      totalScore: 0,
+      reviewCount: 0,
       location: {
         latitude: data[0].latitude,
         longitude: data[0].longitude
@@ -133,10 +152,43 @@ router.get('/restaurants/new', function(req, res, next) {
 
 router.get('/restaurants/:id', function(req, res, next){
   Restaurant.findById(req.params.id, function(err, restaraunt){
-    res.render('singleRestaurant', {
-      restaurant: restaraunt
+    Review.find({restaurantId: req.params.id}).populate('userId').exec(function(err, reviews){
+      if(reviews){
+        res.render('singleRestaurant', {
+          restaurant: restaraunt,
+          reviews: reviews
+        })
+      }
     })
   })
+})
+
+
+router.post('/restaurants/review/:id', function(req,res,next){
+  var newReview = new Review({
+    content: req.body.review,
+    stars: req.body.stars,
+    restaurantId: req.params.id,
+    userId: req.user._id,
+  })
+
+  newReview.save(function(err, succ){
+    if(succ){
+      Restaurant.findByIdAndUpdate(req.params.id, { 
+        $inc: { totalScore: parseInt(req.body.stars), reviewCount: 1} }, function(err, rest){
+          if(rest){
+            res.redirect('/restaurants/'+req.params.id);
+          }
+        })
+    }
+    if(err){
+      res.send(err);
+    }
+  })
+})
+
+router.get('/restaurants/review/:id', function(req,res,next){
+  res.render('newReview');
 })
 
 module.exports = router;

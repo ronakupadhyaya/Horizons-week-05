@@ -1,0 +1,33 @@
+function foo (a, b) {
+	return a+b
+}
+
+
+
+
+someMethod(function(a, b) {
+	foo(a, b)
+})
+
+someMethod(foo)
+
+
+
+var results;
+
+results = Foo.find(bla); // DOESN'T WORK ANYMORE
+
+
+
+User.getFoos = function (callback) {
+	Foo.find(function(err, results) {
+		callback(err, results);
+	})
+}
+
+User.getFoos(function (err, foos) {
+	if (err) next(err);
+	else {
+		console.log("User " + this._id + " foos are: " + foos);
+	}
+})

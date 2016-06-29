@@ -1,9 +1,23 @@
 <h1>Restaurants</h1>
 
 {{#each restaurants}}
-<div class="panel panel-default" style="max-width: 50%; border: 0.5px solid gray; padding: 15px">
+<div class="panel panel-default" style="max-width: 50%; border: 0.5px solid gray; padding:0">
   <div class="panel-body">
     <a href='/restaurants/{{_id}}'><h3>{{name}}</h3></a>
   </div>
 </div>
 {{/each}}
+<br>
+
+
+
+{{#if ifPrev}}
+<a class="btn btn-default" href="/restaurants/?page={{prev}}">Prev page</a>
+{{/if}}
+
+{{#if ifNext}}
+<a class="btn btn-default" href="/restaurants/?page={{next}}">Next page</a>
+{{/if}}
+
+<br><br>
+<a class="btn btn-danger" href="/restaurants/new">Add a Restaurant</a>
