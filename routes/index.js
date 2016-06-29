@@ -123,23 +123,23 @@ router.get('/restaurants/list/:page', function(req, res, next){
   //   q = q.sort({price: price});
   // }
 
-  q.skip(10*(page-1))
-  .limit(11)
+  q.skip(quantPages*(page-1))
+  .limit(quantPages + 1)
   .exec(function(error, restaurants){
     if (error){
       res.status(400).send(error);
       return;
     }
     var restLength = restaurants.length;
-    var displayRestaurants = restaurants.splice(0, 10);
+    var displayRestaurants = restaurants.splice(0, quantPages);
     var pageTotal = [];
     Restaurant.count(function(error, totalRestaurants){
       if (error){
         res.status(400).send(error);
         return;
       }
-      var pageNum = Math.floor((totalRestaurants/ 10));
-      if(totalRestaurants % 10) pageNum++;
+      var pageNum = Math.floor((totalRestaurants/ quantPages));
+      if(totalRestaurants % quantPages) pageNum++;
       for (var i = 1; i <= pageNum; i++){
         pageTotal.push(i);
       }
@@ -148,7 +148,7 @@ router.get('/restaurants/list/:page', function(req, res, next){
         page: page,
         prev: page - 1,
         next: page + 1,
-        hasNext: restLength === 11,
+        hasNext: restLength === (quantPages + 1),
         pageTotal: pageTotal
       });
     });
