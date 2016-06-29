@@ -1,11 +1,29 @@
 
 {{! YOUR CODE HERE }}
 <ul>
-{{!-- Page: {{page}}
-{{#if prev}}
-	<a href="?page={{prev}}">Previous page</a>
-	{{/if}}	
-	<a href="?page={{next}}">Next page</a> --}}
+
+ Page: {{page}}
+
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="{{prev}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+      {{#each pageArr}}
+
+    </li>
+    <li><a href="/restaurants/list/{{this}}">{{this}}</a></li>
+    <li>
+    	{{/each}}
+      <a href="{{next}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+
 
 	
 {{#each restaurants}}

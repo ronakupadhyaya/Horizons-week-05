@@ -64,6 +64,7 @@ router.post("/restaurant/new", function(req, res, next){
 
 router.get("/restaurants", function(req, res){
   Restaurant.find(function(err, restaurants){
+          console.log(restaurants)
     res.render("restaurants",{
       restaurants: restaurants
     })
@@ -86,11 +87,24 @@ router.get("/restaurants/:id", function(req, res){
 
 router.get("/restaurants/list/:id", function(req, res) {
     var n = parseInt(req.params.id)
-    Restaurant.getTen(n, function(restaurants) {
-        res.render("restaurants"){
-          restaurants: restaurants
+    var pageArr = [];
+    Restaurant.getTen(n, function(error, restaurants){
+      var count = Restaurant.count(function(err, count){
+        var arrLength = count / 10;
+        for (var i = 1; i <= arrLength; i++){
+          pageArr.push(i)
+        }
+      
+        if(error) return (error)
+        res.render("restaurants",{
+          restaurants: restaurants,
+          pageArr : pageArr,
+          prev : n - 1,
+          next : n +1,
+          page: n
+        });
+      })
     });
-  
 })
 
 // THE WALL - anything routes below this are protected!

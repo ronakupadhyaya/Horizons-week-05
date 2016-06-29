@@ -139,8 +139,11 @@ var restaurantSchema = mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["Korean", "Barbeque", "Casual", "Mexican", "BYO"],
+    enum: ["Mexican", "Food Stands", "Tex-Mex", "Food Trucks", "Pizza", "Bars", "Italian", "Mediterranean", "Indian", "Grocery"],
     required: true
+  },
+  rating:{
+    type: Number
   },
   location:{
     latitude: Number,
@@ -154,18 +157,16 @@ var restaurantSchema = mongoose.Schema({
   },
   openTime: {
     type: Number,
-    required: true
   },
   closingTime: {
     type: Number,
-    required: true
   }, 
   totalScore: Number,
   reviewCount: Number,
 
 });
 
-var Restaurant = mongoose.model("Restaurant", restaurantSchema);
+
 
 restaurantSchema.methods.getReviews = function (restaurantId, callback){
 Review.find({restaurantId: restaurantId}).populate("userId").exec(function(error, reviewArray){
@@ -186,20 +187,20 @@ restaurantSchema.virtual('averageRating').get(function () {
 
 // }
 
-restaurantSchema.statics.findTheNextTen = function(n, cb) {
+restaurantSchema.statics.getTen= function(n, cb) {
 Restaurant.find()
           .limit(10)
-          .skip(10 * (page -1))
+          .skip(10 * (n -1))
           .sort({name : 1})
           .exec(function(error, restaurants){
-            if error return next(error)
+            if (error) return (error);
               else {
-                cb(restaurants)
+                cb(error, restaurants)
               }
           })
 
 }
-
+var Restaurant = mongoose.model("Restaurant", restaurantSchema);
 
 module.exports = {
   User: mongoose.model('User', userSchema),

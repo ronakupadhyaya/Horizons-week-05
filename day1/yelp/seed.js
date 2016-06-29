@@ -24,15 +24,14 @@ restaurants.forEach(function(restaurant){
 		"reviewCount": 1,
 		"price" : Math.floor(Math.random() * 4 )+1
 	});
-	console.log(restaurant);
 
-	// restaurant.save(function(err){
-	// 	if(err){
-	// 		console.log(err)
-	// 	} else {
-	// 		console.log("saved restaurant");	
-	// 	}
+	restaurant.save(function(err){
+		if(err){
+			console.log(err)
+		} else {
+			console.log("saved restaurant");	
+		}
 		
-	// })
+	})
 
 })
