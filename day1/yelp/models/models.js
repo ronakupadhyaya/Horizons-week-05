@@ -103,6 +103,16 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
+    required: true,
+    index: true
+  },
+  rating: {
+    type: Number,
+    required: true,
+    index: true
+  },
+  price: {
+    type: Number,
     required: true
   },
   category: {
@@ -114,10 +124,6 @@ var restaurantSchema = mongoose.Schema({
     required: true
   },
   longitude: {
-    type: Number,
-    required: true
-  },
-  price: {
     type: Number,
     required: true
   },
@@ -151,6 +157,14 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
   });
 }
 
+restaurantSchema.statics.findNextTen = function(page, callback) {
+  this.find().skip(10*(page -1)).limit(11).exec(function(error, restaurants) {
+    callback(null, restaurants);
+  });
+}
+
+
+
 // // restaurantSchema.methods.stars = function(callback){
 
 // // }
@@ -179,27 +193,27 @@ restaurantSchema.virtual('range').get(function() {
     return "$$"
   } else if (this.price === 3) {
     return "$$$" 
+  } else if (this.price === 4) {
+    return "$$$$"
   }
 });
 restaurantSchema.virtual('averageRating').get(function() {
   if (this.reviewCount>0) {
-    if (Math.floor(this.totalScore/this.reviewCount) === 0) {
+    if (Math.round(this.totalScore/this.reviewCount) === 0) {
       return "☆☆☆☆☆"
-    } else if (Math.floor(this.totalScore/this.reviewCount) === 1) {
+    } else if (Math.round(this.totalScore/this.reviewCount) === 1) {
       return "★☆☆☆☆"
-    } else if (Math.floor(this.totalScore/this.reviewCount) === 2) {
+    } else if (Math.round(this.totalScore/this.reviewCount) === 2) {
       return "★★☆☆☆"
-    } else if (Math.floor(this.totalScore/this.reviewCount) === 3) {
+    } else if (Math.round(this.totalScore/this.reviewCount) === 3) {
       return "★★★☆☆"
-    } else if (Math.floor(this.totalScore/this.reviewCount) === 4) {
+    } else if (Math.round(this.totalScore/this.reviewCount) === 4) {
       return "★★★★☆"
-    } else if (Math.floor(this.totalScore/this.reviewCount) === 5) {
+    } else if (Math.round(this.totalScore/this.reviewCount) === 5) {
       return "★★★★★"
     }
   }
 });
-
-
 
 
 

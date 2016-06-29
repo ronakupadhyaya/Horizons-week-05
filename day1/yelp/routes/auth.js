@@ -47,7 +47,7 @@ module.exports = function(passport) {
   });
 
   // POST Login page
-router.post('/login', passport.authenticate('local', { successRedirect: '/restaurants', failureRedirect: '/login' }));
+router.post('/login', passport.authenticate('local', { successRedirect: '/restaurants/list/1', failureRedirect: '/login' }));
 
   // GET Logout page
   router.get('/logout', function(req, res) {

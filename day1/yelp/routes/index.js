@@ -31,7 +31,7 @@ router.use(function(req, res, next){
 });
 
 router.get('/', function(req, res) {
-  res.render('restaurants');
+  res.redirect('restaurants/list/1');
 })
 
 
@@ -93,6 +93,64 @@ router.get('/restaurants', function(req, res, next) {
   })
 })
 
+
+
+router.get('/restaurants/list/:page', function(req, res, next) {
+  var page = parseInt(req.params.page)
+  if (page < 1) {
+    res.status(400).send('Bad page index');
+    return;
+  }
+  var q = Restaurant.find();
+  var name = parseInt(req.query.name);
+  var rating = parseInt(req.query.rating);
+  var price = parseInt(req.query.price);
+  if (name) {
+    q = q.sort({name: name});
+  } else if (rating && price){
+    q = q.sort({rating: rating, price: price});
+  } else if (rating && (!price)){
+    q = q.sort({rating: rating});
+  } else if ((!rating) && price){
+    q = q.sort({price: price});
+  }
+
+  q.skip(10*(page -1))
+  .limit(11)
+  .exec(function(error, restaurants) {
+    if (error) {
+      res.status(400).render('error') 
+      return;
+    }
+    var reslength = restaurants.length
+    var displayRestaurants = restaurants.splice(0,9)
+    var pageTotal = [];
+    Restaurant.count(function(error, totalRestaurants) {
+      if (error) {
+        res.status(400).send('error');
+        return; 
+      }
+      var pageNum = Math.floor(totalRestaurants/10);
+      if (totalRestaurants%10) pageNum++;
+      for (var i=1; i<=pageNum; i++) {
+        pageTotal.push(i)
+      }
+      res.render('restaurants', {
+        restaurants: displayRestaurants,
+        page: page,
+        prev: page - 1,
+        next: page + 1,
+        hasNext: reslength === 11,
+        pageTotal: pageTotal
+      })   
+    })
+  })
+})
+
+
+
+
+
 router.get('/restaurants/new', function(req, res, next) {
   res.render('newRestaurant')
 });
@@ -111,7 +169,8 @@ router.post('/restaurants/new', function(req, res, next) {
       opentime: req.body.opentime,
       closetime: req.body.closetime,
       totalScore: 0,
-      reviewCount: 0
+      reviewCount: 0,
+      rating: 0
     })
     r.save(function(error, user) {
       if (error) {
