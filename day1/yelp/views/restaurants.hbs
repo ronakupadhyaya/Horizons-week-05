@@ -4,6 +4,35 @@
 
  Page: {{page}}
 
+<form>
+<div>Name:
+<select name="name">
+<option value="ascending">Ascending</option>
+<option value="descending">Descending</option>
+<input type="submit" value="Submit">
+</select>
+</form>
+
+<form>
+<div>Price:
+<select name="price">
+<option></option>
+<option value="ascending">Ascending</option>
+<option value="descending">Descending</option>
+
+</select>
+</div>	
+<div>Rating:
+<select name="rating">
+<option></option>
+<option value="ascending">Ascending</option>
+<option value="descending">Descending</option>
+<input type="submit" value="Submit">
+</select>
+</div>
+</form> 
+
+
 <nav>
   <ul class="pagination">
     <li>
@@ -30,7 +59,8 @@
 <li><a href="/restaurants/{{_id}}"><h1>{{name}}</h1> 
 
 <strong>Category:{{category}}
-		Location: {{location.address}}
-		Price: {{price}}
+		<p>Location: {{location.address}}</p>
+		<p>Price: {{price}}</p>
+		<p>Rating: {{rating}}</p>
 {{/each}}
 </ul>

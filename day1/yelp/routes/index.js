@@ -63,19 +63,59 @@ router.post("/restaurant/new", function(req, res, next){
             
 
 router.get("/restaurants", function(req, res){
-  Restaurant.find(function(err, restaurants){
+    var rating = req.query.rating
+    var name = req.query.name
+    var price = req.query.price
+    if(name){
+       Restaurant.find()
+            .limit(10)
+            .sort({name: name})
+            .exec(function(err, restaurants){
           console.log(restaurants)
     res.render("restaurants",{
       restaurants: restaurants
     })
   })
+    }
+    if(rating){
+       Restaurant.find()
+            .limit(10)
+            .sort({rating: rating})
+            .exec(function(err, restaurants){
+          console.log(restaurants)
+    res.render("restaurants",{
+      restaurants: restaurants
+    })
+  })
+    }
+    if(price){
+       Restaurant.find()
+            .limit(10)
+            .sort({price: price})
+            .exec(function(err, restaurants){
+          console.log(restaurants)
+    res.render("restaurants",{
+      restaurants: restaurants
+    })
+  })
+    }
+    else{
+       Restaurant.find(function(err, restaurants){
+          console.log(restaurants)
+    res.render("restaurants",{
+      restaurants: restaurants
+    })
+  })
+    }
+
+// res.redirect("/restaurants/list/1")
 })
 
 router.get("/restaurants/:id", function(req, res){
   Restaurant.findById(req.params.id, function(err, restaurant){
-    console.log(restaurant);
-    console.log(restaurant.location.latitude)
-    console.log(restaurant.location.longitude)
+    // console.log(restaurant);
+    // console.log(restaurant.location.latitude)
+    // console.log(restaurant.location.longitude)
     res.render("singleRestaurant",{
       restaurant: restaurant,
       key : process.env.GEOCODING_API_KEY,
@@ -86,7 +126,7 @@ router.get("/restaurants/:id", function(req, res){
 
 
 router.get("/restaurants/list/:id", function(req, res) {
-    var n = parseInt(req.params.id)
+    var n = parseInt(req.params.id || 1)
     var pageArr = [];
     Restaurant.getTen(n, function(error, restaurants){
       var count = Restaurant.count(function(err, count){

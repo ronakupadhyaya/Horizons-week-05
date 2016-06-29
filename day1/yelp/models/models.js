@@ -135,7 +135,8 @@ var reviewSchema = mongoose.Schema({
 var restaurantSchema = mongoose.Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    index: true
   },
   category: {
     type: String,
@@ -163,7 +164,12 @@ var restaurantSchema = mongoose.Schema({
   }, 
   totalScore: Number,
   reviewCount: Number,
-
+  averageRating: {
+    type: Number,
+    min: 1,
+    max: 5,
+    index: true
+  }
 });
 
 
@@ -179,9 +185,9 @@ callback(err, reviewArray)
 }
 
 
-restaurantSchema.virtual('averageRating').get(function () {
-  return this.totalScore / this.reviewCount;
-});
+// restaurantSchema.virtual('averageRating').get(function () {
+//   return this.totalScore / this.reviewCount;
+// });
 
 // restaurantSchema.methods.stars = function(callback){
 
@@ -200,7 +206,12 @@ Restaurant.find()
           })
 
 }
+
+restaurantSchema.index({"price": 1, "averageRating": 1})
+restaurantSchema.index({"price": 1, "averageRating": -1})
+
 var Restaurant = mongoose.model("Restaurant", restaurantSchema);
+
 
 module.exports = {
   User: mongoose.model('User', userSchema),
