@@ -170,6 +170,12 @@ restaurantSchema.methods.stars = function(callback){
     callback(this.averageRating)
 }
 
+RestaurantSchema.statics.findTheNextTen = function(anyParams) {
+    // return this.where('name', new RegExp(name, 'i')).exec(cb);
+    MyModel.find(query, fields, { skip: 10, limit: 5 }, function(err, results) { ... });
+}
+}
+
 var Follow = mongoose.model('Follow', FollowsSchema);
 var Review = mongoose.model('Review', reviewSchema);
 
