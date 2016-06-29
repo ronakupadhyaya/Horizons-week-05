@@ -51,7 +51,16 @@ router.post('/restaurant/new', function(req, res, next) {
   });
 });
 
-router.get('/restaurants/list/:x', function(req,res){
+router.get('/restaurants', function(req,res){
+  Restaurant.find(function(err, restaurants){
+    res.render('restaurants', {
+      restaurants: restaurants
+    })
+  })
+})
+
+//PAGINATION
+router.get('/restaurants/lists/:x', function(req,res){
   Restaurant.find(function(err, restaurants){
     res.render('restaurants', {
       restaurants: restaurants
