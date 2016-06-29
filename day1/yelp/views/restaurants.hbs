@@ -7,6 +7,12 @@
 		<li class="next clicker"><a id="next" href="/restaurants/list/{{next}}"><span aria-hidden="true">&gt;</span></a></li>
 	</ul>
 </nav>
+<script type="text/javascript">
+	$('#pagination a').each(function() {
+		var href = $(this).attr('href')
+		$(this).attr('href', href+window.location.search)
+	})
+</script>
 <!-- BUTTONS FOR SORTING -->
 <!-- Bootstrap radio button styling from tonnevillec on bootsnipp.com -->
 <div id="sort-group">
@@ -91,9 +97,9 @@
 	$('#submit').click(function(e) {
 		e.preventDefault()
 		var rating = '?rating='+$('#rating')[0].value
-		var price = '?price='+$('#price')[0].value
-		var name = '?name='+$('#name')[0].value
-		window.location.replace(window.location.pathname + rating+price+name)
+		var price = 'price='+$('#price')[0].value
+		var name = 'name='+$('#name')[0].value
+		window.location.replace(window.location.pathname+rating+'&'+price+'&'+name)
 	})
 </script>
 <!-- RESTAURANT CONTAINER -->

@@ -99,8 +99,14 @@ router.get('/profiles', function(req,res,next) {
 
 router.get('/restaurants/list/:x', function(req,res,next) {
   var current = parseInt(req.params.x) || 1
+  console.log(req.query)
+  var queries = {}
+  _.forEach(req.query,function(key,val) {
+    if (key.length!==0) {queries[val]=key}
+  })
+  console.log(queries)
   Restaurant.find()
-    .sort({'reviewCount':-1})
+    .sort(queries)
     .skip(10*(req.params.x-1))
     .limit(11)
     .exec(function(err,food) {
