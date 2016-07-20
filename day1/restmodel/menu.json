@@ -1,12 +1,12 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "HILLSTONE",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "BABY BACK RIBS",
+      "price": 33,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "RIBS",
+        "BBQ SAUCE"
       ]
     }
   ]
