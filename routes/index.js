@@ -11,7 +11,7 @@ var Review = models.Review;
 var NodeGeocoder = require('node-geocoder');
 var geocoder = NodeGeocoder({
   provider: "google",
-  apiKey: process.env.GEOCODING_API_KEY || "AIzaSyC1XuwbLnGVoxrozcTM1Xkpu728xBjM4O8",
+  apiKey: process.env.GEOCODING_API_KEY,
   httpAdapter: "https",
   formatter: null
 });
@@ -253,7 +253,8 @@ router.get('/restaurants/:id', function(req, res, next){
       }
       res.render('singleRestaurant', {
         restaurant: restaurant,
-        reviews: reviews
+        reviews: reviews,
+        key: process.env.GEOCODING_API_KEY
       });
     });
   });

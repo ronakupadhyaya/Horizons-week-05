@@ -1,12 +1,13 @@
+<a class="btn btn-primary" href="/restaurants" style="float:right">Back to restaurants</a>
 <h2>{{restaurant.name}}</h2>
 <h2>Rating: {{restaurant.averageRating}}</h2> 
 <h2>Review Count: {{restaurant.reviewCount}}</h2>
 <h3>Hours Today: {{restaurant.opentime}}:00-{{restaurant.closetime}}:00</h3>
-<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.latitude}},{{restaurant.longitude}}&markers=color:red|{{restaurant.latitude}},{{restaurant.longitude}}&zoom=13&size=600x300&maptype=roadmap&key=AIzaSyC1XuwbLnGVoxrozcTM1Xkpu728xBjM4O8"/>
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.latitude}},{{restaurant.longitude}}&markers=color:red|{{restaurant.latitude}},{{restaurant.longitude}}&zoom=13&size=600x300&maptype=roadmap&key={{key}}"/>
 
 
 <h3>Reviews</h3>
-<a class="btn btn-primary" href="restaurants/{{restaurant.id}}/review" role="button">Add Review</a>
+<a class="btn btn-primary" href="/restaurants/{{restaurant.id}}/review" role="button">Add Review</a>
 {{#each reviews}}
 	<div style = "border: 0.5px solid white; padding: 10px 30px 10px 30px; text-align: center; margin-bottom: 10px; max-width: 70%; background-color: rgb(169,169,169); color: black; border-radius: 20px;clear: both">
 		<div>Reviewer: {{userId.name}}</div>
