@@ -31,12 +31,14 @@
 	</form>
 </div>
 {{#each restaurants}}
-<a href="/restaurants/{{_id}}">
    <form style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
-       <p>{{name}}</p>
-       <p>{{range}}</p>
+
+		<a href="/restaurants/{{_id}}">
+	       <p>{{name}}</p>
+	       <p>{{range}}</p>
+	       
+		</a>
    </form>
-</a>
 {{/each}}
 <nav>
   <ul class="pagination">
