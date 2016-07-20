@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 out/
 .tmp
 .DS_Store
@@ -9,6 +10,12 @@ out/
 # Logs
 logs
 *.log
+=======
+# Logs
+logs
+*.log
+npm-debug.log*
+>>>>>>> 11dfd28809afb7a4dc183ca1425e30c0f86628b3
 
 # Runtime data
 pids
@@ -21,6 +28,12 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+<<<<<<< HEAD
+=======
+# nyc test coverage
+.nyc_output
+
+>>>>>>> 11dfd28809afb7a4dc183ca1425e30c0f86628b3
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -30,9 +43,26 @@ coverage
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release
 
+<<<<<<< HEAD
 # Dependency directory
 # https://docs.npmjs.com/cli/shrinkwrap#caveats
 node_modules
 
 # Debug log from npm
 npm-debug.log
+=======
+# Dependency directories
+node_modules
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+*.swp
+
+*.env
+connect.js
+.idea/
+>>>>>>> 11dfd28809afb7a4dc183ca1425e30c0f86628b3

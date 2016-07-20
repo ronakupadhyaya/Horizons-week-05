@@ -1,0 +1,82 @@
+<a href="/profiles">Profiles</a>
+<div style="float:right">
+	<form style="padding-bottom: 20px" method="get">
+		Restaurants to show at once
+		<input name="quant" type="number">
+		<button class="btn btn-success">Submit</button>
+	</form>
+	<form style="padding-bottom: 20px" method="get" >
+		Name
+		<select name="name">
+			<option value="0">No sorting</option>
+			<option value="1">Ascending</option>
+			<option value="-1">Descending</option>
+		</select>
+		<button class="btn btn-success">Submit</button>
+	</form>
+	<form method="get">
+		Rating
+		<select name="rating">
+			<option value="0">No sorting</option>
+			<option value="1">Ascending</option>
+			<option value="-1">Descending</option>
+		</select>
+		Price
+		<select name="price">
+			<option value="0">No sorting</option>
+			<option value="1">Ascending</option>
+			<option value="-1">Descending</option>
+		</select>
+		<button class="btn btn-success">Submit</button>
+	</form>
+</div>
+{{#each restaurants}}
+   <form style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+
+		<a href="/restaurants/{{_id}}">
+	       <p>{{name}}</p>
+	       <p>{{range}}</p>
+	       
+		</a>
+   </form>
+{{/each}}
+<nav>
+  <ul class="pagination">
+  	{{#if prev}}
+    <li>
+      <a href="/restaurants/list/{{prev}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {{/if}}
+    {{#each pageTotal}}
+    	<li id="{{this}}">
+    		<a href="/restaurants/list/{{this}}" aria-label="{{this}}">
+    		{{this}}
+		    </a>
+    	</li>
+    {{/each}}
+    {{#if hasNext}}
+    <li>
+      <a href="/restaurants/list/{{next}}" aria-label="Next" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {{/if}}
+  </ul>
+</nav>
+<a href="/restaurants/new" style="float: right">Want to Add a Restaurant?</a>
+<div style="display:none" id="pageNum">{{page}}</div>
+
+<script>
+var pageNum = $("#pageNum").text();
+$("#" + pageNum).addClass("active");
+
+$(".pagination a").each(function() {     
+   var _href = $(this).attr("href"); 
+   $(this).attr("href", _href + window.location.search);
+});
+
+
+// $(".pagination a").attr("href", this.attr("href") + window.location.search);
+</script>

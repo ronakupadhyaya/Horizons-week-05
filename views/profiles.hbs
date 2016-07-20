@@ -1,0 +1,11 @@
+<h1>Users: {{users.length}}</h1>
+
+<a href="/restaurants">Restaurants</a>
+
+{{#each users}}
+<div style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+   <p>Name: {{name}}</p>
+   <p>Location: {{location}}</p>
+   <a href="/singleProfile/{{_id}}">View Profile</a>
+</div>
+{{/each}}
