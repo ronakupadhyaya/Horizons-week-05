@@ -5,14 +5,12 @@
 The goal of this exercise is to create models with one-to-one and
 one-to-many relationships using embedded MongoDb arrays and objects.
 
-## Time limit: 15 minutes
-
 ## Instructions
 
-Let's take the JSON menu we built in the warmup exercise and load that into
-MongoDb.
-
-1. Copy your `menu.json` from the Warmup exercise into this folder.
+1. Find the menu for your favorite restaurant online.
+1. Pick 4 dishes that you like from the menu.
+1. Edit `week05/day1/restmodel/menu.json`. Add your restaurant's name,
+  the 4 dishes you picked and their names prices and ingredients.
 1. Copy your `connect.js` from last week into this folder.
 1. Edit `week05/day1/restmodel/app.js` where it says `YOUR MODEL HERE`
 1. Edit the `Restaurant` model to add fields from `menu.json` to your model.
@@ -26,11 +24,11 @@ MongoDb.
       - Item name
       - Item price
       - Ingredients array
+        - Ingredient name
 
 1. Run your app with `npm start`.
-1. Open up [http://localhost:3000/](http://localhost:3000/) check that it's
-   empty.
-1. Open up [http://localhost:3000/create](http://localhost:3000/create)
-   to load the contents of `model.json` into MongoDb.
-1. Open up [http://localhost:3000/](http://localhost:3000/) check that it
+1. Open up [localhost:3000/](http://localhost:3000/) check that it's empty.
+1. Open up [localhost:3000/import/restaurants](http://localhost:3000/import/restaurants)
+   to load the contents of `menu.json` into MongoDb.
+1. Open up [localhost:3000/](http://localhost:3000/) check that it
   contains the right information.

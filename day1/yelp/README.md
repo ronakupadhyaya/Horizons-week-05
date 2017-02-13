@@ -15,59 +15,59 @@ Today we will be building a clone of the popular restaurant reviews website Yelp
 
 ## The Big Picture 🖼
 
-Yelp is a big project. Refer back to this section if you're ever feeling lost and need to see where this is all going. Below is a reference to all of the models we will be using in this project. More detailed information on their implementations and applications can be found in their respective sections! 
+Yelp is a big project. Refer back to this section if you're ever feeling lost and need to see where this is all going. Below is a reference to all of the models we will be using in this project. More detailed information on their implementations and applications can be found in their respective sections!
 
 Alternatively, you could try structuring the application solely from **The Big Picture**, if you're up for the challenge.
 
 **Users** (Step 1, 3)
 
 - `User` **Schema properties** - the model for all users of your application (_see **User Models**_)
-	- `displayName` - the displayed name for a User when visiting their profile
-	- `email` - used for authentication, should not be publicly available
-	- `password` - used for authentication, definitely should not be publicly available
-	- `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
+  - `displayName` - the displayed name for a User when visiting their profile
+  - `email` - used for authentication, should not be publicly available
+  - `password` - used for authentication, definitely should not be publicly available
+  - `location` - the displayed location for a User - not coordinates! Just a quick description of where they are in the world.
 - `User` **Schema methods** - methods that your models will inherit to be called from in your routes
-	- `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `from` (see below) and `idToFollow` as `to`
-	- `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
-	- `getFollows(cb)` - return array of followers and users followed as User objects in callback `cb`
-	- `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model 
-	- `getReviews(cb)` - _Completed in Step 3:_ return array of reviews as Review objects in callback `cb`
-	
+  - `follow(idToFollow, cb)` - create and save a new `Follow` object with `this._id` as the `from` (see below) and `idToFollow` as `to`
+  - `unfollow(idToUnfollow, cb)` - find and delete a `Follow` object (if it exists!)
+  - `getFollows(cb)` - return array of followers and users followed as User objects in callback `cb`
+  - `isFollowing(user)` - return whether or not the user calling `isFollowing` is following the User model
+  - `getReviews(cb)` - _Completed in Step 3:_ return array of reviews as Review objects in callback `cb`
+
 **Follows** (Step 1)
 
 - `Follow` - the model that is used to identify a relationship between a User and another they are following (_see **Follows!**_)
-	- `from` - the ID of the User following another
-	- `to` - the ID of the User being followed
+  - `from` - the ID of the User following another
+  - `to` - the ID of the User being followed
 
 **Restaurants** (Step 2, 3)
 
 _Completed in Step 2_
 
 - `Restaurant` **Schema properties** - the model that identifies a restaurant
-	 - `name` - The name of the Restaurant
-	 - `price` - A Number on a scale of 1-3 (which you could represent on the page as "$", "$$", "$$$" or "Cheap", "Fair", "Expensive" or whatever you want!)
-	 - `category` - A String (may be an `enum` if you want to limit its possible options) that describes the type of restaurant represented, i.e. "Korean" or "Barbeque."
-	 - `latitude` - A Number representing the geographic location of the restaurant
-	 - `longitude` - Another Number representing the geographic location of the restaurant
-	 - `openTime` - A Number from 0-23 representing the hour the restaurant opens (assume Eastern Time)
-	 - `closingTime` - A Number from 0-23 representing the hour the restaurant closes
-	 - `totalScore` - A Number that represents the sum of stars from Reviews that have been posted for the Restaurant
-	 - `reviewCount` - A Number that represents the number of Reviews that have been posted for the Restaurant
+   - `name` - The name of the Restaurant
+   - `price` - A Number on a scale of 1-3 (which you could represent on the page as "$", "$$", "$$$" or "Cheap", "Fair", "Expensive" or whatever you want!)
+   - `category` - A String (may be an `enum` if you want to limit its possible options) that describes the type of restaurant represented, i.e. "Korean" or "Barbeque."
+   - `latitude` - A Number representing the geographic location of the restaurant
+   - `longitude` - Another Number representing the geographic location of the restaurant
+   - `openTime` - A Number from 0-23 representing the hour the restaurant opens (assume Eastern Time)
+   - `closingTime` - A Number from 0-23 representing the hour the restaurant closes
+   - `totalScore` - A Number that represents the sum of stars from Reviews that have been posted for the Restaurant
+   - `reviewCount` - A Number that represents the number of Reviews that have been posted for the Restaurant
 - `Restaurant` **Schema virtuals**
-	- `averageRating` - A virtual that is calculated from `totalScore / reviewCount` to return the current average rating for a Restaurant by its Reviews. 
-	 
+  - `averageRating` - A virtual that is calculated from `totalScore / reviewCount` to return the current average rating for a Restaurant by its Reviews.
+
 _Completed in Step 3_
 
 - `Restaurant` **Schema methods** - methods for your Restaurant models
-	- `getReviews(cb)` - pass an array of Review objects to callback `cb`
+  - `getReviews(cb)` - pass an array of Review objects to callback `cb`
 
 **Reviews** (Step 3)
 
 - `Review` **Schema properties** - the model that defines a single review on a Restaurant
-	- `stars` - A Number (1-5) that defines how many stars were given in the review
-	- `content` - A String with the contents of the Review
-	- `restaurant` - the ID of the Restaurant that was reviewed
-	- `user` the ID of the User who posted the review
+  - `stars` - A Number (1-5) that defines how many stars were given in the review
+  - `content` - A String with the contents of the Review
+  - `restaurant` - the ID of the Restaurant that was reviewed
+  - `user` the ID of the User who posted the review
 
 
 ## Step 0: Authentication 🔐 - `app.js`, `routes/index.js`,  `models/models.js`
@@ -103,20 +103,20 @@ This:
 
 ```javascript
 module.exports = {
-	User: mongoose.model("User", {
-		property1: String
-	})
+  User: mongoose.model("User", {
+    property1: String
+  })
 }
 ```
 is equivalent to this:
 
 ```javascript
 var userSchema = new mongoose.Schema({
- 	property1: String
+   property1: String
 })
 
 module.exports = {
- 	User: mongoose.model("User", userSchema);
+   User: mongoose.model("User", userSchema);
 }
 ```
 
@@ -154,7 +154,7 @@ We will accomplish this by using Mongoose _methods_. The way we write Mongoose m
 ```javascript
 var userSchema = new mongoose.Schema({...});
 userSchema.methods.yourMethodName = function() {
-	/* define your method here! */
+  /* define your method here! */
 };
 ```
 
@@ -164,75 +164,75 @@ We want to write the following methods on our `User` Schema:
 
 ```javascript
 req.user.getFollows(function(followers, following) {
-	/* do something with the result of the callback function */	
+  /* do something with the result of the callback function */  
 });
 ```
 > To accomplish this, your implementation should take a parameter that represents a callback function that will later be called with the resulting data. See more about this below.
 
- 
+
 - `follow` - should set a following relationship as on Twitter, Instagram, or any site that supports followers.
-	- **Note**: `follow` will be an _instance method_ that acts upon a user - it would be defined in the schema as something along the lines of:
-	
-	```javascript
-	userSchema.methods.follow = function (idToFollow, callback){...}
-	```
-	You should take in a parameter `idToFollow` of the user to follow; now, calling `.follow` on the logged-in user will follow the user given by `idToFollow`! `follow` should also check if you have followed that user already and prevent you from creating duplicate `Follow` documents.
+  - **Note**: `follow` will be an _instance method_ that acts upon a user - it would be defined in the schema as something along the lines of:
+
+  ```javascript
+  userSchema.methods.follow = function (idToFollow, callback){...}
+  ```
+  You should take in a parameter `idToFollow` of the user to follow; now, calling `.follow` on the logged-in user will follow the user given by `idToFollow`! `follow` should also check if you have followed that user already and prevent you from creating duplicate `Follow` documents.
 
 - `unfollow` - deletes the relationship represented by a `Follow` document where User 1 (the caller of the `unfollow` function) follows User 2 (given by a parameter `idToUnfollow`).
 
-- `getFollows` - This method will go through and find all `Follow` documents that correspond to both user relationships where the user's ID (accessible by the caller of the function, `this._id`) is the `from` and where the user is the `to` of a `Follow` relationship. In other words, you want **both the Users the user follows and the Users the user is being followed by** returned by this function. This should call the callback method with the followers and users you are following with something like `allFollowers` and `allFollowing`. 
+- `getFollows` - This method will go through and find all `Follow` documents that correspond to both user relationships where the user's ID (accessible by the caller of the function, `this._id`) is the `from` and where the user is the `to` of a `Follow` relationship. In other words, you want **both the Users the user follows and the Users the user is being followed by** returned by this function. This should call the callback method with the followers and users you are following with something like `allFollowers` and `allFollowing`.
 
-	When first retrieving the correct `Follow` documents relevant to a user, your `allFollowers` and `allFollowing` arrays will look something like:
-	
-	```javascript
-	allFollowers = [{
-		from: ID_OF_FOLLOWER,
-		to: YOUR_USER_ID
-	}, {
-		from: ID_OF_FOLLOWER,
-		to: YOUR_USER_ID
-	}];
-	
-	allFollowing = [{
-		to: YOUR_USER_ID,
-		following: ID_OF_USER_YOU_ARE_FOLLOWING
-	}]
-	```
+  When first retrieving the correct `Follow` documents relevant to a user, your `allFollowers` and `allFollowing` arrays will look something like:
+
+  ```javascript
+  allFollowers = [{
+    from: ID_OF_FOLLOWER,
+    to: YOUR_USER_ID
+  }, {
+    from: ID_OF_FOLLOWER,
+    to: YOUR_USER_ID
+  }];
+
+  allFollowing = [{
+    to: YOUR_USER_ID,
+    following: ID_OF_USER_YOU_ARE_FOLLOWING
+  }]
+  ```
 
 
-	After using `.populate`, your data will look like this (callback with this populated set!):
+  After using `.populate`, your data will look like this (callback with this populated set!):
 
-	```javascript
-	allFollowers = [{
-		from: {
-			_id: ID_OF_FOLLOWER,
-			displayName: "Moose Paksoy",
-			email: "moose@joinhorizons.com",
-			location: "San Francisco"
-		},
-		to: YOUR_USER_ID
-	}, {
-		from: {
-			_id: ID_OF_FOLLOWER,
-			displayName: "Fast Lane",
-			email: "lane@joinhorizons.com",
-			location: "New York City"
-		},
-		to: YOUR_USER_ID
-	}];
-	
-	allFollowing = [{
-		from: YOUR_USER_ID,
-		to: {
-			_id: ID_OF_USER_YOU_ARE_FOLLOWING,
-			displayName: "Josh",
-			email: "josh@joinhorizons.com",
-			location: "Rutgers"
-		}
-	}]
-	```
-	
-	Notice how the `from` field for `allFollowers` and the `to` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
+  ```javascript
+  allFollowers = [{
+    from: {
+      _id: ID_OF_FOLLOWER,
+      displayName: "Moose Paksoy",
+      email: "moose@joinhorizons.com",
+      location: "San Francisco"
+    },
+    to: YOUR_USER_ID
+  }, {
+    from: {
+      _id: ID_OF_FOLLOWER,
+      displayName: "Fast Lane",
+      email: "lane@joinhorizons.com",
+      location: "New York City"
+    },
+    to: YOUR_USER_ID
+  }];
+
+  allFollowing = [{
+    from: YOUR_USER_ID,
+    to: {
+      _id: ID_OF_USER_YOU_ARE_FOLLOWING,
+      displayName: "Josh",
+      email: "josh@joinhorizons.com",
+      location: "Rutgers"
+    }
+  }]
+  ```
+
+  Notice how the `from` field for `allFollowers` and the `to` field for `allFollowing` for the populated set of data has been transformed from an ID (`ID_OF_FOLLOWER` or `ID_OF_USER_YOU_ARE_FOLLOWING`) to an actual User object. Use Mongoose's [`.populate()`](http://mongoosejs.com/docs/api.html#model_Model.populate) to populate the correct fields and accomplish this.
 
 - `isFollowing` - this method will take in another User ID and call true or false on the callback based on whether or not the user calling `isFollowing` (`this`) is following the user represented by the ID passed in. Query for a `Follow` document where `follower` is `this._id` and `following` is the ID passed in, and call a callback function with `true` if the resulting query turns up an existing `Follow` document.
 
@@ -245,45 +245,45 @@ req.user.getFollows(function(followers, following) {
 ### Viewing Profiles 👸 - `views/singleProfile.hbs`
 Time to put the views together! You'll be first creating the Handlebars template for displaying a user's single profile page. The information you'll need to display here is largely what you've already defined in the models.
 
-Display something that looks like the following:		
+Display something that looks like the following:    
 
-<img src="http://cl.ly/1q1H2F3L0D0z/Yelp%20Lite-2.png" width="500">		
-  		  
-When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):		
- 		
- ```javascript		
- {		
- 	user: {		
- 		_id: PERSON_BEING_VIEWED,		
- 		displayName: "Ethan Lee",		
-		email: "ethan@joinhorizons.com",		
-		location: "Probably making a PB&J"		
- 	},		
- 	reviews: [{		
- 		_id: "575xxxxxxxxxxxx",		
- 		restauraunt: "575xxxxxxxxxxxx",		
- 		content: "This food was okay"		
-	}],		
- 	allFollowers: [{	
- 		from: {	
-	 		_id: USER_FOLLOWING_PERSON,		
-	 		displayName: "Abhi Fitness",		
-	 		email: "abhi@joinhorizons.com",		
-	 		location: "The Gym"
- 		},
- 		to: PERSON_BEING_VIEWED
- 	}],
- 	allFollowing: [{
-		from: PERSON_BEING_VIEWED,
-		to: {
-			_id: PERSON_FOLLOWING_USER,
-			displayName: "Josh",
-			email: "josh@joinhorizons.com",
-			location: "Rutgers"
-		}
-	}],
-	isFollowing: true
- }		
+<img src="http://cl.ly/1q1H2F3L0D0z/Yelp%20Lite-2.png" width="500">    
+
+When creating your Single Profile template, imagine that you are passing in the following context object into the template (_you are responsible for actually passing this into your template_ when you `.render` your route in the following sections!):    
+
+ ```javascript    
+ {    
+   user: {    
+     _id: PERSON_BEING_VIEWED,    
+     displayName: "Ethan Lee",    
+    email: "ethan@joinhorizons.com",    
+    location: "Probably making a PB&J"    
+   },    
+   reviews: [{    
+     _id: "575xxxxxxxxxxxx",    
+     restauraunt: "575xxxxxxxxxxxx",    
+     content: "This food was okay"    
+  }],    
+   allFollowers: [{  
+     from: {  
+       _id: USER_FOLLOWING_PERSON,    
+       displayName: "Abhi Fitness",    
+       email: "abhi@joinhorizons.com",    
+       location: "The Gym"
+     },
+     to: PERSON_BEING_VIEWED
+   }],
+   allFollowing: [{
+    from: PERSON_BEING_VIEWED,
+    to: {
+      _id: PERSON_FOLLOWING_USER,
+      displayName: "Josh",
+      email: "josh@joinhorizons.com",
+      location: "Rutgers"
+    }
+  }],
+  isFollowing: true
+ }    
  ```
 Above, `PERSON` refers to the User profile being rendered currently - this could be your currently logged-in user _or_ any other User on your site!
 You'll want to display all the information you have so far, including:
@@ -291,13 +291,13 @@ You'll want to display all the information you have so far, including:
  * **Display Name** `{{user.displayName}}` _in the context object above_: show the name of a user currently being viewed
  * **Location** `{{user.location}}`: the descriptive location of a user
  * **Followers** `{{#each allFollowers}}...{{/each}}` display some details about the user's followers, including:
- 	* **Display Name** -  `{{follower.displayName}}`
- 	* **Location** - `{{follower.location}}`
+   * **Display Name** -  `{{follower.displayName}}`
+   * **Location** - `{{follower.location}}`
  * **Following** `{{#each allFollowing}}...{{/each}}` display some details about the users that the user is following, including:
- 	* **Display Name** -  `{{following.displayName}}`
- 	* **Location** - `{{following.location}}`
- * **Follow or Unfollow Button**: Display a follow or unfollow button for the top-level user _only_ with a link to the appropriate route (to be made soon!) based on whether or not `isFollowing` is true. 
- 	
+   * **Display Name** -  `{{following.displayName}}`
+   * **Location** - `{{following.location}}`
+ * **Follow or Unfollow Button**: Display a follow or unfollow button for the top-level user _only_ with a link to the appropriate route (to be made soon!) based on whether or not `isFollowing` is true.
+
 ### Viewing ALL the Profiles 🏃 - `views/profiles.hbs`
 
 To have a central directory of Users where people can follow others, we will have a template dedicated to displaying all of the Users registered for our site. The result will look like:
@@ -313,22 +313,22 @@ Now that you have the view templates and models for setting up Users and their r
 
 As aforementioned, we are going to leave many of these design decisions up to you - but here's a few routes that you'll _definitely_ need to have.
 
-* A route to a single profile page (`singleProfile.hbs`) based on an ID (as a part of the URL, i.e. `/users/575xxxxxxxxx`) - pass in the relevant details of a User and their populated friends list. 
-	* Both `allFollowers` and `allFollowing` mentioned in the example context object above can be retrieved from using your `getFollows` method - remember that the results are passed into a callback! Example:
-	
-	```javascript
-	req.user.getFollows(function(followers, followings) {
-		res.render({
-			...,
-			allFollowers: followers,
-			allFollowings: followings
-		})
-	})
-	```
-	* Note also that the `isFollowing` property from the example context object above can be retrieved using the `isFollowing` method that you wrote - call it on the user (`PERSON`) being viewed and pass in `req.user` to check whether or not the currently-logged in user follows the profile they are viewing.
+* A route to a single profile page (`singleProfile.hbs`) based on an ID (as a part of the URL, i.e. `/users/575xxxxxxxxx`) - pass in the relevant details of a User and their populated friends list.
+  * Both `allFollowers` and `allFollowing` mentioned in the example context object above can be retrieved from using your `getFollows` method - remember that the results are passed into a callback! Example:
+
+  ```javascript
+  req.user.getFollows(function(followers, followings) {
+    res.render({
+      ...,
+      allFollowers: followers,
+      allFollowings: followings
+    })
+  })
+  ```
+  * Note also that the `isFollowing` property from the example context object above can be retrieved using the `isFollowing` method that you wrote - call it on the user (`PERSON`) being viewed and pass in `req.user` to check whether or not the currently-logged in user follows the profile they are viewing.
 * A route to render `profiles.hbs` with all the Users registered on your site.
 * Routes to handle a user **following** or **unfollowing** another, and updating that `Follow` relationship accordingly
-	* The routes to handle following and unfollowing should check whether or not the relationship exists first using `find`. For example, if User A with ID 1 attempts to follow  User 2 with ID 2 (a user they are already following), a new `Follow` document _should not_ be created, and the response should be "Already followed!"
+  * The routes to handle following and unfollowing should check whether or not the relationship exists first using `find`. For example, if User A with ID 1 attempts to follow  User 2 with ID 2 (a user they are already following), a new `Follow` document _should not_ be created, and the response should be "Already followed!"
 
 ### End Result, Step 1🏅- `http://localhost:3000`
 Time to step back and take a look at your hard work!
@@ -357,12 +357,12 @@ Create a basic form for creating a new restaurant with all of its basic informat
 
 * A name for the new restaurant
 * A category (could be a dropdown selector)
-* The relative price of the restaurant's items - on a scale of 1-3 
+* The relative price of the restaurant's items - on a scale of 1-3
 * An address for geocoding to coordinates
 * An open time
 * A closing time
 
-Keep your `name` attributes for each input of the form in the back of your mind - you'll need it when handling the `POST` request that will save the new restaurant as a MongoDB document. 
+Keep your `name` attributes for each input of the form in the back of your mind - you'll need it when handling the `POST` request that will save the new restaurant as a MongoDB document.
 
 The end result should look something like:
 
@@ -374,7 +374,7 @@ When displaying a single restaurant, you'll want to show all of the fields you c
 <img src="http://cl.ly/0K10042i0l01/Yelp%20Lite-5.png" width="500">
 
 You can display a map by coordinates by using the [**Google Maps Static Maps API**](https://developers.google.com/maps/documentation/static-maps).
-To 
+To
 create and see a static map, just insert an image in the following format:
 
 ```
@@ -395,26 +395,26 @@ In this template, imagine that your context object looks like the following:
 
 ```javascript
 [{
-	"name": "Brotherly Grub",
-	"category": "Food Trucks",
-	"price": 1,
-	"latitude": 39.9552474,
-	"longitude": -75.1969099,
-	"openTime": 11,
-	"closeTime": 15,
-	"totalScore": 15,
-	"reviewCount": 3
+  "name": "Brotherly Grub",
+  "category": "Food Trucks",
+  "price": 1,
+  "latitude": 39.9552474,
+  "longitude": -75.1969099,
+  "openTime": 11,
+  "closeTime": 15,
+  "totalScore": 15,
+  "reviewCount": 3
 },
 {
-	"name": "Wawa",
-	"category": "Convenience Store",
-	"price": 1,
-	"latitude": 39.9509339,
-	"longitude": -75.19891,
-	"openTime": 9,
-	"closeTime": 19,
-	"totalScore": 20,
-	"reviewCount": 10
+  "name": "Wawa",
+  "category": "Convenience Store",
+  "price": 1,
+  "latitude": 39.9509339,
+  "longitude": -75.19891,
+  "openTime": 9,
+  "closeTime": 19,
+  "totalScore": 20,
+  "reviewCount": 10
 }]
 ```
 
@@ -431,17 +431,17 @@ The end result will look something like the following:
 Looks like your views and models for restaurants are ready to go! Time to build out your endpoints to render routes with your data. As before, you will be making the design decisions for your routes, but here are basic guidelines for what they should _do_:
 
 * A route for viewing all the restaurants with basic information (name, location, price, category), rendering `restaurants.hbs`.
-	* _What to Pass In_: A context object with a property `restaurants` that has an array of all Restaurant documents.
-	* Go the extra mile and implement paging for restaurants! 
+  * _What to Pass In_: A context object with a property `restaurants` that has an array of all Restaurant documents.
+  * Go the extra mile and implement paging for restaurants!
 * A route for viewing any one restaurant by its ID, also with basic information, rendering `singleRestaurant.hbs`.
-	* _What to Pass In_: A context object with a property `restaurant` that has a single Restaurant document
+  * _What to Pass In_: A context object with a property `restaurant` that has a single Restaurant document
 * A route for creating new restaurants, rendering `newRestaurant.hbs`
-	* You'll need to have a `POST` route to handle the form from `newRestaurant.hbs` as well, so that you can save the new Restaurant document with the data receieved in `req.body`.
-	* **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions in `google-maps.md` (within this directory) on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you can store.
-	
+  * You'll need to have a `POST` route to handle the form from `newRestaurant.hbs` as well, so that you can save the new Restaurant document with the data receieved in `req.body`.
+  * **Note**: your `POST` route will take an `address` field as specified in **Creating Restaurants 💛** - follow the directions in `google-maps.md` (within this directory) on **Getting a Google Maps API Key** to put your key into `index.js` and use our scaffold to automatically convert a passed-in address to longitude and latitude coordinates that you can store.
+
 
 ### End Result, Step 2🏅- `http://localhost:3000`
-At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price. 
+At this point, you should be able to view Restaurants in both a complete listing (with view paging) as well as individual Restaurants with their details of location, category, and price.
 
 It is important to note that up until this point, we have not connected users to the restaurants themselves; that will come with Reviews. Get ready!
 
@@ -464,12 +464,12 @@ Remember that because our methods rely on asynchronous calls (namely, database q
 
 ```javascript
 Restaurant.findById(req.params.id, function(err, rest) {
-	rest.getReviews(function(reviews) {
-		res.render('singleRestaurant', {
-			restaurant: rest,
-			reviews: reviews
-		});
-	});
+  rest.getReviews(function(reviews) {
+    res.render('singleRestaurant', {
+      restaurant: rest,
+      reviews: reviews
+    });
+  });
 });
 ```
 Your code may look different! Just remember to be consistent with your naming and usage of variables in your templates!
@@ -490,7 +490,7 @@ The single method you will be creating for your User to fetch reviews will also 
 
 ### Displaying Reviews on Profiles and Restaurants 🌋 - `views/singleRestaurant.hbs`, `views/singleProfile.hbs`
 
-Now that we've updated our models with methods that allow you to fetch reviews on a per-Restaurant or per-User basis, we need to update our templates to allow us to display them on profile and restaurant pages. 
+Now that we've updated our models with methods that allow you to fetch reviews on a per-Restaurant or per-User basis, we need to update our templates to allow us to display them on profile and restaurant pages.
 
 The finished product for the `singleRestaurant` view will look something like:
 
@@ -519,9 +519,9 @@ We also need to create a couple new routes to handle new reviews:
 
 
 ### End Result, Step 3🏅- `http://localhost:3000`
-Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants. 
+Amazing! You've completed Phase 1 of the Yelp project. You should be able to perform all of the basic functions of Yelp - from logging in and making friends to posting reviews and looking up restaurants.
 
-The most significant result from this step will be to have given logged-in users the ability to review restaurants and display those reviews on both User profiles and Restaurant listings. 
+The most significant result from this step will be to have given logged-in users the ability to review restaurants and display those reviews on both User profiles and Restaurant listings.
 
 Tomorrow, we'll be delving into searching, sorting, and filtering through all this data to provide your users with the exact content they are looking for.
 
@@ -529,7 +529,6 @@ Tomorrow, we'll be delving into searching, sorting, and filtering through all th
 ## Phase 1 Challenge 🏆
 You've made it this far, and early. Why not a challenge?
 
-Right now, you've only added a button that changes between Follow and Unfollow for single profile views (`singleProfile.hbs`). Try doing that for every follower and followee in each `singleProfile` user view and for every user in the `profiles.hbs` user directory. 
+Right now, you've only added a button that changes between Follow and Unfollow for single profile views (`singleProfile.hbs`). Try doing that for every follower and followee in each `singleProfile` user view and for every user in the `profiles.hbs` user directory.
 
 Keep in mind that you will have to check whether to display a Follow or Unfollow button _from the perspective of `req.user`_, regardless of what page they are viewing! There are a few options here - creating new fields on Users for keeping track of followers and followed users by IDs, or calling `getFollows` on `req.user` to determine which users both the currently logged-in user and the user being viewed follow. Good luck!
-
