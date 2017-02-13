@@ -48,27 +48,35 @@ var Book = mongoose.model('Book', {
 });
 
 app.get('/', function(req, res) {
+
   var page = parseInt(req.query.page) || 0;
+  var size = 20;
+  var hasNext;
+
   Book.find()
     .sort({
       title: 1
     })
-    .skip(page * 20).limit(20)
+    .skip(page * size)
+    .limit(size)
     // YOUR CODE HERE sort books and paginate
     .exec(function(err, books) {
 
-      function hasNext(page) {
-        if (page * 20 < books) {
-          return true;
+      Book.count({}, function(err, count) {
+        console.log("end of index:", (page+1) * size, "total", count)
+        if (((page + 1 )* size) < count) {
+          hasNext = true;
+        } else {
+          hasNext = false;
         }
-        return false;
-      }
 
-      res.render('index', {
-        page: page,
-        hasNext: hasNext(req.query.page), // YOUR CODE HERE only return true if there's a next page
-        books: books
+        res.render('index', {
+          page: page,
+          hasNext: hasNext, // YOUR CODE HERE only return true if there's a next page
+          books: books
+        });
       });
+
     });
 });
 
