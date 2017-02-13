@@ -44,6 +44,7 @@ var Comment = mongoose.model('Comment', {
 
 app.get('/', function(req, res) {
   Comment.find()
+  // YOUR CODE HERE
   .exec(function (err, comments) {
     if (err) {
       res.status(500).json(err);
