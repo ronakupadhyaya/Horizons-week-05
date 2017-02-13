@@ -33,6 +33,18 @@ app.use(cookieParser());
 
 var Restaurant = mongoose.model('Restaurant', {
   // YOUR MODEL HERE
+  restaurant: String, 
+  menu: [
+    {
+      name: {
+        type:String, 
+        required: true
+      }, 
+      price: Number; 
+      ingredients: []
+    }
+  ]
+
 });
 
 app.get('/', function(req, res) {

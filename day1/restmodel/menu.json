@@ -1,13 +1,40 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": " In N Out",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Double Double",
+      "price": 4,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "beef patties",
+        "sauce"
+        "buns"
       ]
+    }
+    {
+     "name": "Hamburger",
+      "price": 3,
+      "ingredients": [
+        "pork patty",
+        "animal style sauce"
+      ]
+
+    }
+    {
+     "name": "Milkshake",
+      "price": 3,
+      "ingredients": [
+        "mik",
+        "icecream"
+      ]
+
+    }
+    {
+     "name": "Fries",
+      "price": 2,
+      "ingredients": [
+        "potatoes"
+      ]
+
     }
   ]
 }

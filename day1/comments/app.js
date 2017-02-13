@@ -39,13 +39,15 @@ var Comment = mongoose.model('Comment', {
   body: {
     type: String,
     required: true
-  }
-  // YOUR CODE HERE
-});
+  }, 
+   author {
+   author: mongoose.Schema.Types.ObjectId
+  });
 
 app.get('/', function(req, res) {
   Comment.find()
   // YOUR CODE HERE
+  .populate('author')
   .exec(function (err, comments) {
     if (err) {
       res.status(500).json(err);
