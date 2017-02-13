@@ -1,12 +1,23 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "V Cafe",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Grilled Cheese",
+      "price": 7,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "SourDough Bread",
+        "Cheddar Cheese",
+        "Sweet Peppers",
+        "Fries"
+      ]
+    },
+    {
+      "name": "Eggplant Parm",
+      "price": 10,
+      "ingredients": [
+        "Brea",
+        "Eggplant",
+        "Tomato Sauce"
       ]
     }
   ]

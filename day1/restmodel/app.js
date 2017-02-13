@@ -31,9 +31,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
-var Restaurant = mongoose.model('Restaurant', {
-  // YOUR MODEL HERE
-});
+var restaurantSchema = new mongoose.Schema({
+  restaurant: {
+    type: String
+  },
+  menu: [
+    {
+      name: String,
+      price: Number,
+      ingredients: [String]
+    }
+  ]
+})
+var Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
 app.get('/', function(req, res) {
   Restaurant.find(function(err, restaurants) {
