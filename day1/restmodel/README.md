@@ -27,9 +27,8 @@ one-to-many relationships using embedded MongoDb arrays and objects.
         - Ingredient name
 
 1. Run your app with `npm start`.
-1. Open up [http://localhost:3000/](http://localhost:3000/) check that it's
-   empty.
-1. Open up [http://localhost:3000/create](http://localhost:3000/create)
-   to load the contents of `model.json` into MongoDb.
-1. Open up [http://localhost:3000/](http://localhost:3000/) check that it
+1. Open up [localhost:3000/](http://localhost:3000/) check that it's empty.
+1. Open up [localhost:3000/import/restaurants](http://localhost:3000/import/restaurants)
+   to load the contents of `menu.json` into MongoDb.
+1. Open up [localhost:3000/](http://localhost:3000/) check that it
   contains the right information.

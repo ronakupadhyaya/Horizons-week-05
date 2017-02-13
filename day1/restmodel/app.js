@@ -11,7 +11,20 @@ mongoose.connect(require('./connect'));
 
 var app = express();
 
-app.engine('hbs', exphbs({extname: 'hbs', defaultLayout: 'main'}));
+app.engine('hbs', exphbs({
+  extname: 'hbs',
+  defaultLayout: 'main',
+  helpers: {
+    prev: function(page) {
+      // YOUR CODE HERE
+      return `<a href="/?page=${page - 1}">Next page</a>`;
+    },
+    next: function(page) {
+      // YOUR CODE HERE
+      return `<a href="/?page=${page + 1}">Next page</a>`;
+    },
+  }
+}));
 app.set('view engine', 'hbs');
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -30,10 +43,14 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/create', function(req, res) {
+app.get('/import/restaurants', function(req, res) {
   var r = new Restaurant(require('./menu.json'));
   r.save(function(err) {
-    res.redirect('/');
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.redirect('/');
+    }
   });
 });
 
