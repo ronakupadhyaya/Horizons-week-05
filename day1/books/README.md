@@ -5,8 +5,6 @@
 The goal of this exercise is to get comfortable using `.sort()`,
 `.limit()` and `.skip()`
 
-## Time limit: 15 minutes
-
 ## Instructions
 
 1. Install dependencies `npm install`

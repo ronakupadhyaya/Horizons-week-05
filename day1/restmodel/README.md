@@ -5,8 +5,6 @@
 The goal of this exercise is to create models with one-to-one and
 one-to-many relationships using embedded MongoDb arrays and objects.
 
-## Time limit: 15 minutes
-
 ## Instructions
 
 1. Find the menu for your favorite restaurant online.
