@@ -1,13 +1,31 @@
 {
-  "restaurant": "RESTAURANT HERE",
-  "menu": [
-    {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
-      "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
-      ]
-    }
-  ]
+  "restaurant": "Pizza Pizza",
+  "menu": [{
+    "name": "Pepperoni",
+    "price": 8.60,
+    "ingredients": [
+      "Pepperoni"
+    ]
+  }, {
+    "name": "Hawaiian",
+    "price": 8.60,
+    "ingredients": [
+      "Pineapples",
+      "Mushrooms",
+      "Bacon"
+    ]
+  }, {
+    "name": "Cheese",
+    "price": 8.60,
+    "ingredients": [
+    ]
+  }, {
+    "name": "Classic Super",
+    "price": 11.99,
+    "ingredients": [
+      "Mushrooms",
+      "Green Peppers",
+      "Pepperoni"
+    ]
+  }]
 }
