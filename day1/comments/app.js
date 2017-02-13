@@ -39,13 +39,55 @@ var Comment = mongoose.model('Comment', {
   body: {
     type: String,
     required: true
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author'
   }
-  // YOUR CODE HERE
 });
+
+var Follow = mongoose.model('Follow', {
+  follower: {
+    type: mongoose.Schema.types.ObjectId,
+    ref: 'User'
+  },
+  followee: {
+    type: mongoose.Schema.types.ObjectId,
+    ref: 'User'
+  }
+})
+
+app.get('/newUser', function(req, res) {
+  new User({firstName: 'User2', lastName: 'Lastname2'})
+  .save(function (err, user) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(user);
+    }
+  })
+})
+
+app.get('/makeUser1FollowUser2', function(req, res) {
+  new Follow({follower: user1, followee: user2})
+  .save(function(err, follow) {
+    res.json(follow);
+  })
+})
+
+app.get('/whoIsFollowingUser2', function(req, res) {
+  Follow.find({
+    followee: user2
+  })
+  .populate('follower')
+  .exec(function(err, followers) {
+    res.json(followers)
+  })
+})
 
 app.get('/', function(req, res) {
   Comment.find()
-  // YOUR CODE HERE
+  .populate('author')
   .exec(function (err, comments) {
     if (err) {
       res.status(500).json(err);

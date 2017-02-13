@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Hoong's Palace",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Sesame Chicken",
+      "price": 12.95,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Chicken",
+        "Sesame sauce"
+      ]
+    },
+    {
+      "name": "Lemon Chicken",
+      "price": 13.50,
+      "ingredients": [
+        "Chicken",
+        "Lemon sauce"
+      ]
+    },
+    {
+      "name": "Beef and brocolli",
+      "price": 13.95,
+      "ingredients": [
+        "Beef",
+        "Broc"
+      ]
+    },
+    {
+      "name": "Egg roll",
+      "price": 3.50,
+      "ingredients": [
+        "Egg",
+        "rolls"
       ]
     }
   ]
