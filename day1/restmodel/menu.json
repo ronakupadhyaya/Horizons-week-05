@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Nobu",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Cali Roll",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Cucumber",
+        "Fish"
+      ]
+    },
+    {
+      "name": "Steak",
+      "price": 20,
+      "ingredients": [
+        "Meat",
+        "Potatoes"
+      ]
+    },
+    {
+      "name": "Seaweed",
+      "price": 10,
+      "ingredients": [
+        "Seaweed",
+        "Vinegar"
+      ]
+    },
+    {
+      "name": "Edamame",
+      "price": 8,
+      "ingredients": [
+        "Soybeans",
+        "Salt"
       ]
     }
   ]

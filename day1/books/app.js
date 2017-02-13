@@ -19,6 +19,7 @@ app.engine('hbs', exphbs({
   helpers: {
     prev: function(page) {
       // YOUR CODE HERE
+      return `<a href="/?page=${page - 1}">Prev page</a>`;
     },
     next: function(page) {
       return `<a href="/?page=${page + 1}">Next page</a>`;
@@ -47,11 +48,21 @@ app.get('/', function(req, res) {
   var page = parseInt(req.query.page) || 0;
   Book.find()
     // YOUR CODE HERE sort books and paginate
+    .sort({Title: 1})
+    .skip(page * 20)
+    .limit(21)
     .exec(function(err, books) {
+
+      var hasNextFlag = true;
+
+      if(books.length < 21) {
+        hasNextFlag = false;
+      }
+
       res.render('index', {
         page: page,
-        hasNext: true, // YOUR CODE HERE only return true if there's a next page
-        books: books
+        hasNext: hasNextFlag, // YOUR CODE HERE only return true if there's a next page
+        books: books.slice(0,20) // since limit is 21 but only want to display 20
       });
     });
 });
