@@ -13,7 +13,17 @@ var app = express();
 
 app.engine('hbs', exphbs({
   extname: 'hbs',
-  defaultLayout: 'main'
+  defaultLayout: 'main',
+  helpers: {
+    prev: function(page) {
+      // YOUR CODE HERE
+      return `<a href="/?page=${page - 1}">Next page</a>`;
+    },
+    next: function(page) {
+      // YOUR CODE HERE
+      return `<a href="/?page=${page + 1}">Next page</a>`;
+    },
+  }
 }));
 app.set('view engine', 'hbs');
 
