@@ -31,9 +31,57 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
+// var User = mongoose.model('User', {
+//   firstName: {
+//     type: String,
+//     required: true
+//   },
+//
+// });
+
 var Restaurant = mongoose.model('Restaurant', {
-  // YOUR MODEL HERE
+  restaurant: {
+    type: String,
+    required: true
+  },
+  menu: [{
+    name: {
+      type: String,
+      required: true
+    },
+    price: {
+    type:Number,
+    required: true
+  },
+  ingredients: [String]
+}]
 });
+var Product = mongoose.model('Product', {
+  reviews: [
+    {
+      author:{
+        type: String,
+        required: true
+      },
+      score: {
+        type:Number,
+        default: 3
+      }
+    }
+  ]
+})
+app.get('/newproduct', function(req,res){
+  new Product({
+    reviews: [{
+        author:'Irvin'
+    }]
+  }).save(function(err, product){
+      if(err) res.status(500).json(err);
+      else{
+        res.json(product);
+      }
+  })
+})
 
 app.get('/', function(req, res) {
   Restaurant.find(function(err, restaurants) {
