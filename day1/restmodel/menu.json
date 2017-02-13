@@ -1,12 +1,41 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Pizza Hut",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Hand-Tossed Cheese Pizza",
+      "price": 8.49,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Cheese",
+        "Tomato Sauce",
+        "Flour"
+      ]
+    },
+    {
+      "name": "Pepperoni Lover's Pizza (Hand-Tossed)",
+      "price": 12.49,
+      "ingredients": [
+        "Cheese",
+        "Tomato Sauce",
+        "Flour",
+        "Peperoni"
+      ]
+    },
+    {
+      "name": "BBQ Beef Pizza (Hand-Tossed)",
+      "price": 12.49,
+      "ingredients": [
+        "Cheese",
+        "BBQ Sauce",
+        "Beef",
+        "Flour"
+      ]
+    },
+    {
+      "name": "Traditional Bone-Out 8 pc Wings",
+      "price": 8.49,
+      "ingredients": [
+        "Chicken Wings",
+        "Sauce"
       ]
     }
   ]
