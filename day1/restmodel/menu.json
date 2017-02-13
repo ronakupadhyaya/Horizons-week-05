@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Red Robin",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Bonzai Burger",
+      "price": 10,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Patty",
+        "Pineapple"
+      ]
+    },
+    {
+      "name": "Burning Love Burger",
+      "price": 10,
+      "ingredients": [
+        "Patty",
+        "Spice"
+      ]
+    },
+    {
+      "name": "Root Beer Float",
+      "price": 5,
+      "ingredients": [
+        "Ice cream",
+        "Root beer"
+      ]
+    },
+    {
+      "name": "Garlic fries",
+      "price": 5,
+      "ingredients": [
+        "Garlic",
+        "Potato"
       ]
     }
   ]
