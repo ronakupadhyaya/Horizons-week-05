@@ -39,7 +39,7 @@ var Restaurant = mongoose.model('Restaurant', {
   menu: [{
     name: String,
     price: Number,
-    ingredients: []
+    ingredients: [String]
   }]
 });
 
@@ -61,5 +61,19 @@ app.get('/import/restaurants', function(req, res) {
     }
   });
 });
+
+// app.get('/newproduct', function(req, res) {
+//   new Product({
+//     reviews: [{
+//       author: 'Irvin'
+//     }]
+//   }).save(function(err, product){
+//     if (err){
+
+//     } else {
+      
+//     }
+//   })
+// })
 
 app.listen(3000);
