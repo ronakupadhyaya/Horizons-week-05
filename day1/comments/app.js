@@ -11,6 +11,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 mongoose.connect(require('./connect'));
 
 app.engine('hbs', exphbs({extname: 'hbs', defaultLayout: 'main'}));
@@ -61,25 +62,19 @@ app.get('/import/comments', function(req, res) {
   var comments = require('./comments.json');
   Promise.all([Author.remove({}), Comment.remove({})])
   .then(function() {
-    Author.insertMany(authors.map(function(author) {
+    return Author.insertMany(authors.map(function(author) {
       return new Author(author);
-    }), function(err, authors) {
-      if (err) {
-        res.status(500).json(err);
-      } else {
-        var i = 0;
-        Comment.insertMany(comments.map(function(comment) {
-          comment.author = authors[i++]._id;
-          return new Comment(comment);
-        }), function(err, comments) {
-          if (err) {
-            res.status(500).json(err);
-          } else {
-            res.redirect('/');
-          }
-        });
-      }
-    });
+    }));
+  })
+  .then(function(authors) {
+    var i = 0;
+    return Comment.insertMany(comments.map(function(comment) {
+      comment.author = authors[i++]._id;
+      return new Comment(comment);
+    }));
+  })
+  .then(function(comments) {
+    res.redirect('/');
   })
   .catch(function(err) {
     res.status(500).json(err);

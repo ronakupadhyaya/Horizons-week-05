@@ -1,21 +1,20 @@
-# Inline exercise: Pagination with books
+# Inline exercise: Comments and authors
 
 ## Goal
 
-The goal of this exercise is to get comfortable using `.sort()`,
-`.limit()` and `.skip()`
-
-## Time limit: 15 minutes
+The goal of this exercise is to use [Mongoose references](http://mongoosejs.com/docs/populate.html)
+to display comments with authors.
 
 ## Instructions
 
-1. Install dependencies `npm install`
-1. Copy your `connect.js` into `week05/day2/books`
-1. Start your app with `npm start`
-1. Import books into your table using [http://localhost:3000/import/books](http://localhost:3000/import/books)
-1. Open `app.js` and `index.hbs`
-1. Sort books by title in `GET /`
-1. Only display 20 books at a time in `GET /`
-1. Create a query parameter `page` in `GET /` that lets you page through books.
-   Use `.skip()` to jump through books.
-1. Update the buttons in `index.hbs` to point to the next and previous page.
+1. Edit `/week05/day1/comments/app.js`
+1. Finish defining the `Comment` model, add a property called `author`
+  that [references](http://mongoosejs.com/docs/populate.html) the `Author`
+  model.
+1. Edit the `GET /` endpoint and modify the query to populate the `author`
+  field.
+1. Load data into MongoDb by visiting
+  [localhost:3000/import/comments](http://localhost:3000/import/comments)
+1. You should be the names of the authors and the comments:
+
+  ![](img/comments.png)

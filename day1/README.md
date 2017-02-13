@@ -4,7 +4,7 @@
 
 1. [Warmup: restaurant model](restmodel/README.md)
 1. [Pagination with books](books/README.md)
-1. [Comments](comments/README.md)
+1. [Comments and authors](comments/README.md)
 
 ## Pair Programming Exercise
 
