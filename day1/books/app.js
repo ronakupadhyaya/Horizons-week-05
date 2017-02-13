@@ -18,7 +18,8 @@ app.engine('hbs', exphbs({
   defaultLayout: 'main',
   helpers: {
     prev: function(page) {
-      // YOUR CODE HERE
+      return `<a href="/?page=${page - 1}">Prev page</a>`;
+      // return '<a href="/?page=+ (page - 1) + ">Prev page </a>';
     },
     next: function(page) {
       return `<a href="/?page=${page + 1}">Next page</a>`;
@@ -44,14 +45,19 @@ var Book = mongoose.model('Book', {
 });
 
 app.get('/', function(req, res) {
-  var page = parseInt(req.query.page) || 0;
-  Book.find()
-    // YOUR CODE HERE sort books and paginate
+  var page = parseInt(req.query.page) || 1;
+  var pageLimit = 21;
+  Book
+    .find()
+    .sort('title')
+    .skip((page -1) * pageLimit)
+    .limit(pageLimit)
     .exec(function(err, books) {
-      res.render('index', {
+        res.render('index', {
         page: page,
-        hasNext: true, // YOUR CODE HERE only return true if there's a next page
-        books: books
+        hasNext: typeof books[20] === 'object',
+        hasPrev: page>1,
+        books: books.slice(0,20),
       });
     });
 });
