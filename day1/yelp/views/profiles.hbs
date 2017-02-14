@@ -1,1 +1,29 @@
-{{! YOUR CODE HERE }}
+
+<div class="row">
+  <div class="col-sm-3">
+	<h3>Users:</h3>
+  </div>
+
+  <div class="col-sm-9">
+  	{{#each users}}
+
+			<div>
+				<p><b>Name:</b> {{this.displayName}}</p>
+				<p><b>Email:</b> {{this.email}}</p>
+				<p><b>Location:</b> {{this.Location}}</p>
+				<a href="/singleProfile/{{this._id}}">View Profile</a>
+				<form method="POST" action="/followUser/{{this._id}}">
+					<div class="form-group">
+    					<button class="btn btn-success">Follow</button>
+ 					 </div>
+				</form>
+				<br/>
+				<br/>
+			</div>
+
+	{{/each}}
+  
+  </div>
+
+</div>
+

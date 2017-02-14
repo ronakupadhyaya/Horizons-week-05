@@ -24,6 +24,85 @@ router.use(function(req, res, next){
   }
 });
 
+
+router.get('/', function(req, res){
+
+  User.find(function(err, users){
+
+    if(err){
+      res.status(500).json(err);
+    } else{
+      res.render('../views/profiles', {users: users});
+    }
+
+  });
+
+});
+
+
+
+router.get('/singleProfile/:userId', function(req, res){
+
+  var userId = req.params.userId;
+
+  User.findById(req.params.userId, function(err, user1){
+
+    if(err){
+      res.status(500).json(err);
+    } else{
+
+
+      user1.getFollows(function(err, followersObj){
+
+        if(err){
+          res.status(500).json(err);
+        } else{
+
+
+          res.render('singleProfile', {
+            user: user1,
+            followObj: followersObj
+          });
+
+        }
+      });
+    }
+  });
+});
+
+router.post("/followUser/:userId", function(req, res){
+
+  console.log('*********');
+
+  console.log(req.params.userId);
+  console.log(req.user);
+
+  console.log('*********');
+
+
+  var newFollow = new Follow({
+
+    followee: req.params.userId,
+    follower: req.user._id
+
+  });
+
+  newFollow.save(function(err, follow){
+
+    if(err){
+      res.status(500).json(err);
+    } else{
+      console.log(follow);
+      res.redirect('/');
+    }
+
+  });
+
+
+
+
+});
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
