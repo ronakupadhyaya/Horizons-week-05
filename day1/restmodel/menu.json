@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Chipotle",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Burrito",
+      "price": 8,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Chicken",
+        "Brown rice"
+      ]
+    },
+    {
+      "name": "Burrito Bowl",
+      "price": 9,
+      "ingredients": [
+        "Beans",
+        "White rice"
+      ]
+    },
+    {
+      "name": "Taco",
+      "price": 6,
+      "ingredients": [
+        "Beef",
+        "Sourcream"
+      ]
+    },
+    {
+      "name": "Guacamole",
+      "price": 5,
+      "ingredients": [
+        "Chips",
+        "Avacado"
       ]
     }
   ]

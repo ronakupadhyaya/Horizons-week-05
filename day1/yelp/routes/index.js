@@ -23,7 +23,13 @@ router.use(function(req, res, next){
     return next();
   }
 });
-
+router.get('user/:id', function(req, res){
+  User.fineById(req.params.id, function(err, user){
+    user.getFollows(function(followers, followings){
+      res.render(user, followers, followings);
+    });
+  });
+});
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
@@ -31,7 +37,7 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(err);
   //   console.log(data);
   // });
-  
+
 });
 
 module.exports = router;

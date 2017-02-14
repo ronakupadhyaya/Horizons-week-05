@@ -12,23 +12,77 @@ var userSchema = mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  displayName: {
+    type: String,
+    required: true
+  },
+  location: {
+    type: String,
+    required: true
   }
 });
 
-userSchema.methods.getFollows = function (id, callback){
+var FollowsSchema = mongoose.Schema({
+  from: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  },
+  to: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  }
+});
+var Follow = mongoose.model('Follow', FollowsSchema);
 
+
+userSchema.methods.getFollows = function (callback){
+  Follow.find({from: this._id})
+    .populate('from')
+    .exec(function(err, allfollowers){
+      Follow.find({to: this._id})
+      .populate('to')
+      .exec(function(err, followees){
+        callback(err, allfollowers, allfollowees);
+      });
+    });
 }
 userSchema.methods.follow = function (idToFollow, callback){
-
+  Follow.find({from: this._id, to: idToFollow}, function(err, follow){
+    if(err){
+      callback(err);
+    } else{
+      if (follow){
+        callback(err, true);
+      } else {
+        var follow = new Follow({
+          from: this._id,
+          to: idToFollow
+        });
+        follow.save(function(err){
+          if(err){
+            callback(err)
+          }
+          else{
+            callback(err, true);
+          }
+        });
+      }
+    }
+  });
 }
 
-userSchema.methods.unfollow = function (idToUnfollow, callback){
-
+userSchema.methods.isFollowing = function(userId, callback){
+  
 }
 
-var FollowsSchema = mongoose.Schema({
+userSchema.methods.unfollow = function(idToUnfollow, callback){
+  Follow.findById({from: this._id, to: idToUnfollow._id}).remove(function(err){
+    callback(err);
+  });
+}
 
-});
+
 
 var reviewSchema = mongoose.Schema({
 
@@ -47,10 +101,9 @@ restaurantSchema.methods.getReviews = function (restaurantId, callback){
 //
 //}
 
-
 module.exports = {
   User: mongoose.model('User', userSchema),
   Restaurant: mongoose.model('Restaurant', restaurantSchema),
   Review: mongoose.model('Review', reviewSchema),
-  Follow: mongoose.model('Follow', FollowsSchema)
+  Follow: Follow
 };

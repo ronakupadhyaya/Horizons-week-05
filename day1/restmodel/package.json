@@ -5,9 +5,9 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
-    "express": "^4.14.0",
+    "express": "^4.14.1",
     "express-handlebars": "^3.0.0",
-    "mongoose": "^4.5.2",
+    "mongoose": "^4.8.2",
     "nodemon": "^1.9.2"
   }
 }
