@@ -15,6 +15,7 @@ var Review = models.Review;
 //   formatter: null
 // });
 
+
 // THE WALL - anything routes below this are protected!
 router.use(function(req, res, next){
   if (!req.user) {
@@ -24,6 +25,35 @@ router.use(function(req, res, next){
   }
 });
 
+router.get('/users', function(req, res){
+  // var givenID = req.params.id;
+  User.find(function(err, users){
+    if (err){
+      console.log(err);
+    }else {
+      console.log(users);
+      res.render('profiles', {users: users })
+    }
+  })
+})
+
+router.get('/users/:id', function(req, res){
+  // console.log(req.user);
+  var givenID = req.params.id;
+  // req.user.getFollows(function(followers, followees){
+  //   res.render('profiles', {followers: followers, followees: followees});
+  // })
+  console.log(req.user);
+  User.findById(givenID, function(err, user){
+    if (err){
+      console.log(err);
+    } else {
+      user.getFollows(function(followers, followees){
+        res.render('singleProfile', {user: user, followers: followers, followees: followees})
+      });
+    }
+  })
+})
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
@@ -31,7 +61,7 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(err);
   //   console.log(data);
   // });
-  
+
 });
 
 module.exports = router;

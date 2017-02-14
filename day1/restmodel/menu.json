@@ -1,12 +1,36 @@
+
+
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "my kitchen",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "chicken",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "chicken", "sauce", "more chicken"
+      ]
+    },
+    {
+      "name": "strawburries",
+      "price": 15,
+      "ingredients": [
+        "strawburries", "sugar"
+      ]
+    },
+    {
+      "name": "bbq porq",
+      "price": 20,
+      "ingredients": [
+        "bbq sauzz",
+        "porq"
+      ]
+    },
+    {
+      "name": "bred",
+      "price": 12,
+      "ingredients": [
+        "grains",
+        "other necessities"
       ]
     }
   ]

@@ -11,14 +11,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var mongoose = require('mongoose');
-mongoose.connect(require('./connect'));
+mongoose.connect(require('./connect').MONGODB_URI);
 
 app.engine('hbs', exphbs({
   extname: 'hbs',
   defaultLayout: 'main',
   helpers: {
     prev: function(page) {
-      // YOUR CODE HERE
+    return `<a href="/?page=${page - 1}">Prev page</a>`;
     },
     next: function(page) {
       return `<a href="/?page=${page + 1}">Next page</a>`;
@@ -45,13 +45,22 @@ var Book = mongoose.model('Book', {
 
 app.get('/', function(req, res) {
   var page = parseInt(req.query.page) || 0;
+  var total = 0;
   Book.find()
+    .limit(20)
+    .skip(page * 20)
     // YOUR CODE HERE sort books and paginate
     .exec(function(err, books) {
+      Book.count({}, function (err, count) {
+      total= count;
+
+    console.log("page * 20 " + page*20);
+    console.log(total);
       res.render('index', {
         page: page,
-        hasNext: true, // YOUR CODE HERE only return true if there's a next page
+        hasNext: (page * 20 < total), // YOUR CODE HERE only return true if there's a next page
         books: books
+      });
       });
     });
 });
