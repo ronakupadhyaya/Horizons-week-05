@@ -12,6 +12,7 @@ var auth = require('./routes/auth');
 var MongoStore = require('connect-mongo/es5')(session);
 var mongoose = require('mongoose');
 var app = express();
+var connect = require('./connect');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -27,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Passport stuff here
 
 app.use(session({
-    secret: process.env.SECRET,
+    secret: ['moose'],
     name: 'Catscoookie',
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
     proxy: true,

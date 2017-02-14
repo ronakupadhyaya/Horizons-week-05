@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Basil",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Thai Basil",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Basil",
+        "Chicken"
+      ]
+    },
+    {
+      "name": "Pad Ke Mao",
+      "price": 12,
+      "ingredients": [
+        "Noodles",
+        "Gai lan"
+      ]
+    },
+    {
+      "name": "Red Curry",
+      "price": 12,
+      "ingredients": [
+        "Red Curry Paste",
+        "Chicken"
+      ]
+    },
+    {
+      "name": "Pineapple Fried Rice",
+      "price": 12,
+      "ingredients": [
+        "Rice",
+        "Pineapple"
       ]
     }
   ]
