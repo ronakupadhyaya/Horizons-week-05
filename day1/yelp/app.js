@@ -23,6 +23,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('secretCat'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// mongoose.Promise = Promise;
+// mongoose.connect(require('./connect'));
 
 // Passport stuff here
 
