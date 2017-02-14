@@ -39,12 +39,17 @@ var Comment = mongoose.model('Comment', {
   body: {
     type: String,
     required: true
-  }
+  },
   // YOUR CODE HERE
+  author: {
+    type:mongoose.Schema.Types.ObjectId,
+    ref: 'Author'
+  }
 });
 
 app.get('/', function(req, res) {
   Comment.find()
+  .populate('author')
   // YOUR CODE HERE
   .exec(function (err, comments) {
     if (err) {

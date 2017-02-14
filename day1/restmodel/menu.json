@@ -1,12 +1,27 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "RUSSIAN RESTAURANT",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "BORSCH",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "WATER",
+        "MEET"
+      ]
+    },
+    {
+      "name": "PIROGI",
+      "price": 10,
+      "ingredients": [
+        "DOUGH",
+        "MEET"
+      ]
+    },
+    {
+      "name": "MASHED POTATO",
+      "price": 6,
+      "ingredients": [
+        "POTATO"
       ]
     }
   ]

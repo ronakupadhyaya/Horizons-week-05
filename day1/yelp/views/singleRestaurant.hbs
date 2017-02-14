@@ -1,1 +1,15 @@
-{{! YOUR CODE HERE }}
+
+
+
+<h1>{{name}}</h1>
+<p>Price {{price}}</p>
+<p>Hours {{hours}}</p>
+<!-- <p>Reviews: </p> to add reviews -->
+
+
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{latitude}},
+{{longitude}}&markers=color:red|{{latitude}},{{longitude}}&zoom=13&size=600x300&maptype=roadmap">
+
+<form action="/review" method = "post">
+  <input type = "submit" name = "addreview" value = "addreview">
+</form>
