@@ -1,12 +1,36 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "BONDST",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Big Eye Tuna Tarts",
+      "price": 24,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Tuna",
+        "Truffle Oil"
+      ]
+    },
+    {
+      "name": "Salmon Avocado Roll",
+      "price": 14,
+      "ingredients": [
+        "Salmon",
+        "Avocado"
+      ]
+    },
+    {
+      "name": "Broiled Chilean Sea Bass",
+      "price": 36,
+      "ingredients": [
+        "Sea Bass",
+        "Saikyo Miso"
+      ]
+    },
+    {
+      "name": "Snow Crab Tempura Roll",
+      "price": 22,
+      "ingredients": [
+        "Snow Crab",
+        "Buckwheat Noodles"
       ]
     }
   ]

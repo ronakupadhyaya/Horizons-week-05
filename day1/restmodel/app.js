@@ -32,7 +32,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser());
 
 var Restaurant = mongoose.model('Restaurant', {
-  // YOUR MODEL HERE
+  name: String,
+  menu: {
+    type: Array,
+    menuItem: {
+      type: Object,
+      name: String,
+      price: Number,
+      ingredients: [String]
+    }
+  }
 });
 
 app.get('/', function(req, res) {

@@ -1,1 +1,40 @@
-{{! YOUR CODE HERE }}
+<html lang="en">
+<head>
+  <title>Restaurants</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Restaurants</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each contacts}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.phone}}</td>
+        <td>{{this.email}}</td>
+        <td><a href='/messages/send/{{_id}}'>Send Text</a></td>
+        <td><a href='/messages/{{_id}}'>View Messages</a></td>
+        <td><a href='/contacts/{{_id}}'>Edit Contact</a></td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+  <a href='/contacts/new'>Create New Contact</a>
+</div>
+
+</body>
+</html>
