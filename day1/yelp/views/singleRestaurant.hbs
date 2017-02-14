@@ -1,1 +1,14 @@
-{{! YOUR CODE HERE }}
+<h4>Name:</h4>
+<p>{{found.name}}</p>
+
+<!-- Price range label will eventually be gone in favor of $$ icons -->
+<h4>Price Range:</h4>
+<p>{{found.price}}</p>
+<!-- render as found.price * # dollar signs -->
+
+<!-- will have to implement geotagging for this -->
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{found.latitude}},{{found.longitude}}&markers=color:red|{{found.latitude}},{{found.longitude}}&zoom=13&size=600x300&maptype=roadmap">
+
+
+<h4>Hours:</h4>
+<p>{{found.openTime}} - {{found.closingTime}}</p>

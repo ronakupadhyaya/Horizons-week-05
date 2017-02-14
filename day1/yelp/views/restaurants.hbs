@@ -1,1 +1,26 @@
-{{! YOUR CODE HERE }}
+{{#each}}
+<h4>Name:</h4>
+<p>{{found.name}}</p>
+
+<h4>Category:</h4>
+<p>{{found.category}}</p>
+
+<h4>Latitude:</h4>
+<p>{{user.location}}</p>
+
+<h4>Longitude:</h4>
+<p>{{user.reviews}}</p>
+
+<h4>Following:</h4>
+{{#each following}}
+  <div>{{uid2.displayName}}
+  <form action="/unfollow/{{uid2.id}}" method="post">
+    <input style="display: inline;" type="submit" value="Unfollow">
+  </form>
+</div>
+{{/each}}
+
+<h4>Followers:</h4>
+{{#each followers}}
+  <p>{{uid1.displayName}}</p>
+{{/each}}

@@ -35,7 +35,34 @@ var followSchema = mongoose.Schema({
 });
 
 var restaurantSchema = mongoose.Schema({
-
+  name: {
+    type: String,
+    required: true
+  },
+  category: {
+    type: String,
+    required: true
+  },
+  latitude: {
+    type: Number,
+    required: true
+  },
+  longitude: {
+    type: Number,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  },
+  openTime: {
+    type: Number,
+    required: true
+  },
+  closingTime: {
+    type: Number,
+    required: true
+  }
 });
 
 var reviewSchema = mongoose.Schema({
@@ -93,7 +120,7 @@ userSchema.methods.follow = function(idToFollow, callback){
 
 userSchema.methods.unfollow = function(idToUnfollow, callback){
   var idFromFollow = this._id; // not req.user._id
-  var idToFollow = idToFollow;
+  var idToFollow = idToUnfollow;
   Follow.findOne({to: idToFollow, from: idFromFollow}, function(err, foundFollow) {
     if(err) {
       callback(err);

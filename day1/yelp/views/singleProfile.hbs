@@ -1,6 +1,9 @@
-<form action="/profiles/{{user.displayName}}/follow" method="post">
-  <button type="submit" name="follow">Follow</button>
+<form action="/profiles/{{user.displayName}}/{{theDecision.action}}" method="post">
+  <button type="submit" name="{{theDecision.action}}">{{theDecision.action}}</button>
 </form>
+<!-- <form action="/profiles/{user.displayName}/unfollow" method="post">
+  <button type="submit" name="unfollow">unfollow</button>
+</form> -->
 
 
 <h4>Name:</h4>
