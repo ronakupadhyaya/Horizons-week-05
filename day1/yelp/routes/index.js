@@ -24,6 +24,50 @@ router.use(function(req, res, next){
   }
 });
 
+router.get('/signup', function(req,res){
+  res.render('signup');
+});
+
+// router.post('/signup', function(req,res){
+//   var user = new User({
+//     displayName: req.body.displayName,
+//     email: req.body.username,
+//     password: req.body.password,
+//     location: req.body.location
+//   });
+//   user.save(function(err){
+//     if(err){
+//       res.send(err);
+//     } else{
+//       res.redirect('/');
+//     }
+//   });
+// })
+
+
+
+router.get('/profile/:id', function(req,res){
+  User.findById(req.params.id, function(err,user){
+    if(err){
+      res.send(err);
+    } else {
+      user.getFollows(function(err,allFollowers,allFollowing){
+        if(err){
+          res.send(err);
+        } else {
+          var master = {
+            user: user,
+            allFollowers: allFollowers,
+            allFollowing: allFollowing
+          }
+        }
+      })
+    }
+  })
+})
+
+
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!

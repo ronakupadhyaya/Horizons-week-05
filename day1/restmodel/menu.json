@@ -1,12 +1,40 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Dottie's True Blue Cafe",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
-      "price": 12,
+      "name": "Angus Burger",
+      "price": 9,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Beef",
+        "Lettuce",
+        "Cheese"
+      ]
+    },
+     {
+      "name": "Grilled Chicken Pesto",
+      "price": 9.50,
+      "ingredients": [
+        "Chicken",
+        "Buttermilk",
+        "Bread"
+      ]
+    },
+     {
+      "name": "Hummus and Grilled Zucchini",
+      "price": 8.95,
+      "ingredients": [
+        "Hummus",
+        "Zucchini",
+        "Wheatbread"
+      ]
+    },
+     {
+      "name": "Quesadillas",
+      "price": 11,
+      "ingredients": [
+        "Pork",
+        "Cheese",
+        "Pepper"
       ]
     }
   ]

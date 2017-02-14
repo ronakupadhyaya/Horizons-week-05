@@ -32,19 +32,23 @@ var Author = mongoose.model('Author', {
   lastName: {
     type: String,
     required: true
-  }
+  },
 });
 
 var Comment = mongoose.model('Comment', {
   body: {
     type: String,
     required: true
+  },
+  author:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author'
   }
-  // YOUR CODE HERE
 });
 
 app.get('/', function(req, res) {
   Comment.find()
+  .populate('author')
   // YOUR CODE HERE
   .exec(function (err, comments) {
     if (err) {
