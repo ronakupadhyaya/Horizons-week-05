@@ -24,6 +24,90 @@ router.use(function(req, res, next){
   }
 });
 
+router.get('/', function(req, res) {
+  res.redirect('/restaurants')
+})
+
+router.get('/restaurants', function(req, res) {
+  res.render('restaurants')
+})
+
+router.get('/profiles', function(req, res) {
+  User.find(function(err, foundUsers) {
+    if(err) {
+      res.status(400).json(err);
+    } else {
+      res.json(foundUsers);
+      // res.render('profiles', {
+      //   // something
+      // })
+    }
+  })
+})
+
+// router.get('/profiles', function(req, res) {
+//   Follows.
+// })
+
+router.get('/profiles/:displayName', function(req, res) {
+  var displayName = req.params.displayName;
+  User.findOne({displayName: displayName}, function(err, foundUser) {
+    if(err) {
+      res.status(400).json(err);
+    } else {
+      // res.json(foundUser.email)
+      res.render('singleProfile', {
+        user: foundUser
+      })
+    }
+  })
+});
+
+router.post('/profiles/:displayName/follow', function(req, res) {
+  var followeeName = req.params.displayName;
+  User.findOne({displayName: followeeName}, function(err, foundUser) {
+    if(err) {
+      res.status(400).json(err);
+    } else {
+      var followeeId = foundUser._id;
+      console.log(req.user);
+      req.user.follow(followeeId, function(err, followed) {
+        if(err) {
+          res.status(400).json(err);
+        } else {
+          // res.render('singleProfile', {
+          //   user: foundUser,
+          //   following: true
+          // })
+          res.redirect('/profiles/' + foundUser.displayName)
+        }
+      })
+    }
+  })
+})
+
+router.post('/profiles/:displayName/unfollow', function(req, res) {
+  var followeeName = req.params.displayName;
+  User.findOne({displayName: followeeName}, function(err, foundUser) {
+    if(err) {
+      res.status(400).json(err);
+    } else {
+      var followeeId = foundUser._id;
+      req.user.unfollow(followeeId, function(err, unfollowed) {
+        if(err) {
+          res.status(400).json(err);
+        } else {
+          res.render('singleProfile', {
+            user: foundUser,
+            following: false,
+            action: followeeName === req.user.displayName ? "follow" : "unfollow"
+          })
+        }
+      })
+    }
+  })
+})
+
 router.post('/restaurants/new', function(req, res, next) {
 
   // Geocoding - uncomment these lines when the README prompts you to!
@@ -31,7 +115,7 @@ router.post('/restaurants/new', function(req, res, next) {
   //   console.log(err);
   //   console.log(data);
   // });
-  
+
 });
 
 module.exports = router;
