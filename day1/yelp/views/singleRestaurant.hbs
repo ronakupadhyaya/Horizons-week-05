@@ -1,1 +1,9 @@
-{{! YOUR CODE HERE }}
+<h3>Restaurant Directory</h3>
+
+<h4>{{restaurant.name}}</h4>
+<h4>{{restaurant.price}}</h4>
+<h4>{{restaurant.category}}</h4>
+<p>Hours Today: {{restaurant.openTime}}-{{restaurant.closingTime}}</p>
+<p>{{restaurant.latitude}}</p>
+<p>{{restaurant.longitude}}</p>
+<img src="https://maps.googleapis.com/maps/api/staticmap?center={{restaurant.latitude}},{{restaurant.longitude}}&markers=color:red|{{restaurant.latitude}},{{restaurant.longitude}}&zoom=13&size=600x300&maptype=roadmap">

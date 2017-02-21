@@ -1,1 +1,26 @@
-{{! YOUR CODE HERE }}
+<h2>Contacts</h2>
+
+<table class="table table-striped">
+  <thead>
+    <td><b>Name</b></td>
+    <td><b>Category</b></td>
+    <td><b>Price</b></td>
+    <td><b>Average Rating</b></td>
+    <td><b>Location</b></td>
+  </thead>
+  <tbody>
+  {{#each restaurant}}
+  <tr>
+    <td><a href='/restaurant/{{id}}'>{{name}}</a></td>
+    <td>{{category}}</td>
+    <td>{{price}}</td>
+    <td>{{email}}</td>
+    <td>{{email}}</td>
+  </tr>
+  {{/each}}
+</tbody>
+</table>
+
+<a class="btn btn-primary" href='/restaurants/new'>Add Restaurant</a>
+
+<a class="btn btn-primary" href='/logout'>Logout</a>

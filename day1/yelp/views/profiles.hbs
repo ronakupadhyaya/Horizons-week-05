@@ -1,1 +1,6 @@
-{{! YOUR CODE HERE }}
+<h3>User Directory</h3>
+
+{{#each user}}
+  <a href='/profile/{{id}}'>{{displayName}}</a>
+  <p>{{location}}</p>
+{{/each}}
