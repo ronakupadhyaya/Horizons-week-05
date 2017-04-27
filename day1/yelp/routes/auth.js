@@ -8,8 +8,8 @@ var models = require('../models/models');
 module.exports = function(passport) {
 
   // GET registration page
-  router.get('/signup', function(req, res) {
-    res.render('signup');
+  router.get('/register', function(req, res) {
+    res.render('register');
   });
 
   // POST registration page
@@ -17,15 +17,16 @@ module.exports = function(passport) {
     return (userData.password === userData.passwordRepeat);
   };
 
-  router.post('/signup', function(req, res) {
+  router.post('/register', function(req, res) {
     if (!validateReq(req.body)) {
-      return res.render('signup', {
+      return res.render('register', {
         error: "Passwords don't match."
       });
     }
     var u = new models.User({
       email: req.body.username,
-      password: req.body.password
+      password: req.body.password,
+      displayName: req.body.displayName
     });
 
     u.save(function(err, user) {

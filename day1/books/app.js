@@ -11,7 +11,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var app = express();
 var mongoose = require('mongoose');
-mongoose.connect(require('./connect'));
+mongoose.connect(require('./connect').MONGODB_URI);
 
 app.engine('hbs', exphbs({
   extname: 'hbs',
@@ -19,6 +19,7 @@ app.engine('hbs', exphbs({
   helpers: {
     prev: function(page) {
       // YOUR CODE HERE
+      return `<a href="/?page=${page - 1}">Previous page</a>`;
     },
     next: function(page) {
       return `<a href="/?page=${page + 1}">Next page</a>`;
@@ -44,14 +45,19 @@ var Book = mongoose.model('Book', {
 });
 
 app.get('/', function(req, res) {
-  var page = parseInt(req.query.page) || 0;
+  var page = parseInt(req.query.page) || 1;
+  var resLim = 21
   Book.find()
     // YOUR CODE HERE sort books and paginate
+    .sort('title')
+    .limit(resLim)
+    .skip(resLim * (page-1))
     .exec(function(err, books) {
       res.render('index', {
         page: page,
-        hasNext: true, // YOUR CODE HERE only return true if there's a next page
-        books: books
+        hasNext: books.length === resLim, // YOUR CODE HERE only return true if there's a next page
+        hasPrev: page > 1,
+        books: books.slice(0, 20)
       });
     });
 });

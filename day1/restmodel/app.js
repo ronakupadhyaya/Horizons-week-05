@@ -7,7 +7,7 @@ var exphbs  = require('express-handlebars');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-mongoose.connect(require('./connect'));
+mongoose.connect(require('./connect').MONGODB_URI);
 
 var app = express();
 
@@ -33,6 +33,14 @@ app.use(cookieParser());
 
 var Restaurant = mongoose.model('Restaurant', {
   // YOUR MODEL HERE
+  restaurant: String,
+  menu: [
+    {
+      name: String,
+      price: Number,
+      ingredients: [String]
+    }
+  ]
 });
 
 app.get('/', function(req, res) {

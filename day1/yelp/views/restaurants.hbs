@@ -1,1 +1,9 @@
-{{! YOUR CODE HERE }}
+{{#each restaurants}}
+<a href="/restaurants/{{this._id}}"><h3>{{name}}</h3></a>
+  <div>{{category}}</div>
+  <div>{{latitude}}</div>
+  <div>{{longitude}}</div>
+  <div>{{price}}</div>
+  <div>{{openTime}}</div>
+  <div>{{closingTime}}</div>
+{{/each}}

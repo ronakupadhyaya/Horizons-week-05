@@ -1,12 +1,47 @@
 {
-  "restaurant": "RESTAURANT HERE",
+  "restaurant": "Z Cafe",
   "menu": [
     {
-      "name": "MENU ITEM NAME HERE",
+      "name": "Cheesesteak",
       "price": 12,
       "ingredients": [
-        "INGREDIENT 1 HERE",
-        "INGREDIENT 1 HERE"
+        "Cheese",
+        "Steak",
+        "Bread"
+      ]
+    },
+    {
+      "name": "Mac and Cheese",
+      "price": 10,
+      "ingredients": [
+        "Macaroni",
+        "Cheese"
+      ]
+    },
+    {
+      "name": "Turkey Sandwich",
+      "price": 11,
+      "ingredients": [
+        "Turkey",
+        "Mayo",
+        "Bread"
+      ]
+    },
+    {
+      "name": "Cheeseburger",
+      "price": 12,
+      "ingredients": [
+        "Cheese",
+        "Burger",
+        "Bun"
+      ]
+    },
+    {
+      "name": "Grilled Cheese",
+      "price": 10,
+      "ingredients": [
+        "Cheese",
+        "Bread"
       ]
     }
   ]

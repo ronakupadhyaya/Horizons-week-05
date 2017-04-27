@@ -12,7 +12,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var mongoose = require('mongoose');
 mongoose.Promise = Promise;
-mongoose.connect(require('./connect'));
+mongoose.connect(require('./connect').MONGODB_URI);
 
 app.engine('hbs', exphbs({extname: 'hbs', defaultLayout: 'main'}));
 app.set('view engine', 'hbs');
@@ -39,19 +39,25 @@ var Comment = mongoose.model('Comment', {
   body: {
     type: String,
     required: true
-  }
+  },
   // YOUR CODE HERE
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author'
+  }
 });
 
 app.get('/', function(req, res) {
   Comment.find()
   // YOUR CODE HERE
+  .populate('author')
   .exec(function (err, comments) {
     if (err) {
       res.status(500).json(err);
     } else {
       res.render('index', {
-        comments: comments
+        comments: comments,
+        author: comments.author
       });
     }
   });
