@@ -1,0 +1,27 @@
+{{#if error}}
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {{error}}
+  </div>
+{{/if}}
+<form method="POST" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+<h3>Login</h3>
+  <div class="form-group">
+    <label>Username</label>
+    <input type="text" name="username" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" name="password" class="form-control">
+  </div>
+  <div class="form-group">
+    <button class="btn waves-effect waves-dark btn-success">Login</button>
+    <a class="btn waves-effect waves-dark btn-primary" href="/signup">Register</a>
+  </div>
+</form>
+
+<!--UNCOMMENT FOR FACEBOOK LOGIN-->
+<!-- <div class="cont">
+  <a href='/auth/facebook/callback' id="facebookButton" class="waves-effect waves-light btn  indigo darken-2">Log in with Facebook</a>
+</div> -->

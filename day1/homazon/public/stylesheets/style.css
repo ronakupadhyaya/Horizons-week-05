@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+h1{
+  margin-top: 0px !important;
+  text-align: center;
+}
+
+img{
+  width: 200px !important;
+  height: 200px !important;
+}
+
+.card-action{
+  font-size: 21px;
+}
