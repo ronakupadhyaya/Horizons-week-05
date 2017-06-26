@@ -315,13 +315,13 @@ router.post('/cart/add/:pid', (req, res, next) => {
   // the entire object into the array...not just the pid.
 }
 
-router.delete('/cart/delete/:pid', (req, res, next) => {
+router.post('/cart/delete/:pid', (req, res, next) => {
   // Insert code that takes a product id (pid), finds that product
   // and removes it from the cart array. Remember that you need to use
   // the .equals method to compare Mongoose ObjectIDs.
 }
 
-router.delete('/cart/delete', (req, res, next) => {
+router.post('/cart/delete', (req, res, next) => {
   // Empty the cart array
 });
 ```
