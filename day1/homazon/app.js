@@ -12,6 +12,9 @@ import LocalStrategy from 'passport-local';
 
 import mongoose from 'mongoose';
 
+// validator
+import expressValidator from 'express-validator';
+
 import index from './routes/index';
 import users from './routes/users';
 import auth from './routes/auth';
@@ -42,7 +45,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', auth(passport))
-app.use('/', index);
+app.use('/', index(passport));
 app.use('/users', users);
 
 // catch 404 and forward to error handler

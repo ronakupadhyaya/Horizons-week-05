@@ -1,10 +1,5 @@
 import express from 'express';
-
-console.log('EXPRESS IS', express)
-
 var router = express.Router();
-
-console.log('router is', router);
 
 // session dependencies
 import session from 'express-session';
