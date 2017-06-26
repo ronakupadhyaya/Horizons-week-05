@@ -1,3 +1,4 @@
+"use strict";
 var express = require('express');
 var app = express();
 
@@ -44,12 +45,19 @@ app.get('/', function(req, res) {
 
 mongoose.Promise = Promise;
 
+// Load these movies into MongoDB using Mongoose promises
 app.post('/load', function(req, res) {
-  // Load all these movies into MongoDB using Mongoose promises
-  // YOUR CODE HERE
   var movies = require('./movies.json');
-  // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+
+  Promise.all(movies.map(function(movie) {
+    var {title, url, photo, year, rating} = movie;
+    var mov = new Movie({ title, url, photo, year, rating });
+    mov.save(function(err) {
+      if (err) {
+        res.status(400).send("error saving movie: ",err);
+      }
+    });
+  })).then(() => {res.redirect('/');});
 });
 
 var port = process.env.PORT || 3000;
