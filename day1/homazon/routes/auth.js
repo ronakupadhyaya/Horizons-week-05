@@ -39,7 +39,6 @@ export default function(passport){
 
   // local strategy here
   passport.use(new Strategy(function(username, password, done){
-
     User.findOne({username: username}).exec()
     .then( (user) => {
       if(!user){
