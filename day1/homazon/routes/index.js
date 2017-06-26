@@ -4,7 +4,7 @@ import express from 'express';
 var router = express.Router();
 
 router.get('/products', function(req, res){
-  res.render('products', {
+  res.render('product', {
     products: [{title: "cyrus", description: "testing"}]
   })
 })
