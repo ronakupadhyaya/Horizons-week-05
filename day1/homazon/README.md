@@ -54,10 +54,13 @@ This time you will generate your own scaffolding using express-generator.
 Go ahead and install express-generator globably with `npm install express-generator -g`.
 Now navigate to `/week05/day1`.
 
-Use the `express appname --view=hbs` command (from express-generator) to create a
+Use the `express homazon --view=hbs` command (from express-generator) to create a
 scaffolding (the view=hbs flag adds handlebars support). This will create an Express
-app named appname in the current working directory. Remember to then `cd` into
-the app folder before continuing.
+app named homazon in the current working directory.
+
+> Note: Make sure that you are in your `day1` folder before typing `express homazon --view=hbs`. You should get a message stating `destination is not empty, continue? [y/N]`. Type y to continue.
+
+Remember to then `cd` into the app folder before continuing. Next, type `npm install` to install the dependencies that came together with the express-generator.
 
 Voila - your application is pretty much done for you! Jk. LOL! Where's the
 fun in that?
