@@ -46,13 +46,12 @@ mongoose.Promise = Promise;
 
 app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
-  // YOUR CODE HERE
+
   var movies = require('./movies.json');
   var allPromises = movies.map( (movieJSON) => {
     var temp = new Movie(movieJSON);
     return temp.save();
   });
-
   Promise.all(allPromises)
   .then((savedValues) => {
     console.log(savedValues);
