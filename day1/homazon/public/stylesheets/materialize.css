@@ -4883,7 +4883,7 @@ small {
 .card .card-action {
   position: relative;
   background-color: inherit;
-  border-top: 1px solid rgba(160, 160, 160, 0.2);
+  border-bottom: 1px solid rgba(160, 160, 160, 0.2);
   padding: 16px 24px;
 }
 

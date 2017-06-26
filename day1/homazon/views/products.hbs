@@ -1,0 +1,18 @@
+<h1 class="header">Products</h1>
+{{#each products}}
+<div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src={{imageUri}}>
+      </div>
+      <div class="card-stacked">
+        <div class="card-action">
+          <a href="/products/{{_id}}">{{title}}</a>
+        </div>
+        <div class="card-content">
+          <p>{{description}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/each}}
