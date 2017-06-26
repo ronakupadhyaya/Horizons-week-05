@@ -421,13 +421,40 @@ or Amex Express Checkout.
 
 1. We can create a customer and a charge in Stripe using Promises like [this](https://stripe.com/docs/charges#saving-credit-card-details-for-later).
 
+    <details>
+    <summary>hint</summary>
+
     ```javascript
     import stripePackage from 'stripe';
     const stripe = stripePackage('<SECRET_KEY>');
+    
+    // Token is created using Stripe.js or Checkout!
+    // Get the payment token submitted by the form:
+    var token = request.body.stripeToken; // Using Express
 
-    // More details in link above
-    stripe.customer.create;
+    // Create a Customer:
+    stripe.customers.create({
+      email: "paying.user@example.com",
+      source: token,
+    }).then(function(customer) {
+      // YOUR CODE: Save the customer ID and other info in a database for later.
+      return stripe.charges.create({
+        amount: 1000,
+        currency: "usd",
+        customer: customer.id,
+      });
+    }).then(function(charge) {
+      // Use and save the charge info.
+    });
+
+    // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
+    stripe.charges.create({
+      amount: 1500, // $15.00 this time
+      currency: "usd",
+      customer: customerId,
+    });
     ```
+    </details>
 
     Pay close attention to the flow of the linked code. First the customer is created and saved to the database then they are charged using the customer id that was just created. This will be important for the next step.
 
