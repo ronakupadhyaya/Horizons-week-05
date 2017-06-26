@@ -22,9 +22,11 @@ operate upon the same data model.
 
 ## Overview
 
+### [User interface diagrams](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit?usp=sharing)
+
 We're letting you go free here - this is going to be the first time you will
 make your own judgment calls on how to actually architect your application. Fear
-not, though... we are here to help. 
+not, though... we are here to help.
 
 Let's think through how exactly we want the "user flow" to look.
 
@@ -42,11 +44,12 @@ Shop
 
 Ok - let's get started.
 
+---
 
 ### Part 1. Express scaffolding
 
 In the past we have given you most of the Express scaffolding you have needed.
-This time you will generate your own scaffolding using express-generator. 
+This time you will generate your own scaffolding using express-generator.
 
 Go ahead and install express-generator globably with `npm install express-generator -g`.
 Now navigate to `/week05/day1`.
@@ -56,7 +59,7 @@ scaffolding (the view=hbs flag adds handlebars support). This will create an Exp
 app named appname in the current working directory. Remember to then `cd` into
 the app folder before continuing.
 
-Voila - your application is pretty much done for you! Jk. LOL! Where's the 
+Voila - your application is pretty much done for you! Jk. LOL! Where's the
 fun in that?
 
 Previously we built all of our routes first, and then all of our models, etc. In
@@ -74,23 +77,25 @@ adding a `models` folder as well.
 
 At these checkpoints be sure to test your code by running `npm start`. If your code fails to work be sure to spend some time debugging before continuing on.
 
+---
+
 ### Part 2. ES6 Support
 
-In the latest version of `Node.js` most ES6 syntax is supported, but there are 
+In the latest version of `Node.js` most ES6 syntax is supported, but there are
 still a few features that are not yet implemented ie: `import` and `export`.
 
 To get support for these we can use a javascript compiler like [Babel](https://babeljs.io/).
-Babel will translate our code to node-compatible javascript before it is run. To get all the 
+Babel will translate our code to node-compatible javascript before it is run. To get all the
 packages we need run this command:
 
 `npm install --save-dev babel-cli babel-preset-es2015`
 
-Now that we have babel installed we need to make sure our start script uses it. Go ahead 
+Now that we have babel installed we need to make sure our start script uses it. Go ahead
 and replace our current start script in `package.json` with this:
 
 `babel-node ./bin/www --presets es2015`
 
-To ensure everything is working correctly lets replace each call to `require()` with `import` 
+To ensure everything is working correctly lets replace each call to `require()` with `import`
 and each call to `module.exports` with `export default`
 
 ```javascript
@@ -116,9 +121,11 @@ Run your app and watch as the amazing babel compiles our code right before our e
 
 If you would like to use `nodemon` click [here](https://github.com/babel/example-node-server#watching-file-changes-with-nodemon) for more detailed instructions.
 
+---
+
 ### Part 3. Authentication (sign up and login)
 
-You know the drill by now. 
+You know the drill by now.
 
 First, create a `User` schema. We want our user to be able to login using a
 username/password combo. Here is the skeleton for your schema:
@@ -168,9 +175,9 @@ To help jog your memory, here are some useful snippets for making Passport work!
 
 Lets exercise our ES6 skills by using Promises instead of callback functions in mongoose.
 
-Mongoose async operations, like `.save()` and queries, return Promises. By default 
-these are [not](http://mongoosejs.com/docs/promises.html) the same Promises included 
-with ES6. Fortunately for us we can change mongoose's Promise library with only 1 line! 
+Mongoose async operations, like `.save()` and queries, return Promises. By default
+these are [not](http://mongoosejs.com/docs/promises.html) the same Promises included
+with ES6. Fortunately for us we can change mongoose's Promise library with only 1 line!
 Pretty convenient! Go ahead and add this line after your mongoose import in `app.js`:
 
 ```javascript
@@ -208,6 +215,8 @@ Implementing auth with Passport requires a few steps:
 #### Checkpoint
 When you're done with Part 3 you should be able to Register a user and login. [See](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_15)
 
+---
+
 ### Part 4. Products and Product List
 
 So now we have logged in let's buy stuff!
@@ -217,18 +226,18 @@ most basic level our store consists of a bunch of products. We'll make it more
 complex later, but for now, we take baby steps. Let's create our `Product`
 schema. A product will have a title, a description, and an image. For now, we'll
 pretend that the product is free.
-  
+
 ```javascript
   title: String,
   description: String,
   imageUri: String
 ```
 
-Model done. Time for routes and views. 
+Model done. Time for routes and views.
 
 We want to be able to navigate between 2 main views: a view to see the entire
 list of products (just titles) and a detailed product view that shows the title,
-description, and image for a single product. 
+description, and image for a single product.
 
 ```javascript
 router.get('/', (req, res, next) => {
@@ -250,9 +259,9 @@ At this point you should be able to render the landing page. Next lets add some 
 
 Note, you won't be able to see any products because we are not writing any
 routes to "create" new products... yet. Instead, we are going to seed our
-database with existing product data from the `products.json` file. 
+database with existing product data from the `products.json` file.
 
-You will need to create your own script to seed the database. 
+You will need to create your own script to seed the database.
 
 <details>
 <summary>Hint</summary>
@@ -269,6 +278,8 @@ Promise.all(productPromises)
 #### Checkpoint
 
 Now you should be able to list out all of the products defined in `products.json` [see](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_124). If you navigate to a specific `products` id you should be able to see a detailed view of that product [see](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_229).
+
+---
 
 ### Part 5. Shopping Cart
 
@@ -314,7 +325,7 @@ router.delete('/cart/delete', (req, res, next) => {
 
 #### Checkpoint
 
-After completing there routes be sure to test their functionality. Try using 
+After completing there routes be sure to test their functionality. Try using
 `console.log()` to print the cart at the starting and ending point of each route.
 
 Now time to figure out our views. We want to do a few things here:
@@ -340,29 +351,30 @@ You should now be able to log in, add your shipping info, be taken to a page
 with all of the products, click and view product details, add the product to
 your cart, and view/edit your cart. [see](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_261)
 
-Boom, baby! 
+Boom, baby!
 
+---
 
 ### Part 6. Payment and Checkout
 
-Payment info is a bit more complicated. After the user has successfully saved 
-their shipping info, direct them to another form to enter payment info. You'll 
-use an embedded Stripe form for this. Stripe does the hard work, collecting 
+Payment info is a bit more complicated. After the user has successfully saved
+their shipping info, direct them to another form to enter payment info. You'll
+use an embedded Stripe form for this. Stripe does the hard work, collecting
 and validating the credit card info, and returning a token.
 
 You were not alive in the pre-Stripe era. The pre-Stripe era was worse
-than the Ice Age. Death and destruction ruled the world. You needed 
+than the Ice Age. Death and destruction ruled the world. You needed
 a merchant account with large financial institutions in order to process
-credit card payments. Your application had to connect to a payment gateway, which 
-connected to the larger financial network for authorizing transactions. 
+credit card payments. Your application had to connect to a payment gateway, which
+connected to the larger financial network for authorizing transactions.
 
-Stripe has taken all the tedium and duplicative effort inherent to processing 
-payments and abstracted it all behind a single, developer-friendly API. Yes, 
-holding cards is hard. Yes, there's a lot of regulation around processing payments. 
-Whatever. Doesn't matter – that's Stripe's problem, not yours :). Oh, and Stripe 
+Stripe has taken all the tedium and duplicative effort inherent to processing
+payments and abstracted it all behind a single, developer-friendly API. Yes,
+holding cards is hard. Yes, there's a lot of regulation around processing payments.
+Whatever. Doesn't matter – that's Stripe's problem, not yours :). Oh, and Stripe
 supports 100+ currencies
 out of the box. In addition to credit and debit cards, Apple Pay, Android
-Pay, you can also easily support Bitcoin, Alipay, 
+Pay, you can also easily support Bitcoin, Alipay,
 or Amex Express Checkout.
 
 [Get started with Stripe](https://stripe.com/)
@@ -374,7 +386,7 @@ or Amex Express Checkout.
 
     Checkout takes care of building the payment form, validating user inputs, securing data, and sending it to Stripe without having it touch your server. Once you submit a Checkout form, you get back a token, which you save in order to actually create the charge.
 
-    Carefully copy this `form` into your cart view and be sure to update each 
+    Carefully copy this `form` into your cart view and be sure to update each
     of the fields with your own values. Also be sure to add any `input` fields you may need above the script. The first one has been done for you.
 
     ```html
@@ -439,7 +451,7 @@ or Amex Express Checkout.
 At this point you should be able to create a customer and generate a payment document in mLab. Be sure to test your code thoroughly before continuing. [see](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_329)
 
 With these final two pieces of information in place, we can complete the order
-flow. Add a button to your cart page that says "Purchase." For now, your 
+flow. Add a button to your cart page that says "Purchase." For now, your
 flow should only do two things:
 
 1. Create a new `Order` document containing:
@@ -461,6 +473,7 @@ maybe generating a shipping label and calculating estimated ship time, etc.
 
 You've completed all the main functionality of Homazon! Congrats! Be sure to double check that all of your functionality works before continuing on to the bonus.
 
+---
 
 ### Bonus: Shopkeeper (admin) view
 
@@ -481,7 +494,7 @@ home (product list) page, only visible to these admin users.
 
 The root path for logged-in admin users is different from the root path for
 non-admin users. Admins should go to an admin dashboard page where they can view
-all the orders! 
+all the orders!
 
 
 ### Bonus Part 2. Product list
