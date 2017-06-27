@@ -1,0 +1,27 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.pic {
+  height: 200px;
+}
+
+.prodEnt {
+  border: 4px;
+  border-color: #E2FFD1;
+}
+
+.singleCont {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.singlePic {
+  padding: 10px;
+  margin-right: 5px;
+}

@@ -1,0 +1,18 @@
+<div class="row col-sm-offset-10">
+  <a href="/logout" class="btn btn-warning">Logout</a>
+  <a href="/" class="btn btn-info">All Products</a>
+</div>
+<br />
+  <div class="singleCont container">
+    <img class="singlePic" src="{{found.imageUri}}" alt="Generic placeholder image" height="250px">
+    <div>
+      <h1>{{found.title}}</h1>
+      <h4>Price: ${{found.price}}</h4>
+      {{found.description}}
+      <br />
+      <form action='/cart/add/{{found.id}}' method="post">
+        <input type="submit" class="btn btn-primary" value="Add to Cart" />
+      </form>
+    </div>
+  </div>
+  <br />

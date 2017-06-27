@@ -1,0 +1,22 @@
+<br />
+<div class="row col-sm-offset-7">
+    <a href="/logout" class="btn btn-warning">Logout</a>
+    <a href="/cart" class="col-sm-offset-2 btn btn-info">View Shopping Cart</a>
+</div>
+
+
+  <h1>All Products</h1>
+  {{#each prod}}
+  <div class="singleCont media">
+    <img class="pic mr-3" src="{{imageUri}}" alt="Generic placeholder image">
+    <div class="media-body">
+      <h5 class="mt-0 mb-1">
+        <a href="/product/{{id}}">
+          {{title}}
+        </a>
+      </h5>
+      <h6>Price: ${{price}}</h6>
+      {{description}}
+    </div>
+  </div>
+  {{/each}}

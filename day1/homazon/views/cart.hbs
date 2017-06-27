@@ -1,0 +1,61 @@
+<div class="row col-sm-offset-10">
+  <a href="/logout" class="btn btn-warning">Logout</a>
+</div>
+<center>
+  <h1>Shopping Cart</h1>
+</center>
+<table class="table table-striped">
+  <tr>
+    <th></th>
+    <th></th>
+    <th>Add Another</th>
+    <th>Remove</th>
+    <th>Price</th>
+  </tr>
+  {{#each prod}}
+  <tr>
+    <td><img src="{{imageUri}}" height="64px"/></td>
+    <td><a href="/product/{{id}}">
+      <strong>{{title}}</strong>
+    </a></td>
+    <td>
+      <a href="/cart/add/{{id}}"><span class="glyphicon glyphicon-plus"></span></a>
+    </td>
+    <td>
+      <form method="post" action="/cart/delete/{{id}}">
+        <button><span class="glyphicon glyphicon-remove-circle"></span></button>
+      </form>
+    </td>
+    <td>${{price}}</td>
+  </tr>
+  {{/each}}
+  <td></td>
+  <td></td>
+  <td></td>
+  <td><strong>Subtotal</strong></td>
+  <td>${{endPrice}}</td>
+</table>
+<br />
+<div class="row col-sm-offset-3">
+  <a href="/" class="btn btn-primary">Checkout</a>
+
+  <form action="/checkout" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{pubkey}}"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+
+
+
+  <a href="/" class="col-sm-offset-2 btn btn-info">Back to Shopping</a>
+  <form method="post" action="/cart/delete" class="col-sm-offset-8">
+    <button class="btn btn-danger">Clear Cart</button>
+  </form>
+</div>
