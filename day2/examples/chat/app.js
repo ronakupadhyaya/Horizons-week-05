@@ -3,6 +3,8 @@ var path = require('path');
 var morgan = require('morgan');
 var exphbs = require('express-handlebars');
 var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // Set View Engine
 app.engine('hbs', exphbs({
@@ -17,11 +19,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Logging
 app.use(morgan('combined'));
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.render('index');
 });
 
+
+
 var port = process.env.PORT || 3000;
-app.listen(port, function(){
+server.listen(port, function () {
   console.log('Express started. Listening on %s', port);
+});
+
+io.on('connection', function (socket) {
+  socket.on('msg', function (data) {
+    console.log(data);
+    io.emit("rec", socket.username + " said: " + data)
+  })
+
+  socket.on('user', function (data) {
+    console.log(data);
+    socket.username = data;
+    socket.emit("userMessage", "welcome [ " + socket.username + " ]");
+    socket.broadcast.emit("allMessage", "[ " + socket.username + " ] has joined the Chatroom!")
+  })
+
 });
