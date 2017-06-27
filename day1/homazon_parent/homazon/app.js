@@ -4,6 +4,9 @@ import favicon from'serve-favicon';
 import logger from'morgan';
 import cookieParser from'cookie-parser';
 import bodyParser from'body-parser';
+import models from'./models/models';
+
+var User=models.User;
 
 import index from'./routes/index';
 import users from'./routes/users';
@@ -14,6 +17,10 @@ import session from 'express-session';
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 
+
+//DOING THESE TWO WHEN TRYING TO GET LOGIN/SIGNUP ROUTES TO APPEAR
+import routes from './routes/index';
+import auth from './routes/auth';
 var app = express();
 
 // view engine setup
@@ -30,9 +37,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
-
+//&&&&&&&&&&&&&
 //PASSPORT STUFF direct from this assignment github
-var MongoStore=require('connect-mongo')(session);
+import MongoS from'connect-mongo';
+var MongoStore=MongoS(session);
 
 app.use(session({
   secret: process.env.SECRET,
@@ -51,7 +59,7 @@ passport.deserializeUser((id, done) => {
     done(err, user);
   });
 });
-
+//&&&&&&&&&&&&&
 //PASSPORT STUFF from double message
 // Tell passport how to read our user models
 passport.use(new LocalStrategy(function(username, password, done) {
@@ -75,12 +83,12 @@ passport.use(new LocalStrategy(function(username, password, done) {
     return done(null, user);
   });
 }));
-
+//&&&&&&&&&&&&&
 app.use(passport.initialize());
 app.use(passport.session());
 // Uncomment these out after you have implemented passport in step 1
-// app.use('/', auth(passport));
-// app.use('/', routes);
+app.use('/', auth(passport));
+app.use('/', routes);
 
 
 // catch 404 and forward to error handler

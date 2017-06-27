@@ -1,0 +1,33 @@
+
+
+  ====
+  user.save(function(err, user) {
+    Books.findOne({user: user}, function(err2, book) {
+      book.read++;
+      book.save(function(err3) {
+        res.send('Done');
+      });
+    });
+  });
+
+  user.save()
+  .then(function(user) {
+    return Books.findOne({user: user})
+  })
+  .then(function(book) {
+    book.read++;
+    return book.save()
+  })
+  .then(function(book3) {
+    res.send('Done');
+  });
+
+
+
+user.save()
+  .then(function(resp){
+    return Books.findOne({user:user})
+  })
+  .then(function(resp){
+
+  })
