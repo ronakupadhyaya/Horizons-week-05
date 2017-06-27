@@ -1,0 +1,14 @@
+<form method="POST" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+  <h3>Product List</h3>
+
+  {{#each product}}
+  <div>
+  <h4><a href="/product/{{this._id}}">{{title}}</a></h4>
+  <img src="{{imageUri}}">
+  <h3>{{description}}</h3>
+  </div>
+  {{/each}}
+
+  <button class="btn btn-success"><a href="/new">New Product</a></button>
+ 
+</form>

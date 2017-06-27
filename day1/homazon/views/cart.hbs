@@ -1,0 +1,31 @@
+
+<h1>cart</h1>
+
+{{#each items}}
+  <div>
+  <h4>{{title}}</h4>
+  <img src="{{imageURL}}">
+  <h3>{{description}}</h3>
+  
+<form method="POST" action="/cart/delete/{{this._id}}">
+
+  <button class="btn btn-success" type="submit">Remove from Cart</button>
+
+ 
+</form>
+
+  </div>
+  {{/each}}
+
+<form method="POST" action="/cart/delete">
+
+  <button class="btn btn-success" type="submit">Empty Cart</button>
+
+ 
+</form>
+    
+  <button class="btn btn-success"><a href="/">Back to Products</a></button>
+
+
+
+<button><a href="/cart/checkout">Checkout</a></button>
