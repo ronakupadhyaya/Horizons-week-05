@@ -1,0 +1,24 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <a href="/logout">Logout</a>
+    <a href="/cart">Go to the Cart</a>
+  </div>
+</nav>
+<form action="/load" method="post">
+  <button type="submit" class="btn btn-danger">Load products into MongoDB</button>
+</form>
+<div class="row">
+  {{#each products}}
+    <div class="col-sm-6" style="height:300px;">
+      <div class="card">
+        <div class="card-block" >
+          <h3 class="card-title">{{this.name}}</h3>
+          <p class="card-text">{{this.description}}</p>
+          <p class="card-text">${{this.price}}</p>
+          <img class="card-img-bottom" src="{{this.imageUri}}" style="width:50%; max-height: 50%;"/>
+          <a href="/product/{{this.id}}" class="btn btn-primary">See More</a>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>
