@@ -54,10 +54,13 @@ This time you will generate your own scaffolding using express-generator.
 Go ahead and install express-generator globably with `npm install express-generator -g`.
 Now navigate to `/week05/day1`.
 
-Use the `express appname --view=hbs` command (from express-generator) to create a
+Use the `express homazon --view=hbs` command (from express-generator) to create a
 scaffolding (the view=hbs flag adds handlebars support). This will create an Express
-app named appname in the current working directory. Remember to then `cd` into
-the app folder before continuing.
+app named homazon in the current working directory.
+
+> Note: Make sure that you are in your `day1` folder before typing `express homazon --view=hbs`. You should get a message stating `destination is not empty, continue? [y/N]`. Type y to continue.
+
+Remember to then `cd` into the app folder before continuing. Next, type `npm install` to install the dependencies that came together with the express-generator.
 
 Voila - your application is pretty much done for you! Jk. LOL! Where's the
 fun in that?
@@ -267,11 +270,11 @@ You will need to create your own script to seed the database.
 <summary>Hint</summary>
 
 ```javascript
-import products from '../../seed/product.json'
+import products from '../seed/products.json'
 var productPromises = products.map((product) => (new Product(product).save()));
 Promise.all(productPromises)
-  .then(() => (console.log('Success. Created products!'))
-  .catch(err) => (console.log('Error', err))
+  .then(() => console.log('Success. Created products!'))
+  .catch((err) => console.log('Error', err))
 ```
 </details>
 
@@ -312,13 +315,13 @@ router.post('/cart/add/:pid', (req, res, next) => {
   // the entire object into the array...not just the pid.
 }
 
-router.delete('/cart/delete/:pid', (req, res, next) => {
+router.post('/cart/delete/:pid', (req, res, next) => {
   // Insert code that takes a product id (pid), finds that product
   // and removes it from the cart array. Remember that you need to use
   // the .equals method to compare Mongoose ObjectIDs.
 }
 
-router.delete('/cart/delete', (req, res, next) => {
+router.post('/cart/delete', (req, res, next) => {
   // Empty the cart array
 });
 ```
@@ -347,7 +350,7 @@ Now time to figure out our views. We want to do a few things here:
 
 #### Checkpoint
 
-You should now be able to log in, add your shipping info, be taken to a page
+You should now be able to log in, be taken to a page
 with all of the products, click and view product details, add the product to
 your cart, and view/edit your cart. [see](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_261)
 
@@ -357,8 +360,7 @@ Boom, baby!
 
 ### Part 6. Payment and Checkout
 
-Payment info is a bit more complicated. After the user has successfully saved
-their shipping info, direct them to another form to enter payment info. You'll
+Payment info is a bit more complicated. You'll
 use an embedded Stripe form for this. Stripe does the hard work, collecting
 and validating the credit card info, and returning a token.
 
@@ -418,13 +420,40 @@ or Amex Express Checkout.
 
 1. We can create a customer and a charge in Stripe using Promises like [this](https://stripe.com/docs/charges#saving-credit-card-details-for-later).
 
+    <details>
+    <summary>hint</summary>
+
     ```javascript
     import stripePackage from 'stripe';
     const stripe = stripePackage('<SECRET_KEY>');
+    
+    // Token is created using Stripe.js or Checkout!
+    // Get the payment token submitted by the form:
+    var token = request.body.stripeToken; // Using Express
 
-    // More details in link above
-    stripe.customer.create;
+    // Create a Customer:
+    stripe.customers.create({
+      email: "paying.user@example.com",
+      source: token,
+    }).then(function(customer) {
+      // YOUR CODE: Save the customer ID and other info in a database for later.
+      return stripe.charges.create({
+        amount: 1000,
+        currency: "usd",
+        customer: customer.id,
+      });
+    }).then(function(charge) {
+      // Use and save the charge info.
+    });
+
+    // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
+    stripe.charges.create({
+      amount: 1500, // $15.00 this time
+      currency: "usd",
+      customer: customerId,
+    });
     ```
+    </details>
 
     Pay close attention to the flow of the linked code. First the customer is created and saved to the database then they are charged using the customer id that was just created. This will be important for the next step.
 
@@ -439,7 +468,7 @@ or Amex Express Checkout.
       stripeExpYear: Number,
       stripeLast4: Number,
       stripeSource: String,
-      status: Number,
+      status: String,
       // Any other data you passed into the form
       _userid: mongoose.Schema.Types.ObjectId
     ```
@@ -461,7 +490,6 @@ flow should only do two things:
     - the associated payment info
     - the associated shipping info
     - order status
-    - the subtotal
     - the total
 
 1. Display a page to the user thanking them for their order and detailing the order. It should look like [this](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_354)
