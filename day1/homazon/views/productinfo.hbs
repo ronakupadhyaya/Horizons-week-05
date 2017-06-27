@@ -1,0 +1,12 @@
+<a href="/logout" class="btn btn-danger" role="button">Logout</a>
+<h1>{{title}}</h1>
+<div>{{description}}</div>
+<img src="{{image}}" alt="Product Image" style="width:304px;height:228px;">
+<form method="POST" action="/cart/add/{{id}}">
+  <button type="submit" name="addtocart">Add to Cart</button>
+</form>
+
+<div>
+  <a href="/" class="btn btn-info" role="button">Back to All Products</a>
+</div>
+<div><a href="#" class="btn btn-info" role="button">Add to Cart</a></div>

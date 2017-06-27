@@ -1,0 +1,10 @@
+<a href="/logout" class="btn btn-danger" role="button">Logout</a>
+<h1>Products</h1>
+
+{{#each products}}
+  <h3><a href="/product/{{this._id}}">{{this.title}}</a></h3>
+  <div>{{this.description}}</div>
+  <img src="{{this.imageUri}}" alt="Product Image" style="width:304px;height:228px;">
+{{/each}}
+
+<h3>Your shopping cart contains {{num}} items</h3>

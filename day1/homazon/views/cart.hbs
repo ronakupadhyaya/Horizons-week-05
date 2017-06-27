@@ -1,0 +1,17 @@
+<a href="/logout" class="btn btn-danger" role="button">Logout</a>
+
+<h1>Shopping Cart</h1>
+
+{{#each items}}
+  <div><img src="{{this.imageUri}}" alt="Product Image" style="width:304px;height:228px;"></div>
+  <h3><a href="/product/{{this._id}}">{{this.title}}</a></h3>
+  <div><a href="/">Add Another Item</a></div>
+  <form method="POST" action="/cart/delete/{{this._id}}">
+    <button type="submit" name="deletefromcart">Delete from Cart</button>
+  </form>
+{{/each}}
+
+<form method="POST" action="/cart/delete">
+  <button type="submit" name="deletecart">Empty Cart</button>
+</form>
+<a href="/cart/checkout" class="btn btn-warning" role="button">Checkout</a>
