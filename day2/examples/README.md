@@ -81,7 +81,7 @@ Note that you will be working with the __chat__ app from the last section, so ma
 1. Add an input box & a submit button somewhere on the page (like below) for the user to enter a screen name
     ![](./img/socketIO_username.png)
 1. On submit your app should emit a __login__ event with the entered screen name
-1. On the client make sure the screen name is in accordance with the following requirements
+1. On the client make sure the screen name input box is not empty
 1. If a valid username is inputted, store it on the socket object (so you should be able to access the screen name via `socket.username`)
 1. Restrict chatting to __ONLY__ clients that are logged in
 1. Beside each chat message write the name of the user that sent the message
