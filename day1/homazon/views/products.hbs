@@ -1,0 +1,27 @@
+
+<div class="container">
+  <div>
+    <h1>Products</h1>
+    <form method="get" action="/logout">
+      <button class="btn btn-danger">Logout</button>
+    </form>
+  </div>
+  {{#each products}}
+  <div class="row">
+    <div class="item">
+      <h1>{{this.title}}</h1>
+      <div class="col-sm-4" id="title">
+        <img src="{{this.imageUri}}" class="image" alt="">
+      </div>
+      <div class="col-sm-8">
+        <div class="price">
+          ${{this.price}}
+        </div>
+        <div class="description">
+          {{this.description}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{/each}}
+</div>
