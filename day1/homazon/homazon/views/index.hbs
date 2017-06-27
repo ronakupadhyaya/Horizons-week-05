@@ -1,0 +1,24 @@
+<h1>Homazon</h1>
+<p>Welcome to Homazon</p>
+
+{{#each products}}
+<h3>{{this.title}}</h3>
+<!-- <img src="{{this.imageUri}}"> -->
+{{#if ../viewingAll}}
+<a href="/product/{{this._id}}" class="btn btn-primary btn-sm active" role="button">View Details</a>
+{{/if}}
+{{/each}}
+<br>
+__________________________________________________
+<br>
+<br>
+<a href="/cart" class="btn btn-primary btn-sm active" role="button">View Cart</a>
+{{#unless viewingAll}}
+{{#each products}}
+<a href="/" class="btn btn-primary btn-sm active" role="button">View All Products</a>
+
+<form action="/cart/add/{{this._id}}" method="post">
+    <button name="cartAdd" value="cartAdd">Add to Cart</button>
+</form>
+  {{/each}}
+{{/unless}}
