@@ -1,24 +1,62 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
-  <div class="row">
-    <div class="col-md-6 box">
-      <h2>Understanding WebSockets</h2>
-      <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
-      <h2>What is Socket.IO?</h2>
-      <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
-      <h2>Instructions</h2>
-      <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
-    </div>
+  <button class="inline submitbutton room" id="room1">Join room1</button>
+  <button class="inline submitbutton room" id="room2">Join room2</button>
+  <button class="inline submitbutton room" id="room3">Join room3</button>
+  <div class="row message">
     <div class="col-md-6 box">
       <div class="textbox">
-      </div>
-      <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
+        <h3 class="room_name"></h3>
+        <div class="username">
+          <input class="inline typebox username_input" type="text" placeholder="type username">
+          <button class="inline submitbutton" id="username_send">Send</button>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+var socket = io();
+socket.on('connect', function() {
+  console.log('Connected!');
+});
+$('.message').hide();
+$('.room').on('click', function() {
+  $('.message').show();
+  $('.room_name').text("This is " + this.id)
+  console.log('it is here ', this.id)
+  socket.emit('room', this.id)
+})
+$('#username_send').on('click', function() {
+  var username = $('.username_input').val();
+  console.log(username)
+  if (username) {
+    $('.username').hide();
+    $('.box').append('<div class="inputbox block"> \
+                    <input class="inline typebox message_input" type="text" placeholder="Say Something..."> \
+                    <button class="inline submitbutton" id="send">Send</button> \
+    </div>')
+    socket.emit('login', username)
+  } else {
+    alert("username cannot be empty")
+  }
+  $('#send').on('click', function() {
+    var msg = $('.message_input').val();
+    $('.message_input').val('');
+    socket.emit('message', msg)
+  })
+})
+
+socket.on('serverMessage', function(msg, username) {
+  console.log("should update message", msg);
+  $('.textbox').append('<p>' + username + " said "+ msg + '</p>')
+})
+
+socket.on('joiinedroom', function(username) {
+  $('.textbox').append('<p style="color:red">' + username + " has joined" + '</p>')
+})
+
+</script>
