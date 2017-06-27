@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Shopping Cart</title>
+  </head>
+  <body>
+    <h1>Shopping Cart</h1>
+    <div>
+  <img src="{{this.imageUri}}" style="width:150px; height:140px;">
+    <h2><div>{{this.title}}</div></h2>
+    <div>{{this.description}}</div>
+    <a href="/cart/add/{{this._id}}">Add another</a>
+    <a href="/cart/delete/{{this._id}}">Remove</a>
+  </div>
+  </body>
+</html>

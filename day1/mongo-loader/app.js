@@ -49,8 +49,26 @@ app.post('/load', function(req, res) {
   // YOUR CODE HERE
   var movies = require('./movies.json');
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
-});
+  movies = movies.map(function(data){
+      var newMovie = new Movie ({
+        title: data.title,
+        url: data.url,
+        photo: data.photo,
+        rating: data.rating,
+        year: data.year
+      })
+      return newMovie.save()
+    })
+
+    Promise.all(movies)
+      .then(function(response){
+        console.log(response);
+        res.redirect('/');
+      })
+
+  });
+
+
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Signup page</title>
+  </head>
+  <body>
+    <h1>Log in to Homazon</h1>
+    <form action="/login" method="post">
+      <div><input type="text" name="username" value="{{username}}" placeholder="Username" required/></div>
+      <div><input type="text" name="password" value="{{password}}" placeholder="Password" required/></div>
+      <div><input type="submit" value="Login"></div>
+    </form>
+    <div><a href="/signup"><input type="submit" value="Signup"/></a></div>
+  </body>
+</html>
