@@ -61,7 +61,7 @@ Check out [**Mongoose documentation**](http://mongoosejs.com/docs/guide.html) (s
 ##Step 1: Paging Your Results 📋
 The first thing we'll do is page your Restaurant results to allow for displaying large quantites of Restaurants to be more manageable. This time, we'll start with our routes, since understanding how paging will work will begin with the URL.
 
-### Rerouting Routes 📤 - `routes/index.js`
+### Rerouting Routes 📤 - `routes/auth.js`
 Previously, you rendered the `restaurants.hbs` template with a single `GET` request to query for all of your Restaurant documents and pass them in. With paging, you will be rendering the same view, but changing the documents you pass in. You can accomplish this by making use of the query string! 
 
 For example, given a database with 25 restaurants:
@@ -113,7 +113,7 @@ Before we continue, we are going to seed our database with 60 restaurants pulled
 Open up `seed.js`, you will see what is going on! Modify the appropriate lines from 13-22 to reflect the restaurant fields in your database. To run `seed.js` just type `node seed.js` in your terminal. The program will hang after printing "saved restaurant 60 times". Just hit `Ctrl-C` to exit out of the node session. Check mLab, and behold- 60 new restaurants for your database!
 
 
-### A Return to Routes 📥 - `routes/index.js`
+### A Return to Routes 📥 - `routes/auth.js`
 To implement your model static functions in your routes, simply call it on the model (which in your case is probably called `Restaurant` or `models.Restaurant`) and pass in the callback function to handle the results of the query. 
 
 Make sure to render your `restaurants` template with the correct data _within_ this callback function! Before moving on to **Reviewing Views** 🚢, verify that you are able to access different reuslts in your database by paging as mentioned before:
@@ -223,7 +223,7 @@ Each Submit button should also take you to a separate route, with four possible 
 * `http://localhost:3000/restaurants/list/?rating=descending`
 
 
-### Supporting Sorting in Your Routes 🆙 - `routes/index.js`
+### Supporting Sorting in Your Routes 🆙 - `routes/auth.js`
 
 To support sorting in our routes, we will modify our existing `GET /restaurants/list` route to now handle possible sorting criteria first. 
 
@@ -269,7 +269,7 @@ Create the following indexes on your `restaurantSchema` for both `price` and `av
 
 <sub>[1] For a more cohesive explanation of how this works, see MongoDB documentation on Compound Indexes: [https://docs.mongodb.com/manual/core/index-compound/](https://docs.mongodb.com/manual/core/index-compound/) </sub>
 
-### Composite Indexes in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/index.js`
+### Composite Indexes in Your Views and Routes 💪 - `views/restaurants.hbs`, `routes/auth.js`
 
 With your indexes now ready for handling sorting by both `price` and `averageRating` criteria, it's time to update your views and routes to handle the ability to sort by both!
 
@@ -282,7 +282,7 @@ If all goes well, you'll have something that looks like this instead:
 <img src="http://cl.ly/131o1q1k1K2C/Image%202016-06-28%20at%206.11.23%20PM.png" height="60">
 
 
-You'll also need to make sure your **`index.js`** handles your form submit with both parameters together! Make sure that both `req.query` properties matching the `name` properties of your `<select>` elements are being passed into `.sort()`.
+You'll also need to make sure your **`auth.js`** handles your form submit with both parameters together! Make sure that both `req.query` properties matching the `name` properties of your `<select>` elements are being passed into `.sort()`.
 
 ### End Result, Step 2 🏅 - `http://localhost:3000`
 
@@ -301,7 +301,7 @@ At this point, you should have two kinds of routes for viewing Restaurant listin
 We now want to put these together - giving the ability for users to go through pages of sorted restaurants, 10 at a time.
 
 
-### Pagination + Sorting ⚔ - `routes/index.js`, `views/restaurants.hbs`
+### Pagination + Sorting ⚔ - `routes/auth.js`, `views/restaurants.hbs`
 
 Since you've already implemented the interface elements for giving users the option to sort the restaurants alphabetically or by rating, you only need to modify your route for `/restaurants/list/:x` to handle the same sorting process you created for `/restaurants/list`.  
 
@@ -315,11 +315,11 @@ One other change you'll have to make to your pagination element on your `restaur
 
 <img src="http://cl.ly/0a1R0V0b2w26/Image%202016-06-28%20at%208.12.41%20AM.png" height="40">
 
-Each link on this pagination component must carry this query string through to be paginating through the same results - but _only if there was a query string before_! Make sure you are considering this in your routes file (`index.js`).
+Each link on this pagination component must carry this query string through to be paginating through the same results - but _only if there was a query string before_! Make sure you are considering this in your routes file (`auth.js`).
 
 **Suggestion:** Remember the array of numbers we suggested you pass into your Handlebars `restaurants` template from before to render the correct number of links with the correct `href`? You may find it simple enough to pass a potential query string in as well (to the context object, the second parameter of `res.render`) and appending that to the `href`'s of your paging links.
 
-### Advanced Pagination 📘 - `views/restaurants.hbs`, `routes/index.js`
+### Advanced Pagination 📘 - `views/restaurants.hbs`, `routes/auth.js`
 Up until this point, you've only allowed your user to browse through 10 Restaurant listings at a time. Now, you will allow your user to select how many listings they are able to see at a time.
 
 > **Note:** For the following instructions, you will primarily be working on your `GET /restaurants/list/:x` route - this is where we handle pagination!

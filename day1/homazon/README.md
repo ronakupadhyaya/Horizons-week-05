@@ -109,8 +109,7 @@ and each call to `module.exports` with `export default`
 import index from './routes/index';
 // ...
 
-// In index.js
-
+auth.js
 import express from 'express';
 // ...
 export default router;

@@ -1,0 +1,28 @@
+<style>
+  img{
+    height:100px;
+  }
+  .panel{
+    width:400px;
+  }
+  .container{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+  }
+</style>
+<div class="container">
+  {{#each products}}
+  <div class="outer-panel panel panel-default" style="display:inline-flex">
+    <img class="product-thumbnail" src="{{this.imageUri}}"/>
+    <div class="info">
+      <p class="title">{{this.title}}</p>
+      <p class="description">{{this.description}}</p>
+      <a class="btn btn-primary" href="/product/{{this._id}}">View Product</a>
+    </div>
+  </div>
+  {{/each}}
+
+</div>
+
+
