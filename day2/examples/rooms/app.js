@@ -25,18 +25,19 @@ var roomNumber = "";
 
 io.on('connection', function(socket) {
   socket.on('room',function(roomNum) {
-    if (roomNumber !== "") {
-      socket.leave(roomNumber);
-    }
-    roomNumber = roomNum;
-    socket.join(roomNumber);
-    io.sockets.in(roomNumber).emit('message', 'Welcome to ' + roomNumber);
+      socket.leave(socket.room, function(){
+        socket.join(roomNum, function(){
+          socket.room = roomNum;
+          io.sockets.in(roomNum).emit('message', 'Welcome to ' + roomNum);
+        });
+      });
   });
 
-  socket.on('poked',function(roomNum) {
-    if (roomNumber === roomNum) {
-      io.sockets.in(roomNumber).emit('poking', roomNumber+" has been poked");
-    }
+  socket.on('poked',function() {
+    //if (roomNumber === roomNum) {
+    console.log(socket.room)
+      io.sockets.in(socket.room).emit('poking', socket.room + " has been poked");
+    //}
   })
 });
 
