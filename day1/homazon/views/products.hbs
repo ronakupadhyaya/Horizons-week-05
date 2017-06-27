@@ -1,0 +1,27 @@
+
+<div class="row col-sm-offset-7">
+    <a href="/logout" class="btn btn-warning">Logout</a>
+    <a href="/cart" class="col-sm-offset-2 btn btn-info">View Shopping Cart</a>
+</div>
+
+{{#if singleProd}}
+  <h1>View Product</h1>
+  <h3><img src="{{singleProd.imageUri}}" height="100" width="100"/></h3>
+  <h3>{{singleProd.title}}</h3>
+  <h5>{{singleProd.description}}</h5>
+  <!-- <a class="btn btn-primary" name="AddToCart">Add to Cart</a> -->
+  <form action='/cart/add/{{singleProd.id}}' method="post">
+        <input type="submit" class="btn btn-primary" value="Add to Cart" />
+  </form>
+{{else}}
+  <h1>Products</h1>
+  {{#each products}}
+    <h3><img src="{{imageUri}}" href="/product/{{this.id}}" height="100" width="100"/></h3>
+    <a href="/product/{{id}}">
+      {{title}}
+    </a>
+    <h5>{{description}}</h5>
+    <!-- <h3></h3>
+    <h5></h5> -->
+{{/each}}
+{{/if}}

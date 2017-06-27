@@ -1,0 +1,31 @@
+<h2>Shopping Cart</h2>
+{{#each products}}
+<h3><img src="{{imageUri}}" height="60" width="60"/>{{title}}
+  <a class="btn btn-primary" name="AddAnother">Add Another</a>
+  <!-- <a class="btn btn-primary" name="Remove">Remove</a> -->
+  <form action="/cart/delete/{{_id}}" method="post">
+        <input type="submit" class="btn btn-primary" value="Remove" />
+  </form>
+</h3>
+{{/each}}
+<a class="btn btn-primary" name="total">Total: ${{total}}</a>
+<!-- <a class="btn btn-primary" name="EmptyCart">Empty Cart</a> -->
+<form action="/cart/delete" method="post">
+      <input type="submit" class="btn btn-primary" value="Empty Cart" />
+</form>
+<a class="btn btn-primary" name="Checkout">Checkout With Stripe</a>
+
+<h2>Your shopping cart contains {{count}} items</h2>
+
+<form action="/checkout" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{pubkey}}"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
