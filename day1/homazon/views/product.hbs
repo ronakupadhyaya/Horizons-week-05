@@ -1,0 +1,12 @@
+<div style="max-width: 520px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+<h4>{{product.title}}</h4>
+	<div class="contact" style="width: 460px; margin: auto; margin: 10px 0px; border: 0.5px solid gray; padding: 10px 30px 10px 30px">
+		<h5><strong>$ {{product.price}}</strong></h5>
+		<p>{{product.description}}</p>
+		<img src="{{product.imageURL}}" style="height: 100px;"></img>
+		<form method="post" action="/cart/add/{{product.id}}">
+			<input value="Add to Cart"class="btn btn-default" type="submit"></input>
+		</form>
+	</div>
+<a class="btn btn-primary" href="/">Back</a>
+</div>

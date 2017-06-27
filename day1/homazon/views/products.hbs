@@ -1,0 +1,17 @@
+<div style="max-width: 520px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+<h2>Welcome to Amazon!</h2>
+<a class="btn btn-default" href="/cart">Cart</a>
+<a class="btn btn-primary" href="/profile">Profile</a>
+<a class="btn btn-danger" href="/logout">Logout</a>
+{{#each products}}
+	<div class="contact" style="width: 460px; margin: auto; margin: 10px 0px; border: 0.5px solid gray; padding: 10px 30px 10px 30px">
+		<h4><strong>{{this.title}}</strong> ${{this.price}}</h4>
+		<p>{{this.description}}</p>
+		<img src="{{this.imageURL}}" style="height: 50px;"></img>
+		<form method="post" action="/cart/add/{{this.id}}">
+			<a class="btn btn-primary" href="/product/{{this.id}}">View</a>
+			<input value="Add to Cart"class="btn btn-success" type="submit"></input>
+		</form>
+	</div>
+{{/each}}
+</div>

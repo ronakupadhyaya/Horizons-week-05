@@ -1,0 +1,46 @@
+
+<div style="max-width: 520px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+<h2>Your Cart</h2>
+<a id="cart-empty-button" class="btn btn-default">Empty Cart</a>
+
+<a href="/" class="btn btn-primary">Back</a>
+
+<form action="/cart/checkout" method="POST" style="max-width: 520px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{stripeKey}}"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+<h3>Total: ${{total}}</h3>
+
+{{#each items}}
+	<div class="contact" style="width: 460px; margin: auto; margin: 10px 0px; border: 0.5px solid gray; padding: 10px 30px 10px 30px">
+		<h4><strong>{{this.title}}</strong> ${{this.price}}</h4>
+		<p>{{this.description}}</p>
+		<img src="{{this.imageURL}}" style="height: 50px;"></img>
+		<a class="btn btn-default" href="/product/{{this._id}}">View</a>
+		<a id="item-{{this._id}}" href="/cart/delete/{{this._id}}" class="btn btn-default">Remove</a>
+	</div>
+{{/each}}
+</div>
+
+<script>
+	$('#cart-empty-button').on('click', function(event) {
+		event.preventDefault();
+		$.ajax({
+			url: '/cart/delete/',
+			method: 'delete',
+			success: function(data) {
+				console.log("Successfully emptied whole cart");
+			}
+		});
+	});
+</script>
+
+
