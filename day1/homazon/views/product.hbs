@@ -1,0 +1,26 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<center>
+  <img src="/images/logo.png" style="width: 50%">
+</center>
+
+{{#each product}}
+<center>
+<div class='jumbotron' style="margin: 5% 20% 5% 20%">
+<h2 class="display-3">{{title}}</h2>
+<p class="lead" style="margin: 20px">{{description}}</p>
+<hr class="my-4">
+<div><img src="{{imageUri}}" style="max-width: 300px; width:50%; margin-bottom: 25px"></div>
+<!-- <a class="btn btn-danger btn-lg" href="/product/{{_id}}" role="button">View product</a> -->
+{{#unless ../single}}
+<a class="btn btn-danger btn-lg" href="/product/{{_id}}" role="button">View product</a>
+{{else}}
+<a class="btn btn-danger btn-lg" href="/cart/add/{{_id}}" role="button">Add to Cart</a>
+{{/unless}}
+</div>
+</center>
+{{/each}}

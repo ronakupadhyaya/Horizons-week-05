@@ -1,0 +1,53 @@
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<center>
+  <img src="/images/logo.png" style="width: 50%">
+</center>
+
+{{#if error}}
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {{error}}
+  </div>
+{{/if}}
+
+<center>
+  <form method="POST" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+  <div class='jumbotron' style="margin: 5% 20% 5% 20%">
+    <h2 class="display-3">Login</h2>
+    <div class="form-group lead">
+      <label>Email</label>
+      <input type="text" name="username" class="form-control">
+    </div>
+    <div class="form-group lead">
+      <label>Password</label>
+      <input type="password" name="password" class="form-control">
+    </div>
+    <hr class="my-4">
+    <div class="form-group">
+      <a class="btn btn-danger btn-lg">Login</button>
+      <a class="btn btn-danger btn-lg" href="/signup">Register</a>
+    </div>
+  </div>
+</center>
+
+<!-- <form method="POST" style="max-width: 300px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+<h3>Login</h3>
+  <div class="form-group">
+    <label>Email</label>
+    <input type="text" name="username" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Password</label>
+    <input type="password" name="password" class="form-control">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-success">Login</button>
+    <a class="btn btn-primary" href="/signup">Register</a>
+  </div>
+</form> -->

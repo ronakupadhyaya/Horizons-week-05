@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-
 ['MONGODB_URI'].map(k => {
   if (! process.env[k]) {
     console.error('Missing environment variable', k, 'Did your source env.sh');
@@ -42,14 +41,27 @@ app.get('/', function(req, res) {
   });
 });
 
-mongoose.Promise = Promise;
 
 app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
-  // YOUR CODE HERE
+  // // YOUR CODE HERE
+  mongoose.Promise = Promise;
   var movies = require('./movies.json');
+  var movieArray = movies.map(function(movie){
+    var MongoMovie = new Movie({
+      title: movie.title,
+      url: movie.url,
+      photo: movie.photo,
+      year: movie.year,
+      rating: movie.rating
+    });
+    return MongoMovie.save();
+  });
+  Promise.all(movieArray)
+  .then(function(){
+    res.redirect('/');
+  });
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
 });
 
 var port = process.env.PORT || 3000;

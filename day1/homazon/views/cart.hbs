@@ -1,0 +1,23 @@
+{{# if product }}
+
+
+<center>
+<div class='jumbotron' style="margin: 5% 20% 5% 20%">
+<h2 class="display-3">{{product.title}}</h2>
+<p class="lead" style="margin: 20px">{{product.description}}</p>
+<hr class="my-4">
+<div><img src="{{product.imageUri}}" style="max-width: 300px; width:50%; margin-bottom: 25px"></div>
+</div>
+</center>
+
+
+{{ else }}
+<center>
+  <div class='jumbotron' style="margin: 5% 20% 5% 20%">
+    <h2 class="display-3">Your shopping cart is empty</h2>
+    <p class="lead">Add items to your cart</p>
+    <hr class="my-4">
+    <a class="btn btn-danger btn-lg" href="/" role="button">View all items</a>
+  </div>
+</center>
+{{/if}}
