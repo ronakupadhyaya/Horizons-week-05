@@ -20,10 +20,10 @@ mongoose.Promise = global.Promise;
 
 export default function(passport){
   // passport authentication
-  router.use(session({
-    secret: process.env.SECRET,
-    store: new MongoStore({mongooseConnection: mongoose.connection})
-  }));
+  // router.use(session({
+  //   secret: process.env.SECRET,
+  //   store: new MongoStore({mongooseConnection: mongoose.connection})
+  // }));
 
   passport.serializeUser(function(user, done){
     done(null, user._id);

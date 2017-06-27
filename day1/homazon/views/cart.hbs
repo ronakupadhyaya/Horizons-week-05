@@ -1,0 +1,28 @@
+<h1 class="header">Shopping Cart</h1>
+{{#each products}}
+<div class="col s12 m7">
+    <div class="card horizontal">
+      <div class="card-image">
+        <img src={{imageUri}}>
+      </div>
+      <div class="card-stacked">
+        <div class="card-action">
+          <a href="/products/{{_id}}">{{title}}</a>
+          <span class="price">${{price}}</span>
+        </div>
+        <div class="card-content">
+          <p>{{description}}</p>
+          <div class="remove">
+            <a href="/cart/delete/{{_id}}" class="waves-effect waves-light btn amber accent-3 black-text">Remove from Cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/each}}
+<div class="submit-container">
+<span id="subtotal">Subtotal: {{subtotal}}</span>
+<a  class="waves-effect waves-light btn amber accent-3 black-text">Proceed to Checkout</a>
+<a href="/cart/delete" class="clear waves-effect waves-light btn deep-orange darken-3 black-text">Empty Cart</a>
+</div>
+</div>

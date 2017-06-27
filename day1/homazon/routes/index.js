@@ -7,6 +7,7 @@ var router = express.Router();
 import {User, Product} from '../models/models';
 // import products from '../seed/products'
 
+import _ from 'underscore';
 
 // module.exports = router;
 export default function(passport){
@@ -33,8 +34,8 @@ export default function(passport){
   });
 
   router.post('/login', passport.authenticate('local', {
-    successRedirect: '/products',
-    failureRedirect: '/login'
+    failureRedirect: '/login',
+    successRedirect: '/products'
   }));
 
   router.get('/signup', function(req, res){
@@ -98,8 +99,53 @@ export default function(passport){
     });
   });
 
+  // shopping cart
 
+router.get('/cart', function(req, res){
+  res.render('cart', {
+    products: req.session.cart
+  });
+});
 
+router.get('/cart/add/:pid', (req, res, next) => {
+  if(!req.session.cart){
+    req.session.cart = [];
+  }
+
+  Product.findById(req.params.pid).exec()
+  .then( (foundProduct) => {
+    if(foundProduct){
+      req.session.cart.push(foundProduct);
+      res.redirect('/cart');
+    }else{
+      res.status(400).send("CANT FIND YOUR PRODUCT :(");
+    }
+  })
+  .catch( (err) => {
+    res.status(500).send("DATABASE ERR");
+    return;
+  });
+
+});
+
+router.get('/cart/delete/:pid', (req, res, next) => {
+  console.log('deleting....');
+  if(req.session.cart){
+    req.session.cart = _.without(req.session.cart, _.findWhere(req.session.cart, {'_id': req.params.pid}));
+  }
+  res.redirect('/cart');
+});
+
+router.get('/cart/delete', (req, res, next) => {
+  if(req.session.cart){
+    req.session.cart = [];
+  }
+  res.redirect('/products');
+});
+
+router.get('/checkout', (req, res) => {
+
+});
 
 
 

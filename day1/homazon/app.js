@@ -15,6 +15,9 @@ import mongoose from 'mongoose';
 // validator
 import expressValidator from 'express-validator';
 
+import MongoStore_func from 'connect-mongo';
+var MongoStore = MongoStore_func(session);
+
 import index from './routes/index';
 import users from './routes/users';
 import auth from './routes/auth';
@@ -45,6 +48,11 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(expressValidator());
 
+app.use(session({
+  secret: process.env.SECRET,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
 app.use('/', auth(passport))
 app.use('/', index(passport));
 app.use('/users', users);
@@ -55,6 +63,7 @@ app.use(function(req, res, next) {
   err.status = 404;
   next(err);
 });
+
 
 // error handler
 app.use(function(err, req, res, next) {
