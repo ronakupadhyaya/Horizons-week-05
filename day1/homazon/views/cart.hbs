@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h4>Homazon Cart</h4>
+    <div class="form-group">
+      <a href="/cart/delete"><button class="btn btn-primary">
+        Clear cart</button></a>
+    </div>
+    <table>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Description</th>
+      </tr>
+      {{#each products}}
+      <tr>
+        <td>
+          <img height="64" src="{{imageUri}}" alt="{{title}}">
+        </td>
+        <td>{{title}}</td>
+        <td>{{price}}</td>
+        <td><p>
+          {{description}}
+          <div class="form-group">
+            <a href="/cart/delete/{{this._id}}"><button class="btn btn-primary">
+              delete from cart</button></a>
+          </div>
+        </p></td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+</div>

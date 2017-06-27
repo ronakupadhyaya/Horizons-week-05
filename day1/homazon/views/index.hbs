@@ -1,0 +1,33 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h4>Homazon</h4>
+    <div class="form-group">
+      <div>Your cart has {{number}} items</div>
+      <a href="/cart"><button class="btn btn-primary">View cart</button></a>
+    </div>
+    <table>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Price</th>
+        <th>Description</th>
+      </tr>
+      {{#each products}}
+      <tr>
+        <td>
+          <img height="64" src="{{imageUri}}" alt="{{title}}">
+        </td>
+        <td>{{title}}</td>
+        <td>{{price}}</td>
+        <td><p>
+          {{description}}
+        </p></td>
+        <td>
+          <a href="/cart/add/{{this._id}}"><button class="btn btn-primary" >
+            Add to cart</button></a>
+        </td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+</div>
