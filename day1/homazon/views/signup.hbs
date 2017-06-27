@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration</title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <style>
+    body { background-color: #000111; padding-top: 2em;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="btn col-xs-2 col-xs-offset-9" type="button" name="login">Login</button>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+  <!--   panel body -->
+        <div class="panel panel-default">
+          <div class="panel-body">
+      <!--       start form -->
+            <form class="form-horizontal" action="/signup" method="post">
+              <!-- {{#if errors}}
+                {{#each errors}}
+                  <div class="alert alert-danger">{{msg}}</div>
+                {{/each}}
+              {{/if}} -->
+<!--               first name -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label">username</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="username" placeholder="Username" required>
+                </div>
+              </div>
+      <!--         pw -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Password</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" placeholder="Password" name="password" required>
+                </div>
+              </div>
+      <!--         repeat pw -->
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Repeat Password</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" placeholder="Repeat Password" name="passwordRepeat" required>
+                </div>
+              </div>
+    <!--               submit -->
+              <div class="text-right">
+                <button type="submit" class="btn">Register</button>
+              </div>
+            </form>
+  <!--           form end -->
+          </div>
+        </div>
+  <!--       panel end -->
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -34,6 +34,7 @@ var Movie = mongoose.model('Movie', {
   rating: String
 });
 
+
 app.get('/', function(req, res) {
   Movie.find(function(err, movies) {
     res.render('index', {
@@ -45,11 +46,19 @@ app.get('/', function(req, res) {
 mongoose.Promise = Promise;
 
 app.post('/load', function(req, res) {
-  // Load all these movies into MongoDB using Mongoose promises
-  // YOUR CODE HERE
   var movies = require('./movies.json');
-  // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+  var moviesMapped = movies.map(function(movie) {
+    var newMovie = new Movie({
+      title: movie.title,
+      url: movie.url,
+      photo: movie.photo,
+      year: movie.year,
+      rating: movie.rating
+    })
+    newMovie.save();
+  });
+  Promise.all(moviesMapped)
+  .then(res.redirect('/'));
 });
 
 var port = process.env.PORT || 3000;

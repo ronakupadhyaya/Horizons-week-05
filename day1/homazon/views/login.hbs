@@ -1,0 +1,54 @@
+<title>Login</title>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+<style>
+  body { background-color: #000111; padding-top: 2em;}
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="/signup">
+  <button class="col-xs-2 col-xs-offset-5 btn" type="button" name="signup">Sign Up</button>
+  </a>
+  <!-- <a href="/auth/facebook">
+    <button class="col-xs-2 col-xs-offset-5 btn" type="button" name="facebook">Login with Facebook</button>
+  </a> -->
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+<!--   panel body -->
+      <div class="panel panel-default">
+        <div class="panel-body">
+    <!--       start form -->
+          <form class="form-horizontal" action="/login" method="post">
+            {{#if errors}}
+              {{#each errors}}
+                <div class="alert alert-danger">{{msg}}</div>
+              {{/each}}
+            {{/if}}
+<!--               first name -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Name</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control" name="username" placeholder="First Name" required>
+              </div>
+            </div>
+    <!--         pw -->
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Password</label>
+              <div class="col-sm-9">
+                <input type="password" class="form-control" placeholder="Password" name="password" required>
+              </div>
+            </div>
+  <!--               submit -->
+            <div class="text-right">
+              <button type="submit" class="btn">Login</button>
+            </div>
+          </form>
+<!--           form end -->
+        </div>
+      </div>
+<!--       panel end -->
+    </div>
+  </div>
+</div>
+</body>
+</html>
