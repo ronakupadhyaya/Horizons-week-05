@@ -1,12 +1,12 @@
 var express = require('express');
 var app = express();
 
-['MONGODB_URI'].map(k => {
-  if (! process.env[k]) {
-    console.error('Missing environment variable', k, 'Did your source env.sh');
-    process.exit(1);
-  }
-});
+// ['MONGODB_URI'].map(k => {
+//   if (! process.env[k]) {
+//     console.error('Missing environment variable', k, 'Did your source env.sh');
+//     process.exit(1);
+//   }
+// });
 
 var hbs = require('express-handlebars')({
   defaultLayout: 'main',
@@ -19,7 +19,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect("mongodb://admin:pass@ds015584.mlab.com:15584/horizons");
 var Movie = mongoose.model('Movie', {
   title: {
     type: String,
@@ -45,11 +45,14 @@ app.get('/', function(req, res) {
 mongoose.Promise = Promise;
 
 app.post('/load', function(req, res) {
-  // Load all these movies into MongoDB using Mongoose promises
-  // YOUR CODE HERE
+
+  
   var movies = require('./movies.json');
+
+  Promise.all(movies.map((curr) => (new Movie(curr).save()))).then(()=>{res.redirect('/')});
+
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+  //res.redirect('/');
 });
 
 var port = process.env.PORT || 3000;
