@@ -1,0 +1,33 @@
+<div class="container-fluid" style="width:50%">
+<h2>Cart!</h2>
+{{#each cart}}
+<div class="card">
+  <div class="card-block">
+    <img class="card-img-top" src="{{imageUri}}" alt="Card image cap" style="width:30%">
+    <h4 class="card-title">{{title}}</h4>
+    <p class="card-text">{{description}}</p>
+    <form method="post" action="/cart/delete/{{_id}}">
+    <button type="submit" class="btn btn-warning">Remove Item</button>
+  </form>
+  </div>
+</div>
+{{/each}}
+<a href='#' role='button' class='btn btn-success'> Checkout</a>
+<form method="post" action="/cart/delete">
+<button type="submit" class="btn btn-warning">Empty Cart</button>
+</form>
+<a href='/logout' role='button' class='btn btn-danger'> Logout</a>
+</div>
+
+<form action="/payment" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_8JEPbAcicB2ieiCEzbSwV63p"
+    data-amount="999"
+    data-name="Homazon"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
