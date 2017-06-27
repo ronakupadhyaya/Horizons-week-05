@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <a href="/logout">Logout</a>
+    <a href="/cart">Go to the Cart</a>
+  </div>
+</nav>
+<div class="col-xs-12">
+  <h1 clas="text-align:center">{{product.title}}</h1>
+  <img class="col-xs-4 col-xs-offset-4 card-img-bottom" src="{{product.imageUri}}" style="max-width:30%; max-height: 30%; justify-content: 'center'"/>
+  <p>{{product.description}}</p>
+  <p>${{product.price}}</p>
+  <form action="/cart/add/{{product.id}}" method="post">
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+  </form>
+  <a href="/" class="btn btn-primary">Go Back</a>
+</div>

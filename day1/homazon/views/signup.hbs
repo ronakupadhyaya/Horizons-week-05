@@ -1,0 +1,24 @@
+<div class="col-xs-4">
+  <h2><a href='/login'>Go to Login</a></h2>
+</div>
+<div class="col-xs-4">
+  <h1>Sign Up</h1>
+  <form method="POST" >
+    <div class="form-group">
+      <label for="usrname-label">Username</label>
+      <input type="text" name="username" class="form-control" id="username-input" aria-describedby="emailHelp" value="{{project.username}}" placeholder="Enter username">
+      {{error.username}}
+    </div>
+    <div class="form-group">
+      <label for="password-label">Password</label>
+      <input type="password" name="password" class="form-control" id="password-input" value="{{project.password}}" placeholder="Password">
+      {{error.password}}
+    </div>
+    <div class="form-group">
+      <label for="password-label">Confirm Password</label>
+      <input type="password" name="repeated_password" class="form-control" id="confirm-password-input" value="{{project.repeated-password}}" placeholder="Confirm Password">
+      {{error.repeated_password}}
+    </div>
+    <input type="submit" class="submit" value="submit" />
+  </form>
+</div>

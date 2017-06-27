@@ -1,0 +1,46 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <a href="/logout">Logout</a>
+  </div>
+</nav>
+<h1 clas="text-align:center">Shopping Cart</h1>
+<form action="/cart/delete" method="post">
+  <button type="submit" class="btn btn-primary">Remove Cart</button>
+</form>
+<a href="/" class="btn btn-primary">Go Back</a>
+</div>
+{{#if exist}}
+  {{#each products}}
+    <div class="card">
+      <div class="card-block ">
+        <img class="card-img-bottom" src="{{this.imageUri}}" style="width:10%; max-height: 10%;"/>
+        <h4 class="card-title">{{this.title}}</h4>
+        <p>Quantity: {{this.count}}</p>
+        <p>${{this.price}} x {{this.count}} = ${{this.total_price}}</p>
+        <form action="/cart/add/{{this._id}}" method="post">
+          <button type="submit" class="btn btn-primary">Add Another</button>
+        </form>
+        <form action="/cart/delete/{{this._id}}" method="post">
+          <button type="submit" class="btn btn-primary">Remove Item</button>
+        </form>
+      </div>
+    </div>
+  {{/each}}
+  <h3>Total: ${{total}}</h3>
+
+  <form action="/checkout" method="POST">
+    <input type="text" name="name" placeholder="Name">
+    <input type="hidden" name="price" value="{{total}}" />
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="pk_test_UTd7IWUlXJOh2IMXWj4j2JMd"
+      data-amount={{total}}
+      data-name="Demo Site"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>
+{{else}}
+  <h1>The cart is empty</h1>
+{{/if }}
