@@ -39,7 +39,16 @@ router.get('/signup', (req, res) => {
   res.render('signup', {title: 'Sign Up'});
 });
 
+var validateReq = function(userData) {
+    return (userData.password === userData.passwordRepeat);
+  };
+
 router.post('/signup', (req, res) => {
+  if (!validateReq(req.body)) {
+    return res.render('signup', {
+      error: "Passwords don't match."
+    });
+  }
   var newUser = new User({
     username: req.body.username,
     password: req.body.password
@@ -50,7 +59,7 @@ router.post('/signup', (req, res) => {
 });
 
 router.get('/login', (req, res) => {
-  res.render('login', {title: 'Login'});
+  res.render('login', {title: 'Login', notLoggedIn: true});
 });
 
 router.post('/login', passport.authenticate('local'), function(req, res){
@@ -127,10 +136,6 @@ router.post('/cart/delete/', (req, res, next) => {
 });
 
 router.post('/pay', (req, res, next) => {
-  res.send('payment successful');
-})
-
-router.post('/pay', (req, res, next) => {
   var token = req.body.stripeToken;
   stripe.customers.create({
     email: req.body.cardholderEmail,
@@ -141,24 +146,22 @@ router.post('/pay', (req, res, next) => {
       currency: "usd",
       customer: customer.id,
     });
-    }).then(function(charge) {
-      var newPayment = new Payment({
-        stripeBrand: charge.source.brand,
-        stripeCustomerId: charge.source.id,
-        stripeExpMonth: charge.source.exp_month,
-        stripeExpYear: charge.source.exp_year,
-        stripeLast4: charge.source.last4,
-        stripeSource: charge.source.toString(),
-        status: 4,
-        _userid: customer.id
-      });
-      newPayment.save()
+  }).then(function(charge) {
+    var newPayment = new Payment({
+      stripeBrand: charge.source.brand,
+      stripeCustomerId: charge.customer,
+      stripeExpMonth: charge.source.exp_month,
+      stripeExpYear: charge.source.exp_year,
+      stripeLast4: charge.source.last4,
+      stripeSource: charge.source.fingerprint,
+      status: charge.status,
+      _userid: req.user.id
     });
-  // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
-  stripe.charges.create({
-    amount: 1500, // $15.00 this time
-    currency: "usd",
-    customer: customerId,
+    newPayment.save().then((doc) => {
+      res.render('orderPage', {order: doc, user: req.user});
+    }).catch((err) => {
+      res.status(400).send(err);
+    });
   });
 })
 

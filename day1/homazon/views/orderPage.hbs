@@ -1,0 +1,28 @@
+<div id="order_page">
+  <h1> Order Successful! </h1>
+  <div id="pay_info">
+    <h2>{{user.username}}</h2>
+    <h3>Payment Review</h3>
+    <div>
+      <h4>
+        <p>{{order.stripeBrand}} **** **** **** {{order.stripeLast4}}
+        </p><p> Exp: {{order.stripeExpMonth}}/{{order.stripeExpYear}}
+        </p><p> {{order.status}}</p>
+      </h4>
+    </div>
+  </div>
+  <div>
+    <a href="/" class="btn btn-danger" type="button">Back to Products</a>
+  </div>
+</div>
+<style>
+  #order_page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  #pay_info, #order_page div, #order_page h1 {
+    flex: 1;
+  }
+</style>

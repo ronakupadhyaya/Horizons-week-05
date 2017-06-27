@@ -1,0 +1,54 @@
+<h2 id="title">Products</h2>
+
+<div id="products" class="container-fluid">
+  {{#each products}}
+  <div class="product row">
+    <div class="col-xs-12">
+      <img src={{this.imageUri}} alt="product image" />
+    </div><div class="col-xs-12">
+      <h3><a href="/product/{{this.id}}">{{this.title}}</a></h3>
+    </div><div class="col-xs-12">
+      <h5>{{this.description}}</h5>
+    </div><form class="col-xs-12" action="/cart/add/{{this.id}}" method="POST">
+      <button class="btn btn-primary" type="submit">Add to Cart</button>
+    </form>
+  </div>
+  {{/each}}
+</div>
+<style>
+  #title {
+    margin-top: 30px;
+    padding-left: 30px;
+    font-weight: 700;
+  }
+  #products {
+    padding: 10px;
+
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .product {
+    /*display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;*/
+    width: 300px;
+
+    border-radius: 5px;
+    border-left: 1px double #d9534f;
+    border-right: 1px double #d9534f;
+
+    background-color: white;
+
+    margin: 15px;
+    padding: 10px;
+  }
+  .product * {
+    flex: 1;
+    padding: 2px;
+  }
+  .product img {
+    flex-basis: none;
+    width: 100%;
+  }
+</style>

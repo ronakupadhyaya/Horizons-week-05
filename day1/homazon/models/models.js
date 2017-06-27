@@ -24,7 +24,7 @@ var paymentSchema = new Schema({
   stripeExpYear: Number,
   stripeLast4: Number,
   stripeSource: String,
-  status: Number,
+  status: String,
   _userid: Schema.Types.ObjectId
 })
 

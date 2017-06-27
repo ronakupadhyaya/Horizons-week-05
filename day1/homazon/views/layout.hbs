@@ -16,6 +16,51 @@
 
   </head>
   <body>
+    <div class="row" id="header">
+      <div id="left_side"><a href="/"><h1 id="homazon-title" class="text-left">Homazon</h1></a></div>
+      {{#if notLoggedIn}}
+      {{else}}
+        <div id="right_side">
+          <a href="/cart" class="btn btn-danger" type="button">Cart</a>
+          <a id="logout" href="/logout"><h5 class="text-right">logout</h5></a>
+        </div>
+      {{/if}}
+    </div>
     {{{body}}}
   </body>
+
+  <style>
+    body {
+      background: linear-gradient(90deg, #f4f2f2, #ffffff, #f4f2f2);
+      width: 100%;
+      padding: 0;
+      /*background: radial-gradient(ellipse, rgba(181, 181, 181, 0.42), rgba(124, 118, 118, 0.45));*/
+    }
+    #header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 4px double  #d9534f;
+      /*background: linear-gradient(rgb(11, 69, 163),  rgb(17, 108, 255));*/
+    }
+    #header div {
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-bottom: 5px;
+    }
+    #left_side {
+      flex: 7;
+    }
+    #homazon-title, #header h5 {
+      color: #d9534f;
+    }
+    #right_side {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+    #right_side * {
+      flex: 1;
+    }
+  </style>
 </html>
