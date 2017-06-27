@@ -1,0 +1,18 @@
+<h1>Homazon</h1>
+
+{{#each products}}
+  <p>{{this.title}}</p>
+  {{#if ../viewingAll}}
+    <a class="btn btn-primary" href="/product/{{this._id}}">View Details</a>
+  {{/if}}
+  <a class="btn btn-primary" href="/cart">View Cart</a>
+{{/each}}
+
+{{#unless viewingAll}}
+  {{#each products}}
+    <a class="btn btn-primary" href="/">All Products</a>
+    <form action="/cart/add/{{this._id}}" method="post">
+      <button class="btn btn-primary" name="submit" value="submit">Add to Cart</button>
+    </form>
+  {{/each}}
+{{/unless}}

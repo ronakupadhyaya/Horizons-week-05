@@ -1,3 +1,4 @@
+var axios = require('axios');
 var express = require('express');
 var app = express();
 
@@ -48,6 +49,38 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+  Promise.all(movies.map(function(movie) {
+    var newMovie = new Movie(movie);
+    return newMovie.save();
+  }))
+    .then(function() {
+      res.redirect('/');
+    })
+    // axios.get(movies)
+    // .then(function(movieArr) {
+    //   console.log(movieArr.data);
+    //   var promiseArr = movieArr.data.prototype.map(function(element) {
+    //     return element.save();
+    //   });
+    //   console.log(promiseArr);
+    //   return Promise.all(promiseArr);
+    // })
+    // .then(function(promiseArr) {
+    //   promiseArr.data.forEach(function(element) {
+    //     var newMovie = new Movie({
+    //       url: element.url,
+    //       title: element.title,
+    //       photo: element.photo,
+    //       year: element.year,
+    //       rating: element.rating
+    //     });
+    //     newMovie.save();
+    //   });
+    // })
+    // .catch(function(err) {
+    //   console.log(err);
+    // });
+
   // Do this redirect AFTER all the movies have been saved to MongoDB!
   res.redirect('/');
 });

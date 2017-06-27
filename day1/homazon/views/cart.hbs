@@ -1,0 +1,15 @@
+<h1>Cart</h1>
+{{#each cart}}
+  <p>{{this.title}}</p>
+  <a id="{{this._id}}" class="btn btn-primary remove">Delete from cart</a>
+{{/each}}
+
+<script type="text/javascript">
+  $('.remove').on('click', function () {
+    console.log(this);
+    $.ajax({
+      url: '/cart/delete/' + this.id,
+      method: 'DELETE'
+    })
+  })
+</script>
