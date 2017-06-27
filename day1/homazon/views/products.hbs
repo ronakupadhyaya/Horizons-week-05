@@ -1,0 +1,11 @@
+{{#each products}}
+  <hr>
+  <h1>{{this.title}}: {{this.price}}</h1>
+  <img src="{{this.imageUri}}"/>
+  <a href="http://localhost:3000/product/{{this._id}}">Click here!</a>
+  <form action="http://localhost:3000/cart/add/{{this._id}}" method="post">
+  <button type="submit" value="Add to cart" class="btn-link">Add to Cart</button>
+  </form>
+  <h3>{{this.description}}
+  <hr>
+{{/each}}

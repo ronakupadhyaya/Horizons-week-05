@@ -1,0 +1,27 @@
+<h1>Your current cart is:</h1>
+<h3>Total: {{cart.totalPrice}}</h3>
+{{#each cart.products}}
+<form action="http://localhost:3000/cart/delete" method="post">
+<button type="submit" value="Delete from cart" class="btn-link">Clear Cart</button>
+</form>
+<hr>
+<h1>{{this.title}} - {{this.price}}</h1>
+<img src="{{this.imageUri}}"/>
+<form action="http://localhost:3000/cart/delete/{{this._id}}" method="post">
+<button type="submit" value="Delete from cart" class="btn-link">Delete From Cart</button>
+</form>
+
+{{/each}}
+
+<form action="/" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_aZH8dO1LF9Rf4VboF8fhNBKE"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
