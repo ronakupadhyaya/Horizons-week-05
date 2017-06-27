@@ -1,0 +1,34 @@
+<h1>My Cart ^_^</h1>
+<div class="logout">
+  <a href="/logout", type="btn btn-failure">logout</a>
+</div>
+
+<ul>
+  {{#each products}}
+  <li>
+    <div class="">
+      <a href="/products/{{this._id}}">{{this.title}}</a>
+      <form class="cart_button" action="/cart/delete/{{this._id}}" method="post">
+        <button class="btn btn-failure" type="submit" formaction="/cart/delete/{{this._id}}"name="delete">Delete Product</button>
+      </form>
+    </div>
+  </li>
+  {{/each}}
+</ul>
+<form class="cart_buttons"  method="post">
+  <button class="btn btn-success" formaction="/cart/delete" type="submit" name="delete_all">Empty Cart</button>
+  <button class="btn btn-success" formaction="/checkout" type="submit" name="checkout">Checkout</button>
+</form>
+<br>
+
+<form action="/checkout" method="POST">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_dObdvAdMVbCShpHGFvaCnDEm"
+    data-amount="Free!"
+    data-name="Ben and Pradyut's Scam"
+    data-description="These products suck"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>

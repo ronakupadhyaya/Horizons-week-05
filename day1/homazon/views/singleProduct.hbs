@@ -1,0 +1,15 @@
+<div class="logout">
+    <a href="/logout", type="btn">logout</a>
+</div>
+
+<div class="add_to_cart">
+  <form class="add_to_cart" action="/cart/add/{{product._id}}" method="post">
+    <button class="btn btn-success" type="submit" name="add">Add to Cart</button>
+  </form>
+</div>
+
+<div class="product_solo">
+  <h1>{{product.title}}</h1>
+  <h3>{{product.description}}</h3>
+  <img class="product_image" src="{{product.imageUri}}">
+</div>

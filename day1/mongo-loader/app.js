@@ -19,6 +19,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
 var mongoose = require('mongoose');
+mongoose.Promise = Promise;
 mongoose.connect(process.env.MONGODB_URI);
 var Movie = mongoose.model('Movie', {
   title: {
@@ -48,6 +49,27 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+  // movies.forEach(function(movieObj){
+  //   var newMovie = new Movie(movieObj);
+  //   newMovie.save()
+  //   .then(function(response){
+  //     console.log('successful save', response);
+  //   })
+  //   .catch(function(err){
+  //     console.log('error',err);
+  //   });
+  // });
+  Promise.all(movies.map(function(movie){
+    var newMovie = new Movie(movie);
+    return newMovie.save();
+  })
+)
+  .then(function(response){
+    console.log(response);
+  })
+  .catch(function(err){
+    console.log(err);
+  });
   // Do this redirect AFTER all the movies have been saved to MongoDB!
   res.redirect('/');
 });

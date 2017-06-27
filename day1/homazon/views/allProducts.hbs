@@ -1,0 +1,14 @@
+<h1>All Products</h1>
+<div class="logout">
+    <a href="/logout", type="btn">logout</a>
+</div>
+
+<ul>
+{{#each products}}
+    <li> <a href="/products/{{this._id}}">{{this.title}}</a> </li>
+{{/each}}
+</ul>
+
+
+<h3>Your shopping cart is of length:
+  {{cartLen}}</h3>
