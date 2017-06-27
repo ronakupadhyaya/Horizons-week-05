@@ -1,0 +1,14 @@
+<h1>Welcome to Homazon</h1>
+
+{{#each products}}
+  <h3>{{title}}</h3>
+  <h5>{{price}}</h5>
+  <p>{{description}}</p>
+  <a href="/product/{{_id}}"><img src="{{imageUri}}" height="100px" width="100px"></a>
+
+  <form action="/cart/add/{{_id}}" method="post">
+    <input type="submit" value="Add to cart">
+  </form>
+
+  <br>
+{{/each}}
