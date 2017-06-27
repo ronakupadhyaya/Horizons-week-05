@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon app.js --exec babel-node"
+    "start": "babel-node ./bin/www --presets es2015"
   },
   "dependencies": {
     "axios": "^0.16.2",
