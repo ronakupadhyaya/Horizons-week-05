@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Products</title>
+  </head>
+  <body>
+    {{#if singleProduct}}
+    <h2>{{singleProduct.title}}</h2>
+    <h3><img src="{{singleProduct.imageUri}}" width="57" height="57"/>  {{singleProduct.description}} </h3>
+    <form id="signup" action="" method="">
+      <button class="btn btn-success">Add to Cart</button>
+    </form>
+    {{else}}
+    <h2>Products</h2>
+    {{#each products}}
+    <h3><img src="{{imageUri}}" width="43" height="43"/> <h2>{{title}}</h2> {{description}} </h3>
+    {{/each}}
+    {{/if}}
+  </body>
+</html>
