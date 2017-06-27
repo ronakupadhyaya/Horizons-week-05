@@ -1,0 +1,26 @@
+<div class="col-xs-offset-8 col-xs-4">
+  <form action="/logout" method="get">
+    <button type="submit" class="btn btn-primary">Log Out</button>
+  </form>
+</div>
+
+<table>
+  <th>Products</th>
+  {{#each products}}
+    <tr>
+      <td>
+        <img src="{{this.imageUri}}" alt="image" style="width:90px">
+      </td>
+      <td>
+        <div>
+          <b>{{this.title}}</b>
+          <br>
+          {{this.description}}
+          <br>
+          <a href="/product/{{this._id}}">View</a>
+        </div>
+      </td>
+    </tr>
+
+  {{/each}}
+</table>

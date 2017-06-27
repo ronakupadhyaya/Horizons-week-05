@@ -1,0 +1,29 @@
+{
+  "name": "homazon",
+  "version": "1.0.0",
+  "description": "Over the past couple of weeks you've already built Facebook and Yelp. Let's notch another win today by building Amazon. Okay, we won't be building _everything_ at Amazon.com--maybe we'll leave Amazon Web Services for next week--but you will be building a kickass e-commerce site that allows users to browse products and shop from their mobile phone. You'll process payment information and manage inventory.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon ./bin/www --exec babel-node --presets es2015"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "handlebars": "^4.0.10",
+    "hbs": "^4.0.1",
+    "mongoose": "^4.11.0",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1"
+  }
+}
