@@ -1,0 +1,11 @@
+<h2 class="center"> Logged in as {{user.username}}</h2>
+<form method="POST" action="/cart/add/{{product._id}}">
+<h3>{{product.title}}</h3>
+<img src="{{product.imageUri}}" height="100" width="100"/>
+<p>{{product.description}}</p>
+<h3>$ {{product.price}}</h3>
+<button type="submit">Add To Cart</button>
+<!-- <a class="btn btn-primary" href="/messages">View all messages</a> -->
+<a href="/logout">LogOut</a>
+<!-- <script src="/js/jquery.min.js"></script> -->
+<!-- <script src="../public/js/contacts.js"></script> -->

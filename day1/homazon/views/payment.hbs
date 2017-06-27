@@ -1,0 +1,16 @@
+<form action="/checkout" method="POST">
+  Shiping Address
+  <div class="form-group">
+    <input type="text" name="name" placeholder="Name"></br>
+    <textarea type="text" width=50% height=20px name="shipAdd" placeholder="Shipping Address">Shipping Adress</textArea>
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key={{API_key}}
+      data-amount= "{{totalPrice}}"
+      data-name="Demo Site"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </div>
+</form>
