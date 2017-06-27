@@ -350,7 +350,7 @@ Now time to figure out our views. We want to do a few things here:
 
 #### Checkpoint
 
-You should now be able to log in, add your shipping info, be taken to a page
+You should now be able to log in, be taken to a page
 with all of the products, click and view product details, add the product to
 your cart, and view/edit your cart. [see](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_261)
 
@@ -360,8 +360,7 @@ Boom, baby!
 
 ### Part 6. Payment and Checkout
 
-Payment info is a bit more complicated. After the user has successfully saved
-their shipping info, direct them to another form to enter payment info. You'll
+Payment info is a bit more complicated. You'll
 use an embedded Stripe form for this. Stripe does the hard work, collecting
 and validating the credit card info, and returning a token.
 
