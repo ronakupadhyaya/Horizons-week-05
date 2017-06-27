@@ -1,5 +1,6 @@
 var express = require('express');
 var app = express();
+var axios = require('axios');
 
 ['MONGODB_URI'].map(k => {
   if (! process.env[k]) {
@@ -45,11 +46,17 @@ app.get('/', function(req, res) {
 mongoose.Promise = Promise;
 
 app.post('/load', function(req, res) {
-  // Load all these movies into MongoDB using Mongoose promises
-  // YOUR CODE HERE
   var movies = require('./movies.json');
+  var mappedMovies = movies.map(function(movie){
+    var newMovie = new Movie(movie);
+    return newMovie.save();
+  });
+  // Load all these movies into MongoDB using Mongoose promises
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+  Promise.all(mappedMovies)
+  .then(function(){
+    res.redirect('/');
+  });
 });
 
 var port = process.env.PORT || 3000;
