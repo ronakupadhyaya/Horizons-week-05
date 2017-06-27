@@ -1,0 +1,73 @@
+
+{{#if cart}}
+  <h2 class="center">Logged in as {{user.username}}</h2>
+  <h3>Shopping Cart</h3>
+  <table class="table table-hover">
+
+    <tbody>
+  {{#each products}}
+    <tr>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td><img src="{{imageUri}}" style="max-width:20%"></td>
+      <td> <form method="POST" action="/cart/delete/{{this._id}}">
+          <button class="btn btn-success" type="submit">Delete from Shopping Cart</button>
+      </form> </td>
+
+      <td> <form method="POST" action="/cart/delete">
+        <div class="form-group">
+          <button class="btn btn-success">Empty Shopping Cart</button>
+        </div>
+      </form> </td>
+    </tr>
+  {{/each}}
+    </tbody>
+  </table>
+
+{{/if}}
+
+
+
+{{#if productsBoolean}}
+  <h2 class="center">Logged in as {{user.username}}</h2>
+  <h3>Products</h3>
+  <table class="table table-hover">
+
+    <tbody>
+  {{#each products}}
+    <tr>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td><img src="{{imageUri}}" style="max-width:20%"></td>
+
+      <td> <form method="POST" action="/cart/add/{{this.id}}">
+        <div class="form-group">
+          <button class="btn btn-success">Save on Shopping Cart</button>
+        </div>
+      </form> </td>
+
+
+    </tr>
+
+  {{/each}}
+    </tbody>
+  </table>
+{{/if}}
+
+
+{{#if product}}
+  <h2 class="center">Logged in as {{user.username}}</h2>
+  <h3>Product</h3>
+  <table class="table table-hover">
+
+    <tbody>
+  {{#each products}}
+    <tr>
+      <td>{{this.title}}</td>
+      <td>{{this.description}}</td>
+      <td><img src="{{imageUri}}" style="max-width:20%"></td>
+    </tr>
+  {{/each}}
+    </tbody>
+  </table>
+{{/if}}
