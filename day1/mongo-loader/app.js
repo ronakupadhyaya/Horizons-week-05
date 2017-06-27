@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 
 ['MONGODB_URI'].map(k => {
-  if (! process.env[k]) {
+  if (!process.env[k]) {
     console.error('Missing environment variable', k, 'Did your source env.sh');
     process.exit(1);
   }
@@ -16,7 +16,9 @@ app.engine('hbs', hbs);
 app.set('view engine', 'hbs');
 
 var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
@@ -48,6 +50,15 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+  var promieses = movies.map(function(item) {
+    var doc = new Movie(item);
+    return doc.save();
+  });
+  Promise.all(promieses)
+    .then(function(resp) {
+      console.log(resp);
+    });
+  // console.log(Promise.all(promieses));
   // Do this redirect AFTER all the movies have been saved to MongoDB!
   res.redirect('/');
 });

@@ -1,0 +1,52 @@
+
+
+  <h1>View your shopping cart</h1>
+
+
+    {{#each products}}
+    <form class="" method="post">
+      <div class="list well well-sm">
+        <span><img src="{{this.imageUri}}"> {{this.title}} price: {{this.price}} </span>
+        <p>{{this.description}}</p>
+        <button class="delete" id="{{this._id}}" type="button" name="button"> delete to the cart</button>
+      </div>
+    </form>
+       {{/each}}
+       <form >
+       <a class="btn btn-danger btn-sm" href="/logout" name="logout">log out</a>
+       <a class="btn btn-info btn-sm" href="/" name="back">go back</a>
+       </form>
+       <form action="/" method="POST">
+         <input type="text" name="name" placeholder="Name">
+         <input type="text" name="email" placeholder="email">
+         <script
+           src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+           data-key="{{pub_key}}"
+           data-amount="001"
+           data-name="Demo Site"
+           data-description="testing"
+           data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+           data-locale="auto">
+         </script>
+       </form>
+
+
+<script >
+
+$('.delete').on('click',function(event) {
+  event.preventDefault();
+  // console.log(this.id);
+  $.ajax ({
+    url: '/cart/delete/' + this.id,
+    method: 'delete',
+    success : function (resp) {
+      console.log('delete successfully');
+      window.location.assign('/');
+    },
+    error : function(error) {
+      console.log(error);
+    }
+  })
+})
+
+</script>

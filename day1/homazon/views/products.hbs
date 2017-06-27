@@ -1,0 +1,54 @@
+
+
+  <h1>View all products</h1>
+  <div class="clear">
+
+  </div>
+    {{#each products}}
+    <form class="">
+      <div class="list well well-sm">
+        <span><img src="{{this.imageUri}}"> {{this.title}} price: {{this.price}} </span>
+        <p>{{this.description}}</p>
+
+        <button class="add" id="{{this.id}}" type="button" name="button"> Add to the cart</button>
+      </div>
+    </form>
+       {{/each}}
+       <form method="delete" action="/cart/delete">
+       <a class="btn btn-danger btn-sm" href="/logout" name="logout">log out</a>
+       <a class="btn btn-info btn-sm" href="/cart" name="cart">view the cart</a>
+       <button id="delete" class="btn btn-danger btn-sm">clear the shopping cart</button>
+       </form>
+
+
+<script>
+$('.add').on('click', function(event) {
+  event.preventDefault();
+
+  var html = $('<p> item added to the shopping cart </p>');
+
+  $(`#${this.id}`).parent().append(html);
+  $.ajax ({
+    url:'/cart/add/'+ this.id,
+    method:'post',
+    success: function(req) {
+      console.log(req);
+    }
+  })
+  // $('.list').append(deleteBtn);
+})
+$('#delete').on('click',function(event) {
+  event.preventDefault();
+  var html = $('<div class="alert alert-success" role="alert">');
+  $.ajax ({
+    url:'/cart/delete/',
+    method:'delete',
+    success: function(req) {
+      window.location.assign('/');
+      $('.clear').append(html); //// append?
+    }
+  })
+})
+
+
+</script>
