@@ -17,11 +17,23 @@ var userSchema = new Schema({
   password: String
 });
 
+var productSchema = new Schema({
+  title: String,
+  description: String,
+  imageUri: String,
+  price: Number
+});
+
 // Step 2: Create all of your models here, as properties.
 
-var models = {
-  User: mongoose.model('User', userSchema)
-}
+var User =  mongoose.model('User', userSchema)
+var Product = mongoose.model('Product', productSchema)
+
 
 // Step 3: Export your models object
-export default models;
+var models = {
+  User: mongoose.model('User', userSchema),
+  Product: mongoose.model('Product', productSchema)
+};
+
+export default models

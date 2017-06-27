@@ -1,0 +1,12 @@
+<ul>
+  {{#each cart}}
+  <li>{{title}}</li>
+  <form class="" action="/cart/delete/{{_id}}" method="post">
+    <input type="submit" name="" value="Delete from cart">
+  </form>
+  {{/each}}
+</ul>
+
+<form class="" action="/cart/delete" method="post">
+  <input type="submit" name="" value="delete everything">
+</form>
