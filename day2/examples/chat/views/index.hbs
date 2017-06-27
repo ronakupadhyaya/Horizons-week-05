@@ -14,10 +14,13 @@
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
+        <ul id="textlist"> </ul>
       </div>
       <div class="inputbox block">
+        <input id="username" class="inline typebox" type="text" placeholder="Enter a Username...">
+        <button id="submit-username" class="inline submitbutton">Send Username</button>
         <input id="msg" class="inline typebox" type="text" placeholder="Say Something...">
-        <button id="submit" class="inline submitbutton">Send</button>
+        <button id="submit" class="inline submitbutton">Send Message</button>
       </div>
     </div>
   </div>
@@ -39,10 +42,35 @@
 
   socket.on('message', function(msg){
     // display message using HTML/CSS
-    var displayMessage = $('<p>');
+    var displayMessage = $('<li>');
     displayMessage.text(msg);
-    console.log(displayMessage);
-    $('.textbox').append(displayMessage);
+    $('#textlist').append(displayMessage);
   });
+
+  // register user
+  $('#submit-username').on('click', function(){
+    var username = $('#username').val();
+    $('#username').val('');
+    if(username){
+      socket.emit('login', username)
+    }
+  });
+
+  // welcome user
+  socket.on('welcomeUser', function(welcomeMsg){
+    var displayMessage = $('<li>');
+    displayMessage.text(welcomeMsg);
+    displayMessage.attr('style', 'color: green');
+    $('#textlist').append(displayMessage);
+  });
+
+  // notify join chatroom
+  socket.on('joinChatroom', function(joinMsg){
+    var displayMessage = $('<li>');
+    displayMessage.text(joinMsg);
+    displayMessage.attr('style', 'color: red');
+    $('#textlist').append(displayMessage);
+  });
+
 
 </script>

@@ -10,9 +10,24 @@ var io = require('socket.io')(server);
 io.on('connection', function(socket){
   // listen for message event
   socket.on('message', function(msg){
-    console.log(msg);
-    // reply with a mimic of the same reply
-    io.emit('message', msg);
+    if(socket.username){
+      console.log(msg);
+      // reply to ALL sockets with a mimic of the same reply
+      io.emit('message', socket.username + ' said: ' + msg);
+
+    }else{
+      // TODO: add a warning here that user must be logged in
+    }
+
+  });
+
+  // register username
+  socket.on('login', function(username){
+    if(!socket.username){
+      socket.username = username;
+      socket.emit('welcomeUser', 'Welcome to the Chatroom ' + socket.username + '!');
+      socket.broadcast.emit('joinChatroom', socket.username + ' has joined the Chatroom!');
+    }
   });
 });
 
