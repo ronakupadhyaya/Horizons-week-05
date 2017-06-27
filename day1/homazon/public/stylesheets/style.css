@@ -1,0 +1,57 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+hr {
+  border-top: 2px solid black;
+  height: 2px;
+}
+
+.sent {
+  text-align: right;
+  color: #00B7FF;
+}
+
+.row {
+  margin: 20px 0 !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.single-product {
+  height: 200px;
+  width: 100%;
+  border: 3px;
+}
+
+.image-container {
+  height: 100%;
+  width: 100%;
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.price {
+  text-align: right;
+  vertical-align: middle;
+  margin-top: 5%;
+}
+
+.add-to-cart {
+  margin-top: 5%;
+}
+
+.cart {
+  border-color: solid black;
+  border: 5px;
+}

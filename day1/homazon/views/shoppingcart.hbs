@@ -1,0 +1,29 @@
+<h2 class="center"><img src="{{user.pictureURL}}"/> Logged in as {{user.username}}</h2>
+<h3> Shopping Cart </h3>
+<div class= "cart col-xs-10 col-xs-offset-1">
+  {{#each products}}
+  <div class = "single-product">
+    <div class = "image-container col-xs-3">
+      <a href="/product/{{_id}}"><img src="{{imageUri}}" alt="some-alternate"></a>
+    </div>
+    <div class = "words col-xs-7">
+      <div class = "title">
+        <h3>{{title}}</h3>
+      </div>
+      <div class = "quantity-modifier">
+        <a class="" href="">Add Another</a>
+        <a class="" href="">Remove</a>
+      </div>
+    </div>
+    <div class = "col-xs-2 price">
+      <h4>{{price}} x {{quantity}} = {{total}}</h4>
+    </div>
+  </div>
+  <hr>
+  {{/each}}
+  <form action="/cart/delete" method="post">
+    <button class="btn btn-primary btn-danger">Empty Cart</button>
+  </form>
+  <a class="btn btn-primary btn-success" href="">Checkout With Strip</a>
+</div>
+<a class="btn btn-primary btn-danger" href="/logout">Logout</a>
