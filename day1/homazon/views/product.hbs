@@ -1,0 +1,6 @@
+<h1>{{product.title}}</h1>
+<img HEIGHT=150 WIDTH=150 src="{{product.imageUri}}">
+<p>{{product.description}}</p>
+<form action="/cart/add/{{product._id}}" method="POST">
+  <button type="submit" name="button">Add to cart</button>
+</form>

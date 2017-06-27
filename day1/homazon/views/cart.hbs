@@ -1,0 +1,42 @@
+<form action="/">
+  <button type="submit" name="button">Home</button>
+</form>
+
+
+{{#if cart}}
+
+
+<ul>
+{{#each cart}}
+
+<li>{{this.title}}</li>
+{{!-- <img src="{{this.imageUri}}">
+<p>{{this.description}}</p> --}}
+<form action="/cart/delete/{{this._id}}" method="POST">
+  <button type="submit" name="button">Delete product</button>
+</form>
+
+{{/each}}
+</ul>
+
+<form action="/cart/delete" method="POST">
+  <button type="submit" name="button">Delete cart</button>
+</form>
+
+{{else}}
+<h1>Cart is empty.</h1>
+
+{{/if}}
+
+<form action="/checkout" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key={{stripePublicKey}}
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>

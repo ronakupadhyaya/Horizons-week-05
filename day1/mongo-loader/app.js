@@ -1,3 +1,6 @@
+
+/*jshint esversion: 6 */
+
 var express = require('express');
 var app = express();
 
@@ -20,6 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
+
 var Movie = mongoose.model('Movie', {
   title: {
     type: String,
@@ -49,6 +53,18 @@ app.post('/load', function(req, res) {
   // YOUR CODE HERE
   var movies = require('./movies.json');
   // Do this redirect AFTER all the movies have been saved to MongoDB!
+  movies.map(function(m){
+    var movie = new Movie(m);
+    movie.save(function(err, saved){
+      return saved;
+    })
+  });
+
+  Promise.all(movies)
+  .then(function(responses){
+    return;
+  });
+
   res.redirect('/');
 });
 

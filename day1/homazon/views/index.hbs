@@ -1,0 +1,9 @@
+{{#each products}}
+  <a href="/product/{{this._id}}">
+    <h1>{{this.title}}</h1>
+    <img HEIGHT=50 WIDTH=50 src="{{this.imageUri}}">
+    <p>{{this.description}}</p>
+  </a>
+{{/each}}
+
+Your cart has {{length}} items.
