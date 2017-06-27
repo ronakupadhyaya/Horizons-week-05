@@ -23,7 +23,7 @@ app.use(morgan('combined'));
 io.on('connection', function (socket) {
   socket.on('message', function (text) {
     if (socket.username) {
-      io.emit('serverMessage', socket.username + ' said: ' + text);
+      io.to(socket.room).emit('serverMessage', socket.username + ' said: ' + text);
     }
   })
   socket.on('newUser', function (name) {
@@ -31,8 +31,21 @@ io.on('connection', function (socket) {
       return;
     } else {
       socket.username = name;
-      socket.emit('serverMessage', 'Welcome to the room ' + socket.username + '!')
-      socket.broadcast.emit('serverMessage', socket.username + ' has joined the Chatroom!')
+      if (socket.room) {
+        socket.emit('serverMessage', 'Welcome to the room ' + socket.username + '!')
+        socket.broadcast.to(socket.room).emit('serverMessage', socket.username + ' has joined the Chatroom!')
+      }
+    }
+  })
+
+  socket.on('roomSelect', function (room) {
+    if (socket.room !== room) {
+      socket.room = room;
+      socket.join(socket.room);
+      if (socket.username) {
+        socket.emit('serverMessage', 'Welcome to the room ' + socket.username + '!')
+        socket.broadcast.to(socket.room).emit('serverMessage', socket.username + ' has joined the Chatroom!')
+      }
     }
   })
 })

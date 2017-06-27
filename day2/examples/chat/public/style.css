@@ -21,7 +21,10 @@ h1 {
 }
 
 .inline {display: inline-block;}
-.block {display: block;}
+.block {
+    display: block;
+    text-align: center;
+}
 
 .textbox {
     height: 95%;

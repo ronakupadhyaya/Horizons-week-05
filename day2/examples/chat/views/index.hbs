@@ -18,19 +18,27 @@
         it primarily uses the WebSocket protocol.</p>
 
       <h2>Instructions</h2>
-      <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
-    </div>
-    <div class="inputbox block">
-      <input class="inline usernamebox" type="text" placeholder="Username Here">
-      <button class="inline usernamesubmit">Submit</button>
+      <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p><br>
+      <div class="roomSet block">
+        <strong>Current Room: </strong>
+        <div class="currentRoom">None</div> <br>
+        <strong>Select a room to join: </strong> <br>
+        <button class="inline roomselect submitbutton" value="Room 1">Room 1</button>
+        <button class="inline roomselect submitbutton" value="Room 2">Room 2</button>
+      </div> <br>
+      <form class="username block">
+        <strong>Enter a username: </strong> <br>
+        <input id="usernamebox" class="inline typebox" type="text" placeholder="Username Here">
+        <button type="submit" class="inline submitbutton">Submit</button>
+      </form>
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
       </div>
-      <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
+      <form class="inputbox block" style="display:none">
+        <input id="messagebox" class="inline typebox" type="text" placeholder="Say Something...">
         <button class="inline submitbutton">Send</button>
-      </div>
+      </form>
     </div>
   </div>
 </section>
@@ -44,23 +52,34 @@
 
   socket.on('serverMessage', function (text) {
     $('.textbox').append(text + '<br>');
-  })
+  });
 
-  $('.usernamesubmit').click(function (event) {
-    var name = $('.usernamebox').val();
+  $('.username').submit(function (event) {
+    event.preventDefault();
+    var name = $('#usernamebox').val();
     console.log('clicked!', name)
-    $('.usernamebox').val('')
+    $('#usernamebox').val('')
     if (name) {
+      $('.username').css('display', 'none');
+      $('.inputbox').css('display', 'block');
       socket.emit('newUser', name);
     }
-  })
+  });
 
-  $('.submitbutton').click(function (event) {
-    var text = $('.typebox').val();
-    $('.typebox').val('')
+  $('.inputbox').submit(function (event) {
+    event.preventDefault();
+    var text = $('#messagebox').val();
+    $('#messagebox').val('')
     if (text) {
       socket.emit('message', text);
     }
+  });
+
+  $('.roomselect').click(function (event) {
+    var room = $(this).val();
+    $('.textbox').empty();
+    $('.currentRoom').text(room);
+    socket.emit('roomSelect', room);
   })
 
 </script>
