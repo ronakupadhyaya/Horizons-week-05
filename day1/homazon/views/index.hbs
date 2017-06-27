@@ -1,0 +1,11 @@
+<h1>Homazon</h1>
+<p>Welcome to Homazon</p>
+{{#each products}}
+  <div class="all-prods">
+    <h3>{{title}}</h3>
+    <img src="{{imageUri}}" width="60%" alt="">
+    <p style="font-style: italic; font-size: 15px">{{description}}</p>
+    <p><strong>Price:</strong> ${{price}}</p>
+    <a href="/product/{{_id}}" type="button">View this product</a>
+  </div>
+{{/each}}

@@ -1,0 +1,9 @@
+{{#each products}}
+  <p><strong>Product</strong>: {{title}}</p>
+  <p><strong>Price</strong>: ${{price}}</p>
+  <form class="" action="/cart/delete/{{_id}}">
+    <button class="btn" type="submit">Remove item from cart</button>
+  </form>
+  <a href="/" class="btn"><button class="btn">Back to home</button></a>
+
+{{/each}}

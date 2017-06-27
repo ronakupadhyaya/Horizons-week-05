@@ -1,0 +1,9 @@
+<div class="">
+  <h3>{{product.title}}</h3>
+  <img src="{{product.imageUri}}" width="40%">
+  <p style="font-style: italic; font-size: 15px">{{product.description}}</p>
+  <p><strong>Price:</strong> ${{product.price}}</p>
+  <form class="" action="/cart/add/{{product._id}}" method="post">
+    <button class="btn" type="submit">Add to cart</button>
+  </form>
+</div>
