@@ -1,16 +1,20 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
+
   <div class="row">
     <div class="col-md-6 box">
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
+
       <h2>What is Socket.IO?</h2>
       <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
+
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+      <div class="inputbox block">
+        <input class="inline usernameFld" type="text" placeholder="Enter a username...">
+        <button class="inline confirmusernamebutton">Confirm!</button>
+      </div>
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
@@ -22,3 +26,38 @@
     </div>
   </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected!');
+  })
+
+  // Add a click handler to the send button
+  $('.submitbutton').click(function() { // Attach a click handler to the Send button
+    // Once the button is pressed emit a message event containing
+    // the text from the input box as the payload
+    var msg = $('.typebox').val(); // Get the value of the typebox
+    $('.typebox').val('');         // Clear the typebox
+    socket.emit('message', msg);   // Emit the msg
+  })
+  // On submit your app should emit a login event with the entered screen name
+  $('.confirmusernamebutton').click(function() {
+    var username = $('.usernameFld').val();
+    // On the client make sure the screen name input box is not empty
+    if(username !== ''){
+      socket.emit('username', username)
+      // When a client enters a screen name and logs in to the chatroom,
+      // their chatbox should say "Welcome to the Chatroom [username]!"
+      $('.textbox').append("<div> Welcome to the chatroom " + username + "!</div>");
+        console.log("Username on client-side: " + username);
+      }
+  });
+  // When we get a message from the server, append it to the body!
+  socket.on('serverMessage', function(serverMsg){
+    $('.textbox').append("<div>" + serverMsg + '</div>');
+  })
+
+
+</script>
