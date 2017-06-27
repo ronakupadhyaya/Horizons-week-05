@@ -48,8 +48,31 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+
+  // var newMaps = movies.map(function(item){
+  //   var Obj = new Movie ({
+  //     title: item.title,
+  //     url: item.url,
+  //     year: item.year,
+  //     rating: item.rating,
+  //     photo: item.photo
+  //   });
+  //   return Obj.save();
+  // });
+
+
+  Promise.all(movies.map((item)=>{
+    var {title,url,year,rating,photo}=item;
+      var Obj = new Movie(item);
+      return Obj.save();
+  }))
+ .then(function(){
+   res.redirect('/');
+ });
+
+
+
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
 });
 
 var port = process.env.PORT || 3000;

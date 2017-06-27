@@ -1,0 +1,13 @@
+<a class="logout" href="/logout">Logout</a>
+<br>
+<a href="/importProduct"><button type="button" name="button">Import Products</button></a>
+<div class="products">
+  <h3>Products</h3>
+  {{#each products}}
+    <div class="product">
+      <img src="{{imageUri}}" class="img" alt="">
+      <h4><b><a href="/product/{{_id}}">{{title}}</a></b></h4>{{description}}
+    </div>
+  {{/each}}
+  <br>
+</div>

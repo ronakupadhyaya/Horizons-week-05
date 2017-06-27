@@ -1,0 +1,43 @@
+<a class="logout" href="/logout">Logout</a>
+<br>
+<h3><b>Shopping Cart</b></h3>
+  <a href="/">Take me back to Shopping List</a>
+<form class="" action="/cart/delete" method="post">
+  <input type="submit" name="" value="Empty Carte">
+</form>
+
+  <table>
+    {{#each products}}
+    <tr>
+      <td><img class="img" src="{{imageUri}}" alt=""></td>
+      <td>{{title}}</td>
+
+      <td>
+      <form class="" action="/cart/add/{{_id}}" method="post">
+        <input type="submit" name="" value="Add Another">
+      </form>
+      </td>
+
+      <td>
+      <form class="" action="/cart/delete/{{_id}}" method="post">
+        <input type="submit" name="" value="Remove">
+      </form>
+      </td>
+
+      <td>TobeUpdated</td>
+    </tr>
+    {{/each}}
+  </table>
+
+  <form action="/payment" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{publickey}}"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>

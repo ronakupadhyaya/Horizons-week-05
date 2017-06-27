@@ -1,0 +1,28 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.product {
+  border-left: solid 1px;
+  border-top: solid 1px;
+  border-right: solid 1px;
+  text-align: left;
+  clear: left;
+}
+.products {
+  border: solid 1px;
+}
+.logout {
+  text-align: right;
+  float: right;
+}
+.img {
+
+  height: 100px;
+  float: left;
+}

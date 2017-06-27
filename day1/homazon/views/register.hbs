@@ -1,0 +1,17 @@
+<a href="/login">Login</a>
+<br>
+<br>
+<form class="" method="post">
+  <input type="text" name="username" value="" placeholder="Name" required><br>
+  <input type="text" name="password" value="" placeholder="Password" required><br>
+  <input type="text" name="password2" value="" placeholder="Repeat Password" required>
+  <input type="submit" name="register" value="Register">
+</form>
+
+{{#if errors}}
+  {{#each errors}}
+  <script type="text/javascript">
+    alert("Errors occured during signup: {{msg}}")
+  </script>
+  {{/each}}
+{{/if}}

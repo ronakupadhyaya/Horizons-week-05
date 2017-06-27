@@ -1,0 +1,15 @@
+<a class="logout" href="/logout">Logout</a>
+<br>
+<h2><b>{{product.title}}</b></h2>
+<br>
+<img src="{{product.imageUri}}" style="width: 200px; height: 100%" class="img" alt="">
+{{product.description}}
+<br><br>
+${{product.price}}
+<br>
+<br>
+<form class="" action="/cart/add/{{product._id}}" method="post">
+  <input type="submit" name="" value="Add to Carte">
+</form>
+<br>
+<a href="/">Take me back to Shopping List</a>
