@@ -5,8 +5,8 @@
  */
 
 import app from '../app';
-import db from 'debug'
-var debug = db('homazon:server');
+import debugFun from 'debug';
+var debug = debugFun('homazon:server')
 import http from 'http';
 
 /**
