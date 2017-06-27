@@ -1,0 +1,119 @@
+<h1>Shopping Cart</h1>
+
+<div id="products" class="container-fluid">
+  {{#each cart}}
+  <div class="product row">
+    <div class="col-xs-12">
+      <img src={{this.imageUri}} alt="product image" />
+    </div><div class="col-xs-12">
+      <h3><a href="/product/{{this._id}}">{{this.title}}</a></h3>
+    </div><div class="col-xs-12">
+      <h5>{{this.description}}</h5>
+    </div><form class="col-xs-12" action="/cart/delete/{{this._id}}" method="POST">
+      <button class="btn btn-danger" type="submit">Delete This Item</button>
+    </form>
+  </div>
+  {{/each}}
+  <form class="col-xs-12" action="/cart/delete" method="POST">
+    <button class="btn btn-danger" type="submit">Delete Whole Cart</button>
+  </form>
+
+  <form action="/pay" method="POST" class="paymentBox" id="paymentBox">
+    <div class="group form-group">
+    <label>
+      <span>Name</span>
+      <input name="cardholderName" class="field form-control" placeholder="Jane Doe" />
+    </label>
+  </div>
+  <div class="group form-group">
+  <label>
+    <span>Email</span>
+    <input name="cardholderEmail" class="field form-control" placeholder="example@mail.com" />
+  </label>
+</div>
+  <div class="group form-group">
+    <label>
+      <span>Phone</span>
+      <input class="field form-control" placeholder="(123) 456-7890" type="tel" />
+    </label>
+  </div>
+  <!-- <div class="group form-group">
+    <label>
+      <span>Card</span>
+      <div id="card-element" class="field">
+      <input type="text" class="form-control" name="cardNumber" placeholder="Card Number">
+      <input type="month" name="expMonth" class="form-control">
+      <input type="number" name="ccv" placeholder="***" class="form-control">
+    </div>
+    </label>
+  </div> -->
+  <!-- <div class="">
+    <button type="submit" class="btn btn-danger">Pay $25</button>
+  </div> -->
+  <div class="outcome">
+    <!-- <div class="error" role="alert"></div> -->
+    <!-- <div class="success">
+      Success! Your Stripe token is <span class="token"></span>
+    </div> -->
+  </div>
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="pk_test_85S0WTtvEHd0t6sFkfFy7QeR"
+      data-amount="999"
+      data-name="Demo Site"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>
+
+  <div class="col-xs-12">
+    <a href="/" class="btn btn-default" type="button">Back to Products</a>
+  </div>
+</div>
+<style>
+  #products {
+    padding: 10px;
+
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .product {
+    /*display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;*/
+    width: 300px;
+
+    border-radius: 5px;
+    border: 3px double #d9534f;
+
+    margin: 15px;
+    padding: 10px;
+  }
+  .product * {
+    flex: 1;
+    padding: 2px;
+  }
+  .product img {
+    flex-basis: none;
+    width: 100%;
+  }
+  #paymentBox{
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 1px dotted grey;
+    border-radius: 10px;
+  }
+  #paymentBox div{
+    flex: 1;
+  }
+
+  #card-element input{
+    margin-bottom: 5px;
+  }
+</style>
