@@ -20,7 +20,16 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+var count = 0;
+
 io.on('connection', function(socket) {
+  socket.on('roomask', function(){
+    var index = Math.floor(count/2)
+    console.log(index);
+    socket.emit('roomask_response', index)
+    count++;
+
+  })
 });
 
 var port = process.env.PORT || 3000;
