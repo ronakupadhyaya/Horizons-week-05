@@ -21,9 +21,29 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('joinRoom', function(room) {
+    socket.join(room);
+    console.log("socket", socket);
+  });
+
+  // socket.on('poke', function() {
+  //   io.to(socket.room).emit('pokedMessage', socket.room + " has been poked");
+  // });
+
+  // var roomOne = io.of('roomOne');
+  // roomOne.on('connection', function(socket) {
+  //   console.log("connected to room 1");
+  // });
+  // roomOne.emit('welcome', "hello in room 1");
+  //
+  // var roomTwo = io.of('roomTwo');
+  // roomTwo.on('connection', function(socket) {
+  //   console.log("connected to room 2");
+  // });
+  // roomOne.emit('welcome', "hello in room 2");
 });
 
 var port = process.env.PORT || 3000;
-server.listen(port, function(){
+server.listen(port, function() {
   console.log('Express started. Listening on %s', port);
 });
