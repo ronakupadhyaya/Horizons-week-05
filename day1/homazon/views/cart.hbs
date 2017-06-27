@@ -1,0 +1,11 @@
+{{#each cart}}
+
+  <h1>{{cart.title}}</h1>
+
+
+  <div class="row">{{cart.description}}</div>
+  <div class="row"><img src={{cart.image}}></div>
+
+  <button class="btn btn-success" href='/cart/add/{{id}}'>add</button>
+
+  {{/each}}
