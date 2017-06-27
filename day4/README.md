@@ -2,7 +2,7 @@
 
 ## Morning videos & Individual exercises
 
-[Link](videos.md)
+[React Day2 Videos Link](videos.md)
 
 
 

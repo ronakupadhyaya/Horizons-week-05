@@ -31,8 +31,8 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 
 ## State, Lifecycle Hooks
 
-### [Watch Me](https://vimeo.com/223236502)
-### [Watch Me](https://vimeo.com/223236748)
+### [Watch Me 1](https://vimeo.com/223236502)
+### [Watch Me 2](https://vimeo.com/223236748)
 
 1. In the Codepen below utilize the correct lifecycle hook and ajax to grab data (using ajax GET) from URL: https://api.myjson.com/bins/rztih . 
 
@@ -55,11 +55,11 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 ## Immutability
 
 
-### [Watch Me](https://vimeo.com/223237457)
-### [Watch Me](https://vimeo.com/223237595)
-### [Watch Me](https://vimeo.com/223237726)
-### [Watch Me](https://vimeo.com/223237765)
-### [Watch Me](https://vimeo.com/223237808)
+### [Watch Me 1](https://vimeo.com/223237457)
+### [Watch Me 2](https://vimeo.com/223237595)
+### [Watch Me 3](https://vimeo.com/223237726)
+### [Watch Me 4](https://vimeo.com/223237765)
+### [Watch Me 5](https://vimeo.com/223237808)
 
 
 Replace the commented pieces of code in each of the snippets below to no longer cause a mutation of `myVar`. Do so without changing the output of the program.
