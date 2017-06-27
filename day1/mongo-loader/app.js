@@ -1,4 +1,4 @@
-var express = require('express');
+import express from 'express';
 var app = express();
 
 ['MONGODB_URI'].map(k => {
@@ -15,10 +15,10 @@ var hbs = require('express-handlebars')({
 app.engine('hbs', hbs);
 app.set('view engine', 'hbs');
 
-var bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 app.use(bodyParser.urlencoded({extended: false}));
 
-var mongoose = require('mongoose');
+import mongoose from 'mongoose';
 mongoose.connect(process.env.MONGODB_URI);
 var Movie = mongoose.model('Movie', {
   title: {
@@ -48,8 +48,21 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+  Promise.all(movies.map(function(movie) {
+    var curr = new Movie(movie);
+    curr.save(function(err, added) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(added);
+      }
+    });
+  }))
+  .then(function() {
+    res.redirect('/');
+  });
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+
 });
 
 var port = process.env.PORT || 3000;

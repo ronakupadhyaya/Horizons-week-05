@@ -1,0 +1,18 @@
+
+
+<form action="/cart" method="get">
+  <input type="submit" name="viewcart" value="View Cart">
+</form>
+{{#each products}}
+  {{this}}
+  <form action="/cart/add/{{this._id}}" method="post">
+    <input type="submit" name="addtocart" value="Add to Cart">
+  </form>
+  <form action="/product/{{this._id}}" method="get">
+    <input type="submit" name="viewinfo" value="View Product Info">
+  </form>
+  <form action="/delete/product/{{this._id}}" method="post">
+    <input type="submit" name="deleteproduct" value="Delete Product">
+  </form>
+{{/each}}
+<p>Your shopping cart contains {{cart.length}} items.</p>

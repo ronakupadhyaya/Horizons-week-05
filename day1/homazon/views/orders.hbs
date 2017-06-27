@@ -1,0 +1,13 @@
+Orders:
+
+{{#each orders}}
+  {{this}}
+  <form action="/status/{{this._id}}" method="post">
+    <input type="text" name="newstatus">
+    <input type="submit" name="changestatus" value="Change Order Status">
+  </form>
+{{/each}}
+
+<form action="/products" method="get">
+  <input type="submit" name="viewproducts" value="View Products">
+</form>

@@ -1,0 +1,12 @@
+<form action="/shipping" method="get">
+  <input type="submit" name="shipping" value="Add Shipping Info">
+</form>
+{{#each cart}}
+  {{this.title}}
+  {{this._id}}
+  <form action="/cart/delete/{{this._id}}" method="post">
+    <input type="submit" name="deleteitem" value="Delete Item">
+  </form>
+  <br>
+
+{{/each}}

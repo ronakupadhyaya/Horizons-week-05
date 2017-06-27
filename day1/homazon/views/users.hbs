@@ -1,0 +1,7 @@
+{{#each users}}
+
+{{this}}
+<form action="/users/{{this._id}}" method="post">
+  <input type="submit" name="toggleAdmin" value="Toggle Admin">
+</form>
+{{/each}}
