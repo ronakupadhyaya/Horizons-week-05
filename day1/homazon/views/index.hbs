@@ -1,0 +1,17 @@
+<div class="index-screen">
+  <h1 id="heading">Products</h1>
+  <a class="waves-effect waves-light btn" id="logout" href="/logout">Logout</a>
+  <a class="waves-effect waves-light btn" href="/load">Load Products into MongoDB</a>
+  <a class="waves-effect waves-light btn" href="/cart">Cart</a>
+
+  <div class="container-fluid">
+    {{#each products}}
+    <div class="row" onclick="location.href='/product/{{_id}}';">
+        <img src='{{imageUri}}'id="productImage" />
+        <a class="waves-effect waves-light btn" id="adddelete" href="/cart/add/{{_id}}">Add to cart</a>
+        <h2 id="title">{{title}}</h2><p>${{price}}</p>
+        <p id="description">{{description}}</p>
+    </div>
+    {{/each}}
+  </div>
+</div>

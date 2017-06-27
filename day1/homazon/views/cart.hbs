@@ -1,0 +1,19 @@
+<div class="index-screen">
+  <h1 id="heading">Cart</h1>
+  <a class="waves-effect waves-light btn" id="logout" href="/logout">Logout</a>
+  <a class="waves-effect waves-light btn" href="/">Back</a>
+  <a class="waves-effect waves-light btn" href="/cart/delete">Empty Cart</a>
+
+  <div class="container-fluid">
+    {{#each cart}}
+    <div class="row" onclick="location.href='/product/{{product._id}}';">
+        <img src='{{product.imageUri}}'id="productImage" />
+        <a class="waves-effect waves-light btn" id="adddelete" href="/cart/delete/{{product._id}}">Delete</a>
+        <a class="waves-effect waves-light btn" id="adddelete" href="/cart/add/{{product._id}}">Add another</a>
+        <h2 id="title">{{product.title}}</h2><p>${{product.price}} x {{count}} = ${{total}}</p>
+        <p id="description">{{product.description}}</p>
+    </div>
+    {{/each}}
+    <h1 id="totalPrice">${{totalPrice}}</h1>
+  </div>
+</div>

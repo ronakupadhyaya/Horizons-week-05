@@ -1,0 +1,59 @@
+a {
+  color: #00B7FF;
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+
+.login-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  display: flex;
+  background-image: url('../images/login-background.jpg');
+  background-size: cover;
+}
+
+.login-box {
+  background-color: rgba(212,212,212,0.8);
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 40%
+}
+#productImage{
+  height: 110%;
+  width: 130px;
+  float: left;
+  margin-top: 10px;
+}
+.container-fluid{
+  margin-top: 50px;
+}
+#title{
+  font-size: 30px;
+  padding-left: 100px;
+}
+#description{
+  padding-left: 100px;
+}
+.row{
+  border: solid black 1px
+}
+
+#logout{
+  margin-left: 20px;
+}
+#heading{
+  margin-left: 20px;
+}
+#adddelete{
+  float: right;
+}
+#totalPrice{
+  float: right;
+}
