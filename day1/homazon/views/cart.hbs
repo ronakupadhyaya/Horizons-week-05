@@ -1,0 +1,27 @@
+<div class= "all-products col-xs-10 col-xs-offset-1">
+  {{#each products}}
+<div class = "single-product">
+  <div class = "image-container col-xs-3">
+    <img src="{{imageUri}}">
+  </div>
+  <div class = "words col-xs-7">
+    <div class = "title">
+      <h3>{{title}}</h3>
+    </div>
+  </div>
+  <div class = "col-xs-2 price">
+    <h4>${{price}}</h4>
+  </div>
+  <form method='post' action='/cart/add/{{_id}}'>
+    <button class="col-xs-2 btn btn-danger">
+      Add one more
+    </button>
+  </form>
+  <form method='post' action='/cart/delete/{{_id}}'>
+    <button class="col-xs-2 btn btn-danger">
+      Delete
+    </button>
+  </form>
+</div>
+{{/each}}
+</div>
