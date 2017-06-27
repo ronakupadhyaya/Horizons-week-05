@@ -1,0 +1,12 @@
+{{#each Product}}
+<table method="Post" style="width:100%">
+  <tr>
+    <th>{{imageUri}}</th>
+    <th>{{title}}</th>
+    <th><a href="/products"><button type="button" name="Send Text" value="Send Text">Send Text</button></a></th>
+  </tr>
+</table>
+{{/each}}
+
+<button type="submit" class="btn btn-success" value="Empty cart">Empty cart</button><br>
+<button type="submit" class="btn btn-success" value="zcheckout With Stripe">Checkout With Stripe</button><br>
