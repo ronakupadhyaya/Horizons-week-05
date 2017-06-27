@@ -1,0 +1,29 @@
+<h3>Shopping Cart</h3>
+<table class="table table-hover">
+  <thead>
+    <td> Item </td>
+    <td> </td>
+    <td> </td>
+    <td> </td>
+    <td> Price </td>
+  </thead>
+  <tbody>
+    {{#each products}}
+    <tr>
+      <td><img src='{{imageUri}}'></td>
+      <td><b><a href="/product/{{_id}}">{{title}}</b></a></td>
+      <td><form method="POST" action='/cart/add/{{_id}}'><button class='btn btn-default'>Add another</form></td>
+      <td><form method="POST" action='/cart/delete/{{_id}}'><button class='btn btn-default'>Remove</form></td>
+      <td>${{price}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<!--
+<a class="btn btn-success" href="/contacts/new">New Contact</a>
+<a class="btn btn-default" href="/messages">View All Messages</a>
+-->
+<h4>Total: ${{totalItems}}</h4>
+<form method="POST" action='/cart/delete'><button class='btn btn-default'>Clear cart</form></button>
+<a class="btn btn-default" href="/products">Browse All Products</a>
+<a class="btn btn-default" href="/logout">Logout</a>

@@ -1,0 +1,23 @@
+<h3>Products</h3>
+<table class="table table-hover">
+  <thead>
+    <td> </td>
+    <td> </td>
+    <td> </td>
+  </thead>
+  <tbody>
+    {{#each products}}
+    <tr>
+      <td><img src='{{imageUri}}' ></td>
+      <td><b><a href="/product/{{_id}}">{{title}}</b></a><br>{{description}}</td>
+      <td>${{price}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+<!--
+<a class="btn btn-success" href="/contacts/new">New Contact</a>
+<a class="btn btn-default" href="/messages">View All Messages</a>
+-->
+<a class="btn btn-default" href="/cart">See Cart</a>
+<a class="btn btn-default" href="/logout">Logout</a>

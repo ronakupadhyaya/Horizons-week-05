@@ -1,0 +1,24 @@
+<h3>{{product.title}}</h3>
+<table class="table table-hover">
+  <thead>
+    <td> </td>
+    <td> </td>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td><img src='{{product.imageUri}}'></td>
+      <td>{{product.description}}</td>
+      <td>${{product.price}}</td>
+    </tr>
+
+  </tbody>
+</table>
+<!--
+<a class="btn btn-success" href="/contacts/new">New Contact</a>
+<a class="btn btn-default" href="/messages">View All Messages</a>
+-->
+<form method="POST" action='/cart/add/{{product._id}}'><button class="btn btn-default">Add to Cart</button><form>
+<a class="btn btn-default" href="/cart">See Cart</a>
+<a class="btn btn-default" href="/products">Browse All Products</a>
+<a class="btn btn-default" href="/logout">Logout</a>
