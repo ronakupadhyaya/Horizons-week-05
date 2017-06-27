@@ -1,0 +1,20 @@
+<h3>Product page</h3>
+<h2 class="center">{{product.title}}</h2>
+<table class="table table-hover">
+  <thead>
+    <td><b>Name</b></td>
+    <td><b>description</b></td>
+    <td><b>image</b></td>
+  </thead>
+  <tbody>
+  <tr>
+    <td>{{product.title}}</td>
+    <td>{{product.description}}</td>
+    <td><img src='{{product.imageUri}}' width='35px'/></td>
+  </tr>
+  <tr>
+<a class="btn btn-primary" href="/cart/">view cart</a>
+<a class="btn btn-primary" href="/cart/add/{{product._id}}">add to cart</a>
+  </tr>
+  </tbody>
+</table>

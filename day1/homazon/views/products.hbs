@@ -1,0 +1,10 @@
+<div style="margin-left:50px">
+
+<h3>All products</h3>
+<h3> you have {{itemNum}} in your cart</h3>
+{{#each products}}
+  <div class="row">{{title}} <br>
+  <td><a class="btn btn-primary" href="/product/{{_id}}">view product</a></td>
+ </div>
+{{/each}}
+</div>
