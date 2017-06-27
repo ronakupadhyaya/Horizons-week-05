@@ -1,3 +1,25 @@
+# Warmup exercise: Controlled form fields
+
+## Goal
+
+The goal of this exercise is to use controlled form fields
+to tie the values of two text input fields together in React.
+
+## Instructions
+
+1. [Open CodePen for this exercise.](http://codepen.io/moose-horizons/pen/akyorq?editors=0010)
+1. There are two text input fields here. We want them to display the same data at all times.
+
+  If you change one, the other one should change instantly.
+1. Turn input fields into controlled input fields by setting
+  `value={this.state.text}` on them.
+1. Create a new function `change` inside the class. This function should
+  take an `event` argument and update `this.state.text` using
+  `this.setState` to `event.target.value`.
+  ![](img/change.png)
+1. Add the `onChange={this.change}` event handler to both form fields.
+1. Try changing input fields, they should update at the same time.
+
 # Warmup Exercise: Fizz Buzz React edition
 
 ## Goal
@@ -20,3 +42,25 @@ printing an increasing sequence of numbers and if statements in React.
    in black.
 1. Your solution should look like this:
   ![](img/codepen-fizz.png)
+
+# Warmup exercise: Component lifecycle: Timer
+
+## Goal
+
+The goal of this exercise is to build a timer by using React
+component lifecycle methods.
+
+## Time limit: 15 minutes
+
+## Instructions
+
+1. [Open CodePen for this exercise.](http://codepen.io/moose-horizons/pen/QErWVq?editors=0010)
+1. Implement the `update` function. This function should call `this.setState()`
+   and update `this.state.secondsLeft` to be `(this.state.end - Date.now()) / 1000`.
+1. Implement the `componentDidMount` function. Use `setInterval()` to call
+   `this.update` periodically.
+   ![](img/setInterval.png)
+1. Implement the `componentWillUnmount` function. Use `clearInterval()` to
+   cancel the background update process.
+1. There are two timers on the page, verify that they count down from 1 and
+   5 minutes respectively.

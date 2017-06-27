@@ -2,7 +2,7 @@
 
 ## Lists and Keys
 
-## [Watch Me]()
+## [Watch Me](https://vimeo.com/223236338)
 
 	
 1. Display array ```groceries``` as a list just like the picture. Use classes ```GroceryItem``` and ```ShoppingCart``` in a way that makes sense; use the item names as keys.
@@ -20,7 +20,7 @@
 
 ## Forms in React
 
-## [Watch Me]()
+## [Watch Me](https://vimeo.com/223236408)
 
 Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 
@@ -31,9 +31,10 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 
 ## State, Lifecycle Hooks
 
-## [Watch Me]()
+## [Watch Me](https://vimeo.com/223236502)
+## [Watch Me](https://vimeo.com/223236748)
 <details>
-<summary>Should like this (Warning: Cuteness overload) </summary>
+<summary>Should look like this (Warning: Cuteness overload) </summary>
 
   ![](https://d3vv6lp55qjaqc.cloudfront.net/items/3N3I0h3i3q1a3N43121G/Screen%20Recording%202017-05-27%20at%2006.51%20PM.gif?v=20b26c27)
 
@@ -53,7 +54,12 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 ## Immutability
 
 
-### [Watch Me]()
+### [Watch Me](https://vimeo.com/223237457)
+### [Watch Me](https://vimeo.com/223237595)
+### [Watch Me](https://vimeo.com/223237726)
+### [Watch Me](https://vimeo.com/223237765)
+### [Watch Me](https://vimeo.com/223237808)
+
 
 Replace the commented pieces of code in each of the snippets below to no longer cause a mutation of `myVar`. Do so without changing the output of the program.
 
