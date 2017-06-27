@@ -1,0 +1,26 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h1>Product</h1>
+
+    <table style='width: 100%'>
+      <tr>
+        <th></th>
+      </tr>
+      {{#each products}}
+      <h1>{{title}}</h1>
+        <td>
+          <img height="64" src="{{imageUri}}">
+          <a href="/cart">Add another</a>
+          <a href="/cart">Remove</a>
+          <td>{{price}}</td>
+        </td>
+      {{/each}}
+    </table>
+    <form action="/cart" method="post">
+    <button type='submit' class='btn btn-purchase'>Empty Cart</button>
+   </form>
+   <form action="/cart" method="post">
+   <button type='submit' class='btn btn-purchase'>Checkout With Stripe Cart</button>
+  </form>
+  </div>
+</div>

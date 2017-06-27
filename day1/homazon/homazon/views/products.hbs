@@ -1,0 +1,24 @@
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h1>Products</h1>
+    <form action="/" method="post">
+      <button type="submit" class="btn btn-danger">Load Products into MongoDB</button>
+    </form>
+
+    <table style='width: 100%'>
+      <tr>
+        <th></th>
+      </tr>
+      {{#each products}}
+      <table>
+        <td>
+          <img height="64" src="{{imageUri}}">
+          <td>{{title}}</td>
+          <td>{{price}}</td>
+          <p>{{description}}</p>
+        </td>
+      </table>
+      {{/each}}
+    </table>
+  </div>
+</div>
