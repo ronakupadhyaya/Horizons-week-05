@@ -1,0 +1,7 @@
+<img height="64" src="{{imageUri}}" alt="{{title}}"></br>
+Title:{{product.title}}</br></br>
+Description:{{product.description}}</br></br>
+
+<form action="/cart/add/{{product._id}}" method="post">
+  <button type="submit" name="button">Add to Cart</button>
+</form>

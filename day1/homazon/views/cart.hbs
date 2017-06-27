@@ -1,0 +1,27 @@
+{{#if cart}}
+<div class="row">
+  <div class="col-xs-8 col-xs-offset-2">
+    <h1>Products in Cart</h1>
+    <table>
+      <tr>
+        <th></th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Action<th>
+      </tr>
+      {{#each cart}}
+      <tr>
+        <td>
+          <img height="64" src="{{imageUri}}" alt="{{title}}">
+        </td>
+        <td>{{title}}</td>
+        <td>{{description}}</td>
+        <td><a href="/cart/delete/{{_id}}">Delete from cart</a></td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+</div>
+<a href="/payment">Pay</a>
+<a href="/cart/delete">Empty Cart</a>
+{{/if}}
