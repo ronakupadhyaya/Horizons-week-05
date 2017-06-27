@@ -5,6 +5,8 @@ var exphbs = require('express-handlebars');
 var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+var r = 1;
+var curr = 0;
 
 // Set View Engine
 app.engine('hbs', exphbs({
@@ -21,6 +23,20 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('join', function() {
+    var room = null;
+    if (curr < 2) {
+      console.log("space left");
+      curr++;
+    } else {
+      console.log("no space, create new room");
+      r++;
+      curr=1;
+    }
+    socket.join(r);
+    socket.emit('joined', r);
+    console.log('emitted joineds');
+  });
 });
 
 var port = process.env.PORT || 3000;

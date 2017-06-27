@@ -1,9 +1,17 @@
 <p>You are in Room X</p>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
   socket.on('connect', function() {
     console.log('Connected!');
+
+    socket.emit('join');
+    console.log('emits join');
+  });
+  socket.on('joined', function(room) {
+    console.log('reaches joined');
+    $('p').text('You are in Room '+room);
   });
 </script>
