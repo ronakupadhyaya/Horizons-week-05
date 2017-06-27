@@ -1,5 +1,7 @@
 var express = require('express');
 var app = express();
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGODB_URI);
 
 ['MONGODB_URI'].map(k => {
   if (! process.env[k]) {
@@ -18,8 +20,7 @@ app.set('view engine', 'hbs');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
-var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI);
+
 var Movie = mongoose.model('Movie', {
   title: {
     type: String,
@@ -48,8 +49,20 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
-  // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+  Promise.all(movies.map(function(movie){
+    var newmov = new Movie({title: movie.title,
+                            url:movie.url,
+                            photo:movie.photo,
+                            year:movie.year,
+                            rating: movie.rating});
+    var buzzer = newmov.save()
+    return buzzer
+  }))
+  .then(function(resp){
+    res.redirect('/');
+  })
+
+
 });
 
 var port = process.env.PORT || 3000;
