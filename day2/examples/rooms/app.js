@@ -15,12 +15,27 @@ app.set('view engine', 'hbs');
 
 // Logging
 app.use(morgan('combined'));
+// Static assets
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function(req, res) {
   res.render('index');
 });
 
 io.on('connection', function(socket) {
+ socket.on('room',function(rm){
+   socket.join(rm)
+   socket.rm= rm;
+   console.log('joined',rm)
+ })
+
+ socket.on('poke',function(pk){
+   console.log('poked')
+   io.sockets.in(socket.rm).emit('message','Room #'+socket.rm + 'has been poked')
+ })
+
+
+
 });
 
 var port = process.env.PORT || 3000;

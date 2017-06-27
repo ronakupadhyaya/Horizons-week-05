@@ -4,6 +4,30 @@ var morgan = require('morgan');
 var exphbs = require('express-handlebars');
 var app = require('express')();
 
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+  socket.on('username',function(usr){
+
+      socket.username=usr
+      socket.emit('welcome','Welcome to the Chat room! '+ socket.username)
+      socket.broadcast.emit('welcome',socket.username + ' has joined the chatroom!')
+
+  })
+
+  socket.on('message',function(msg){
+
+    if(socket.username){
+      io.emit('serverMessage',socket.username + ' said: ' + msg)
+    }else {
+      socket.emit('Login','You have to log in first')
+    }
+  })
+
+
+});
+
 // Set View Engine
 app.engine('hbs', exphbs({
   extname: 'hbs',
@@ -22,6 +46,6 @@ app.get('/', function(req, res) {
 });
 
 var port = process.env.PORT || 3000;
-app.listen(port, function(){
+server.listen(port, function(){
   console.log('Express started. Listening on %s', port);
 });
