@@ -1,7 +1,7 @@
-<p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
-<button>Poke!</button>
+<h1 id="header">Welcome! Select a Room to join.</h1>
+<button id="joinRoom1">Join Room 1</button>
+<button id="joinRoom2">Join Room 2</button>
+<button id="poke">Poke!</button>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
@@ -9,4 +9,27 @@
   socket.on('connect', function() {
     console.log('Connected!');
   });
+
+  $('#joinRoom1').click(function () {
+    var roomNumber = 1;
+    socket.emit('room', roomNumber);
+    console.log('here 1');
+    $('#header').text('Welcome to room 1!')
+  });
+
+  $('#joinRoom2').click(function () {
+    var roomNumber = 2;
+    socket.emit('room', roomNumber);
+    console.log('here 2');
+    $('#header').text('Welcome to room 2!')
+  });
+
+  $('#poke').click(function(){
+    socket.emit('poke')
+  });
+
+  socket.on('pokeResponse', function (pokeMsg) {
+    $('#header').text(pokeMsg)
+  })
+
 </script>

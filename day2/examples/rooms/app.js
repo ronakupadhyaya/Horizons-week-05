@@ -13,6 +13,9 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
+// Static assets
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Logging
 app.use(morgan('combined'));
 
@@ -20,7 +23,23 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
-io.on('connection', function(socket) {
+io.on('connection', function(socket){
+
+  socket.on('room', function(room) {
+    if (socket.inRoom){
+      socket.leave(socket.inRoom);
+      socket.join(room);
+    }
+    else{
+      socket.join(room);
+      socket.inRoom = room;
+    }
+  });
+
+  socket.on('poke', function(poke){
+    socket.emit('pokeResponse', 'Room #' + socket.inRoom + ' has been poked!');
+  })
+
 });
 
 var port = process.env.PORT || 3000;
