@@ -1,0 +1,17 @@
+<h1>Here is your cart:</h1>
+<h3>Your cart has {{thing}} items in it</h3>
+
+{{#each cart}}
+<h3>{{title}}</h3>
+<h3>{{description}}</h3>
+<h3>{{price}}</h3>
+<form class="" action="/cart/delete/{{_id}}" method="post">
+  <input type="submit" name="removecart" value="Remove from cart">
+</form>
+{{/each}}
+
+<a href="/">click here to return to products</a>
+
+<form class="" action="/cart/delete" method="post">
+  <input type="submit" name="deletecart" value="Delete Cart">
+</form>

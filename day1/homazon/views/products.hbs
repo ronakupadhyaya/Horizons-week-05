@@ -1,0 +1,16 @@
+<h1>homazons home product page</h1>
+
+{{#each products}}
+<div>
+  <h2>{{title}}</h2>
+  <h3>{{description}}</h3>
+  <img src="{{imageUri}}">
+  <form class="form-group" action="/cart/add/{{id}}" method="post">
+    <input type="submit" name="addcart" value="Add this item to your cart">
+  </form>
+</div>
+<hr>
+{{/each}}
+
+<a href="/cart">Click here to see your cart</a>
+<a href="/logout">LOGOUT</a>
