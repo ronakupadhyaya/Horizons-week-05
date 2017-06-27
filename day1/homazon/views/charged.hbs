@@ -1,0 +1,58 @@
+<h1>Order Completed!</h1>
+
+<h2>Order ID: {{order._id}}</h2>
+<div style="font-style:italic">{{time}}</div>
+<hr>
+<div class="order-info-container">
+  <div class="order-list-header">
+    <div class="billing-info">
+      <h2><strong>Billing/Shipping Information</strong></h2>
+      <br>
+      <div><strong>Name: </strong>{{firstName}} {{lastName}}</div>
+      <div><strong>Address: </strong> {{order.address}} </div>
+      <div><strong></strong>{{order.city}},{{order.state}} &nbsp; {{order.zip}}</div>
+      <!-- <div><strong>Card Exp: </strong>{{order.expMonth}}/{{order.expYear}}</div>
+      <div><strong>Amount Charged: </strong>${{charge}}</div> -->
+    </div>
+
+
+  </div>
+  <div class="payment-info">
+    <h2><strong>Payment Information</strong></h2>
+    <br>
+    <div><strong>Name: </strong>{{firstName}} {{lastName}}</div>
+    <div><strong>Date: </strong> {{time}} </div>
+    <div><strong>Card Number: </strong>**** **** **** {{order.last4}} ({{order.brand}})</div>
+    <div><strong>Card Exp: </strong>{{order.expMonth}}/{{order.expYear}}</div>
+    <div><strong>Amount Charged: </strong>${{charge}}</div>
+  </div>
+</div>
+<hr>
+<div class="order-list-header">
+  <h2><strong>Products</strong></h2>
+  <br>
+  {{#each products}}
+  <div class='order-products'>
+    <div class='products-img'>
+      <img src="{{imageUri}}" height="50" width="50">
+    </div>
+    <div class="products-right">
+      <div class="products-title">
+          {{title}}
+      </div>
+      <span class="products-price">
+        ${{price}}
+      </span>
+      <div class="products-body">
+        {{description}}
+      </div>
+    </div>
+    <div class='overall-price'>
+      ${{price}}
+    </div>
+  </div>
+  {{/each}}
+  <div class="sub"><strong>Subtotal: </strong> &nbsp;&nbsp;&nbsp;&nbsp;${{charge}}</div>
+  <div class="total"><strong>Total: </strong> &nbsp;&nbsp;&nbsp;&nbsp;${{charge}}</div>
+
+</div>

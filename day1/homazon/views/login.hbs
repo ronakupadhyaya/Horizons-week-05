@@ -1,0 +1,49 @@
+<div class="container">
+    <div id="signupbox" style=" margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">Login</div>
+                <div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/signup">Need an Account? Register here!</a></div>
+            </div>
+            <div class="panel-body" >
+                <form method="POST">
+                    <form  class="form-horizontal" method="POST">
+                        <div id="div_id_email" class="form-group required">
+                            <label for="id_email" class="control-label col-md-4  requiredField"> Email<span class="asteriskField">*</span> </label>
+                            <div class="controls col-md-8 ">
+                                 <input class="input-md textinput textInput form-control" id="id_email" name="username" placeholder="Email" style="margin-bottom: 10px" type="text" />
+                            </div>
+                        </div>
+                        <div id="div_id_password" class="form-group required">
+                             <label for="id_password" class="control-label col-md-4  requiredField"> Password<span class="asteriskField">*</span> </label>
+                             <div class="controls col-md-8 ">
+                                 <input class="input-md textinput textInput form-control" id="id_password" name="password" placeholder="Password" style="margin-bottom: 10px" type="password" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="aab controls col-md-2 "></div>
+                            <div class="controls col-md-8 ">
+                                <input type="submit" name="login" value="Login" class="btn btn-primary btn btn-info btn-lg btn-block" id="submit-login" />
+                                <!-- <center style="padding-top:5px;">
+                                <a role="button" name="fb"  class="btn btn-primary btn-lg" id="login-fb">Login With Facebook</a>
+                                <a role="button" name="twitter" style="padding-top:5px;" class="btn btn-primary btn btn-info btn-lg " id="login-twitter">Login With Twitter</a>
+                              </center> -->
+                            </div>
+                        </div>
+
+                            <!-- <div class="aab controls col-md-2 col-md-offset-1 "></div>
+                            <div class="controls col-md-8 ">
+                                <input type="submit" name="login" value="Login" class="btn btn-primary btn btn-info btn-lg btn-block" id="submit-login" />
+                            </div> -->
+
+                    </form>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <center style="padding-top:5px;">
+<a role="button" href="/auth/facebook" name="fb"  class="btn btn-primary btn-lg" id="login-fb">Login With Facebook</a>
+<a role="button" href="/auth/twitter" name="twitter" class="btn btn-primary btn btn-info btn-lg " id="login-twitter">Login With Twitter</a>
+</center> -->

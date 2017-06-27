@@ -1,0 +1,54 @@
+<h1>Your Cart</h1>
+
+<div class="cart-list-container">
+  {{#if products}}
+  {{#each products}}
+  <div class='products'>
+    <div class='products-img'>
+      <a href="product/{{_id}}"><img src="{{imageUri}}" height="42" width="42"></a>
+    </div>
+    <div class="products-right">
+      <div class="products-title">
+          <a href="product/{{_id}}">{{title}}</a>
+      </div>
+      <span class="products-price">
+        {{price}}
+      </span>
+      <div class="products-body">
+        {{description}}
+      </div>
+    </div>
+    <div class='action buttons'>
+      <form action='/cart/delete/{{_id}}' method="POST">
+        <input type="submit" name="Delete-cart" value="Remove From Cart" class="btn btn-primary btn btn-danger" id="delete-cart"/>
+      </form>
+    </div>
+  </div>
+  {{/each}}
+  <form action='/cart/delete/' method="POST">
+    <input type="submit" name="Delete-cart" value="Remove All Items From Cart" class="btn btn-primary btn btn-danger" id="delete-cart"/>
+  </form>
+  Your Cart Total is ${{total}}.
+
+  <form action="/cart" method="POST">
+    <div><input type="text" name="firstName" placeholder="First Name"></div>
+    <div><input type="text" name="lastName" placeholder="Last Name"></div>
+    <div><input type="text" name="address" placeholder="Address"></div>
+    <div><input type="text" name="city" placeholder="City"></div>
+    <div><input type="text" name="state" placeholder="State"></div>
+    <div><input type="number" name="zip" placeholder="Zipcode"></div>
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="pk_test_8HDuDkEfXOckIOUTxZEpuLUS"
+      data-amount="{{stripeSum}}"
+      data-name="Homazon"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>
+  {{else}}
+  Cart is Empty
+  {{/if}}
+
+</div>

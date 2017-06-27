@@ -1,0 +1,29 @@
+<h1>All Products</h1>
+<div class="products-list-container">
+  {{#each data}}
+  <div class='products'>
+    <div class='products-img'>
+      <a href="product/{{_id}}"><img src="{{imageUri}}" height="75" width="75"></a>
+    </div>
+    <div class="products-right">
+      <div class="products-title">
+          <a href="product/{{_id}}">{{title}}</a>
+      </div>
+      <span class="products-price">
+        ${{price}}
+      </span>
+      <div class="products-body">
+        {{description}}
+      </div>
+    </div>
+    <div class='action buttons'>
+      <form action='/cart/add/{{_id}}' method="POST">
+        <input type="submit" name="Add-cart" value="Add to Cart" class="btn btn-primary btn btn-info" id="add-cart"/>
+      </form>
+    </div>
+  </div>
+  {{/each}}
+  <div class="cart-count">
+    Your Cart Contains {{length}} Item(s).
+  </div>
+</div>
