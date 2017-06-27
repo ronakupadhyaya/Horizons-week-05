@@ -1,0 +1,10 @@
+<h1>All Products</h1>
+<ul>
+  {{#each products}}
+      <div class="product-container">
+        <img src="{{imageUri}}"><a href="/product/{{_id}}"><b>{{title}}</b></a>
+        {{description}}
+      </div>
+  {{/each}}
+</ul>
+<a href="/cart"><button class="btn btn-primary">My Cart ({{cart.length}})</button></a>

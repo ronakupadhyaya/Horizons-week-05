@@ -1,0 +1,17 @@
+<h1>Your Cart</h1>
+{{#each cart}}
+  <div class="product-container">
+    <img src="{{imageUri}}">
+    <div class="info">
+      <a href="/product/{{_id}}"><b>{{title}}</b></a><br> {{description}}
+      <form action="/cart/delete/{{_id}}" method="post">
+        <button class="btn btn-warning">Delete from Cart</button>
+      </form>
+    </div>
+  </div>
+{{/each}}
+<a href="/checkout"><button class="btn btn-success">Checkout with Stripe</button></a>
+<form action="/cart/delete" method="post">
+  <button class="btn btn-danger">Delete Everything from Cart</button>
+</form>
+<a href="/"><button class="btn btn-primary">Back to Shopping</button></a>

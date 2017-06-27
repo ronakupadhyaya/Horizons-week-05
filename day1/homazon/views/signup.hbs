@@ -1,0 +1,22 @@
+<div class="container">
+  {{#if error}}
+    <div class="aler alert-danger" role="alert">
+      <strong>Error!</strong> {{error}}
+    </div>
+  {{/if}}
+  <form method="POST" action="/signup">
+    <div class="form-group">
+    <input type="text" name="username" class="form-control" placeholder="Name" value="{{body.username}}">
+  </div>
+  <div class="form-group">
+    <input type="password" name="password" class="form-control" placeholder="Password">
+  </div>
+  <div class="form-group">
+    <input type="password" name="repeatPassword" class="form-control" placeholder="Confirm Password">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-success">Signup</button>
+  </div>
+  </form>
+      <a href="/login"><button class = "btn btn-primary">Back to Login</button></a>
+</div>
