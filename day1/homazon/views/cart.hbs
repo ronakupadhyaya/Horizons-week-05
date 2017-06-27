@@ -6,15 +6,49 @@
     <img class="card-img-top" src="{{imageUri}}" alt="Card image cap" style="width:30%">
     <h4 class="card-title">{{title}}</h4>
     <p class="card-text">{{description}}</p>
+    <strong class="price"> ${{price}}</strong>
     <form method="post" action="/cart/delete/{{_id}}">
     <button type="submit" class="btn btn-warning">Remove Item</button>
   </form>
   </div>
 </div>
 {{/each}}
-<a href='#' role='button' class='btn btn-success'> Checkout</a>
+
+<form id='pay-form' class="hidden-xl-down" action="/checkout" method="POST">
+  <div class="form-group">
+    <label> Email: </label>
+  <input name="email"> </input>
+  </div>
+  <strong> Confirm Total: $<strong id="total"> </strong> </strong>
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_roTBhjDHgLEfA4YcZH5777KM"
+    data-amount="{{total}}"
+    data-name="Homazon Henry"
+    data-description="{{name}}'s purchase"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+
+<button role='button' class='btn btn-success show-form'> Checkout</button>
 <form method="post" action="/cart/delete">
 <button type="submit" class="btn btn-warning">Empty Cart</button>
 </form>
 <a href='/logout' role='button' class='btn btn-danger'> Logout</a>
 </div>
+
+<script>
+$('.show-form').on('click',function(event){
+  $('#pay-form').toggleClass("hidden-xl-down");
+  $("#total").html(function() {
+    var a = 0;
+    $(".price").each(function() {
+      var moneyString = $(this).text();
+      var moneyNum = Number(moneyString.replace(/[^0-9\.]+/g,""));
+        a += moneyNum;
+    });
+    return a;
+    });
+})
+</script>
