@@ -1,14 +1,6 @@
 <h1>Your cart</h1>
   <!-- <a href="/cart/delete">Remove all items</a> -->
 
-
-
-
-
-
-
-
-
   <form action="/cart/delete" method="post">
       <input type="submit" value="Remove all items" />
   </form>
@@ -45,6 +37,25 @@
     </div>
   </div>
 
+
+  {{/each}}
+
+  {{#each groupeditems}}
+   Key: {{@key}} Value = {{this}}
+  <div class="cart-item">
+{{this.Key}}
+    <div class="item-info">
+      <img src="{{this.imageUri}}" alt="" class="product-img">
+      <a href="/product/{{this._id}}"> {{this.Value.title}}</a>
+    </div>
+    <div class="item-quantity">
+      {{this.Key}}
+    </div>
+    <div class="item-price">
+      {{this.Key}} x ${{this.price}}
+
+    </div>
+  </div>
   {{/each}}
 
   Cart total is: ${{cart_sum}}

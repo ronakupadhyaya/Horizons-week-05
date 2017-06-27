@@ -1,5 +1,6 @@
 // var express = require('express');
 import express from 'express';
+import _ from 'underscore';
 import {User} from '../models/models';
 import {Product} from '../models/models';
 import {Payment} from '../models/models';
@@ -57,12 +58,27 @@ router.get('/cart', (req, res, next) => {
   var cartsum = cartitems.reduce(function(a,b){
     return a+parseFloat(b.price);
   },0)
+  var sortitems = _.groupBy(cartitems, function(item){
+    return item.title;
+  })
+  var groupeditems = [];
+  _.forEach(sortitems,function(value,key){
+    var itemcount = value.length;
+    var itemobj = value[0];
+    console.log(value,key);
+    groupeditems.push({itemcount: itemobj})
+  })
+  console.log(groupeditems);
+  // _.map(sortitems,function(value,key){
+  //   return {value.length: value[0]};
+  // })
   var amount = parseInt(cartsum*100);
   res.render('cart', {
     cartitems: cartitems,
     publish_key: process.env.STRIPE_PUBLISH_KEY,
     cart_sum: cartsum,
-    amount: amount
+    amount: amount,
+    groupeditems: groupeditems
   })
 })
 

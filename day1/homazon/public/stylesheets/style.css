@@ -25,7 +25,8 @@ a {
 
 
 .product-img {
-  width: 50px;
+  /*width: 50px;*/
+  height: 9.5vh;
 }
 
 .product-item, .cart-item{
