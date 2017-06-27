@@ -1,12 +1,31 @@
-<p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
-<button>Poke!</button>
+<!-- <h1 class= "roomheader">Welcome select a room to join</h1> -->
+<p class= "roomheader">Welcome! Select a Room to join.</p>
+<button class="room1">Join Room 1</button>
+<button class="room2">Join Room 2</button>
+<button class="poke">Poke!</button>
 
-<script src="/socket.io/socket.io.js"></script>
+<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
-  var socket = io();
+
+  var socket = io('localhost:3000');
   socket.on('connect', function() {
     console.log('Connected!');
   });
+
+  $('.room1').on('click', function(event){
+    var room = 'room1';
+    socket.emit('room1',room)
+  })
+
+  $('.room2').on('click', function(event){
+    var room = 'room2';
+    // $('.roomheader').text('')
+    socket.emit('room2', room)
+  })
+
+  socket.on('welcome', function(msg){
+    $('.roomheader').text(msg);
+  })
 </script>

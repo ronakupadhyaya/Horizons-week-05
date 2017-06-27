@@ -21,7 +21,25 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+
+  socket.on('room1', function(room){
+    console.log("socket joining room", room);
+    socket.leave('room2')
+    socket.join(room);
+    socket.emit('welcome', 'welcome to '+room);
+  })
+
+  socket.on('room2', function(room){
+    console.log("socket joining room", room);
+    socket.leave('room1')
+    socket.join(room);
+    socket.emit('welcome', 'welcome to '+room);
+  })
+
+
 });
+
+
 
 var port = process.env.PORT || 3000;
 server.listen(port, function(){
