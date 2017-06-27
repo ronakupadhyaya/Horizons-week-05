@@ -47,9 +47,25 @@ mongoose.Promise = Promise;
 app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
+  // axios.get('./').then()
+
   var movies = require('./movies.json');
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+  var promises = movies.map(function(Objects){
+    var newMovie = new Movie ({
+      title: Objects.title,
+      url: Objects.url,
+      photo: Objects.photo,
+      year: Objects.year,
+      rating: Objects.rating
+    });
+    console.log(newMovie)
+    return newMovie.save();
+  });
+  return Promise.all(promises).then(function(){
+    res.redirect('/');
+  }
+  );
 });
 
 var port = process.env.PORT || 3000;
