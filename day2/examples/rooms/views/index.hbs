@@ -1,13 +1,49 @@
-<p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
-<br /> <br /> 
-<button>Poke!</button>
-
+<p id="title">Welcome! Select a Room to join.</p>
+<button id="join1" name="room1">Join Room 1</button>
+<button id="join2" name="room2">Join Room 2</button>
+<div id="poke">
+  <br /> <br />
+  <p> Poke this Room </p>
+  <button id="poke_button">Poke!</button>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
+  //hide poke button initially
+  $('#poke').hide();
+
+  //connect to socket
   var socket = io();
   socket.on('connect', function() {
     console.log('Connected!');
+  });
+  // join room based on buttons. show poke button:
+  $('#join1').on('click', function() {
+    var room = "Room 1";
+    console.log("button pressed for room: ", room);
+    socket.emit('join', room);
+    $('#poke').show();
+    $('#poke p').text('Poke '+room);
+  });
+  $('#join2').on('click', function() {
+    var room = "Room 2";
+    console.log("button pressed for room: ", room);
+    socket.emit('join', room);
+    $('#poke').show();
+    $('#poke p').text('Poke '+room);
+  });
+  //receive welcome from joining room
+  socket.on('joinedRoom', function(room) {
+    console.log('reaches welcome');
+    $('#title').text('Welcome to '+room);
+  });
+  //poke room
+  $('#poke_button').on('click', function() {
+    console.log('pressed poke button');
+    socket.emit('poke');
+  });
+  //receive poke to room
+  socket.on('poked', function(pokeMsg) {
+    $('#title').text(pokeMsg);
   });
 </script>

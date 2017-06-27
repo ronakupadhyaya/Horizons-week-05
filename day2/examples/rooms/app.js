@@ -21,6 +21,19 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  //receive join room from browser; send welcome back to browser
+  socket.on('join', function(room) {
+    socket.join(room);
+    socket.room = room;
+    console.log('client joined: '+socket.room);
+    socket.emit('joinedRoom', room);
+  });
+  //receive poke
+  socket.on('poke', function() {
+    console.log('client poked: '+socket.room);
+    var pokeMsg = socket.room+" has been poked!";
+    io.to(socket.room).emit('poked', pokeMsg);
+  });
 });
 
 var port = process.env.PORT || 3000;
