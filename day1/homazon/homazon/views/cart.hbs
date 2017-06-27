@@ -6,11 +6,13 @@
       <tr>
         <th></th>
       </tr>
-      {{#each products}}
+      {{#each cart}}
       <h1>{{title}}</h1>
         <td>
           <img height="64" src="{{imageUri}}">
-          <a href="/cart">Add another</a>
+          <form action="/cart/add/{{_id}}" method="post">
+          <button type='submit' class='btn btn-purchase'>Add Another</button>
+         </form>
           <a href="/cart">Remove</a>
           <td>{{price}}</td>
         </td>

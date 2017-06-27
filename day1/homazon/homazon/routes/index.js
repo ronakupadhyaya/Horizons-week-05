@@ -110,35 +110,93 @@ router.get('/product/:id', (req, res, next) => {
 
 /*Get: renders new page with our cart */
 router.get('/cart', (req, res, next)=> {
-  res.render('cart');
+  console.log(req.session.cart);
+  res.render('cart', {
+    cart: req.session.cart
+  });
 
 });
 
 /*Post: add cart 7>==*/
+// router.get('/cart/add/:pid', (req, res)=> {
+//   Product.findById(req.params.pid, function(err, foundProduct){
+//     // console.log('hi');
+//     console.log(foundProduct);
+//       res.render('cart', {
+//         foundProduct: foundProduct
+//       })
+//     })
+//   });
+
 router.post('/cart/add/:pid', (req, res, next) => {
   var id = req.params.pid;
-  req.session.cart =[];
+  // Product.findById(id)
+  //        .exec()
+  //        .then((foundProduct) => {
+  //          if(!req.session.cart){
+  //            req.session.cart = [];
+  //          }
+  //          req.session.cart.push(foundProduct)
+  //          res.redirect('/cart')
+  //        })
+  Product.findById(id, function(err, foundProduct){
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(foundProduct);
+      // if(req.session.cart.length === 0 ) {
+      if(!req.session.cart) {
+        req.session.cart =[];
+      }
+        req.session.cart.push(foundProduct);
+        // }
+        console.log("CART + " + req.session.cart);
+        // res.render('cart', {
+        //   foundProduct: foundProduct
+        // })
+        res.redirect('/cart');
 
-  Product.findById(id, function(err, added){
-    if(req.session.cart.length === 0 ) {
-      req.session.cart.push(added);
     }
-    console.log(req.session.cart);
-    res.redirect('/cart');
+
   })
   // Insert code that takes a product id (pid), finds that product
   // and inserts it into the cart array. Remember, we want to insert
   // the entire object into the array...not just the pid.
 });
 
-router.delete('/cart/delete/:pid', (req, res, next) => {
+router.post('/cart/delete/:pid', (req, res, next) => {
+  var id = req.params.pid;
+  req.session.cart =[];
+
+  Product.findById(id, function(err, foundProduct){
+    if(err) {
+      console.log(err);
+    } else {
+      console.log(foundProduct);
+      // if(req.session.cart.length === 0 ) {
+      if(!req.session.cart) {
+        req.session.cart =[];
+      }
+        req.session.cart.push(foundProduct);
+        // }
+        console.log("CART + " + req.session.cart);
+        // res.render('cart', {
+        //   foundProduct: foundProduct
+        // })
+        res.redirect('/cart');
+
+    }
+
+  })
   // Insert code that takes a product id (pid), finds that product
   // and removes it from the cart array. Remember that you need to use
   // the .equals method to compare Mongoose ObjectIDs.
 });
 
-router.delete('/cart/delete', (req, res, next) => {
+router.post('/cart/delete', (req, res, next) => {
   // Empty the cart array
+  req.session.cart = [];
+  res.redirect('/cart');
 });
 
 // module.exports = router;
