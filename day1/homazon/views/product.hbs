@@ -1,0 +1,7 @@
+<a class="btn btn-default" href="/logout">Log out</a>
+<div class="product" action="/cart" method="post" style="border:1px solid black; padding:20px">
+  <h3>{{product.title}}</h3>
+  <img src="{{product.imageUri}}" alt="{{product.title}}" style="width:300px">
+  <p style="margin:20px">{{product.description}}</p>
+  <button type="submit" name="button" style="clear:both;" action="/cart/add/{{product._id}}">Add to Cart</button>
+</div>

@@ -1,0 +1,10 @@
+<div class="list-group">
+  {{#each products}}
+  <a href="/product/{{_id}}" class="list-group-item">
+    <h3 class="list-group-item-heading">{{title}}</h3>
+    <p class="list-group-item-text">{{description}}</p>
+    <img src="{{imageUri}}" alt="{{title}}" style="width:200px">
+  </a>
+  {{/each}}
+</div>
+<a class="btn btn-default" href="/logout">Log out</a>
