@@ -1,0 +1,17 @@
+<div class="container-fluid" style="width:50%">
+<h2>Products!</h2>
+{{#each pArray}}
+<div class="card">
+  <div class="card-block">
+    <img class="card-img-top" src="{{imageUri}}" alt="Card image cap" style="width:30%">
+    <h4 class="card-title">{{title}}</h4>
+    <p class="card-text">{{description}}</p>
+    <form method="post" action="/cart/add/{{_id}}">
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+  </form>
+  </div>
+</div>
+{{/each}}
+<a href='/logout' role='button' class='btn btn-danger'> Logout</a>
+<a href='/cart' role='button' class='btn btn-success'> Go to Cart!</a>
+</div>
