@@ -12,11 +12,19 @@ app.use(express.static('public'));
 //THIS socket is a very specific socket that represents the client
 io.on('connection', function(socket){
 	socket.on('message', function(msg){
-		console.log(msg)
-		//only works for that specific socket
-		//socket.emit('serverMessage', 'Server received your message: ' + msg)
-		//io makes it so that every socket get it
-		io.emit('serverMessage','Server received your message: ' + msg)
+		if(!socket.username){
+			socket.username = msg;
+			//everyone but the one that emitted the event
+			socket.broadcast.emit('joinedroom', socket.username)
+		} else{
+			//only works for that specific socket
+			//socket.emit('serverMessage', 'Server received your message: ' + msg)
+			//io makes it so that every socket get it
+			io.emit('serverMessage', socket.username + ' said: ' + msg)
+		}
+		
+
+		
 	})
 })
 

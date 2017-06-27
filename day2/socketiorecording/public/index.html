@@ -11,6 +11,8 @@
 <body>
 	<input id="message" type="text" name="">
 	<button id="send"> Send message </button>
+	<ul id='messagesList'> 
+	</ul>
 </body>
 <script type='text/javascript'>
 	var socket = io('localhost:3000')
@@ -21,7 +23,12 @@
 	})
 
 	socket.on('serverMessage', function(serverMsg){
-		$('body').append(serverMsg)
+		$('#messagesList').append('<li>' +serverMsg + '</li>')
 	})
+
+	socket.on('joinedroom',function(newUsername){
+		//console.log("HI")
+    	$('#messagesList').append('</li style="color: red">' + newUsername + 'has joined the room. </li>')
+ 	})
 </script>
 </html>

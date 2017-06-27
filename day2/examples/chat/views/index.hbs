@@ -11,14 +11,56 @@
       
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+
+      <h5> Set Username </h5>
+      <input id = 'username' class="inline typebox" type="text" placeholder="Enter a username">
+      <button id="submit" class="inline submitbutton">Submit</button>
     </div>
     <div class="col-md-6 box">
-      <div class="textbox">
+      <div id='textbox' class="textbox">
+        <ul id='chatbox'> 
+
+        </ul>
       </div>
       <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
+        <input id = 'typebox' class="inline typebox" type="text" placeholder="Say Something...">
+        <button id="sendButton" class="inline submitbutton">Send</button>
       </div>
     </div>
   </div>
 </section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io('localhost:3000');
+  socket.on('connect', function() {
+    console.log('Connected!');
+  });
+
+  $('#sendButton').click(function(){
+    var msg = $('#typebox').val()
+    $('#typebox').val('')
+    socket.emit('message',msg)
+  })
+
+  $('#submit').click(function(){
+    var username = $('#username').val();
+    $('#username').val('');
+    $('#chatbox').append('<ul style="color: green"> Welcome to the chatroom </ul>')
+    socket.emit('username',username)
+  })
+
+
+
+  socket.on('serverMessage',function(serverMsg){
+    $('#chatbox').append('<ul>' + serverMsg + '</ul>')
+  })
+
+  socket.on('joinedroom',function(newUsername){
+    //console.log("HI")
+    $('#chatbox').append('<ul style="color: green">' + newUsername + 'has joined the room. </ul>')
+  })
+
+
+
+</script>
