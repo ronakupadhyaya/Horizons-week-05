@@ -5,6 +5,8 @@ Today we will be making a Tic Tac Toe game in React - the "Hello World" equivale
 1. A status text reflecting the state of the Game
 1. A history panel that allows for (pseudo) time travel
 
+There are a lot of code samples to guide you along. Treat them as if they were solutions - **Try your best NOT to look at them unless you've spent some time thinking about the problem**.
+
 Sections:
 1. [Install React Development Tools](#part-1-install-react-development-tools)
 1. [The Square Component](#part-2-the-square-component)
@@ -29,6 +31,8 @@ We will be using [this codepen](https://codepen.io/josephch405/pen/RVdPQw) for t
 Before we begin our board should look like this:
 
 ![](./img/img1.png)
+
+Note that we've already created several components for you beforehand. Read over them carefully and make sure you understand what is being rendered, and how.
 
 ## Part 2: The Square Component
 ### Goal
@@ -137,11 +141,11 @@ We want to design a React component called Square - it represents a "grid" in ou
 
 We now need to check if one player has won the game, and alternate placing X and O in the squares. To check if someone has won, we'll need to have the value of all 9 squares in one place, rather than split up across the Square components. The best solution here is to store this state in the Board component instead of in each Square.
 
-When you want to **aggregate data** from multiple children or to have two child components communicate with each other, **move the state upwards** so that it **lives in the parent component**. The parent can then pass the state back down to the children via props, so that the child components are always in sync with each other and with the parent.
+When you want to **aggregate data** from multiple children or to have two child components communicate with each other, **move the state upwards** so that it **lives in the parent component**. The parent can then pass the state back down to the children via props, so that the children are always in sync with the parent.
 
 ### Steps
 
-1. Add a constructor to the Board and set its initial state to contain an array with 9 nulls, corresponding to the 9 squares:
+1. Add a constructor to the Board and set its initial state to contain an array with 9 nulls, corresponding to the 9 squares (note - just use a one-dimensional array for this! Nested arrays may come later.):
 
     <details>
       <summary>Show Code</summary>
