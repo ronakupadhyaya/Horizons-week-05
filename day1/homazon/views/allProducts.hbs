@@ -1,0 +1,23 @@
+<h1>All Products</h1>
+<a href="/cart"><h3>View Cart</h3> </a> 
+
+{{#each products}}
+<a href="/product/{{_id}}">
+<div class="row" style="border: 1px solid black !important; border-left: none">
+  <div class="col-xs-2">
+    <br>
+    {{title}}
+  </div>
+  <div class="col-xs-2" style="border-right: 1px solid black">
+    <br>
+    <img height="64" src="{{imageUri}}" alt="">
+  </div>
+  <div class="col-xs-8">
+    <br>
+    <p>{{description}}</p>
+  </div>
+
+</div>
+</a>
+<br>
+{{/each}}

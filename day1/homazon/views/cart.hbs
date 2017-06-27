@@ -1,0 +1,33 @@
+<h1>Shopping Cart</h1>
+<a href="/"><h3>Back to Products</h3></a>
+
+{{#each products}}
+<div class="row" style="border: 1px solid black !important; border-left: none">
+  <div class="col-xs-2">
+    <br>
+    {{title}}
+  </div>
+  <div class="col-xs-2" style="border-right: 1px solid black">
+    <br>
+    <img height="64" src="{{imageUri}}" alt="">
+  </div>
+  <div class="col-xs-2">
+    <br>
+    <form class="" action="/cart/add/{{_id}}" method="post">
+      <input type="submit" name="" value="Add another">
+    </form>
+  </div>
+  <div class="col-xs-2">
+    <br>
+    <form class="" action="/cart/delete/{{_id}}" method="post">
+      <input type="submit" name="" value="Remove">
+    </form>
+  </div>
+  <div class="col-xs-2">
+    <br>
+    <p>Quantity: {{count}}</p>
+  </div>
+
+</div>
+<br>
+{{/each}}

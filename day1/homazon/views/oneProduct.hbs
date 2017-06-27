@@ -1,0 +1,9 @@
+<a href="/"><h3>Back to all products</h3></a>
+<h1 style="text-align: center">{{product.title}}</h1>
+
+<img src="{{product.imageUri}}" height="200" alt="" class="col-xs-4 col-xs-offset-4"> <br>
+<p class="col-xs-6 col-xs-offset-3">{{product.description}}</p>
+<br>
+<form class="" action="/cart/add/{{product._id}}" method="post">
+  <input type="submit" name="" value="Add to Cart">
+</form>
