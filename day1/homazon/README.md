@@ -270,11 +270,11 @@ You will need to create your own script to seed the database.
 <summary>Hint</summary>
 
 ```javascript
-import products from '../../seed/product.json'
+import products from '../seed/products.json'
 var productPromises = products.map((product) => (new Product(product).save()));
 Promise.all(productPromises)
-  .then(() => (console.log('Success. Created products!'))
-  .catch(err) => (console.log('Error', err))
+  .then(() => console.log('Success. Created products!'))
+  .catch((err) => console.log('Error', err))
 ```
 </details>
 
@@ -469,7 +469,7 @@ or Amex Express Checkout.
       stripeExpYear: Number,
       stripeLast4: Number,
       stripeSource: String,
-      status: Number,
+      status: String,
       // Any other data you passed into the form
       _userid: mongoose.Schema.Types.ObjectId
     ```
@@ -491,7 +491,6 @@ flow should only do two things:
     - the associated payment info
     - the associated shipping info
     - order status
-    - the subtotal
     - the total
 
 1. Display a page to the user thanking them for their order and detailing the order. It should look like [this](https://docs.google.com/presentation/d/1SPSF6WFG3i7gtIwgQY2ZcuvqI8HJXfera8dbDRdrUQE/edit#slide=id.g1f8499baa2_0_354)
