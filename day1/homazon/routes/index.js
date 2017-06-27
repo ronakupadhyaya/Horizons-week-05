@@ -136,7 +136,6 @@ router.post('/checkout', (req,res,next) => {
   }).then(function(charge) {
     console.log("ccharge completed?");
     return new Payment({
-      amount: total,
       email: charge.source.name,
       stripeBrand: charge.source.brand,
       stripeCustomerId: charge.customer,
@@ -157,8 +156,8 @@ router.post('/checkout', (req,res,next) => {
       payment: savedpayment._id,
       shipping: "",
       status: savedpayment.status,
-      subtotal: savedpayment.amount,
-      total: savedpayment.amount
+      subtotal: totalfloat,
+      total: totalfloat
     }).save();
   }).then(function(order){
     console.log(order);

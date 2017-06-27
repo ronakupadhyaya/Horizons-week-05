@@ -37,10 +37,6 @@ var productSchema = mongoose.Schema({
 });
 
 var paymentSchema = mongoose.Schema({
-  amount: {
-    type: Number,
-    required: true
-  },
   stripeBrand: {
     type: String,
     required: true

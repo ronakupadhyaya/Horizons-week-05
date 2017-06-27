@@ -16,23 +16,32 @@
 
 <div class="cart-container">
 
+    <div class="cart-header">
+      <div class="item-info">
+        Item
+      </div>
+      <div class="item-quantity">
+        Quantity
+      </div>
+      <div class="item-price">
+        Price
+      </div>
+    </div>
+
   {{#each cartitems}}
   <div class="cart-item">
 
     <div class="item-info">
-
+      <img src="{{this.imageUri}}" alt="" class="product-img">
+      <a href="/product/{{this._id}}"> {{this.title}}</a>
     </div>
-    <img src="{{this.imageUri}}" alt="" class="product-img">
-    <a href="/product/{{this._id}}">View product detail</a>
-    <p>{{this.title}}</p>
-    <p>{{this.description}}</p>
-    <p>{{this.price}}</p>
-    <form action="/cart/delete/{{this._id}}" method="post">
-
-      <input type="submit" value="Remove from cart" />
-    </form>
+    <div class="item-quantity">
+      <form action="/cart/delete/{{this._id}}" method="post">
+        <input type="submit" value="Remove from cart" />
+      </form>
+    </div>
     <div class="item-price">
-
+      ${{this.price}}
     </div>
   </div>
 

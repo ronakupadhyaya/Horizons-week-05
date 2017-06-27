@@ -11,6 +11,18 @@ a {
   display: flex;
   flex-direction: column;
 }
+.cart-header{
+  display: flex;
+  flex:1;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid black;
+}
+
 
 .product-img {
   width: 50px;
@@ -19,6 +31,25 @@ a {
 .product-item, .cart-item{
   flex:1;
   padding: 10px;
-  margin: 20px;
-  border: 1px solid black;
+  margin-right: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid black;
+  display: flex;
+  height: 10%;
+  flex-direction: row;
+}
+
+.item-info{
+  /*flex: 1;*/
+  width: 40%;
+  }
+.item-quantity{
+  /*flex: 1;*/
+  width: 30%;
+  }
+.item-price{
+  /*flex: 1;*/
+  width: 30%;
+  text-align: right;
 }
