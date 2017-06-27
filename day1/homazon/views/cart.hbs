@@ -1,0 +1,54 @@
+<h1>Shopping Cart</h1>
+
+<div id="products" class="container-fluid">
+  {{#each cart}}
+  <div class="product row">
+    <div class="col-xs-12">
+      <img src={{this.imageUri}} alt="product image" />
+    </div><div class="col-xs-12">
+      <h3><a href="/product/{{this._id}}">{{this.title}}</a></h3>
+    </div><div class="col-xs-12">
+      <h5>{{this.description}}</h5>
+    </div><form class="col-xs-12" action="/cart/delete/{{this._id}}" method="POST">
+      <button class="btn btn-danger" type="submit">Delete This Item</button>
+    </form>
+  </div>
+  {{/each}}
+  <form class="col-xs-12" action="/cart/delete" method="POST">
+    <button class="btn btn-danger" type="submit">Delete Whole Cart</button>
+  </form>
+
+
+  <div class="col-xs-12">
+    <a href="/home" class="btn btn-default" type="button">Back to Products</a>
+  </div>
+</div>
+<style>
+  #products {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .product {
+    /*display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;*/
+    width: 300px;
+    border-radius: 5px;
+    border: 3px double #d9534f;
+    margin: 15px;
+    padding: 10px;
+  }
+  .product * {
+    flex: 1;
+    padding: 2px;
+  }
+  .product img {
+    flex-basis: none;
+    width: 100%;
+  }
+  #card-element input{
+    margin-bottom: 5px;
+  }
+</style>

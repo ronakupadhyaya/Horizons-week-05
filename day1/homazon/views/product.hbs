@@ -1,0 +1,17 @@
+<h1>Product: {{product.title}}</h1> <br>
+
+<div class="project-single">
+  <img src="{{product.imageUri}}" style="width:25%;height:25%;">
+  <h3 id="{{product._id}}"></h3><br>
+  <p>Description: {{product.description}} </p><br><br>
+</div>
+<button id="view"><a href="/home">View more projects</a></button>
+<!-- <button id="view2"><a href="/cart">Add to cart</a></button> -->
+<div class="form-group">
+  <form action="/cart/add/{{product._id}}" method="POST">
+    <input name="quantity" type="hidden" value="1" />
+    <input name="product_id" type="hidden" value="91801160" />
+    <input name="product_name" type="hidden" value="Red Hat" />
+    <button class="add-button" type="submit">Add to Cart!</button>
+  </form>
+</div>
