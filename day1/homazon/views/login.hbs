@@ -1,0 +1,48 @@
+<div class="form-container">
+  <form method="POST" style="max-width: 500px; margin: auto; border: 0.5px solid gray; padding: 30px 30px 30px 30px; background-color: white">
+    <h3>Login</h3>
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" name="username" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" name="password" class="form-control">
+    </div>
+    <div class="form-group">
+      <div class="button_box">
+        <div class="login_signup">
+          <a class="btn btn-default login" href='/signup'>Sign-Up</a>
+          <button class="btn btn-default login">Login</button>
+        </div>
+        <a class="btn btn-primary social" href='/fb/login'>Login with Facebook</a>
+        <a class="btn btn-primary social" href='/tw/login'>Login with Twitter</a>
+      </div>
+  </div>
+  </form>
+</div>
+
+<style>
+
+body {
+  background-color: #abdeff
+}
+
+.button_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 35px
+}
+
+.login {
+  width: 100px
+}
+
+.social {
+  width: 200px;
+  margin-top: 10px
+}
+
+</style>

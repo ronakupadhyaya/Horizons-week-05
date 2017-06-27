@@ -1,0 +1,131 @@
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <span class="profile_image"><img src="{{profile}}"/></span>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" id="navbar-brand" href="#">Welcome to Horamazon {{user}}</a>
+    </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href='/products'>All Products</a></li>
+        <li><a href='/cart'>Cart</a></li>
+        <a class="btn btn-default logout_button" href='/logout'>Logout</a>
+
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="wrapper">
+  <div class="center_page">
+    <div class="contact_container">
+      <div class="name_containers">
+        <span class="profile_image"><img id="productimage" src="{{product.imageUri}}"/></span>
+      <b>{{product.title}} (${{product.price}})</b>
+      </div>
+
+        <a class="btn btn-default main_function" href='/addtocart/{{product.id}}'>Add to Cart</a>
+
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+<style>
+
+body {
+background-color: #abdeff
+}
+
+.header {
+display: flex;
+width: 100%;
+justify-content: space-between;
+align-items: center;
+padding: 10px;
+}
+
+.wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: column;
+}
+
+.contact_container {
+font-size: 14pt;
+background-color: white;
+display: flex;
+align-items: center;
+padding: 10px;
+margin: 20px
+}
+
+.center_page{
+width: 80%;
+}
+
+.name_containers {
+flex: 2;
+padding-left: 20px
+}
+
+.button_containers {
+flex: 4;
+}
+
+/*.wrapper {
+align: center;
+display: flex;
+width: 60%;
+justify-content: center;
+align-items: center;
+padding: 10px
+}*/
+
+.footer {
+display: flex;
+width: 100%;
+justify-content: center;
+align-items: center;
+padding: 10px
+}
+
+.main_function {
+margin: 15px;
+width: 150px;
+}
+
+.bottom_function {
+margin: 15px
+}
+
+.logout_button {
+margin-top: 8px;
+margin-right: 10px
+}
+
+.profile_image {
+float: left
+}
+
+#navbar-brand {
+margin-left: 0
+}
+
+#dropdownextra {
+margin-top: 23px
+}
+
+#productimage {
+width: 200px
+}
+</style>
