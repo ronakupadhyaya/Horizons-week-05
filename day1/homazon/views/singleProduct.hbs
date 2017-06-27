@@ -1,0 +1,10 @@
+<img src="{{product.imageUri}}" alt="" class="product-img">
+<p>{{product.title}}</p>
+<p>{{product.description}}</p>
+<p>{{product.price}}</p>
+
+<a href="/">Back to all products</a>
+<form action="/cart/add/{{product._id}}" method="post">
+    <input type="submit" value="Add to cart" />
+</form>
+<!-- <a href="/cart/add/{{product._id}}">Back to all products</a> -->

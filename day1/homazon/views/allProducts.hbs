@@ -1,0 +1,22 @@
+<h1>All Products</h1>
+<h2>You have {{cartitems.length}} items in your cart</h2>
+<a href="/cart">View cart</a>
+
+<div class="product-container">
+
+  {{#each products}}
+
+  <div class="product-item" style="border: 1px solid black; margin: 20px">
+
+    <img src="{{this.imageUri}}" alt="" class="product-img">
+
+
+    <a href="/product/{{this._id}}">{{this.title}}</a>
+    <p>Price: {{this.price}}</p>
+    <form action="/cart/add/{{this._id}}" method="post">
+        <input type="submit" value="Add to cart" />
+    </form>
+  </div>
+
+  {{/each}}
+</div>

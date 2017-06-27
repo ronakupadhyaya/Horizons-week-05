@@ -1,0 +1,65 @@
+<h1>Your cart</h1>
+  <!-- <a href="/cart/delete">Remove all items</a> -->
+
+
+
+
+
+
+
+
+
+  <form action="/cart/delete" method="post">
+      <input type="submit" value="Remove all items" />
+  </form>
+
+
+<div class="cart-container">
+
+  {{#each cartitems}}
+  <div class="cart-item">
+
+    <div class="item-info">
+
+    </div>
+    <img src="{{this.imageUri}}" alt="" class="product-img">
+    <a href="/product/{{this._id}}">View product detail</a>
+    <p>{{this.title}}</p>
+    <p>{{this.description}}</p>
+    <p>{{this.price}}</p>
+    <form action="/cart/delete/{{this._id}}" method="post">
+
+      <input type="submit" value="Remove from cart" />
+    </form>
+    <div class="item-price">
+
+    </div>
+  </div>
+
+  {{/each}}
+
+  Cart total is: ${{cart_sum}}
+</div>
+
+
+
+<form action="/checkout" method="POST">
+  <input type="text" name="name" placeholder="Name">
+
+  <!-- <input type="text" name="stripeToken" placeholder="Stripe Token"> -->
+  <!-- <input type="text" name="stripeEmail" placeholder="Stripe Email"> -->
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{publish_key}}"
+    data-amount="{{amount}}"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+
+
+
+
+<a href="/">Back to all products</a>

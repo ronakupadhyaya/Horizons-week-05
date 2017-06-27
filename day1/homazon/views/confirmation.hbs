@@ -1,0 +1,9 @@
+<a href="/">Back to all products</a>
+<h1>Thanks for your order, {{order.user.username}}</h1>
+<p>Order id: {{order.payment._id}}</p>
+<p>Total: {{order.total}}</p>
+
+
+<h2>Credit Card info</h2>
+<p>Last 4 digits: {{order.payment.stripeLast4}}</p>
+<p>Expiration date: {{order.payment.stripeExpMonth}}/{{order.payment.stripeExpYear}}</p>
