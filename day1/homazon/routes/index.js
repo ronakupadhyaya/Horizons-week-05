@@ -109,7 +109,7 @@ router.post('/billing', (req, res, next) => {
 
   // Create a Customer:
   stripe.customers.create({
-    email: req.body.strip,
+    email: req.body.stripeEmail,
     source: token,
   }).then(function(customer) {
     // YOUR CODE: Save the customer ID and other info in a database for later.
