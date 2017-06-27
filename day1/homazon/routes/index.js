@@ -28,9 +28,13 @@ router.get('/', function(req, res, next) {
 		res.redirect('/login')
 	}
 	console.log('here')
+
+	var user = req.user
+	console.log(user)
   Product.find().exec().then((prod)=>{
 		res.render('product',{
-			product: prod
+			product: prod,
+			user: user.username
 		})
 	})
 });
@@ -85,7 +89,14 @@ router.get('/new',function(req,res){
 })
 
 router.post('/new',function(req,res){
+		var newProd = new Product({
+			title: req.body.title,
+			description: req.body.description,
+			imageURL: req.body.url
+		})
+		newProd.save(function(err){
 		res.redirect('/')
+		})
 })
 
 router.get('/product/:pid',function(req,res){
