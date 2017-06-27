@@ -1,0 +1,27 @@
+<div class="top-container">
+    <a href="/login" class="btn btn-primary">Login</a>
+</div>
+
+<form method="post">
+    <h2>Register</h2>
+    <div class="form-group">
+        <input type="text" name='username' placeholder="Username" required>
+    </div>
+    <div class="form-group">
+        <input id='pas' type="password" name="password" placeholder="Password" required>
+    </div>
+    <div class="form-group">
+        <input id="repas" type="password" name="repeat-password" placeholder="Retype Password">
+    </div>
+    <div class="form-group">
+        <button id="submit-button" class="btn btn-info" type="submit">Register</button>
+    </div>
+</form>
+
+<script>
+    $('#submit-button').click((event) => {
+        if ($('#pas').val() !== $('#repas').val()){
+            event.preventDefault()
+        }
+    })
+</script>

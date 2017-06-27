@@ -1,0 +1,38 @@
+<a href="/logout" class="btn btn-default">Logout</a>
+<a href="/cart" class="btn btn-default">Cart</a>
+
+<h2>Products:</h2>
+
+{{#each products}}
+<div class="product-box">
+    <img src="{{this.imageUri}}" height="10%" width="10%">
+    <a class="btn btn-primary" href="/product/{{this.id}}">View</a>
+    <a class="btn btn-primary" href="/cart/add/{{this.id}}">Add to Cart</a>    
+    <div class="information">
+        <strong>{{this.title}}</strong>
+        <p>{{this.description}}</p>
+    </div>
+</div><br> {{/each}}
+
+<style>
+    .product-box {
+        text-align: left;
+        clear: left;
+        border-top: solid black 3px;
+        border-left: solid lightgrey 3px;
+    }
+
+    .information {
+        margin-top: 5px;
+    }
+
+    img {
+        float: left;
+        margin-right: 20px
+    }
+
+    a {
+        margin-top: 5px;
+        float: right;
+    }
+</style>

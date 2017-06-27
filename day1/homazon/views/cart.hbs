@@ -1,0 +1,51 @@
+<a href="/" class="btn btn-default">Back</a>
+<a class="btn btn-primary" href="/cart/delete">Empty Cart</a> 
+
+<h2>Cart:</h2>
+
+{{#each products}}
+<div class="product-box">
+    <img src="{{this.imageUri}}" height="10%" width="10%">
+    <a class="btn btn-primary" href="/product/{{this._id}}">View</a>
+    <a class="btn btn-primary" href="/cart/delete/{{this._id}}">Remove from Cart</a>
+    <div class="information">
+        <strong>{{this.title}}</strong>
+        <p>{{this.description}}</p>
+    </div>
+</div><br> {{/each}}
+
+<form action="/payment" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{push}}"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+
+<style>
+    .product-box {
+        text-align: left;
+        clear: left;
+        border-top: solid black 3px;
+        border-left: solid lightgrey 3px;
+    }
+
+    .information {
+        margin-top: 5px;
+    }
+
+    img {
+        float: left;
+        margin-right: 20px
+    }
+
+    a {
+        margin-top: 5px;
+        float: right;
+    }
+</style>
