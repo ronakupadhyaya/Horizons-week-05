@@ -1,4 +1,4 @@
-var express = require('express');
+import express from 'express';
 var app = express();
 
 ['MONGODB_URI'].map(k => {
@@ -48,6 +48,10 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+  var arr = movies.map(function(movie){
+    return new Movie(movie).save();
+  });
+  Promise.all(arr);
   // Do this redirect AFTER all the movies have been saved to MongoDB!
   res.redirect('/');
 });

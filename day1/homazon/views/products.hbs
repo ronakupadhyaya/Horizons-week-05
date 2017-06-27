@@ -1,0 +1,6 @@
+<h3> Products </h3>
+<ul>
+{{#each products}}
+  <li><a href='/products/{{this._id}}'> {{this.title}}</a>, ${{this.price}}</li>
+{{/each}}
+</ul>
