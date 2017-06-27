@@ -1,23 +1,32 @@
-{{# if product }}
-
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 <center>
-<div class='jumbotron' style="margin: 5% 20% 5% 20%">
-<h2 class="display-3">{{product.title}}</h2>
-<p class="lead" style="margin: 20px">{{product.description}}</p>
-<hr class="my-4">
-<div><img src="{{product.imageUri}}" style="max-width: 300px; width:50%; margin-bottom: 25px"></div>
-</div>
+  <img src="/images/logo.png" style="width: 50%">
+  <h1 style="margin: 20px;"> Your Shopping Cart </h1>
+</center>
+
+
+
+{{# if product }}
+
+<center>
+	<div class='jumbotron' style="margin: 5% 20% 2% 20%; border-radius: 15px;">
+		<h2 class="display-3">{{product.title}}</h2>
+		<p class="lead" style="margin: 20px">{{product.description}}</p>
+		<hr class="my-4">
+		<div><img src="{{product.imageUri}}" style="max-width: 300px; width:50%; margin-bottom: 25px"></div>
+	</div>
 </center>
 
 
 {{ else }}
 <center>
-  <div class='jumbotron' style="margin: 5% 20% 5% 20%">
-    <h2 class="display-3">Your shopping cart is empty</h2>
-    <p class="lead">Add items to your cart</p>
-    <hr class="my-4">
-    <a class="btn btn-danger btn-lg" href="/" role="button">View all items</a>
-  </div>
+	<div class='jumbotron' style="margin: 5% 20% 5% 20%">
+		<h2 class="display-3">Your shopping cart is empty</h2>
+		<p class="lead">Add items to your cart</p>
+		<hr class="my-4">
+		<a class="btn btn-danger btn-lg" href="/" role="button">View all items</a>
+	</div>
 </center>
 {{/if}}

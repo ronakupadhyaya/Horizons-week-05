@@ -35,6 +35,7 @@ export default function(passport) {
 
   // POST Login page
   router.post('/login', passport.authenticate('local'), function(req, res) {
+    req.session.cart = [];
     res.redirect('/');
   });
 
