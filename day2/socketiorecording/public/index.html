@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> SOCKETIO Demo </title>
+	<!--requiring in socket io HERE allows you to use the io constructor in body of the script tag -->
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js'></script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'> </script>
+
+</head>
+
+<body>
+	<input id="message" type="text" name="">
+	<button id="send"> Send message </button>
+</body>
+<script type='text/javascript'>
+	var socket = io('localhost:3000')
+	$('#send').click(function(){
+		var msg = $('#message').val();
+		$('#message').val('')
+		socket.emit('message',msg)
+	})
+
+	socket.on('serverMessage', function(serverMsg){
+		$('body').append(serverMsg)
+	})
+</script>
+</html>
