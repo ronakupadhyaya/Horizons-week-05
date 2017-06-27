@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+    <h1>Products</h1>
+    <ul>
+    {{#each product}}
+    <li><h5 ><a href="/product/{{this._id}}">{{title}} {{_id}}</a></h5><br><img src="{{imageUri}}" alt=""></li>
+    {{/each}}
+    </ul>
+
+    </body>
+</html>
