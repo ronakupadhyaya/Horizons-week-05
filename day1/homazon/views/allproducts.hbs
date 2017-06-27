@@ -1,0 +1,27 @@
+<div id="products" class="row list-group">
+    {{#each allProducts}}
+    <div class="item  col-xs-4 col-lg-4">
+        <div class="thumbnail">
+            <img class="group list-group-image" height=100 width=100 src={{this.imageUri}} alt="" />
+            <div class="caption">
+                <h4 class="group inner list-group-item-heading">
+                    {{this.title}}</h4>
+                <p class="group inner list-group-item-text">
+                    {{this.description}}</p>
+                <div class="row">
+                    <div class="col-xs-12 col-md-6">
+                        <p class="lead">
+                            ${{this.price}}</p>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                        <a class="btn btn-success" href="/product/{{this._id}}">View this product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+
+
