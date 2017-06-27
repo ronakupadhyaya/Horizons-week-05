@@ -1,0 +1,4 @@
+Week 05: 
+
+Day 1: https://github.com/horizons-school-of-technology/week05/tree/master/day1/homazon
+	-Got up up to part 5 and I made the cart and put an item in it

@@ -1,0 +1,11 @@
+<h3>Congrats! You made it to the main page of Homazon</h3>
+<a href="/logout">Logout</a>
+
+{{#each products}}
+<br>
+<div>
+	<img src="{{imageUri}}" height="100" width="100"> <h5>{{title}}</h5>
+	<a href="/product/{{id}}"> View more about this product</a>
+</div>
+<br>
+{{/each}}
