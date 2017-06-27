@@ -1,0 +1,24 @@
+
+{{#if error}}
+  <div class="alert alert-danger" role="alert">
+    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+    <span class="sr-only">Error:</span>
+    {{error}}
+  </div>
+{{/if}}
+
+<a class="btn btn-danger" href="/logout">Logout</a>
+<div class="productPage">
+  <h3>Products</h3>
+  <table class="table table-hover">
+    <tbody>
+    {{#each products}}
+    <tr>
+      <td> <img width="200px" onclick="window.location.href='/product/{{_id}}'" src="{{imageUri}}" /> </td>
+      <td>{{title}}</td>
+      <td>{{description}}</td>
+    </tr>
+    {{/each}}
+    </tbody>
+  </table>
+</div>

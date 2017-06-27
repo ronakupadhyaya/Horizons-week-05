@@ -1,0 +1,47 @@
+/* YOUR STYLES HERE */
+body {
+
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+/*first view - login container */
+.login-container {
+  background-color: #d9d9f7;
+  height: 750px;
+  text-align: center;
+}
+.login-container h1 {
+  font-size: 80px;
+  font-family: 'Bowlby One', cursive;
+  text-align: center;
+  padding: 70px 50px 50px 50px;
+
+}
+.login-container h3 {
+  padding: 40px;
+  font-family: 'Cutive', serif;
+}
+
+.sent {
+  text-align: right;
+  color: #00B7FF;
+}
+
+.row {
+  margin: 20px 0 !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.oauth-buttons {
+  margin: 10px 0;
+}
+
+.twitter-thumbnail {
+  margin-right: 10px;
+}
