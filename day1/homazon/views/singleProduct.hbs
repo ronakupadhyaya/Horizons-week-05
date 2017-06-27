@@ -1,0 +1,8 @@
+<div>
+<h4>{{product.title}}</h4>
+<img src="{{product.imageUri}}" width="50" height="50"></img>
+<p>{{product.description}}</p>
+<form action="/cart/add/{{_id}}" method="post">
+  <input type="submit" value="Add to Cart">
+</form>
+</div>

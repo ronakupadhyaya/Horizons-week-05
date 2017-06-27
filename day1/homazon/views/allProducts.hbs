@@ -1,0 +1,10 @@
+{{#each products}}
+<div>
+<h4>{{title}}</h4>
+<img src="{{imageUri}}" width="50" height="50"></img>
+<p>{{description}}</p>
+<form action="/cart/add/{{_id}}" method="post">
+  <input type="submit" value="Add to Cart">
+</form>
+</div>
+{{/each}}

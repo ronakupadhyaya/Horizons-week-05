@@ -1,0 +1,31 @@
+<h1>Your Cart</h1>
+<h2>{{numberItems}} Items in Cart</h2>
+{{#each cartItems}}
+<div>
+<h4><a href="/product/{{_id}}">{{title}}</a></h4>
+<img src="{{imageUri}}" width="50" height="50"></img>
+<form action="/cart/delete/{{_id}}" method="post">
+  <input type="submit" value="Delete"></input>
+</form>
+</div>
+{{/each}}
+
+<form action="/cart/delete" method="post">
+<input type="submit" value="Empty Cart">
+</form>
+
+
+
+<form action="/your-server-side-code" method="POST">
+  <input type="text" name="email" placeholder="Email">
+  <input type="text" name="amount" placeholder="Total Amount">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="<PUBLISHABLE_KEY>"
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
