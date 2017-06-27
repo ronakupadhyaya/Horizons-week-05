@@ -7,7 +7,7 @@ to tie the values of two text input fields together in React.
 
 ## Instructions
 
-1. [Open CodePen for this exercise.](http://codepen.io/moose-horizons/pen/akyorq?editors=0010)
+1. [Open CodePen for this exercise.](https://codepen.io/rick-shar/pen/YQEWBP)
 1. There are two text input fields here. We want them to display the same data at all times.
 
   If you change one, the other one should change instantly.
@@ -32,7 +32,7 @@ question using React.
 FizzBuzz is a basic programming question asked in many interviews. It involves
 printing an increasing sequence of numbers and if statements in React.
 
-1. Open [this CodePen project](http://codepen.io/moose-horizons/pen/zBzQvK?editors=0010),
+1. Open [this CodePen project](https://codepen.io/rick-shar/pen/pwdbBL),
    fork it so you can save your work.
 1. Make `<FizzBuzz />` display a bulleted list (`<ul>`) of `n` numbers
    (n is a prop).
@@ -54,7 +54,7 @@ component lifecycle methods.
 
 ## Instructions
 
-1. [Open CodePen for this exercise.](http://codepen.io/moose-horizons/pen/QErWVq?editors=0010)
+1. [Open CodePen for this exercise.](https://codepen.io/rick-shar/pen/awVZrx)
 1. Implement the `update` function. This function should call `this.setState()`
    and update `this.state.secondsLeft` to be `(this.state.end - Date.now()) / 1000`.
 1. Implement the `componentDidMount` function. Use `setInterval()` to call
