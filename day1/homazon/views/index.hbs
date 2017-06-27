@@ -1,0 +1,14 @@
+<h2> Product </h2>
+{{#each Products}}
+
+<div class="all-prods">
+  <h3 class="display-4 title">{{this.title}}<h3>
+  <img src="{{this.imageUri}}" width="60%" alt="">
+  <!-- <p class="card-text">Descrition: skljadl</p> -->
+  <!-- <a href="/contacts" class="card-link">Back to Contacts</a> -->
+  <a href="/product/{{this._id}}" class="card-link">View Product</a>
+  <form method="POST" class="" action="/cart/add/{{this._id}}">
+      <button type="submit" class="btn">Add to cart</a>
+  </form>
+</div>
+{{/each}}

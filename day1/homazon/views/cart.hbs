@@ -1,0 +1,7 @@
+{{#each products}}
+<h3 class="display-4 title">Product: {{title}}<h3>
+  <p class="card text">Price: ${{price}}</p>
+  <form method="DELETE" class="" action="/cart/add/{{id}}">
+    <button type="submit" class="btn">Remove from cart</a>
+  </form>
+{{/each}}

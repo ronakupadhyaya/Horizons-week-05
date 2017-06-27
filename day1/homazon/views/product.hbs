@@ -1,0 +1,12 @@
+<div class="all-prods">
+  <h3 class="display-4 title">{{title}}<h3>
+  <img src="{{imageUri}}" width="60%" alt="">
+  <p class="card-text">Description: {{description}}</p>
+  <p class="card text">Price: ${{price}}</p>
+  <!-- <a href="/contacts" class="card-link">Back to Contacts</a> -->
+  <a href="/" class="card-link">Back to Products</a>
+  <form method="POST" class="" action="/cart/add/{{id}}">
+    <button type="submit" class="btn">Add to cart</a>
+  </form>
+
+</div>
