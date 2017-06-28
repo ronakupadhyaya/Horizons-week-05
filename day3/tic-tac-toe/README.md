@@ -36,6 +36,10 @@ This extension allows you to inspect React components, states, props, etc as you
 
 We will be using [this codepen](https://codepen.io/josephch405/pen/RVdPQw) for this exercise. The result is automatically compiled on the fly as you edit.
 
+<h3 style="border-bottom:none">Remember to click on the Fork button before typing any code or your changes will not be saved! You will need to sign up for a CodePen account, if you have not done so already.</h3>
+
+Ensure that you see **your username** on the top left, i.e. "A Pen by [username]", and not "A PEN BY Joseph Chuang"
+
 Before we begin our board should look like this:
 
 ![](./img/img1.png)
