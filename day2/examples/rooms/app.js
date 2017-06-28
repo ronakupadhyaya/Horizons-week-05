@@ -6,6 +6,28 @@ var app = require('express')();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
+//SET UP SOCKET CONNECTION
+
+io.on('connection', function(socket){
+  console.log('we have connected')
+
+  socket.on('join_room1', function() {
+    //Check if username, if so log msg
+
+      socket.join('room1')
+    io.to('room1').emit('joinedroom')
+
+  })
+
+//General poke response
+  socket.on('poke', function() {
+    io.emit('pokedAll', 'YOUVE BEEN POKED')
+  })
+
+
+
+})
+
 // Set View Engine
 app.engine('hbs', exphbs({
   extname: 'hbs',
