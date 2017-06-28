@@ -21,6 +21,7 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+   socket.join()
 });
 
 var port = process.env.PORT || 3000;
