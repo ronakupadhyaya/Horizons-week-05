@@ -1,12 +1,40 @@
 <p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
-<button>Poke!</button>
+<button id="r1">Join Room 1</button>
+<button id="r2">Join Room 2</button>
+<button id="poke">Poke!</button>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
   var socket = io();
+var room;
+
   socket.on('connect', function() {
     console.log('Connected!');
   });
+
+$("#r1").click(function(){
+room="r1";
+socket.emit("r1","r1");
+})
+
+$("#r2").click(function(){
+room="r2";
+socket.emit("r2","r2");
+})
+
+$("#poke").click(function(){
+socket.emit("poke",room);
+})
+
+socket.on('room',function(data){
+$("p").append('you are on room ' + data)
+})
+
+
+socket.on('message',function(data){
+$("p").append('message' + data)
+})
+
+
 </script>
