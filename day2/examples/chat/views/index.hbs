@@ -1,24 +1,77 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
+
   <div class="row">
     <div class="col-md-6 box">
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
+
       <h2>What is Socket.IO?</h2>
       <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
+
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+      <form class="col-xs-6 usernameSpot">
+        <div class="form-group">
+          <input class="form-control" type="text" id="usernameInput" name="username" placeholder="username">
+          <button class="btn btn-default" type="button" name="button" id="usernameSubmit">Submit username</button>
+        </div>
+      </form>
     </div>
-    <div class="col-md-6 box">
+    <div class="col-md-6 box spotHere">
+      <!-- <div class="btn-group">
+        <button type="button" class="btn btn-primary" id="room1">Chat room 1</button>
+        <button type="button" class="btn btn-primary" id="room2">Chat room 2</button>
+      </div> -->
+      <div class="welcomeBox">
+        <h3>
+        </h3>
+      </div>
       <div class="textbox">
       </div>
       <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
+        <input class="inline typebox" id="typebox" type="text" placeholder="Say Something...">
+        <button class="inline submitbutton btn btn-default" id="submitbutton">Send</button>
       </div>
     </div>
   </div>
 </section>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected!');
+  });
+  $('#usernameSubmit').click(function(){
+    username = $('#usernameInput').val();
+    if(!username){
+      alert('please enter a username')
+    } else {
+      $('#usernameInput').val('');
+      socket.emit('login', username);
+    }
+  });
+  socket.on('welcome', function(newUser){
+    $('.welcomeBox h3').text('Welcome to chat, ' + newUser);
+  });
+  $('#submitbutton').click(function(){
+      var msg = $('#typebox').val();
+      console.log(msg);
+      $('#typebox').val('');
+      socket.emit('message', msg);
+  });
+  socket.on('messageServer', function(msg){
+    $('.textbox').append(`<p>${msg}</p>`);
+  });
+  socket.on('nameChange', function(msg){
+    $('.textbox').append(`<p>${msg}</p>`);
+  });
+  // $('#room1').click(function(){
+  //
+  // })
+  // $('#room2').click(function(){
+  //
+  // })
+</script>
