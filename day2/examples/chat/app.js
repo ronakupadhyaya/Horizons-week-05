@@ -3,6 +3,8 @@ var path = require('path');
 var morgan = require('morgan');
 var exphbs = require('express-handlebars');
 var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
 // Set View Engine
 app.engine('hbs', exphbs({
@@ -21,7 +23,21 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+//socket
+io.on('connection', function(socket){
+    socket.on('login', function(username){
+        socket.username = username
+        console.log(socket.username);
+    })
+
+    socket.on('message', function(msg){
+        if (socket.username !== undefined) {
+            io.emit('serverMsg', socket.username + " said: "+  msg)
+        }
+     })
+ });
+
 var port = process.env.PORT || 3000;
-app.listen(port, function(){
+server.listen(port, function(){
   console.log('Express started. Listening on %s', port);
 });
