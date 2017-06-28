@@ -10,7 +10,10 @@ var userSchema = new mongoose.Schema({
 
 var productSchema = new mongoose.Schema({
   // price: Number,
-  title: String,
+  title: {
+    type: String,
+    unique: true
+  }
   imageUri: String,
   description: String
 })
