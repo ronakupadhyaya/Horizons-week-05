@@ -1,5 +1,13 @@
 # Make Tic Tac Toe
 
+## Setting up Atom for React
+
+Before we move on, let's set up Atom for React. We won't be using Atom today, but this will be helpful for tomorrow!
+
+[Setting up Atom for React](../setup-atom.md)
+
+## The Game
+
 Today we will be making a Tic Tac Toe game in React - the "Hello World" equivalent for real programmers (saying "Hello world!" just isn't impressive enough anymore). By the end of this exercise you will have:
 1. A clickable grid where our master strategists can place Xs and Os
 1. A status text reflecting the state of the Game
