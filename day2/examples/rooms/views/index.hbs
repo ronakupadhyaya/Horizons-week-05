@@ -1,6 +1,12 @@
 <p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
+
+<form method="get" action="/room1">
+    <button type="submit">Join Room 1!</button>
+</form>
+
+<form method="get" action="/room2">
+    <button type="submit">Join Room 2!</button>
+</form>
 <button>Poke!</button>
 
 <script src="/socket.io/socket.io.js"></script>

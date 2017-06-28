@@ -1,0 +1,65 @@
+<section class="container">
+  <h1 class="center">CHAT! CHAT! CHAT!</h1>
+
+  <div class="row">
+    <div class="offset-3 col-6 box">
+      <div class="textbox text-center">
+        <ul></ul>
+      </div>
+    </div>
+
+    <div class="inputbox block">
+      <input id="message" class="inline typebox" type="text" placeholder="Say Something...">
+      <button id="msgbtn" class="inline submitbutton">Send</button>
+    </div>
+    <div class="inputbox block">
+      <input id="username" class="inline typebox" type="text" placeholder="Enter Username...">
+      <button id="usrbtn" class="inline submitbutton">Submit</button>
+    </div>
+    <form method="get" action="/room1">
+        <button id="room1" type="submit">Join Room 1!</button>
+    </form>
+    <form method="get" action="/room2">
+        <button id="room2" type="submit">Join Room 2!</button>
+    </form>
+    <button>Poke!</button>
+  </div>
+  </div>
+</section>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected!');
+  });
+
+  $("#msgbtn").on("click", () => {
+    var msg = $("#message").val();
+    socket.emit("message", msg);
+  });
+
+  $("#usrbtn").on("click", () => {
+    if($("#username").val()) {
+      var username = $("#username").val();
+      socket.emit("login", username);
+    }
+  });
+
+  $("#room1").on("click", () => {
+    if($("#username").val()) {
+      var username = $("#username").val();
+      socket.emit("room1", username);
+    }
+  });
+
+  socket.on("serverMessage", serverMsg => {
+      $(".textbox").append("<li>" + serverMsg + "</li>");
+    });
+
+  socket.on("joinedRoom", serverMsg => {
+      $(".textbox").append(`<li style="color: red">` + serverMsg + "</li>");
+    });
+
+</script>
