@@ -40,7 +40,7 @@ The following steps will walk you through creating a Node App that uses `socket.
     ```
 1. Modify `chat/views/index.hbs` to use `socket.io` by adding the following `script` tags to the bottom of the file:
     ```html
-	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 	<script>
 	  var socket = io();
 	  socket.on('connect', function() {
