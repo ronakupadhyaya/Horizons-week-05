@@ -2,10 +2,17 @@
 
 <h1>Order Confirmation</h1>
 
-Order Id: {{id}}
+<strong>Order Id:</strong> {{id}}
+<strong>Email:</strong> {{name}}
+
+<h3>Purchased Items:</h3>
+
+{{#each items}}
+  <div>{{this.title}}</div>
+{{/each}}
 
 
-<h3>Credit Card Informaiton</h3>
+<h3>Credit Card Information</h3>
 
 <p>Last 4 Digits of Credit Card: {{fourdigit}}</p>
 <p>Expiration Date: {{exp}}</p>

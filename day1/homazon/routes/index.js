@@ -115,11 +115,14 @@ router.post('/cart/checkout', function(req, res) {
 });
 
 router.get('/orderconfirmation', function(req, res) {
+  var cart = req.session.cart;
   Payment.find({_userid: req.user._id}).exec().then((pay) => {
     res.render('confirmation', {
       id: req.user._id,
       fourdigit: pay[0].stripeLast4,
-      exp: pay[0].stripeExpYear
+      exp: pay[0].stripeExpYear,
+      items: cart,
+      name: pay[0].customerEmail
     });
   });
 });
