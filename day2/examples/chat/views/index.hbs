@@ -11,14 +11,99 @@
       
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+      <input id="username" class="inline typebox" type="text" placeholder="Enter username...">
+      <button id="send-username" class="inline submitbutton">Send</button>
+      <div class="users">
+        <h4>Users</h4>
+        <ul id="users-list"></ul>
+      </div>
     </div>
     <div class="col-md-6 box">
-      <div class="textbox">
-      </div>
-      <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
-      </div>
+    <button id="room1-button" class="submitbutton">Room 1</button>
+    <button id="room2-button" class="submitbutton">Room 2</button>
+    <div class="textbox" style="background-color: blue;">
     </div>
+    <div class="inputbox block">
+      <input id="message" class="inline typebox" type="text" placeholder="Say Something...">
+      <button id="send" class="inline submitbutton">Send</button>
+    </div>
+    <div class="warning"></div>
   </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+$(document).ready(function() {
+
+  $('#room2').hide();
+  var socket = io();
+
+  var room = "room1";
+
+  // Initial socket connection
+  socket.on('connect', function() {
+    socket.emit('room', room);
+    console.log('Client connected!')
+  })
+
+  // Toggling rooms
+  $('#room1-button').on('click', function() {
+    room = "room1";
+    $('.textbox').empty();
+    $('.textbox').css({'background-color' : 'green'});
+    socket.emit('room', room);
+  })
+
+  $('#room2-button').on('click', function() {
+    room = "room2";
+    $('.textbox').empty();
+    $('.textbox').css({'background-color' : 'blue'});
+    socket.emit('room', room);
+  })
+
+  // Handling button presses, emitting to server
+  $('#send').on('click', function() {
+    var msg = $('#message').val();
+    socket.emit('newMessage', msg);
+  })
+
+  $('#send-username').on('click', function() {
+    var username = $('#username').val();
+    socket.emit('newUsername', username);
+  })
+
+  // Handling server emmitted events on the client side
+
+  socket.on('serverMessage', function(serverMsg) {
+    console.log('Recieving message: ' + serverMsg)
+    $('.textbox').append(`<div style="margin: 20px 5px; padding: 10px; background-color: white; border: 1px solid black;">${serverMsg}</div>`);
+  });
+
+  socket.on('welcomeUser', function(username) {
+    console.log("Welome user")
+    $('.warning').append(`<div style="margin: 20px 5px; padding: 10px; background-color: green; color: white; border: 1px solid black;">Welcome to the chatroom, ${username}!</div>`);
+  })
+
+  socket.on('serverUsername', function(serverUsername) {
+    console.log('Recieving username: ' + serverUsername)
+    $('#users-list').append(`<li>${serverUsername}</div>`);
+    $('.warning').empty();
+  });
+
+  socket.on('warningMessage', function(warning) {
+    console.log('Recieving warning')
+    $('.warning').append(`<div style="margin: 20px 5px; padding: 10px; background-color: red; color: white; border: 1px solid black;">${warning}</div>`);
+  });
+
+  socket.on('joinedRoom', function(username) {
+    console.log(username + ' has joined the room!');
+    $('.textbox').append(`<div style="margin: 20px 5px; padding: 10px; background-color: blue; color: white; border: 1px solid black;">${username} has joined the room!</div>`);
+  })
+})
+
+
+</script>
+
+
+
+
