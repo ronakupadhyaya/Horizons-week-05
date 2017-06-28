@@ -8,6 +8,4 @@
 
 ## Pair programming exercises
 
-[Warmup](warmup.md)
-
 [React Chat](https://github.com/horizons-school-of-technology/react-chat)
