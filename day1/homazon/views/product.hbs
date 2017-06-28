@@ -1,0 +1,7 @@
+<div>
+  {{product.title}}, {{product.description}}
+  <img src="{{product.imageUri}}" />
+  <form method="POST" action="/cart/add/{{product._id}}">
+    <input type="submit" value="Add to cart" />
+  </form>
+</div>

@@ -4,9 +4,22 @@ import favicon from 'serve-favicon';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+
+import mongoose from 'mongoose';
+import mongoStoreMaker from 'connect-mongo';
+const MongoStore = mongoStoreMaker(session);
+
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
 
 import index from './routes/index';
 import users from './routes/users';
+import auth from './routes/auth';
+
+mongoose.connect(process.env.MONGODB_URI);
+
+import User from './models/user';
 
 const app = express();
 
@@ -22,8 +35,67 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: process.env.SECRET,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy(function(username, password, done) {
+    // Find the user with the given username
+    User.findOne({ username: username }, function (err, user) {
+      // if there's an error, finish trying to authenticate (auth failed)
+      if (err) {
+        console.error(err);
+        return done(err);
+      }
+      // if no user present, auth failed
+      if (!user) {
+        console.log(user);
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      // if passwords do not match, auth failed
+      if (user.password !== password) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      // auth has has succeeded
+      return done(null, user);
+    });
+  }
+));
+
+
+app.use('/auth', auth(passport));
+
+app.use('/', (req, res, next) => {
+  if(!req.user) {
+    res.redirect('/auth/login');
+  } else {
+    next();
+  }
+});
+
+app.use('/', (req, res, next) => {
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+  next();
+});
+
 app.use('/', index);
-app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
