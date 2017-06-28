@@ -1,19 +1,23 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
+
   <div class="row">
     <div class="col-md-6 box">
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
+
       <h2>What is Socket.IO?</h2>
       <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
+
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
+      </div>
+      <div class="inputbox block">
+        <input class="inline usernamefield" type="text" placeholder="Enter a Username">
+        <button class="inline savebutton">save</button>
       </div>
       <div class="inputbox block">
         <input class="inline typebox" type="text" placeholder="Say Something...">
@@ -22,3 +26,28 @@
     </div>
   </div>
 </section>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected!');
+  });
+
+  socket.on('responseMessage', function(response){
+    $('.textbox').append('<p>'+ response+' </p>' )
+  })
+  socket.on('joinedRoom', function(user){
+    $('.textbox').append('<p class="joinedroom">' + user+' </p>' )
+  })
+  $('.submitbutton').on('click', function(event){
+    var message = $('.typebox').val();
+    $('.typebox').val('');
+    $('.textbox').append('<p class="message">'+ message +' </p>' )
+    socket.emit('submit',message);
+  })
+
+  $('.savebutton').click(function(event){
+    var username = $('.usernamefield').val();
+    socket.emit('username', username);
+  })
+</script>

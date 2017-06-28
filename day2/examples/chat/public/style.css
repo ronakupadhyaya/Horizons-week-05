@@ -24,18 +24,18 @@ h1 {
 .block {display: block;}
 
 .textbox {
-    height: 95%;
+    height: 90%;
     background: #F6F5F5;
     border: solid #E2DFDF 1px;
 }
 
-.typebox {
+.typebox, .usernamefield{
     width: 80%;
     margin: 5px 0;
     padding: 5px;
 }
 
-.submitbutton {
+.submitbutton, .savebutton{
     background: #9ec3ff;
     width: 19%;
     height: 35px;
@@ -43,4 +43,13 @@ h1 {
 
 .inputbox {
     height: 5%;
+}
+
+.joinedroom{
+  color: pink;
+  text-indent: 10px;
+}
+.message{
+  color: green;
+  text-align: right;
 }
