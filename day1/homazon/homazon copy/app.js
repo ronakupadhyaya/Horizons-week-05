@@ -39,9 +39,7 @@ app.use(cookieParser());
 // turns every file inside the public folder its only get route
 app.use(express.static(path.join(__dirname, 'public')));
 
-// app.get('/login', (req,res) => {
-//   res.render('login')
-// });
+
 //setup mongoose connection
 mongoose.connection.on('error', function() {
   console.log('error connecting to database')
@@ -98,6 +96,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', auth(passport));
+
+app.use('/', (req, res, next) => {
+  if (!req.user) {
+    res.redirect('/login')
+  } else {
+    next();
+  }
+});
 app.use('/', index);
 // app.use('/users', users);
 

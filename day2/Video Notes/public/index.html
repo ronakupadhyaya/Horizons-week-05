@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SocketIO Example</title>
+    <!-- requring socket.io here allows us to use the io constructor in the body of script tag  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <input id="message" type="text" name="">
+    <button id="send">Send Message</button>
+    <script type="text/javascript">
+      // constructs a websocket that listens on local host (we also need to include its pair on the server side)
+      // pair: io.on('connection', function(socket){});
+      // this io constructor takes in an 'url' for where the server side web socket is so that we can establish a socket connection
+      var socket = io('localhost:3000') // establishes socket connection
+
+      // emit a new event to the server side
+      // now when you refresh the page a newEvent will be emitted because this is event is fired when a new connection is made as specified on the client side
+      socket.emit('newEvent')
+
+      // No we want to emit a message  - (You are able to send data as the second argument (the data that you want to send) of the emit method, the first argument is the name of the event(message))
+      socket.emit('specificMessage', 'Nihar is awesome!!')
+
+      // Now we are going to send that is ever in the input field we created
+      // first add a click handler
+      $('#send').click(function(){ // bind click handler to the send button
+        var msg = $('#message').val() // when the button is clicked we will take the val inside the 'message field'
+        $('#message').val('')  // set the message field to empty
+        socket.emit('message', msg) // emit the message over the socket connection over to the server side
+      });
+
+      // Listening for event emitted from the server side
+      socket.on('serverMessage', function(serverMessage){
+        $('body').append(serverMessage);
+      });
+
+    </script>
+
+  </body>
+</html>
