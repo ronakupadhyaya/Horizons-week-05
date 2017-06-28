@@ -1,24 +1,57 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
+
   <div class="row">
     <div class="col-md-6 box">
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
+
       <h2>What is Socket.IO?</h2>
       <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
+
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+      <div class="login">
+        <input type="text" class="username" name="username">
+        <button class='btn btn-default submit' type="submit" value="Submit">submit</button>
+      </div>
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
       </div>
       <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
+        <input id="text" class="inline typebox" type="text" placeholder="Say Something...">
+        <button id="send" class="inline submitbutton">Send</button>
       </div>
     </div>
   </div>
 </section>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected to server!');
+  });
+  $('#send').click(function(){
+  	var msg = $('#text').val()
+    $('#text').val('');
+  	socket.emit('message', msg)
+  })
+  socket.on('serverMessage', function(serverMessage){
+	$('.textbox').append("<div class='msg'>" + serverMessage + "</div>");
+})
+  $('.submit').click(function(){
+    var username = $('.username').val()
+    $('.username').val('');
+    socket.emit('login', username)
+  })
+  socket.on('localWelcome', function(localWelcome){
+    $('.textbox').append("<div class='notice'>" + localWelcome + "</div>");
+  })
+  socket.on('globalWelcome', function(globalWelcome){
+    $('.textbox').append("<div class='notice'>" + globalWelcome + "</div>");
+  })
+  socket.on('warning', function(warning){
+    $('.login').append(warning);
+  })
+</script>
