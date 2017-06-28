@@ -1,12 +1,75 @@
 <p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
-<button>Poke!</button>
+
+<div id="username-area" class="inputbox block">
+  <input id="username" class="inline typebox" type="text" placeholder="Username...">
+  <button id="username-send" class="inline submitbutton">Send</button>
+</div>
+<div id="message-area">
+  <button id="room1">Join Room 1</button>
+  <button id="room2">Join Room 2</button>
+  <button id="poke">Poke!</button>
+  <ul id="messageList">
+  </ul>
+  <input id="message" class="inline typebox" type="text" placeholder="Say Something...">
+  <button id="send" class="inline submitbutton">Send</button>
+</div>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
+
   socket.on('connect', function() {
     console.log('Connected!');
+    if(!socket.username){
+      $('#message-area').hide();
+    }
   });
+
+  $('#room1').click(function(){
+    var room = 'room1'
+    socket.emit('room', room);
+  })
+
+  $('#room2').click(function(){
+    var room = 'room2'
+    socket.emit('room', room);
+  })
+
+  $('#send').click(function(){
+    var msg = $('#message').val();
+    console.log('You have inputed:', msg);
+    socket.emit('message', msg);
+    $('#message').val('');
+  })
+
+  $('#username-send').click(function(){
+    if($('#username').val().length > 1) {
+      var username = $('#username').val();
+      // console.log('username inputted', username);
+      socket.emit('login', username);
+      $('#username-area').replaceWith(`<div id='username-area'><h3>${username}</h3></div>`);
+      $('#message-area').show()
+    } else {
+      alert('please login with a username')
+    }
+  })
+
+  socket.on('joinedRoom', function(joinedRoomMsg){
+    console.log('joinedRoom works');
+    $('#messagesList').append(`<li style="color: red">${joinedRoomMsg}</li>`)
+  })
+
+  socket.on('welcomeUser', function(welcomeUserMsg){
+    $('#messagesList').append(`<li style="color: blue">${welcomeUserMsg}</li>`)
+  })
+
+  $('#poke').click(function(){
+    console.log('poke has been clicked');
+    socket.emit('poke');
+  })
+
+  socket.on('pokeMessage', function(pokeMsg){
+    console.log(`pokeMessage in ${socket.room} has been triggered`);
+    $('#messagesList').append(`<li>${pokeMsg}</li>`);
+  })
 </script>

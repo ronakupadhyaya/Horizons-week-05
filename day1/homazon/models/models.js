@@ -1,23 +1,27 @@
 import mongoose from 'mongoose';
 
-var connect = process.env.MONGODB_URI;
-mongoose.connect(connect);
+mongoose.Promise = global.Promise;
 
-var Schema = mongoose.Schema;
+const userSchema = mongoose.Schema({
+  username: String,
+  password: String
+})
 
-var userSchema = new Schema({
-  username: {
+const User = mongoose.model('User', userSchema);
+
+const productSchema = mongoose.Schema({
+  title: {
     type: String,
-    required: true
+    unique: true
   },
-  password: {
-    type: String,
-    required: true
-  }
-});
+  description: String,
+  imageUri: String
+})
 
-var User = mongoose.model('User', userSchema);
+const Product = mongoose.model('Product', productSchema);
 
-module.exports = {
-  User: User
+
+export default {
+  User: User,
+  Product: Product
 }

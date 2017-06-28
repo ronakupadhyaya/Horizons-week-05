@@ -21,6 +21,34 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('room', function(room) {
+    if (!socket.room) {
+      socket.join(room);
+      socket.room = room;
+    } else {
+      socket.leave(socket.room, function() {
+        socket.join(room);
+        socket.room = room;
+      });
+    }
+  });
+
+  socket.on('message', function(msg){
+    io.sockets.in(socket.room).emit('serverMessage', socket.username + ' said: ' + msg)
+  })
+
+  socket.on('login', function(username){
+    if (!socket.username) {
+      socket.username = username;
+      io.sockets.in(socket.room).emit('joinedRoom', `new user, ${username}, has joined the room!`);
+      socket.emit('welcomeUser', `welcome to the room, ${username}`);
+    }
+  })
+
+  socket.on('poke', function(){
+    console.log(`poke was emitted`);
+    io.sockets.in(socket.room).emit('pokeMessage', `${socket.room} has been poked!`)
+  })
 });
 
 var port = process.env.PORT || 3000;
