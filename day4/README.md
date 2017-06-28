@@ -1,6 +1,13 @@
 # Week 5 Day 4 Exercises 
 
-## Pair programming exercise
+## Morning videos & Individual exercises
 
-Please visit the [Homazon
-project](https://github.com/horizons-school-of-technology/homazon/blob/master/README-day1.md).
+[React Day2 Videos Link](videos.md)
+
+
+
+## Pair programming exercises
+
+[Warmup](warmup.md)
+
+[React Chat](https://github.com/horizons-school-of-technology/react-chat)
