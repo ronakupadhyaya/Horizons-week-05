@@ -21,6 +21,17 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('room', function(room) {
+    console.log(room);
+    socket.join(room);
+    socket.room = room;
+    socket.emit('message', 'Wekcome to ' + room + '!!!');
+  })
+  socket.on('poke', function() {
+    if (socket.room) {
+      io.in(socket.room).emit('message', socket.room + ' POKED!!!');
+    }
+  })
 });
 
 var port = process.env.PORT || 3000;
