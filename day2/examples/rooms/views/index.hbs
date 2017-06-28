@@ -10,19 +10,22 @@
     console.log('Connected!');
   });
 
+  socket.on('poke', function(msg) {
+    $("#greeting").text(msg);
+  })
+
   $("#roomOne").on('click', function() {
-    console.log("room one");
     socket.emit('joinRoom', 'roomOne');
-    //$("#greeting").text("Welcome to Room One!")
+    $("#greeting").text("Welcome to Room One!")
   });
 
   $("#roomTwo").on('click', function() {
     socket.emit('joinRoom', 'roomTwo');
-    //$("#greeting").text("Welcome to Room Two!")
+    $("#greeting").text("Welcome to Room Two!")
   });
 
-  // $("#poke").on('click', function() {
-  //   socket.emit('poke');
-  // });
+  $("#poke").on('click', function() {
+    socket.emit('poke');
+  });
 
 </script>

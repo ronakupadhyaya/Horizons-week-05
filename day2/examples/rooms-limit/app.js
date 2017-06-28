@@ -21,9 +21,10 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+
 });
 
 var port = process.env.PORT || 3000;
-server.listen(port, function(){
+server.listen(port, function() {
   console.log('Express started. Listening on %s', port);
 });
