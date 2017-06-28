@@ -15,6 +15,8 @@ import LocalStrategy from 'passport-local';
 import mongoose from 'mongoose';
 import models from './models/models';
 var User = models.User;
+import mongo from 'connect-mongo';
+var MongoStore = mongo(session);
 
 mongoose.Promise = global.Promise;
 
@@ -22,7 +24,7 @@ var app = express();
 
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));   //can grab all stuff from views like images and other css
 app.set('view engine', 'hbs');
 
 // uncomment after placing your favicon in /public
@@ -35,8 +37,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Passport stuff here
 app.use(session({
-  secret: 'gmmspdlqplefd52218'
-  // store: new MongoStore({mongooseConnection: mongoose.connection})
+  secret: 'gmmspdlqplefd52218',
+  store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
 passport.serializeUser((user,done) => {
@@ -72,6 +74,22 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/', auth(passport));
+
+app.use('/', (req,res,next) => {
+  if (!req.user) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+})
+
+app.use('/', (req,res,next) => {
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+  next();
+})
+
 app.use('/', index);
 app.use('/users', users);
 

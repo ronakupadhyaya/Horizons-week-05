@@ -9,76 +9,80 @@ var User = models.User;
 //    res.render('index', { title: 'Express' });
 // });
 
-router.get('/', function(req, res, next) {
-  Product.find(function(error, products){
-    if (error) {
-      console.log("cannot find products", error);
-    } else {
-   res.render('products',{products:products})
- }
-  });
-})
+router.get('/', function(req, res) {
+  Product.find()
+  .exec()
+  .then((results) => {
+    res.render('products', {products: results});
+  })
+  .catch((error) => {
+    res.send(error);
+  })
+
+});
 
 
-router.get('/product/:pid', function(req,res,next) {
-  var productId = req.params.pid;
-  Product.findById(productId, function(error, product) {
-    if (error) {
-      console.log("error finding product", error);
-    } else {
-      res.render('product', {
-        imageUri: product.imageUri,
-        title: product.title,
-        description: product.description
-      })
-    }
+router.get('/product/:pid', function(req,res) {
+  Product.findById(req.params.pid)
+  .exec()
+  .then((response) => {
+    res.render('product', {product:response});
+  })
+  .catch((error) => {
+    res.send(error);
   })
   });
 
-router.get('/cart', (req,res,next) => {
+router.get('/cart', (req,res) => {
   res.render('cart', {
     cart: req.session.cart
   })
 });
 
 router.post('/cart/add/:pid', (req,res,next) => {
-  var productId = req.params.pid;
-  Product.findById(prodcutId, function(error, product) {
-    if (error) {
-      console.log("Cannot find product", error);
-    } else {
-      if (req.session.cart === undefined) {
-        req.session.cart = [product];
-      } else {
-        req.session.cart.push(product);
-      }
-      res.redirect('/cart');
-    }
+  // Product.findById(req.params.id, function(error, product) {
+  //   if (error) {
+  //     console.log("Cannot find product", error);
+  //   } else {
+  //     if (!req.session.cart) {
+  //       req.session.cart = [product];
+  //     } else {
+  //       req.session.cart.push(product);
+  //     }
+  //     res.redirect('/cart');
+  //   }
+  // })
+  Product.findById(req.params.pid)
+  .exec()
+  .then((response) => {
+    req.session.cart.push(response);
+    console.log("add cart", req.session.cart);
+    res.redirect('/cart');
+  })
+  .catch((error) => {
+    res.send(error);
   })
 });
 
-router.delete('/cart/delete/:pid', (req,res,next) => {
-  var productId = req.params.pid;
-  Product.findById(productId, function(error, product) {
-    if (error) {
-      console.log("Cannot delete product", error);
-    } else {
-      if (product._id.equals(req.session.cart._id)) {
-        req.session.cart.pop(product);
-      }
-      res.redirect('/cart');
-    }
-  })
-})
+router.post('/cart/delete/:pid', (req,res,next) => {
+  const productId = req.params.pid;
+  // Product.findById(productId, function(error, product) {
+  //   if (error) {
+  //     console.log("Cannot delete product", error);
+  //   } else {
+  //     if (product._id.equals(req.session.cart._id)) {
+  //       req.session.cart.pop(product);
+  //     }
+  //     res.redirect('/cart');
+  //   }
+  // })
+  req.session.cart = req.session.cart.filter(x => x._id !== productId);
+  res.redirect('/cart');
+});
 
-router.delete('/cart/delete', (req,res,next) => {
-  Product.remove(function(error, product){
-    if (error) {
-      console.log("Cannot empty cart", error);
-    } else {
-      res.redirect('/cart');
-    }
-  })
+router.post('/cart/delete', (req,res,next) => {
+  req.session.cart = [];
+  res.redirect('/');
 });
 
 

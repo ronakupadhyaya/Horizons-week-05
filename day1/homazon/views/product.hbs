@@ -6,10 +6,12 @@
   </head>
   <body>
     <h1>Product Details</h1>
-    <div><img src="{{this.imageUri}}"></div>
-    <h2><div>{{this.title}}</div></h2>
-    <div>{{this.description}}</div>
+    <div><img src="{{product.imageUri}}"/></div>
+    <h2><div>{{product.title}}</div></h2>
+    <div>{{product.description}}</div>
 
-    <a class="btn btn-primary btn-danger" href="/cart">Add to cart</a>
+    <form method="post" action="/cart/add/{{product._id}}">
+      <input type="submit" value="Add to cart"/>
+    </form>
   <body>
 </html>

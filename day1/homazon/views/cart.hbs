@@ -7,11 +7,27 @@
   <body>
     <h1>Shopping Cart</h1>
     <div>
-  <img src="{{this.imageUri}}" style="width:150px; height:140px;">
+      {{#each cart}}
+  <img src="{{this.imageUri}}" style="width:150px; height:140px;"/>
     <h2><div>{{this.title}}</div></h2>
     <div>{{this.description}}</div>
-    <a href="/cart/add/{{this._id}}">Add another</a>
-    <a href="/cart/delete/{{this._id}}">Remove</a>
+    <form method="post" action="/cart/add/{{this._id}}">
+      <input type="submit" value="Add another"/>
+  </form>
+
+    <form method="post" action="/cart/delete/{{this._id}}">
+      <input type="submit" value="Delete item"/>
+  </form>
+  {{/each}}
+
+  <form method="post" action="/cart/delete">
+    <input type="submit" value="Delete whole cart"/>
+  </form>
+
   </div>
+
+  <form>
+
+  </form>
   </body>
 </html>
