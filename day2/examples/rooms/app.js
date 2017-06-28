@@ -20,7 +20,20 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+var room1 = "a"
+var room2 = "b"
+
 io.on('connection', function(socket) {
+  socket.on('room1', function(room1){
+    socket.join(room1)
+    socket.emit('welcome', "welcome to room 1")
+    io.sockets.in(room1).emit('joinedroom', "someone joined room 1")
+  })
+  socket.on('room2', function(room2){
+    socket.join(room2)
+    socket.emit('welcome', "welcome to room 2")
+    io.sockets.in(room2).emit('joinedroom', "someone joined room 2")
+  })
 });
 
 var port = process.env.PORT || 3000;
