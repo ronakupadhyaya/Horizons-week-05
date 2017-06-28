@@ -20,11 +20,12 @@
     <div class = "col-xs-2 price">
       <h4>${{price}}</h4>
     </div>
-    <form method='post' action='/cart'>
+    <form method='post' action='/cart/add/{{_id}}'>
       <button class="col-xs-2 btn btn-danger">
         Add to the cart
       </button>
     </form>
+    <a href="/product/{{_id}}"></a>
   </div>
   {{/each}}
 </div>

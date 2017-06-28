@@ -36,25 +36,27 @@ router.post('/cart/add/:id',(req,res)=> {
       req.session.cart[num].quantity++;
     } else {
       var obj = {
-        id:_id, title:title,imageUri:imageUri,price:price,quantity:0
+        id:_id, title:title,imageUri:imageUri,price:price,quantity:1
       };
       req.session.cart.push(obj);
       console.log(req.session.cart);
       res.redirect('/cart');
     }
   })
-
-
 })
 
 
 router.get('/cart',(req,res)=>{
-
+  res.render('cart',{products:req.session.cart})
 })
-// router.get('/product/:pid', (req, res, next) => {
-//   // Insert code to look up all a single product by its id
-//   // and show it on the page
-//
-// });
+
+router.get('/product/:pid', (req, res) => {
+  Product.findById(req.params.pid)
+  .exec().then((result)=> {
+    var array=[result];
+    res.render(index,{title:req.user.username, products:array})
+  })
+
+});
 
 export default router;

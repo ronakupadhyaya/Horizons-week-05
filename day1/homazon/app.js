@@ -13,6 +13,7 @@ import {User,Product} from './models/models.js';
 import auth from './routes/auth.js';
 import expressHandlebars from 'express-handlebars';
 var LocalStrategy = LocalStrateg.Strategy;
+// es 6 doesn't support the imported chaining functions, like above
 
 
 var app = express();
@@ -37,8 +38,7 @@ var MongoStore = MongoS(session);
 
 app.use(session({
   secret: process.env.SECRET,
-  store: new MongoStore({mongooseConnection: mongoose.connection}),
-  cart:[]
+  store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
 app.use(passport.initialize());
@@ -78,8 +78,15 @@ passport.use(new LocalStrategy(function(username, password, done) {
 // end of passport
 
 app.use('/', auth(passport));
+app.use('/',(req,res,next)=> {
+  if(!req.session.cart){
+    req.session.cart=[];
+  }
+  next();
+})
+
 app.use('/', index);
-app.use('/users', users);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
