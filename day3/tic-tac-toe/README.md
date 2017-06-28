@@ -1,5 +1,13 @@
 # Make Tic Tac Toe
 
+## Setting up Atom for React
+
+Before we move on, let's set up Atom for React. We won't be using Atom today, but this will be helpful for tomorrow!
+
+[Setting up Atom for React](../setup-atom.md)
+
+## The Game
+
 Today we will be making a Tic Tac Toe game in React - the "Hello World" equivalent for real programmers (saying "Hello world!" just isn't impressive enough anymore). By the end of this exercise you will have:
 1. A clickable grid where our master strategists can place Xs and Os
 1. A status text reflecting the state of the Game
@@ -27,6 +35,10 @@ Install the React Developer Tools extension for Chrome [here](https://chrome.goo
 This extension allows you to inspect React components, states, props, etc as your app is running. Use this often to check "behind the scenes"!
 
 We will be using [this codepen](https://codepen.io/josephch405/pen/RVdPQw) for this exercise. The result is automatically compiled on the fly as you edit.
+
+<h3 style="border-bottom:none">Remember to click on the Fork button before typing any code or your changes will not be saved! You will need to sign up for a CodePen account, if you have not done so already.</h3>
+
+Ensure that you see **your username** on the top left, i.e. "A Pen by [username]", and not "A PEN BY Joseph Chuang"
 
 Before we begin our board should look like this:
 
