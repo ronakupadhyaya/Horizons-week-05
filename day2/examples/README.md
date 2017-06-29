@@ -29,10 +29,10 @@ The following steps will walk you through creating a Node App that uses `socket.
 	var app = require('express')();
     var server = require('http').Server(app);
     var io = require('socket.io')(server);
-    
+
     io.on('connection', function(socket){
     });
-    
+
     var port = process.env.PORT || 3000;
     server.listen(port, function(){
       console.log('Express started. Listening on %s', port);
@@ -40,7 +40,11 @@ The following steps will walk you through creating a Node App that uses `socket.
     ```
 1. Modify `chat/views/index.hbs` to use `socket.io` by adding the following `script` tags to the bottom of the file:
     ```html
+
 	<script src="/socket.io/socket.io.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+
 	<script>
 	  var socket = io();
 	  socket.on('connect', function() {
