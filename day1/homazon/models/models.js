@@ -18,7 +18,8 @@ var userSchema = new Schema({
 var productSchema = new Schema({
   title: String,
   description: String,
-  imageUri: String
+  imageUri: String,
+  price: Number
 })
 
 var User = mongoose.model('User', userSchema)

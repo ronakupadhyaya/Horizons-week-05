@@ -5,9 +5,16 @@
     <title>Products</title>
   </head>
   <body>
-    <h1>products</h1>
+    <h1>Products</h1>
+    <br>
     {{#each products}}
-    <h3><img src="{{imageUri}}" width="43" height="43"/> <h2>{{title}}</h2> {{description}} </h3>
+    <div>
+      <img src="{{imageUri}}" width="71" height="57"/>
+      <h2>{{title}}</h2>
+      <span> <b>Price: ${{this.price}}</b></span>
+      <p>{{description}}</p>
+    </div>
+    <hr/>
     {{/each}}
   </body>
 </html>

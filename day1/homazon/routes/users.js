@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 import { User, Product } from '../models/models'
+import products from '../seed/products.json'
 
 /* GET users listing. */
 var firstTime = true;
