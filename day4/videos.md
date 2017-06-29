@@ -26,24 +26,28 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 
 ![](https://d3vv6lp55qjaqc.cloudfront.net/items/1O0q242P3x222U2E3G3V/Screen%20Shot%202017-05-26%20at%208.05.19%20PM.png?v=f4e5511c)
 
-1. Create a React Form that enforces validation on the email and password fields. The email must have at least 3 characters before the '@' and the password must have a minimum of 4 characters that contain at least 1 number and at least 1 letter.
+Create a React Form that enforces validation on the email and password fields. The email must have at least 3 characters before the '@' and the password must have a minimum of 4 characters that contain at least 1 number and at least 1 letter.
 
+The goal: make it so that when the form is submitted:
+
+1. If some test fails, `alert` the user with a usefule failure message
+1. If all tests pass, `alert` the user with a success message
 
 ## State, Lifecycle Hooks
 
 ### [Watch Me 1](https://vimeo.com/223236502)
 ### [Watch Me 2](https://vimeo.com/223236748)
 
-1. In the Codepen below utilize the correct lifecycle hook and ajax to grab data (using ajax GET) from URL: https://api.myjson.com/bins/rztih . 
+1. In the Codepen below utilize the correct lifecycle hook and ajax to grab data (using ajax GET) from URL: https://api.myjson.com/bins/rztih 
 
-	Use Codepen [here](https://codepen.io/rick-shar/pen/BRezxW)
+    Use Codepen [here](https://codepen.io/rick-shar/pen/BRezxW)
 
-<details>
-<summary>Should look like this (Warning: Cuteness overload) </summary>
+    <details>
+    <summary>Should look like this (Warning: Cuteness overload) </summary>
 
-  ![](https://d3vv6lp55qjaqc.cloudfront.net/items/3N3I0h3i3q1a3N43121G/Screen%20Recording%202017-05-27%20at%2006.51%20PM.gif?v=20b26c27)
+    ![](https://d3vv6lp55qjaqc.cloudfront.net/items/3N3I0h3i3q1a3N43121G/Screen%20Recording%202017-05-27%20at%2006.51%20PM.gif?v=20b26c27)
 
-</details>
+    </details>
   
 
 1. A local Squirrel sleeps or wakes up whenever it is poked. While it is awake, it collects nuts to survive. You are given a function, ```gather```, as a prop. Using only lifecycle functions and a timer, make it so that the Squirrel component only "gathers" nuts while it is awake (the Squirrel component is mounted when woken and unmounted when asleep).
@@ -64,6 +68,7 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 
 Replace the commented pieces of code in each of the snippets below to no longer cause a mutation of `myVar`. Do so without changing the output of the program.
 
+You may have to **make new variables** to hold results - then, you would `console.log` said new variable instead of `myVar` (after all, `myVar` should not be "touched"/"changed" in any way).
 
 Note: The official MDN documentation for [Arrays](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array) and [Objects](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object) has a handy list of available functions on the left sidebar.
 
