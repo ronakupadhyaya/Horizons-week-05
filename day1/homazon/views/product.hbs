@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Products</title>
+  </head>
+  <body>
+    <h1>Single Product</h1>
+    <h2>{{singleProduct.title}}</h2>
+    <h3><img src="{{singleProduct.imageUri}}" width="97" height="97"/>  {{singleProduct.description}} </h3>
+    <form id="" action="/cart/add/{{singleProduct._id}}" method="post">
+      <input type="submit" value="Add to Cart">
+    </form>
+  </body>
+</html>

@@ -19,13 +19,13 @@ router.get('/products', function(req, res, next) {
   })
 });
 
-router.get('/products/:pid', (req, res, next) => {
+router.get('/product/:pid', (req, res, next) => {
   // Insert code to look up all a single product by its id
   // and show it on the page
   console.log('hi');
   Product.findById(req.params.pid, function(err, singleProduct) {
     if (err) console.log(err);
-    res.render('products', {
+    res.render('product', {
       singleProduct: singleProduct
     })
   })

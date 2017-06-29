@@ -5,17 +5,9 @@
     <title>Products</title>
   </head>
   <body>
-    {{#if singleProduct}}
-    <h2>{{singleProduct.title}}</h2>
-    <h3><img src="{{singleProduct.imageUri}}" width="97" height="97"/>  {{singleProduct.description}} </h3>
-    <form id="" action="/cart/add/{{singleProduct._id}}" method="post">
-      <input type="submit" value="Add to Cart">
-    </form>
-    {{else}}
-    <h2>Products</h2>
+    <h1>products</h1>
     {{#each products}}
     <h3><img src="{{imageUri}}" width="43" height="43"/> <h2>{{title}}</h2> {{description}} </h3>
     {{/each}}
-    {{/if}}
   </body>
 </html>
