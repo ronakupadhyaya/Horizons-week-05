@@ -9,7 +9,7 @@
     <br>
     {{#each products}}
     <div>
-      <img src="{{imageUri}}" width="71" height="57"/>
+      <a href="/product/{{this._id}}"><img src="{{imageUri}}" width="71" height="57"/></a>
       <h2>{{title}}</h2>
       <span> <b>Price: ${{this.price}}</b></span>
       <p>{{description}}</p>
