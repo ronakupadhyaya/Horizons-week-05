@@ -1,6 +1,6 @@
 <p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
+<a href="/room1"><button id="room1">Join Room 1</button></a>
+<a href="/room2"><button id="room2">Join Room 2</button></a>
 <button>Poke!</button>
 
 <script src="/socket.io/socket.io.js"></script>
@@ -9,4 +9,11 @@
   socket.on('connect', function() {
     console.log('Connected!');
   });
+  $('#room1').on('click',function(){
+    socket.emit('room','room1');
+
+  })
+
+
+
 </script>

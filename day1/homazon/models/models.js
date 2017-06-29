@@ -7,7 +7,10 @@ var userSchema = new Schema({
 })
 
 var productSchema = new Schema({
-  title: String,
+  title: {
+    type: String,
+    unique: true  //prevent multiple products in mongodb
+  },
   description: String,
   imageUri: String,
   price: String

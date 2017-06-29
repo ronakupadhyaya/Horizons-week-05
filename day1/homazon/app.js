@@ -65,7 +65,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/', index); //this middleware first, then /users middleware or the next
 app.use('/users', users);
 app.use('/', auth(passport));
 
