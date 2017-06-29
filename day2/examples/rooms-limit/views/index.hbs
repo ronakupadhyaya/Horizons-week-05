@@ -1,9 +1,14 @@
-<p>You are in Room X</p>
+<p class="para">You are in Room X</p>
 
-<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script>
   var socket = io();
   socket.on('connect', function() {
     console.log('Connected!');
+    socket.emit("myroom")
   });
+  socket.on('reply',function(data){
+    $('.para').text(data);
+  })
 </script>

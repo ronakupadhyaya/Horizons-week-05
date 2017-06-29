@@ -20,7 +20,18 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+var room1=0;
+var room2=0;
+
 io.on('connection', function(socket) {
+  socket.on('myroom',function(){
+    if(room1<2){
+      socket.emit('reply',"you are in room1")
+      room1++;
+    }else{
+      socket.emit('reply',"you are in room2")
+    }
+  })
 });
 
 var port = process.env.PORT || 3000;
