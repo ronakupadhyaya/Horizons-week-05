@@ -1,0 +1,19 @@
+<div class="border">
+  <div class="center-text">
+    <h1> Products: </h1>
+  </div>
+  <br>
+  <div class="content-center"> 
+    <ul>
+    {{#each products}}
+      <div class="border-list">
+        
+          <li><img src="{{this.imageUri}}"><a href="/products/{{this.id}}" class="no-design">{{this.title}}</a><ul><li>{{this.description}}<form method="POST" action="/cart/add/{{this.id}}"><input type=submit value="Add to Cart"></form></li></ul></li>
+      </div>
+    {{/each}}
+    </ul>
+  </div>
+  <div>
+    Your Cart Contains {{products.length}} Items
+  </div>
+</div>

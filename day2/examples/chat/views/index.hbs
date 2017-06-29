@@ -11,6 +11,12 @@
       
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+      <div class="inputbox block">
+        <input id="username" class="inline" type="text" placeholder="Username">
+        <button id="submitUsername" class="inline">Send</button>
+      </div>
+      <button id="chat-room-1">Chat Room 1</button>
+      <button id="chat-room-2">Chat Room 2</button>
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
@@ -21,4 +27,42 @@
       </div>
     </div>
   </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+    socket.on('connect', function() {
+      console.log('Connected!');
+    });
+
+    $('.submitbutton').on('click', function(event) {
+      var message = $('.typebox').val();
+      socket.emit('msg', message);
+      $('.typebox').val('');
+    });
+
+    $('#chat-room-1').on('click', function() {
+      socket.emit('switch-channel', 'chat-room-1');
+    });
+    $('#chat-room-2').on('click', function() {
+      socket.emit('switch-channel', 'chat-room-2');
+    });
+
+    $('#submitUsername').on('click', function(event) {
+      var username = $('#username').val();
+      console.log('username', username);
+      socket.emit('join', username);
+    });
+
+    socket.on('serverMessage', function(message) {
+      $('.textbox').append(message + '<br>');
+    });
+
+    socket.on('serverJoinMessage', function(msg) {
+      $('.textbox').append('<span style="color: orange">' + msg + '</span>' + '<br>');
+    });
+
+    socket.on('channel-switch', function(channel) {
+      $('.textbox').append('<span style="color: orange">' + msg + '</span>' + '<br>');
+    });
+  </script>
 </section>

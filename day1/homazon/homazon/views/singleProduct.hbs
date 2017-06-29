@@ -1,0 +1,15 @@
+<div class="border">
+  <div class="center-text">
+    <h1> <img src="{{product.imageUri}}"> {{product.title}} </h1>
+  </div>
+  <br>
+  <div class="content-center"> 
+    Description: {{product.description}}
+  </div>
+  <form class="float-right" method="POST" action="/cart/add/{{product.id}}">
+    <input type="submit" value="Add to Cart">
+  </form>
+  <form action="/">
+    <input type="submit" value="Back To Products">
+  </form>
+</div>

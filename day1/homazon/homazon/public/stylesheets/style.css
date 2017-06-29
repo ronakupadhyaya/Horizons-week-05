@@ -1,0 +1,65 @@
+.body {
+  padding: 50px;
+}
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.header {
+  height: 80px;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.border {
+  border: 1px solid black;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.border-list {
+  border: 1px solid black;
+  margin-right: 10%;
+  margin-bottom: 5%;
+  margin-top: 5%;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.content-center {
+  display: flex;
+  justify-content: center;
+}
+
+.no-design {
+  text-decoration: none;
+  color: black;
+}
+
+.no-design:hover {
+  text-decoration: underline;
+  color: black;
+}
+
+.header {
+  background-color: skyblue;
+}
+
+.float-right {
+  float: right;
+}
+
+img {
+  height: 10%;
+  width: 10%;
+}
+
+#shopping-cart {
+  height: 100%;
+  width: 10%;
+}

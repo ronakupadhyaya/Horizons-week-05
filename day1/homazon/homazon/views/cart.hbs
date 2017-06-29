@@ -1,0 +1,35 @@
+<div class="border">
+  <div class="center-text">
+    <h1> Your Cart: </h1>
+  </div>
+  <br>
+  <div class="content-center"> 
+    <ul>
+    {{#each products}}
+      <div class="border-list">
+          <li><img src="{{this.imageUri}}"><a href="/products/{{this.id}}" class="no-design">{{this.title}}</a><ul><li>{{this.description}}<form method="POST" action="/cart/delete/{{this._id}}"><input type=submit value="Remove from Cart"></form></li></ul></li>
+      </div>
+    {{/each}}
+    </ul>
+    <form action="/">
+      <input type="submit" value="Back to Products">
+    </form>
+    <form method="POST" action="/cart/delete">
+      <input type="submit" value="Empty Cart">
+    </form>
+  </div>
+
+  <form action="/cart" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <input type="text" name="email" placeholder="Email">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{PUBLISHABLE_KEY}}"
+    data-amount="000"
+    data-name="Homazon"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+</div>
