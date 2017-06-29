@@ -8,17 +8,23 @@
     <h2>Shopping Cart</h2>
     <h2>Products</h2>
     {{#each products}}
-    <h3><img src="{{imageUri}}" width="43" height="43"/> <h2>{{title}}</h2> <a class="btn btn-primary" href="">Add Another</a> <a class="btn btn-primary" href="">Remove</a></h3>
+    <h3><img src="{{this.imageUri}}" width="71" height="71"/> <h3>{{this.title}}</h3></h3>
+    <form action="/cart/add/{{this.id}}" method="POST" style="display: inline-block">
+      <input type="submit" value="Add Another">
+    </form>
+    <form action="/cart/delete/{{this.id}}" method="POST" style="margin-left: 13px; display: inline-block">
+      <input type="submit" value="Delete">
+    </form>
     {{/each}}
     <h3>Total: $ </h3>
 
-    <form class="" action="" method="" style="margin: 30px">
+    <form action="/cart/delete" method="POST" style="margin: 0px; display: inline-block">
       <button class="btn btn-success">Empty Track</button>
     </form>
-    <form class="" action="/logout" method="get" style="margin: 30px">
+    <form class="" action="/logout" method="get" style="margin: 5px; display: inline-block">
       <button class="btn btn-success">Checkout With Stripe</button>
     </form>
-    <form class="" action="/logout" method="get" style="margin: 30px">
+    <form class="" action="/logout" method="get" style="margin: 5px; display: inline-block">
       <button class="btn btn-success">Log Out</button>
     </form>
   </body>

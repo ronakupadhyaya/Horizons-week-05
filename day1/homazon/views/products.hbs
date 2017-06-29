@@ -7,9 +7,9 @@
   <body>
     {{#if singleProduct}}
     <h2>{{singleProduct.title}}</h2>
-    <h3><img src="{{singleProduct.imageUri}}" width="57" height="57"/>  {{singleProduct.description}} </h3>
-    <form id="signup" action="" method="">
-      <button class="btn btn-success">Add to Cart</button>
+    <h3><img src="{{singleProduct.imageUri}}" width="97" height="97"/>  {{singleProduct.description}} </h3>
+    <form id="" action="/cart/add/{{singleProduct._id}}" method="post">
+      <input type="submit" value="Add to Cart">
     </form>
     {{else}}
     <h2>Products</h2>

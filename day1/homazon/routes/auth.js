@@ -47,7 +47,7 @@ module.exports = function(passport) {
   })
 
 router.get('/login', function(req, res) {
-  
+
   res.render('login')
 })
 
