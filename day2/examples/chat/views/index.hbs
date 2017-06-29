@@ -11,14 +11,51 @@
       
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+
+      <div class="inputbox block">
+        <input class="inline typebox" type="text" placeholder="Username" id="username">
+        <button class="inline submitbutton" id="send_username">Send</button>
+      </div>      
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
       </div>
       <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
+        <input class="inline typebox" type="text" placeholder="Say Something..." id="send_message">
+        <button class="inline submitbutton" id="send">Send</button>
       </div>
     </div>
   </div>
 </section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected!');
+  });
+
+  $('#send_username').click(() => {
+    console.log('set username');
+    var username = $('#username').val();
+    $('#username').val('');
+    socket.emit('newUser', username);
+  })
+
+  $('#send').click(function() {
+    console.log('sent');
+    var msg = $('#send_message').val();
+    $('#send_message').val('');
+    socket.emit('newMessage', msg);
+  })
+
+  socket.on('appendMessage', function(msg) {
+    console.log('new message');
+    $('.textbox').append(msg)
+  })
+
+  socket.on('joinedRoom', (msg) => {
+    $('.textbox').append(msg + '\n');
+  })
+</script>
