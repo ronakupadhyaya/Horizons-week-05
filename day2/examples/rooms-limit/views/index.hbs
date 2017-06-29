@@ -1,9 +1,13 @@
-<p>You are in Room X</p>
+<p id="header">You are in Room X</p>
 
-<script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
   socket.on('connect', function() {
     console.log('Connected!');
+    socket.emit('room')
   });
+
+  socket.on('room', function(room){
+    $('#header').text('Your are in Room: '+ room)
+  })
 </script>

@@ -21,6 +21,25 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  console.log('connected on server side')
+  //when someone tries to join a room
+  socket.on('room', function(room){
+    //if there is a socket room leave it
+    if(socket.room){
+      socket.leave(socket.room)
+    }
+    //set socket.room to be the room chose
+    socket.room = room
+    //then join it
+    socket.join(room)
+  })
+
+  //on poked event 
+  socket.on('poked', function(poke){
+    console.log(socket.room)
+    //emit an event to all sockets in that room and pass in room in msg
+    io.sockets.to(socket.room).emit('poke',socket.room + poke);
+  })
 });
 
 var port = process.env.PORT || 3000;

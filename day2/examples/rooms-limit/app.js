@@ -21,6 +21,22 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('room', function(){
+    io.sockets.room = []
+    console.log(rooms)
+    if(io.sockets.room.length === 0){
+      io.socket.room = {
+        name: '#1',
+        num: 1,
+      };
+      socket.join(io.socket.room.name)
+      socket.emit('room',io.socket.room.name )
+    } else{
+      if(io.sockets.room.hasOwnProperty === '#1'){
+        
+      }
+    }
+  })
 });
 
 var port = process.env.PORT || 3000;
