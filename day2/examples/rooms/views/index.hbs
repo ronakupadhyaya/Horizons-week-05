@@ -1,12 +1,86 @@
 <p>Welcome! Select a Room to join.</p>
-<button>Join Room 1</button>
-<button>Join Room 2</button>
-<button>Poke!</button>
+<!-- <div> -->
+    <!-- <input type="submit" name="joinOne" value="Join Room 1"> -->
+  <!-- <input type="submit" name="joinTwo" value="Join Room 1"> -->
+  <!-- <form class="" action="index.html" method="post">
+    <input id="setUsername" class="inline typebox" type="text" placeholder="Set username here...">
+    <button id="usernameSend" class="inline submitbutton">Set</button>
+  </form> -->
+  <!-- <button id="joinOne" value="1" >Join Room 1</button>
+  <button id="joinTwo" value = "2" >Join Room 2</button>
+  <button id="poke" >Poke!</button> -->
+<!-- </div> -->
+<div class="col-md-6 box ">
+  <div id="spec" class="textbox">
+    <ul id="messagesList">
 
+    </ul>
+  </div>
+  <div class="inputbox block">
+    <input id="message" class="inline typebox" type="text" placeholder="Say Something...">
+    <button id="send" class="inline submitbutton">Send</button>
+    <input id="setUsername" class="inline typebox" type="text" placeholder="Set username here...">
+    <button id="usernameSend" class="inline submitbutton">Set</button>
+    <button id="11" type="button" name="button">join room 1</button>
+    <button id="22" type="button" name="button">join room 2</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-  var socket = io();
+  var socket = io('http://localhost:3000/');
+  // var room;
+  // socket.on('11', function() {
+  //   // socket.emit('room', room);
+  //   socket.emit('room', "1");
+  //   console.log("connected to chatroom " + room);
+  // });
+  //
+  // $('#joinOne').click(function(){
+  //   room = "room1";
+  //   socket.emit('room', room);
+  // })
+  //
+  // $('#joinTwo').click(function(){
+  //   room = "room2";
+  //   socket.emit('room', room);
+  // })
+  //
+  // $('#poke').click(function(){
+  //   socket.emit('poke');
+  // })
+
   socket.on('connect', function() {
-    console.log('Connected!');
-  });
+    console.log("connected");
+  })
+
+  $('#11').click(function(){
+    socket.emit('room', "1");
+  })
+
+  $('#22').click(function(){
+      socket.emit('room', "2");
+  })
+
+  // $('#22').click(function(){
+  //   socket.on('room', 2);
+  // })
+
+  $('#send').click(function(){
+    var msg = $('#message').val();
+    $('#message').val('');
+    socket.emit('message', msg);
+  })
+
+  $('#usernameSend').click(function(){
+    var newUsername = $('#setUsername').val();
+    socket.emit('setUsername', newUsername);
+  })
+
+  socket.on('serverMessage', function(serverMsg){
+    console.log(serverMsg);
+    $('#messagesList').append(serverMsg);
+  })
+
 </script>
