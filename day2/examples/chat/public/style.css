@@ -30,6 +30,7 @@ h1 {
     height: 95%;
     background: #F6F5F5;
     border: solid #E2DFDF 1px;
+    overflow-y: scroll;
 }
 
 .typebox {

@@ -52,6 +52,7 @@
 
   socket.on('serverMessage', function (text) {
     $('.textbox').append(text + '<br>');
+    $('.textbox').scrollTop($('.textbox').height());
   });
 
   $('.username').submit(function (event) {
