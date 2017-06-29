@@ -32,8 +32,11 @@ router.get('/product/:pid', (req, res, next) => {
 });
 router.get('/cart', (req, res, next) => {
   // Render a new page with our cart
-  // console.log(req.session.cart);
-  res.render('cart')
+  console.log(req.session.cart);
+
+  res.render('cart', {
+    products: req.session.cart
+  })
 })
 
 router.post('/cart/add/:pid', (req, res, next) => {
@@ -45,12 +48,9 @@ router.post('/cart/add/:pid', (req, res, next) => {
     if (err) console.log(err);
     req.session.cart.push(singleProduct)
 
-    // console.log(req.session.cart);
     res.render('cart', {
-      // products: req.session.cart
+      products: req.session.cart
     })
-    //insert product
-    // console.log('CART', req.session.cart);
   })
 })
 
@@ -68,8 +68,6 @@ router.post('/cart/delete/:pid', (req, res, next) => {
     res.render('cart', {
       products: req.session.cart
     })
-    //insert product
-    // console.log('CART', req.session.cart);
   })
 
 })
