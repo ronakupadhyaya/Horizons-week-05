@@ -43,6 +43,7 @@ class Board extends React.Component {
   }
 }
 
+//you can tell it's JSX because it has HTML looking shit
 class Game extends React.Component {
   render() {
     return (
@@ -51,8 +52,8 @@ class Game extends React.Component {
           <Board />
         </div>
         <div className="game-info">
-          <div>{/* status */}</div>
-          <ol>{/* TODO */}</ol>
+          <div>{this.props.number}</div>
+        
         </div>
       </div>
     );
@@ -61,6 +62,16 @@ class Game extends React.Component {
 
 // ========================================
 
+class Compy extends React.Component{
+  render(){
+    return (
+      <div className= "some_class"
+        <h1 Hello /h1>
+        <p This is react </p>
+
+    );
+  }
+}
 
 var jsxElement = (
   <div className="some_class">
