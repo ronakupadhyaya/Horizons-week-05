@@ -21,6 +21,24 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('room', function(room){
+    console.log("received 'room' with value: ", room);
+    if(socket.room!==room){
+      socket.leave(socket.room)
+      socket.join(room);
+      socket.room = room; //saving room in socket
+      io.in(socket.room).emit('serverMessage', 'Welcome to Room ' + room + "!");
+    }
+  })
+
+  socket.on('message', function(msg){
+    socket.in(socket.room).emit('serverMessage', socket.username + "said: " + msg);
+  })
+
+  socket.on('poke', function(){
+    console.log("socket.room", socket.room);
+    io.in(socket.room).emit('serverMessage', "Room " + socket.room + " has been poked!");
+  })
 });
 
 var port = process.env.PORT || 3000;
