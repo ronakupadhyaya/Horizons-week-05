@@ -20,8 +20,16 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+
 io.on('connection', function(socket) {
+  socket.on('room', function(room) {
+        socket.join(room);
+    });
 });
+
+room = "Join Room 1";
+io.in(room).emit('message', 'what is going on, party people?');
+
 
 var port = process.env.PORT || 3000;
 server.listen(port, function(){
