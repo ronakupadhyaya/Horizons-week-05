@@ -3,8 +3,18 @@ var path = require('path');
 var morgan = require('morgan');
 var exphbs = require('express-handlebars');
 var app = require('express')();
+
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+
+io.on('connection', function(socket) {
+  // once a client has connected, we expect to get a ping from them saying what room they want to join
+  socket.on('room', function(room) {
+    console.log("Joined " + room);
+    socket.join(room);
+  });
+  console.log('User has connected!');
+});
 
 // Set View Engine
 app.engine('hbs', exphbs({
