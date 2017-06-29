@@ -61,6 +61,16 @@ class Game extends React.Component {
 
 // ========================================
 
+class Compy extends React.Component {
+  render() {
+    return (
+      <div className = "some_class">
+        <h1>Hello</h1>
+        <p>This is React!!!</p>
+      </div>
+    )
+  }
+}
 
 var jsxElement = (
   <div className="some_class">
@@ -71,6 +81,6 @@ var jsxElement = (
 
 
 ReactDOM.render(
-  jsxElement,
+  <Compy/>,
   document.getElementById('root')
 );
