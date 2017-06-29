@@ -109,7 +109,7 @@ class Game extends React.Component {
     } else {
         status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
-    var toggle = React.createElement('button',{onClick:()=>this.toggleButton()}, this.state.ascend ?"Desending":"Ascending");
+    var toggle = React.createElement('button',{onClick:()=>this.toggleButton().bind(this)}, this.state.ascend ?"Desending":"Ascending");
     return (
         <div className="game">
             <div className="game-board">
