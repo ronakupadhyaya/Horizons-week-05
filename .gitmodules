@@ -1,0 +1,4 @@
+[submodule "day2/slapjack"]
+    path = day2/slapjack
+    url = git@github.com:horizons-school-of-technology/slapjack.git
+    branch = mohammad-gitup
