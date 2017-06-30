@@ -7,19 +7,35 @@
     {{#each items}}
     <tr>
       <td> <img width="150px" src="{{imageUri}}" /> </td>
-      <td> {{product.title}} </td>
+      <td> {{title}} </td>
       <td> <a href="//cart/add/{{_id}}"> Add another </a> </td>
       <td> <a href="/cart/delete/{{_id}}"> Remove </a> </td>
-      <td> ${{product.price}} X {{quantity}} </td>
+      <td> ${{price}} X {{quantity}} </td>
     </tr>
     {{/each}}
     <tr>
-      <td> Total: ${{product.price}} </td>
+      <td> Total: ${{total}} </td>
       <td> <a class="btn btn-danger" href="/cart/delete" >Empty Cart</a> </td>
       <td> <a class="btn btn-primary" href="/" > Shop more</a> </td>
 
-      <td> <a class="btn btn-primary" href="/" >Checkout With Stripe</a> </td>
+      <!-- <td> <a class="btn btn-primary" href="/cart/checkout" >Checkout With Stripe</a> </td> -->
+      <td>
+        <form action="/cart/checkout" method="POST">
+          <input type="text" name="name" placeholder="Name">
+          <script
+            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+            data-key="pk_test_FJxNeWsEKyWOTdJA0S0TWarG"
+            data-amount= {{amount}}
+            data-name="Homazon"
+            data-description="Checkout with Stripe"
+            data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+            data-locale="auto">
+          </script>
+        </form>
+      </td>
     </tr>
+
+
   </tbody>
 </table>
 </div>

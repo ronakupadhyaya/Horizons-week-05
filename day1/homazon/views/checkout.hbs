@@ -1,0 +1,12 @@
+<form action="/cart/checkout" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="pk_test_FJxNeWsEKyWOTdJA0S0TWarG"
+    data-amount= {{amount}}
+    data-name="Homazon"
+    data-description="Purchase"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
