@@ -25,13 +25,23 @@ Why don't we start by going from nothing to something? We'll walk you through ho
 
 1. Always start with version control. Let's get our git tracking and remote repository set up. Your building this exercise from scratch, so you will be making your own repository on github rather than making a branch on one of ours. Gotta bolster that profile for potential recruiters.
 
-    1. Visit `github.com` and log in. You should see a button to create a new repository somewhere on the right hand side. **GIT IMAGE 1**
+    1. Visit `github.com` and log in. You should see a button to create a new repository somewhere on the right hand side. 
+      
+        ![](img/github1.png)
 
-    1. Fill out the page to give your repository a name and description. **GIT IMAGE 2**
+    1. Fill out the page to give your repository a name and description. 
+    
+        ![](img/github2.png)
 
-    1. Click the dropdown to add a `.gitignore` to your project. This will automatically generate a `.gitignore` file appropriate for a typical project of the given type, in our case `Node`. **GIT IMAGE 3**. The `.gitignore` file tells git which files it shouldn't bother tracking or pushing, either because it's unnecessary (like packages/dependencies) or straight up dangerous (like env files containing secret credentials). Any cred you accrue from having a cool React app on your profile could be thrown out the window if people see you pushed your entire `node_modules` directory like a goober.
+    1. Click the dropdown to add a `.gitignore` to your project. This will automatically generate a `.gitignore` file appropriate for a typical project of the given type, in our case `Node`.  
+    
+        ![](img/github3.png)
+        
+        The `.gitignore` file tells git which files it shouldn't bother tracking or pushing, either because it's unnecessary (like packages/dependencies) or straight up dangerous (like env files containing secret credentials). Any cred you accrue from having a cool React app on your profile could be thrown out the window if people see you pushed your entire `node_modules` directory like a goober.
 
-    1. Submit the form to be given a fresh github repo. Neat. To get it onto your machine, navigate to your `horizons` folder and `git clone YOUR_CLONE_URL_HERE`. You can find the url to clone from on the right hand side of the page. **GIT IMAGE 4**
+    1. Submit the form to be given a fresh github repo. Neat. To get it onto your machine, navigate to your `horizons` folder and `git clone YOUR_CLONE_URL_HERE`. You can find the url to clone from on the right hand side of the page. 
+    
+        ![](img/github4.png)
 
     1. You should now have a directory with the same name as your online repository. The two will be linked so that when you `git push` it will push to your online repo, etc. `cd` into this directory, and perhaps open it in an editor like atom, before continuing.
 
