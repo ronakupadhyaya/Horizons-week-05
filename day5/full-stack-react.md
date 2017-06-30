@@ -301,6 +301,8 @@ You may be itching to be done with setup so you can get to the coding already, b
 
 Go ahead and take that new script for a spin. You'll notice that webpack appears to build like before, but this time the program does not terminate. If you were watching the output, you may have seen this in there
 
+>**Note:** You can run a custom script (defined in your package.json) by running `npm run namehere`
+
 ```bash
 Project is running at http://localhost:8080/
 webpack output is served from /
