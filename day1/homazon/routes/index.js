@@ -162,11 +162,11 @@ router.post('/cart/checkout',(req,res,next) =>{
 
   if (req.user.customerId) {
     stripe.charges.create({
-      amount: total, // $15.00 this time
+      amount: total,
       currency: "usd",
       customer: req.user.customerId,
     }).then(function(charge) {
-      console.log(charge)
+
       //Use and save the charge info.
       var newPay= new Payment({
         stripeBrand: charge.source.brand,
@@ -223,7 +223,7 @@ router.post('/cart/checkout',(req,res,next) =>{
       if(err){
         console.log(err)
       }else{
-          res.send('payment successful!')
+          res.redirect('/cart')
       }
     })
   });
