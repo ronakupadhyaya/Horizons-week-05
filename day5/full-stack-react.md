@@ -101,9 +101,7 @@ Our objective now will be to render a simple `<p>` tag with React before moving 
 
 Let's see that `<p>` tag render in all it's glory by opening `index.html` in a browser again.
 
-```bash
-Uncaught SyntaxError: Unexpected token <
-```
+![](img/app1.png)
 
 Huh?
 
@@ -160,7 +158,7 @@ Note: Babel could be run on it's own without webpack, but as a real app grows to
 1. Next up is writing the webpack configuration file, `webpack.config.js`. Configuring webpack can be finnicky, but it's a rite of passage for young web developers. If you want, we can do this one together, and then in future projects you'll be able to reference - or even copy - the config file we end up with here. Or, if you'd rather, you can forgo this optional walkthrough and skip to the end to copy a working `webpack.config.js` (which is actually what a developer would typically do when starting a new project, so there's no shame).
 
     <details>
-      <summary>Teach me to fish. (Make `webpack.config.js` line by line)</summary>
+      <summary>Teach me to fish. (Make webpack.config.js line by line)</summary>
 
       You've made a respectable choice. Understanding webpack a little better could save you from wrestling with it later when your project has more requirements.
 
@@ -238,7 +236,7 @@ Note: Babel could be run on it's own without webpack, but as a real app grows to
     </details>
     <br>
     <details>
-      <summary>Just gimme dat fish. (Skip to a finished `webpack.config.js`)</summary>
+      <summary>Just gimme dat fish. (Skip to a finished webpack.config.js)</summary>
 
       Your `webpack.config.js` should be on the root of your directory and should look like this:
 
@@ -360,6 +358,10 @@ Note: In a real project we would set up `linting` to enforce we met style requir
 
 Now check out how your app looks in your browser. You should see a bulleted list of the strings you wrote in your `dummyData` and an X button for each one.
 
+
+![](img/app2.png)
+
+
 This is another good checkpoint to commit. In general, commit at the end of each of these sections if it left off on a stable version of the app.
 
 ### Let's See the Rest
@@ -369,6 +371,8 @@ There's not much more to add, visually speaking.
 1. Make a component called `InputLine` that renders a text input field and a submission button. **Remember that render can only return a single JSX element, so any time you have adjacent ones they'll have to be wrapped in a `<div>`.**
 
 1. Make a component called `TodoApp` that renders an `InputLine` and a `TodoList`. Change the `ReactDOM.render` call to render a `TodoApp`.
+
+![](img/app3.png)
 
 We've got every box now (making this a decent checkpoint to commit), but our static app isn't yet fully representative of one with live data. We don't want to end this mockup phase until we are certain the only things the next phase will include are adding event handling attributes (`onClick`, `onChange`, etc.) and replacing `dummyData` with some database call. We're going to add in some sense of tasks being completed or not, and then in the next step we will move some stuff around in anticipation of the following phase.
 
@@ -382,6 +386,10 @@ Be sure to include both complete and incomplete tasks.
 1. Now that the data shape has changed, we'll have to update the way `TodoList` passes information (props) to each `Todo`. The `Todo` will still need to know what its task is, but also whether or not that task has been completed.
 
 1. Update `Todo` to display its task as crossed out if it is completed. You won't be able to use an `if` statement inside your JSX, so this is a good time to whip out the Conditional (Ternary) Operator: `condition ? value if true : value if false`. You can display crossed out text by using a `<strike>` tag.
+
+
+![](img/app4.png)
+
 
 Does everything look right? Commit if so.
 
