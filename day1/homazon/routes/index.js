@@ -4,10 +4,10 @@ var models = require('../models/models');
 var Product = models.Product;
 var Customer = models.Customer;
 
-//import stripe
 import stripePackage from 'stripe';
-const stripe = stripePackage('sk_test_9r4LocbABzjIphhbiZKeX0uz');
-var token = request.body.stripeToken;
+const stripe = stripePackage(process.env.SECRET_KEY);
+// var token = request.body.stripeToken;
+
 
 var router = express.Router();
 var myCart = []
@@ -47,14 +47,15 @@ router.get('/singleProduct/:id', (req, res, next) => {
 
   //CART PAGE
   router.get('/cart', (req, res, next) => {
-
+    var totalAmount = 0
     myCart.forEach(function(item) {
-      item.total = item.number * item.product.price
+      item.total = item.number * item.product.price;
+      totalAmount += item.total
     })
-
         res.render('cart', {
-          cart: myCart
-
+          cart: myCart,
+          PUBLISHABLE_KEY: process.env.PUBLISHABLE_KEY,
+          totalAmount: totalAmount*100
       })
   })
 
@@ -95,34 +96,66 @@ router.get('/singleProduct/:id', (req, res, next) => {
       });
 
 //PAYMENT
-router.post('/payments', req, res, next) => {
+router.post('/payments', (req, res, next) => {
+  console.log(req.body)
 
-  // Create a Customer:
+  // calculate the total amount to charge in cart
+  var totalAmount = 0
+  myCart.forEach(function(item) {
+    totalAmount += item.number * item.product.price
+  })
+
+  console.log(req.user)
+
+  // // if there is a customer id
+  // // just charge it directly
+  // if (req.user.customerId) {
+  //   stripe.charges.create({
+  //     amount: totalAmount * 100,
+  //     currency: "usd",
+  //     source: req.body.stripeToken,
+  //   })
+  //   .then(function(charge) {
+  //     console.log(charge)
+  //     // store payment transaction
+  //     // TODO Transaction.create
+  //     //res.redirect('/payment_success')
+  //     res.end()
+  //   })
+  //   return;
+  // }
+
+  // Otherwise, create a customer
   stripe.customers.create({
     email: req.body.stripeEmail,
-    source: req.body.stripeToken
-  }).then(function(customer) {
+    source: req.body.stripeToken,
+    metadata: { userId: String.valueOf(req.user._id), username: req.user.username}
+  })
+  .then(function(customer) {
+    console.log(customer)
+    req.user.customerId = customer.id;
+    return req.user.save();
+  })
+  .then(function(savedUser) {
     // YOUR CODE: Save the customer ID and other info in a database for later.
     return stripe.charges.create({
-      amount: 1000,
+      amount: totalAmount * 100,
       currency: "usd",
-      customer: customer.id,
+      customer: savedUser.customerId,
     });
-  }).then(function(charge) {
-    newCustomer.save()
-    .then(newCustomer => {
-      res.redirect('/login')
-    })
-    .catch(err => {
-      console.log(err)
-    })
+  })
+  .then(function(charge) {
+    console.log(charge)
+    //TODO check if a card went through the payment gateway
+    // store payment transaction
+    res.end()
+  })
 
-    }
-    // Use and save the charge info.
-  });
+
+});
   // req.body.stripeToken
   // req.body.stripeEmail
   // // Any other data you passed into the form
-}
+
 // module.exports = router;
 export default router;

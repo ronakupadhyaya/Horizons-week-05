@@ -6,6 +6,7 @@ mongoose.connect(connect);
 var userSchema = new mongoose.Schema({
     username: String,
     password: String,
+    customerId: String
     // phone: String,
     // facebookId: String,
     // pictureURL: String

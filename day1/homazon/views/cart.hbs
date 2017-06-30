@@ -40,11 +40,10 @@
   </div>
 
   <form action="/payments" method="POST">
-    <input type="text" name="name" placeholder="Name">
     <script
       src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-      data-key="pk_test_7mNNfNKtcBGvaXJs4vSj8JJH"
-      data-amount="999"
+      data-key="{{PUBLISHABLE_KEY}}"
+      data-amount="{{totalAmount}}"
       data-name="Horamazon"
       data-description="Payment Screen"
       data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

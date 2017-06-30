@@ -17,9 +17,10 @@ import bodyParser from 'body-parser';
 import index from './routes/index';
 import auth from './routes/auth';
 import users from './routes/users';
+import connectMongo from 'connect-mongo/es5';
+var MongoStore = connectMongo(session)
+
 var app = express();
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,8 +43,15 @@ mongoose.Promise = global.Promise;
 
 
 app.use(session({
-  secret: process.env.SECRET,
+    secret: process.env.SECRET,
+    name: 'Catscoookie',
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    proxy: true,
+    resave: true,
+    saveUninitialized: true
 }));
+
+
 
 passport.serializeUser((user, done) => {
   done(null, user._id);
