@@ -19,9 +19,25 @@ app.use(morgan('combined'));
 app.get('/', function(req, res) {
   res.render('index');
 });
-
-io.on('connection', function(socket) {
-});
+var connectUser = 0;
+io.on('connection', function(socket){
+  socket.on('newConnection',function(){
+    connectUser++;
+    if (connectUser%2 === 0 && !socket.room){
+      console.log('Inside first if ' + connectUser);
+      socket.room = connectUser;
+      socket.join(connectUser);
+      socket.emit('sendBack','You have joined room ' + (connectUser).toString())
+      io.to(connectUser).emit('sendBack','A user has joined');
+    }else if (!socket.room){
+      console.log('Inside second if ' + connectUser-1);
+      socket.room = connectUser-1;
+      socket.join(connectUser-1);
+      socket.emit('sendBack','You have joined room ' + (connectUser-1).toString())
+      io.to(connectUser-1).emit('sendBack','A user has joined');
+    }
+  })
+})
 
 var port = process.env.PORT || 3000;
 server.listen(port, function(){
