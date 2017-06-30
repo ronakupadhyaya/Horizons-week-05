@@ -1,6 +1,6 @@
-# Week 5 Day 5 Exercises 
+# Week 5 Day 5 Exercises
 
 ## Pair programming exercise
- [Warmup](warmup.md)
+1. [Warmup](./warmup.md)
 
- [Full-Stack React]().
+1. [Full-Stack React](./full-stack-react.md)
