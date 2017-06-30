@@ -95,7 +95,7 @@ passport.use(new LocalStrategy({
 
 app.use('/', auth(passport));
 app.use('/', index.router);
-app.use('/', index.stripe);
+// app.use('/', index.stripe);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

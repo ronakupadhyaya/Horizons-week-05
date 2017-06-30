@@ -85,28 +85,48 @@ router.post('/', (req, res) => {
 
   // var email = req.body.email;
   // var name = req.body.name;
+  // stripe.customers.create({
+  //   email: "paying.user@example.com",
+  //   source: token,
+  // }).then(function(customer) {
+  //   console.log(customer);
+  //   new Customer(customer).save() // YOUR CODE: Save the customer ID and other info in a database for later.
+  //     .then(function() {
+  //       return stripe.charges.create({
+  //         amount: 1000,
+  //         currency: "usd",
+  //         customer: customer.id,
+  //       });
+  //     });
+  // }).then(function(charge) {
+  //   new Charge(charge).save() // Use and save the charge info.
+  // });
+  // // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
+  // stripe.charges.create({
+  //   amount: 1500, // $15.00 this time
+  //   currency: "usd",
+  //   customer: customerId,
+  // });
   stripe.customers.create({
-    email: "paying.user@example.com",
-    source: token,
-  }).then(function(customer) {
-    console.log(customer);
-    new Customer(customer).save() // YOUR CODE: Save the customer ID and other info in a database for later.
-      .then(function() {
-        return stripe.charges.create({
-          amount: 1000,
-          currency: "usd",
-          customer: customer.id,
-        });
-      });
-  }).then(function(charge) {
-    new Charge(charge).save() // Use and save the charge info.
-  });
-  // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
-  stripe.charges.create({
-    amount: 1500, // $15.00 this time
+  email: "paying.user@example.com",
+  source: token,
+}).then(function(customer) {
+  // YOUR CODE: Save the customer ID and other info in a database for later.
+  return stripe.charges.create({
+    amount: 1000,
     currency: "usd",
-    customer: customerId,
+    customer: customer.id,
   });
+}).then(function(charge) {
+  // Use and save the charge info.
+});
+
+// YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID.
+stripe.charges.create({
+  amount: 1500, // $15.00 this time
+  currency: "usd",
+  customer: customerId,
+});
 })
 
 

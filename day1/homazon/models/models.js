@@ -56,7 +56,7 @@ var Charge = mongoose.model('Charge', chargeSchema);
 var Pay = mongoose.model('Pay', paySchema);
 export default {
   User: User,
-  Product: Product
-  Customer： Customer，
+  Product: Product,
+  Customer: Customer,
   Charge: Charge
 }
