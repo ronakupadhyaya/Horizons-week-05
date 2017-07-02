@@ -563,7 +563,7 @@ And while we are writing our own server, we should also have it do what the `web
 
 1. Start by making a new folder at the root of your project directory called `backend`. Make a file inside it called `server.js` with the below contents. __Don't forget to install express first.__
 
-    Note: This code will be running on Node, as opposed to the code before that was being translated by webpack and run in browser. Node is pretty good about supporting ES6 features, but it unfortunately omits the `import` syntax. If this greatly botherd us we could get `babel-node` involved, but t should be fine to just do `requires` instead.
+    Note: This code will be running on Node, as opposed to the code before that was being translated by webpack and run in browser. Node is pretty good about supporting ES6 features, but it unfortunately omits the `import` syntax. If this greatly botherd us we could get `babel-node` involved, but it should be fine to just do `requires` instead.
 
     ```javascript
     const express = require('express');
