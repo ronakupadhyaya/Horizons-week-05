@@ -330,7 +330,7 @@ Though we could write everything in a single component, a good React app will be
   1. `Todo`:  An individual todo item. The `Todo` boxes we've drawn in the picture in our head will include the task text as well as an X button to delete the `Todo`.
   1. `TodoList`:  The box around the assortment of `Todo`s in our picture.
   1. `InputLine`: A row at the top of our app that has an input field and a submit button. This is how a user will add new `Todo`s.
-  1. `TodoApp`: A box around the whole thing. This is what we will pass into `render`, and later we'll choose this as a good place put some functionality.
+  1. `TodoApp`: A box around the whole thing. This is what we will pass into `render`, and later we'll choose this as a good place to put some functionality.
 
   If the boxes you drew differ slightly that's perfectly fine. There's some subjectivity here as to where the line between helpful and unhelpful is when breaking your app up into components. But for the sake of these instructions remaining helpful to you, stick with the breakdown above for today.
 
@@ -563,8 +563,10 @@ And while we are writing our own server, we should also have it do what the `web
 
 1. Start by making a new folder at the root of your project directory called `backend`. Make a file inside it called `server.js` with the below contents. __Don't forget to install express first.__
 
+    Note: This code will be running on Node, as opposed to the code before that was being translated by webpack and run in browser. Node is pretty good about supporting ES6 features, but it unfortunately omits the `import` syntax. If this greatly botherd us we could get `babel-node` involved, but t should be fine to just do `requires` instead.
+
     ```javascript
-    import express from 'express';
+    const express = require('express');
     const app = express();
 
     // This line makes the build folder publicly available.
@@ -580,7 +582,7 @@ And while we are writing our own server, we should also have it do what the `web
 1. Now add these 2 lines to server.js, the first up with the `import`s and the second under the `express.static` line.
 
     ```javascript
-    import dbRoutes from './routes/databaseAccess.js';
+    const dbRoutes = require('./routes/databaseAccess.js');
     ...
     app.use('/db', dbRoutes);
     ```
@@ -590,14 +592,14 @@ And while we are writing our own server, we should also have it do what the `web
 1. Make a folder `routes` in the `backend` folder, make a `databaseAccess.js` inside that looks like this for now:
 
     ```javascript
-    import express from 'express';
+    const express = require('express');
     const router = express.Router();
 
     router.get('/add', (req, res) => {
       res.send('Hello');
     });
 
-    export default router;   
+    module.exports = router;   
     ```
 
 This thing we've named `router` you can treat a lot like you treat your express `app` -- you can add `.get`s, `.post`s, etc. exactly the way you are used to. The conceptual difference is that `router` will serve as a subapp so to speak, which is incorporated into the main app with the lines we added in step 3 such that a `get` request to `localhost:3000/db/add` will respond with `Hello` (make one using your browser and see). Were our app to grow, we could put all the routes related to the database in `databaseAccess.js` (`/db/add`, `/db/toggle`, ...), all our routes for signup/login in an `authorization.js` (`/auth/signin`, `/auth/signout`, ...), etc.
@@ -609,7 +611,7 @@ Commit.
 1. Make a new folder `models` in the `backend` folder and put a `TodoItem.js` inside that looks like this. __Don't forget to install mongoose first.__
 
     ```javascript
-    import mongoose from 'mongoose';
+    const mongoose = require('mongoose');
 
     const todoItemSchema = new mongoose.Schema({
       task: { type: String, required: true },
@@ -618,7 +620,7 @@ Commit.
 
     const TodoItem = mongoose.model('Todo', todoItemSchema);
 
-    export default TodoItem;
+    module.exports = TodoItem;
     ```
 
 1. Before we can use this mongoose model with our database, we have to connect to one.
