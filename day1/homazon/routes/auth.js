@@ -27,7 +27,6 @@ module.exports = function(passport) {
   router.post('/signup', function(req, res) {
 
     if (req.body.username && req.body.password && validateReq(req.body)) {
-      console.log('hi')
       var newUser = new User({
         username: req.body.username,
         password: req.body.password
@@ -39,7 +38,7 @@ module.exports = function(passport) {
           res.status(500).redirect('/register');
           return;
         }
-        // console.log(user);
+
         res.redirect('/login');
       });
     }
