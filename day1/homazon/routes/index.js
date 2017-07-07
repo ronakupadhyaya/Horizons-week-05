@@ -50,11 +50,19 @@ router.get('/product/:pid', (req, res, next) => {
 router.get('/cart', (req, res, next) => {
   // Render a new page with our cart
   // Product.findById()
+  console.log(req.session);
+  if (!req.session.cart) {
+    req.session.cart = [];
+  }
+  console.log("LOOK HEREE");
+  console.log(req.session.cart);
   var cartItems = req.session.cart;
   res.render('cart', {
     items: cartItems
   });
 })
+
+
 
 router.post('/cart/add/:pid', (req, res, next) => {
   // Insert code that takes a product id (pid), finds that product
@@ -68,6 +76,38 @@ router.post('/cart/add/:pid', (req, res, next) => {
       req.session.cart.push(product);
     }
   })
+})
+
+
+
+// router.get('/checkout', (req, res, next) => {
+//   // Render a new page with our cart
+//   // Product.findById()
+//   console.log(req.session);
+//   if (!req.session.cart) {
+//     req.session.cart = [];
+//   }
+//   console.log("LOOK HEREE");
+//   console.log(req.session.cart);
+//   var cartItems = req.session.cart;
+//   res.render('cart', {
+//     items: cartItems
+//   });
+// })
+
+router.post('/checkout', (req, res, next) => {
+  // Insert code that takes a product id (pid), finds that product
+  // and inserts it into the cart array. Remember, we want to insert
+  // the entire object into the array...not just the pid.
+  var stripeToken = req.body.stripeToken;
+  var stripeEmail = req.body.stripeEmail;
+  // Product.findById(productId, function(err,product){
+  //   if(err || !product){
+  //     res.send("Error");
+  //   }else {
+  //     req.session.cart.push(product);
+  //   }
+  // })
 })
 //
 // router.delete('/cart/delete/:pid', (req, res, next) => {

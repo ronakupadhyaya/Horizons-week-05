@@ -10,8 +10,11 @@ a {
 /*first view - login container */
 .login-container {
   background-color: #d9d9f7;
-  height: 750px;
+  height: 900px;
+  width: 100%;
   text-align: center;
+  padding: 0px;
+  margin: 0px;
 }
 .login-container h1 {
   font-size: 80px;

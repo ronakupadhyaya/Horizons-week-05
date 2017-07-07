@@ -43,7 +43,11 @@ module.exports = function(passport) {
       });
     }
   })
-
+  // Using arrow notation instead of functions:
+  //
+// router.get('/login', (req,res) =>  {
+//  res.render('login')
+//   })
   router.get('/login',function(req,res) {
       console.log("look hereee");
       res.render('login')
