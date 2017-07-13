@@ -1,0 +1,14 @@
+<a href="/logout" style="float:right; margin-top:5%;margin-right:5%" class="btn btn-lg btn-primary" role="button">Logout</a>
+<div>
+  <div style="float:left;margin-left:7%;margin-top:5%">
+    <h3>{{product.title}}</h3>
+    <img src="{{product.imageUri}}" style="width:400px;"/>
+  </div>
+  <div style="float:right;margin-top:10%;margin-right:10%;width:40%">
+    <p style="font-size:17px;">{{product.description}}</p>
+    <h4>${{product.price}}</h4>
+    <form method="post" action="/cart/add/{{product._id}}">
+      <button class="btn btn-lg btn-success" type="submit" role="button">Add to Cart</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,12 @@
+<center><form action="/pay" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <input type="hidden" name="amount" value="{{amount}}"/>
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key={{key}}
+    data-amount={{amount}}
+    data-name="Homazon"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form></center>
