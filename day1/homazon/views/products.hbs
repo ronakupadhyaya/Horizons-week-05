@@ -1,0 +1,22 @@
+<div class="logout">
+  <a class='btn btn-danger' href="/logout">Logout</a>
+</div>
+
+<h1>Products</h1>
+
+<table>
+  <tr>
+    <th>Picture</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Price</th>
+  </tr>
+  {{#each products}}
+    <tr>
+      <td><img class='productPic' src="{{imageUri}}"></td>
+      <td><a href="/product/{{_id}}">{{title}}</a></td>
+      <td>{{description}}</td>
+      <td>${{price}}</td>
+    </tr>
+  {{/each}}
+</table>

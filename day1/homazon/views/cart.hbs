@@ -1,0 +1,58 @@
+<div class="logout">
+  <a class='btn btn-danger' href="/logout">Logout</a>
+</div>
+
+<h1>Shopping Cart</h1>
+
+<table>
+  <tr>
+    <th>Picture</th>
+    <th>Title</th>
+    <th></th>
+    <th></th>
+    <th>Price</th>
+  </tr>
+  {{#each cart}}
+    <tr>
+      <td><img class='productPic' src="{{imageUri}}"></td>
+      <td>{{title}}</td>
+      <td>
+        <form action="/cart/add/{{_id}}" method='post'>
+          <button type='submit'>Add another</button>
+        </form>
+      </td>
+      <td>
+        <form action="/cart/delete/{{_id}}" method='post'>
+          <button type='submit'>Remove</button>
+        </form>
+      </td>
+      <td>${{price}} x {{countInArray _id}} = ${{calculate price (countInArray _id)}}</td>
+    </tr>
+  {{/each}}
+
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>Total: ${{getTotal}}</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td>
+      <form action="/cart/delete" method='post'>
+        <button type='submit' class='btn btn-danger'>Empty Cart</button>
+      </form>
+    </td>
+    <td><a class='btn btn-primary' href="/">Keep Shopping</a></td>
+    <td>
+      <form action="/cart/checkout" method='post'>
+        <input type="text" name="name" placeholder="Name">
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="{{publishableKey}}" data-amount="{{getTotalCents}}" data-name="Homazon" data-description="Cart Checkout" data-image="https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAT4AAAAJDY1NTg0NGRhLTU3ODMtNDUwMy1hNjBlLTkxOGNlZDUxNGI5Ng.png"
+          data-locale="auto">
+        </script>
+      </form>
+    </td>
+  </tr>
+</table>

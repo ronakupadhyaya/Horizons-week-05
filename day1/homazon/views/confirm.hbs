@@ -1,0 +1,10 @@
+<h1 style='font-weight: bold;'>Order Confirmation</h1>
+<h2>Order id: {{order._paymentid._id}}</h2><br>
+
+<h2>Total: ${{order.total}}</h2><br>
+
+<h2 style='font-weight: bold;'>Credit Card Information</h2>
+<h2>Last 4 digits of credit card: {{order._paymentid.stripeLast4}}</h2>
+<h2>Expiration date: {{order._paymentid.stripeExpMonth}}/{{order._paymentid.stripeExpYear}}</h2>
+
+<a class='btn btn-primary' href="/">Go back to the products</a>

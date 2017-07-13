@@ -1,0 +1,21 @@
+<div class="logout">
+  <a class='btn btn-danger' href="/logout">Logout</a>
+</div>
+<h1>{{product.title}}</h1>
+
+<table>
+  <tr>
+    <td rowspan="3"><img src="{{product.imageUri}}" class="singleProductPic"></td>
+    <td id='description'>{{product.description}}</td>
+  </tr>
+  <tr id='price'>
+    <td>${{product.price}}</td>
+  </tr>
+  <tr>
+    <td>
+      <form action="/cart/add/{{product._id}}" method='post'>
+        <button type='submit' class='btn btn-primary'>Add to cart</button>
+      </form>
+    </td>
+  </tr>
+</table>
