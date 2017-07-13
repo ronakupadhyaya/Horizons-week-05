@@ -1,0 +1,10 @@
+<div>
+  <h1> {{product.title}} (${{product.price}})</h1>
+  <!-- <img src="{{prodcut.imageUri}}"> -->
+  <img src="https://images-na.ssl-images-amazon.com/images/I/61rOt2JB5mL._SL1000_.jpg">
+  <p>product.imageUri: {{product.imageUri}}</p>
+  <div> {{product.description}}</div>
+</div>
+<form method ="post" action = "/cart/{{product._id}}">
+  <input type="submit" value="Add to cart">
+</form>

@@ -1,24 +1,88 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
+
   <div class="row">
     <div class="col-md-6 box">
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
+
       <h2>What is Socket.IO?</h2>
       <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
+
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
       </div>
-      <div class="inputbox block">
+      <div id="username-container">
+        <input class="inline usernamebox" type="text" placeholder="Pick a username...">
+        <button class="inline usernamebutton">Submit</button>
+      </div>
+      <div class="inputbox block hidden">
+        <!-- <p id="error">Choose a username to send a message</p> -->
         <input class="inline typebox" type="text" placeholder="Say Something...">
         <button class="inline submitbutton">Send</button>
       </div>
     </div>
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+  var socket = io("localhost:3000");
+
+  $('.usernamebutton').click(function() {
+    var username = $('.usernamebox').val()
+    if (username.trim().length) {
+      $('.usernamebox').val('')
+      $('#error').hide()
+      $('#username-container').hide()
+      $('.inputbox').removeClass('hidden')
+      socket.emit('username', username)
+    }
+  })
+
+  socket.on('joinedRoom', function(serverMessage) {
+    var {username} = serverMessage;
+    var joinedDiv = `<div id="joined"><p class="username-label">`+username+` joined the room...</p></div>`
+    $('.textbox').append(joinedDiv)
+  })
+
+  $('.typebox').keypress(function() {
+    if ($('.typebox').val().trim().length) {
+      socket.emit('typing')
+    }
+  })
+
+  socket.on('typingResponse', function(serverMessage) {
+    var {username} = serverMessage
+    if (username && ! $('div.'+username).length) {
+      console.log('thingy: ' + $('div.'+username).length)
+      var typingDiv = `<div id="typing" class="`+username+`"><p class="username-label">`+username+` is typing...</p></div>`
+      $('.textbox').append(typingDiv)
+    }
+  })
+
+  $('.submitbutton').click(function() {
+    var message = $('.typebox').val()
+    $('.typebox').val('')
+    socket.emit('message', message)
+  })
+
+  socket.on('serverMessage', function(serverMessage) {
+    if (!serverMessage.username) {
+      $('#error').show()
+    } else {
+      var {username, message, sender} = serverMessage
+      if (sender){
+        var messageDiv = `<div id="sender"><p>`+message+`</p></div>`
+      } else {
+        var messageDiv = `<div id="message"><p>`+username+" says: "+message+`</p></div>`
+      }
+      if ($('div.'+username).length) {
+        $('div.'+username).remove()
+      }
+      $('.textbox').append(messageDiv)
+    }
+  })
+</script>

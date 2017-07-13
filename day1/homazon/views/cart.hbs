@@ -1,0 +1,24 @@
+<h1>Your shopping cart:</h1>
+<ul>
+  {{#each items}}
+    <li><a href="/products/{{this._id}}">{{this.title}}</a> (${{this.price}})   ||   <a href="/cart/remove/{{this._id}}">Remove From Cart</a></li>
+
+  {{/each}}
+  <a href="/cart/removeall"> Empty Your Cart</a>
+</ul>
+<form action="/">
+  <input type="submit" value="Back to Shopping~">
+</form>
+
+<form action="/checkout" method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key=process.env.STRIPE_PUBLISHABLE_KEY
+    data-amount="999"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>

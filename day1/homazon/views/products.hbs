@@ -1,0 +1,9 @@
+<div>
+  {{#each products}}
+  <li><a href="/products/{{this._id}}"> {{this.title}}</a> </li>
+  {{/each}}
+</div>
+<p> You have {{cartsize}} items in your cart </p>
+<form action="/cart">
+  <input type="submit" value="Go to Cart">
+</form>

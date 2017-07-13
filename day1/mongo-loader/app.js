@@ -1,4 +1,5 @@
 var express = require('express');
+var products = require('../homazon/data/products.json');
 var app = express();
 
 ['MONGODB_URI'].map(k => {
@@ -20,26 +21,22 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 var mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URI);
-var Movie = mongoose.model('Movie', {
-  title: {
-    type: String,
-    required: true
-  },
-  url: String,
-  photo: {
-    type: String,
-    required: true
-  },
-  year: String,
-  rating: String
-});
+
+var Product = require('../homazon/models/models.js').Product;
 
 app.get('/', function(req, res) {
-  Movie.find(function(err, movies) {
-    res.render('index', {
-      movies: movies
-    });
-  });
+  res.render('index');
+  // res.json(new Product);
+  // Product.find().exec(function(err, products) {
+  //   res.send('in product');
+  //   if (err) {
+  //     res.send(err);
+  //   } else {
+  //     res.render('index', {
+  //       products: products
+  //     });
+  //   }
+  // });
 });
 
 mongoose.Promise = Promise;
@@ -47,9 +44,17 @@ mongoose.Promise = Promise;
 app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
-  var movies = require('./movies.json');
+  products = products.forEach(function(product) {
+    new Product(product).save();
+  });
+  // res.send(products);
+  // Promise.all(products)
+  // .then(function() {
+  //   res.send('done!');
+  // });
+  res.send('done!');
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+
 });
 
 var port = process.env.PORT || 3000;

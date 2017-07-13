@@ -25,8 +25,52 @@ h1 {
 
 .textbox {
     height: 95%;
-    background: #F6F5F5;
     border: solid #E2DFDF 1px;
+    padding: 10px;
+}
+
+#error {
+  color: red
+}
+
+#typing, #joined {
+  background-color: #afafaf
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#message {
+  width: 40%;
+  background-color: #e0e0e0;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+#sender {
+  width: 40%;
+  background-color: #006aff;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  float: right;
+  color: white;
+  clear: both;
+  margin-left: 1000px
+}
+
+.username-label {
+  color: #c1c1c1;
 }
 
 .typebox {
