@@ -1,0 +1,49 @@
+
+<head>
+  <style>
+    table{
+      table-layout: fixed;
+    }
+    td{
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<div style="max-width: 800px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+  <h2>Cart</h2>
+  <div style="text-align: center;">
+    <h3>Logged in as {{user}}</h3>
+  </div>
+  <a class="btn btn-primary" href="/products" style="float: left;">All Products</a>
+  <a class="btn btn-warning" href="/login" style="float: right;">Log out</a>
+  <table class="table table-hover">
+    <thead>
+      <td><b>Image</b></td>
+      <td><b>Title</b></td>
+      <td><b>Descriptions</b></td>
+      <td><b>Price</b></td>
+    </thead>
+    <tbody>
+  {{#each products}}
+    <tr>
+      <td><image style="display:block; width:65%; height:auto; "src="{{imageUri}}"</image></td>
+      <td><a href='product/{{_id}}'>{{title}}</a></td>
+      <td>{{description}}</td>
+      <td>{{price}}</td>
+      <td><form method='post' action="/cart/delete/{{_id}}"><button class = "btn btn-info" style="float: right;"> Delete from cart </button></form></td>
+      <!-- <a class="btn btn-warning" method='post' href="/cart/delete/{{_id}}" style="float: right;">Delete from cart</a> -->
+    </tr>
+  {{/each}}
+    </tbody>
+  </table>
+  <form action="/pay" method="POST">
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key={{pkey}}
+      data-amount="999"
+      data-name="Demo Site"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>

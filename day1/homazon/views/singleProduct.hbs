@@ -1,0 +1,23 @@
+<style>
+      body { background-color: #d3d3d3; padding-top: 2em;}
+    </style>
+<body class="container">
+  <div class="infomation col-sm-8" style="text-align: center;">
+    <div style="font-size: 200%">
+      <div style="display: inline-block; float: left;"> {{product.title}}</div>
+      <div style="display: inline-block; float: right;"> {{product.price}}</div>
+    </div>
+    <br /><br /><br />
+    <div style="font-size: 150%; float: left;">
+      {{product.description}}
+    </div>
+    <br /><br />
+    <div>
+      <img src={{product.imageUri}} width="100%"></img>
+    </div>
+    <br /><br />
+    <div class="form-group">
+      <a class="btn btn-primary" href="/products" style="float: left;">All Products</a>
+    </div>
+  </div>
+</body>

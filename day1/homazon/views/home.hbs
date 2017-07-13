@@ -1,0 +1,40 @@
+
+<head>
+  <style>
+    table{
+      table-layout: fixed;
+    }
+    td{
+      word-wrap: break-word;
+    }
+  </style>
+</head>
+<div style="max-width: 800px; margin: auto; margin-top: 50px; border: 0.5px solid gray; padding: 30px 30px 30px 30px">
+  <h2>All Products</h2>
+  <div style="text-align: center;">
+    <h3>Logged in as {{user}}</h3>
+  </div>
+  <a class="btn btn-warning" href="/login" style="float: left;">Log out</a>
+
+  <a class="btn btn-warning" href="/cart" style="float: right;">View cart</a> <br></br>
+  <table class="table table-hover">
+    <thead>
+      <td><b>Image</b></td>
+      <td><b>Title</b></td>
+      <td><b>Descriptions</b></td>
+      <td><b>Price</b></td>
+    </thead>
+    <tbody>
+  {{#each products}}
+    <tr>
+      <td><image style="display:block; width:65%; height:auto; "src="{{imageUri}}"</image></td>
+      <td><a href='product/{{_id}}'>{{title}}</a></td>
+      <td>{{description}}</td>
+      <td>{{price}}</td>
+      <td><form method='post' action="/cart/add/{{_id}}"><button style="float: right;"> Add to cart </button></form></td>
+
+      <!-- <td> <a class="btn btn-warning" href="/cart/add/{{_id}}" style="float: right;">Add to cart</a> </td> -->
+    </tr>
+  {{/each}}
+    </tbody>
+  </table>
