@@ -3,6 +3,11 @@ var path = require('path');
 var morgan = require('morgan');
 var exphbs = require('express-handlebars');
 var app = require('express')();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket){
+});
 
 // Set View Engine
 app.engine('hbs', exphbs({

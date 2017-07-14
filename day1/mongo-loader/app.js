@@ -8,6 +8,8 @@ var app = express();
   }
 });
 
+// import hbs from 'express-handlebars'
+
 var hbs = require('express-handlebars')({
   defaultLayout: 'main',
   extname: '.hbs'
@@ -48,9 +50,26 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
-  // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
+  console.log('this is what you are requiring!!!!', movies);
+  var promiseArray = [];
+  for (var i=0; i<movies.length; i++) {
+    var newMovie = new Movie ({
+      title: movies[i].title,
+      url: movies[i].url,
+      photo: movies[i].photo,
+      year: movies[i].year,
+      rating: movies[i].rating,
+    });
+    promiseArray.push(newMovie.save());
+  }
+  Promise.all(promiseArray)
+    .then(function(returnedArray) {
+      console.log(returnedArray);
+      res.redirect('/');
+    });
 });
+
+
 
 var port = process.env.PORT || 3000;
 app.listen(port, function() {

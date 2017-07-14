@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Products</title>
+    <h1>Products</h1>
+    <form method="GET" action="/logout">
+      <input type="submit" value="Logout"/>
+    </form>
+    </head>
+
+  <body>
+    <form action="/products" method="GET">
+      {{#each products}}
+      <form method ="GET" action="/{{this._id}}">
+        <input type="submit" value
+      {{this.imageUri}}
+
+      <a href="/{{this._id}}">
+      <img src="smiley.gif" alt="Go to W3Schools!" width="42" height="42" border="0">
+
+      <span>{{this.title}} {{this.description}} {{this.price}}</span>
+        <!-- <form method="GET" action="/{{this._id}}">
+          <input type="submit" value="Send Text"/>
+        </form>
+        <form method="GET" action="/{{this._id}}">
+          <input type="submit" value="View Messages"/>
+        </form>
+        <form method="GET" action="/{{this._id}}">
+          <input type="submit"value="Edit Contact"/>
+        </form> -->
+      {{/each}}
+  </body>
+
+</html>
