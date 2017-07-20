@@ -44,3 +44,23 @@ h1 {
 .inputbox {
     height: 5%;
 }
+
+.message{
+    font-size: 1.2em;
+    width: auto;
+    max-width:300px;
+    border-radius: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+.message-in {
+    background-color: #E5E5EA;
+    margin-left: 10px;
+    text-align: left;
+}
+.message-out{
+    background-color : #22D351;
+    margin-right: 10px;
+    color: #FFFFFF;
+    text-align: right;
+}
