@@ -1,0 +1,70 @@
+// React
+// * easy to create and reuse components
+
+// React has its own DOM ---> shadow DOM
+// less re-rendering
+// const:js :: let:swift
+// can change values of objects using const
+// let makes two variables with same name and different scope have different values
+
+
+//                               type   attr      text
+var element = React.createElement('h1', null, 'Hello React');
+ReactDOM.render(element, document.getElementById('root'));
+
+//                              a link   that goes here              with this text
+var element = React.createElement('a', {href:'http://reactjs.com'}, 'Hello React');
+//                                       inside a node with this id
+ReactDOM.render(element, document.getElementById('root'));
+
+// **************************************************
+
+var groceryList = ["Eggs", "Cheese", "Milk", "Bread"]
+
+var element = (
+  <ul>
+    {groceryList.map((item) => (<li>{item}</li>))}
+  </ul>
+)
+
+
+ReactDOM.render(element, document.getElementById("root"))
+
+
+
+var addressComponent == ({name, addressLine1}) => {
+  return (
+    <div>
+      <h1>Address</h1>
+      <ul>
+        <li>{name}</li>
+        <li>{addressLine1}</li>
+      </ul>
+    </div>
+  )
+}
+
+//******************
+react components start with capital letters
+
+class Address extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {type: "work"}
+  }
+  render() {
+    return (
+      <div>
+        <h1>Address</h1>
+        <ul>
+          <li>{this.props.name}</li>
+          <li>{this.props.line1}</li>
+          <li>{formAddress(this.props.line2)}</li>
+        </ul>
+      </div>
+    )
+  }
+  moveIntoOffice() {
+    this.setState({type: "residence"})
+  }
+}
