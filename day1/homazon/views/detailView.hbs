@@ -1,0 +1,7 @@
+<h4>{{product.title}}</h4>
+<br></br>
+{{product.description}}
+<img src="{{product.imageUri}}" alt="{{product.title}}">
+<form method='POST' action='/cart/add/{{product._id}}'>
+  <button type="submit" name="button">Add To Cart</button>
+</form>

@@ -1,0 +1,9 @@
+<h4>HAmazon Products!</h4>
+{{#each products}}
+<li>{{this.title}}</li>
+<a href="/products/{{this._id}}">Details</a>
+<br></br>
+{{/each}}
+
+<br></br>
+<a class="btn btn-primary" href="/logout">Logout</a>

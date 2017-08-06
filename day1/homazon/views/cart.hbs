@@ -1,0 +1,14 @@
+<h4>{{user.username}}'s HAmazon Cart</h4>
+You have {{number}} items in your cart
+{{#each cartProducts}}
+<li>{{this.title}} - {{this.description}}</li>
+<img src="{{this.imageUri}}" alt="{{this.title}}">
+<form action="/cart/delete/{{this._id}}" method="post">
+  <button type="submit" name="button">Delete this item from my cart</button>
+</form>
+<br></br>
+{{/each}}
+
+<form action="/cart/delete" method="post">
+  <button type="submit" name="button">Clear Cart</button>
+</form>
