@@ -48,8 +48,20 @@ app.post('/load', function(req, res) {
   // Load all these movies into MongoDB using Mongoose promises
   // YOUR CODE HERE
   var movies = require('./movies.json');
+  var moviePromises = [];
+  movies.forEach(function(movie) {
+    var moviePromise = Movie.create(movie);
+    moviePromises.push(moviePromise);
+  });
+  Promise.all(moviePromises)
+    .then(function(responses) {
+      if(responses.length !== 0) {
+        res.status(500).send('Some database error occurred in saving movies');
+      } else {
+        res.redirect('/');
+      }
+    });
   // Do this redirect AFTER all the movies have been saved to MongoDB!
-  res.redirect('/');
 });
 
 var port = process.env.PORT || 3000;
