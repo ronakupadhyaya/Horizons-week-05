@@ -2,13 +2,24 @@
 
 import express from 'express';
 import path from 'path';
-import favicon from 'serve-favicon';
+/* import favicon from 'serve-favicon'; */
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+
+// passport and mongoose
+import session from 'express-session';
+import passport from 'passport';
+import LocalStrategy from 'passport-local';
+import models from './models/models';
+var User = models.User;
+var MongoStore = require('connect-mongo')(session);
+mongoose.Promise = global.Promise;
 
 import index from './routes/index';
 import users from './routes/users';
+
 
 var app = express();
 
@@ -23,6 +34,38 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// passport
+app.use(session({
+  secret: process.env.SECRET,
+  store: new MongoStore({mongooseConnection: mongoose.connection})
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (user.password !== password) { 
+        return done(null, false); 
+      }
+      return done(null, user);
+    });
+  }
+));
 
 app.use('/', index);
 app.use('/users', users);
@@ -44,5 +87,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
 
 module.exports = app;
