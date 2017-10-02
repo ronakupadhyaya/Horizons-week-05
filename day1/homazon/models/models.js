@@ -8,7 +8,14 @@ var userSchema = new mongoose.Schema({
   password: String,
 });
 
+var productSchema = new mongoose.Schema({
+  title: String,
+  description: String,
+  imageUri: String,
+});
+
 
 module.exports = {
   User: mongoose.model('User', userSchema),
+  Product: mongoose.model('Product', productSchema),
 };

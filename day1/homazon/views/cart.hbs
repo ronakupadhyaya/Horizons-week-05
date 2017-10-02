@@ -1,0 +1,26 @@
+<div class='cart'>
+  <a href="/logout"><button>Logout</button></a>
+  <h1>Shopping Cart</h1>
+  {{#each cart}}
+  <div class='product'>
+    <img src='{{this.imageUri}}' style='height:42px;'>
+    {{this.title}}
+
+    <form method='POST' action='/cart/add/{{this._id}}>
+      <button type='submit' name='add-another'>Add another</button>
+    </form>
+
+    <form method='POST' action='/cart/delete/{{this._id}}'>
+      <button type='submit' name='remove'>Remove</button>
+    </form>
+
+    ${{this.price}} x {{this.quantity}} = ${price x quantity}
+
+  </div>
+  {{/each}}
+  <h2>Total: {total}</h2>
+  <form method='POST' action='/cart/delete'>
+    <button type='submit' name='empty-cart' class='btn btn-default'>Empty Cart</button>
+  </form>
+  <button class='btn btn-default'>Checkout With Stripe</button>
+</div>

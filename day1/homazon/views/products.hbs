@@ -1,0 +1,12 @@
+<a href="/logout"><button>Logout</button></a>
+<h1>Products</h1>
+<div class='products-container'>
+{{#each products}}
+  <div class='product'>
+    <img src='{{this.imageUri}}' style="width:42px;">
+    <a href='/product/{{this._id}}'><b>{{this.title}}</b></a> - ${{this.price}}
+    <p>{{this.description}}</p>
+  </div>
+{{/each}}
+Your cart contains {{quantity}} items.
+</div>

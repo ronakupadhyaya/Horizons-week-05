@@ -20,6 +20,14 @@ mongoose.Promise = global.Promise;
 import index from './routes/index';
 import users from './routes/users';
 
+// populate products db - only need to run once
+/* import products from './seed/products.json'; */
+/* var productPromises = products.map( (product) => (new Product(product).save()) ); */
+/* Promise.all(productPromises) */
+/*   .then( () => console.log('Successfully created products!') ) */
+/*   .catch( (err) => console.log('Error: ', err) ); */
+
+
 
 var app = express();
 
@@ -38,7 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // passport
 app.use(session({
   secret: process.env.SECRET,
-  store: new MongoStore({mongooseConnection: mongoose.connection})
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
+  cookie: { maxAge: 1000 * 60 },
 }));
 
 app.use(passport.initialize());
