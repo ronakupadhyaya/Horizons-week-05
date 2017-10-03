@@ -1,0 +1,19 @@
+<div class='checkout'>
+
+  <form action="/cart/stripe/checkout" method="POST">
+    <input type="text" name="name" placeholder="Name">
+    <input type="text" name="stripeToken" placeholder="stripeToken">
+    <input type="email" name="stripeEmail" placeholder="stripeEmail">
+
+    <script
+      src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+      data-key="<PUBLISHABLE_KEY>"
+      data-amount="999"
+      data-name="Demo Site"
+      data-description="Widget"
+      data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+      data-locale="auto">
+    </script>
+  </form>
+
+</div>

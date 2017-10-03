@@ -21,6 +21,7 @@ import index from './routes/index';
 import users from './routes/users';
 
 // populate products db - only need to run once
+/* var Product = models.Product; */
 /* import products from './seed/products.json'; */
 /* var productPromises = products.map( (product) => (new Product(product).save()) ); */
 /* Promise.all(productPromises) */

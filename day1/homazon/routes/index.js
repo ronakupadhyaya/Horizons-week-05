@@ -105,8 +105,6 @@ router.post('/cart/delete/:pid', (req, res) => {
       }
     }
   }
-
-    
 });
 
 router.post('/cart/delete', (req, res) => {
@@ -114,6 +112,43 @@ router.post('/cart/delete', (req, res) => {
   res.redirect('/cart');
 });
 
+// CHECKOUT
 
+router.get('/cart/stripe/checkout', (req, res) => {
+  var total = req.session.cart.reduce( (a, b) => (a.price + b.price) );
+
+  res.render('checkout', {cart: req.session.cart});
+});
+
+/* router.post('/cart/stripe/checkout', (req, res) => { */
+/*   import stripePackage from 'stripe'; */
+/*   const stripe = stripePackage(process.env.STRIPE_PRIVATE); */
+
+/*   // Token is created using Stripe.js or Checkout! */
+/*   // Get the payment token submitted by the form: */
+/*   var token = request.body.stripeToken; // Using Express */
+
+/*   // Create a Customer: */
+/*   stripe.customers.create({ */
+/*     email: req.body.email, */
+/*     source: token, */
+/*   }).then(function(customer) { */
+/*     // YOUR CODE: Save the customer ID and other info in a database for later. */
+/*     return stripe.charges.create({ */
+/*       amount: 1000, // TODO */
+/*       currency: "usd", */
+/*       customer: customer.id, // TODO */
+/*     }); */
+/*   }).then(function(charge) { */
+/*     // Use and save the charge info. // TODO */
+/*   }); */
+
+/*   // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID. // TODO */
+/*   stripe.charges.create({ */
+/*     amount: 1500, // $15.00 this time */
+/*     currency: "usd", */
+/*     customer: customerId, */
+/*   }); */
+/* }); */
 
 export default router;
