@@ -1,0 +1,15 @@
+<h2>All Products</h2>
+<form class="" action="/cart">
+  <input type="submit" name="" value="View Cart">
+</form>
+<a href="/logout">Logout</a>
+{{#each products}}
+<div class="product-container">
+  <a href="/product/{{id}}"><h4>{{title}}</h4></a>
+  <img src="{{imageUri}}" alt="No picture available">
+  <form class="" action="/cart/add/{{id}}" method="post">
+    <input type="submit" name="" value="Add to Cart">
+  </form>
+  <p>{{description}}</p>
+</div>
+{{/each}}

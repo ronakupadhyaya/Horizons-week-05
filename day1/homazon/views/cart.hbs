@@ -1,0 +1,15 @@
+<h2>CART MOTHERFUCKER</h2>
+<a href="/">Back to main page</a>
+<form class="" action="/cart/delete" method="post">
+  <input type="submit" name="" value="Clear Cart">
+</form>
+{{#each cart}}
+<div class="product-container">
+  <a href="/product/{{id}}"><h4>{{title}}</h4></a>
+  <img src="{{imageUri}}" alt="No picture available">
+  <form class="" action="/cart/delete/{{_id}}" method="post">
+    <input type="submit" name="" value="Remove from cart">
+  </form>
+  <p>{{description}}</p>
+</div>
+{{/each}}

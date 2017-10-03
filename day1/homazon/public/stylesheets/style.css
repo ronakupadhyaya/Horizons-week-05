@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.product-container img {
+  height: 100px;
+  width: auto;
+}
+
+.product-container {
+  margin: 3px;
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 3px;
+}
+
+form {
+  margin: 10px;
+}
