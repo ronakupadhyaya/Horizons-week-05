@@ -5,12 +5,16 @@
       <div class="col-sm-3">Ordered on {{this.createdAt}}</div>
       <div class="col-sm-5">
       {{#each this.contents}}
-        <span> {{this.title}} x{{this.count}} </span>
+        <span style="margin-right: 20px;"> {{this.title}} x <strong>{{this.count}}</strong></span>
       {{/each}}
     </div>
     <div class="col-sm-3">
-
+      <span> Total: ${{this.total}}</span>
+      <a class="btn btn-default" href="/admin/edit/order/{{this._id}}" style="margin-left: 15px;"> Edit order status</a>
     </div>
   </div>
   {{/each}}
+  <div class="row text-center" style="margin-top: 30px;">
+    <a href="/admin/products" class="btn btn-primary">View all Products</a>
+  </div>
 </div>

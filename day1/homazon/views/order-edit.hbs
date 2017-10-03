@@ -1,0 +1,14 @@
+<div class="container">
+  <h1> Edit Order status </h1>
+  <form action="/admin/edit/order/{{order._id}}" method="post">
+    <div class="form-group col-sm-4">
+      <input class="form-control" name="orderStatus" placeholder= "Order Status" value={{order.orderStatus}}></input>
+    </div>
+    <div class="form-group col-sm-4">
+      <input class="form-control" name="shippingInfo" placeholder= "Shipping Info" value={{order.shippingInfo}}></input>
+    </div>
+
+    <button type="submit" class="btn btn-default"> Update Order</button>
+  </form>
+
+</div>

@@ -3,6 +3,7 @@ var router = express.Router();
 import Product from '../models/product';
 import Payment from '../models/payment';
 import Order from '../models/order';
+import User from '../models/user';
 import stripePackage from 'stripe';
 const stripe = stripePackage(process.env.STRIPE_SECRET_KEY);
 /* GET home page. */
@@ -122,11 +123,59 @@ router.get('/product/:pid', (req, res, next) => {
   })
 });
 
-router.get('/admin/home', (req, res) => {
-  Orders.find().exec().then(orders => {
-    res.render('admin-dashboard', {user: req.user, orders: orders})
-  });
+router.get('/admin/products', (req, res) => {
+  Product.find().exec().then((products) => {
+    res.render('admin-products', {products: products, user: req.user, count: products.length});
+  })
+})
+router.get('/admin/edit/product/:pid', (req, res) => {
+  var productId = req.params.pid;
+  Product.findById(productId).exec().then((product) => {
+    res.render('product-edit', {product});
+  })
+})
+router.post('/admin/edit/product/:pid', (req, res) => {
+  console.log("REQ BODY", req.body);
+  var productId = req.params.pid;
+  Product.findByIdAndUpdate(productId, req.body).exec().then((product) => {
+    res.redirect('/admin/products');
+  })
+});
+
+router.get('/admin/delete/product/:pid', (req, res) => {
+  Product.findById(req.params.pid).remove().then((product) => {
+    res.redirect('/admin/products');
+  })
+});
+
+router.get('/admin/product/new', (req, res) => {
+  res.render('product-new');
 })
 
+router.post('/admin/product/new', (req, res) => {
+  var newProduct = new Product(req.body);
+  newProduct.save().then((product) => {
+    res.redirect('/admin/products');
+  });
+});
 
+router.get('/admin/edit/order/:pid', (req, res) => {
+  var order = req.params.pid;
+  Order.findById(order).exec().then((order)=>{
+    res.render('order-edit', {order: order, user: req.user});
+  });
+});
+
+router.post('/admin/edit/order/:pid', (req, res)=>{
+  var order = req.params.pid;
+  Order.findByIdAndUpdate(order, req.body).then((order)=>{
+    res.redirect('/');
+  })
+});
+
+router.get('/admin/users', (req, res)=>{
+  User.find().exec().then((users)=>{
+    res.render('admin-users', {users: users, user: req.user});
+  })
+})
 export default router;

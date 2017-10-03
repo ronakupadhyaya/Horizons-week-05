@@ -18,11 +18,21 @@
 <body style="padding: 0">
 <nav class="navbar navbar-default" style="padding-right: 15px;">
   {{#if user}}
-  <ul class="nav navbar-nav navbar-right">
-      <li><a href="/"> Home </a> </li>
-     <li><a href="/cart">View Cart <strong>{{count}}</strong></a></li>
-     <li><a href="/logout"> Log Out </a></li>
-  </ul>
+    {{#if user.role}}
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/"> Home </a> </li>
+         <li><a href="/admin/products">View Products <strong>{{count}}</strong></a></li>
+         <li><a href="/admin/users"> View Users </a></li>
+         <li><a href="/logout"> Log Out </a></li>
+      </ul>
+    {{else}}
+      <ul class="nav navbar-nav navbar-right">
+          <li><a href="/"> Home </a> </li>
+         <li><a href="/cart">View Cart <strong>{{count}}</strong></a></li>
+         <li><a href="/logout"> Log Out </a></li>
+      </ul>
+    {{/if}}
+
   {{else}}
   <ul class="nav navbar-nav navbar-right">
      <li><a href="/signup">Sign up</a></li>

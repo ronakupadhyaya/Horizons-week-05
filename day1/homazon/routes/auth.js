@@ -2,15 +2,23 @@ import express from 'express';
 const router = express.Router();
 import User from '../models/user';
 import Product from '../models/product';
+import Order from '../models/order';
 module.exports = function(passport){
   var validateReq = (userData) => (userData.password === userData.confirmPassword && userData.password && userData.confirmPassword && userData.username);
   router.get('/', (req, res) => {
     if(!req.user){
       res.redirect('/login');
     } else{
-      Product.find().then((products) => {
-        res.render('dashboard', {user: req.user, products: products, count: req.session.cart.length});
-      });
+      if(req.user.role === 'user'){
+        Product.find().then((products) => {
+          res.render('dashboard', {user: req.user, products: products, count: req.session.cart.length});
+        });
+      } else{
+        Order.find().then((orders) => {
+          res.render('admin-dashboard', {user: req.user, orders: orders});
+        })
+      }
+
 
     }
   });
@@ -65,9 +73,9 @@ module.exports = function(passport){
     res.render('admin-login');
   })
   router.post('/admin/login', passport.authenticate('admin', {
-    successRedirect: '/admin/home',
+    successRedirect: '/',
     failureRedirect: '/login'
   }));
-  
+
   return router;
 }
