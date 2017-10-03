@@ -1,0 +1,11 @@
+<h1>HOMAZON</h1>
+<a class="btn btn-primary btn-danger" href="/logout">Logout</a>
+{{#each products}}
+  <ul>
+    <li>Title: {{title}}</li>
+    <li>Description: {{description}}</li>
+    <li>Price: {{price}}</li>
+    <li><img src="{{imageUri}}"></li>
+    <li><a href="/product/{{_id}}">view product</a></li>
+  </ul>
+{{/each}}

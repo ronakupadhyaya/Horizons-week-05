@@ -1,0 +1,15 @@
+<h1>WELCOME 2 DA KART</h1>
+<a href="/store">keep shopping</a>
+<p>Your cart has: items</p>
+<form method="post" action="/cart/delete">
+  <input type = "submit" name="removeall" value="removeall">
+</form>
+{{#each item}}
+  <ul>
+    <li>Title: {{title}}</li>
+    <li>Description: {{description}}</li>
+    <li>Price: {{price}}</li>
+    <li><img src="{{imageUri}}"></li>
+    <li><form method="post" action="/cart/delete/{{_id}}"><input type="submit" name="remove" value="remove"></form></li>
+  </ul>
+{{/each}}
