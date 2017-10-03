@@ -20,7 +20,27 @@ app.get('/', function(req, res) {
   res.render('index');
 });
 
+let currentRoom = 1;
 io.on('connection', function(socket) {
+  if(!io.sockets.adapter.rooms['Room '+currentRoom]) {
+    socket.room = currentRoom;
+    socket.join('Room '+currentRoom);
+    socket.emit('message', 'You are in Room '+currentRoom);
+  } else if(io.sockets.adapter.rooms['Room '+currentRoom].length === 2) {
+    currentRoom++;
+    socket.room = currentRoom;
+    socket.join('Room '+currentRoom);
+    socket.emit('message', 'You are in Room '+currentRoom);
+  } else {
+    socket.room = currentRoom;
+    socket.join('Room '+currentRoom);
+    socket.emit('message', 'You are in Room '+currentRoom);
+  }
+});
+
+io.on('check', () => {
+  console.log('In room ' + socket.room);
+  socket.emit('message', 'You are in Room ' + socket.room);
 });
 
 var port = process.env.PORT || 3000;

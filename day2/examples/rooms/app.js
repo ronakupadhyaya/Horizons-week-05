@@ -21,6 +21,29 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  socket.on('room', (room) => {
+    if(!socket.room) {
+      socket.room = room;
+      socket.join(room);
+      socket.emit('message', 'Welcome to ' + room);
+    } else {
+      socket.emit('message', "You're already in a room: " + socket.room);
+    }
+  });
+  socket.on('message', (msg) => {
+    if(!socket.room) {
+      io.to(socket.room).emit('message', msg);
+    } else {
+      socket.emit('message', 'You must be a room to chat!');
+    }
+  });
+  socket.on('poke', () => {
+    if(!socket.room) {
+      socket.emit('message', 'You must be in a room to poke!');
+    } else {
+      io.to(socket.room).emit('poke', socket.room);
+    }
+  });
 });
 
 var port = process.env.PORT || 3000;

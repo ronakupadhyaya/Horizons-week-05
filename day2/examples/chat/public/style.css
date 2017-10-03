@@ -44,3 +44,11 @@ h1 {
 .inputbox {
     height: 5%;
 }
+
+.joinMessage {
+  color: red;
+}
+
+.message {
+  color: darkgreen;
+}
