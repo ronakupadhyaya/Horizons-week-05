@@ -1,0 +1,14 @@
+<div class="container">
+  <h1> Product List </h1>
+  {{#each products}}
+    <div class="row">
+      <div class="col-sm-3"><img class="col-sm-12" src="{{this.imageUri}}"></div>
+      <div class="col-sm-5">
+      <span><a href="/product/{{this._id}}"> {{this.title}} </a></span>
+    </div>
+    <div class="col-sm-3">
+
+    </div>
+  </div>
+  {{/each}}
+</div>

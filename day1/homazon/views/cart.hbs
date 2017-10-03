@@ -1,0 +1,38 @@
+<div class="container">
+  {{#each products}}
+    <div class="row">
+      <img class="col-sm-3" src="{{this.imageUri}}">
+      <div class="col-sm-2">
+        <span> {{this.title}} </span>
+      </div>
+      <div class="col-sm-2">
+        <a href="/cart/add/{{this._id}}" class="add-cart"> Add another </a>
+      </div>
+      <div class="col-sm-2">
+        <a href="/cart/remove/{{this._id}}" class="remove-cart"> Remove one </a>
+      </div>
+      <div class="priceXCount col-sm-3">
+        <span> {{this.price}} x <span id="count">{{this.count}}</span></span>
+      </div>
+    </div>
+
+  {{/each}}
+</div>
+<div class="row text-right" style="margin-bottom: 30px; padding-right: 50px" >
+<form action="/cart/checkout"  method="POST">
+  <input type="text" name="name" placeholder="Name">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{processKey}}"
+    data-amount="{{amount}}"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>
+</div>
+<div class="row text-right" style="margin-bottom: 30px; padding-right: 50px;">
+  <a href="/cart/delete" class="delete-cart btn btn-danger"> Empty Cart </a>
+</div>
+<script src="/javascripts/cart.js"></script>

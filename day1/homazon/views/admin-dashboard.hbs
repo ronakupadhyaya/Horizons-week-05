@@ -1,0 +1,16 @@
+<div class="container">
+  <h1> Orders </h1>
+  {{#each orders}}
+    <div class="row">
+      <div class="col-sm-3">Ordered on {{this.createdAt}}</div>
+      <div class="col-sm-5">
+      {{#each this.contents}}
+        <span> {{this.title}} x{{this.count}} </span>
+      {{/each}}
+    </div>
+    <div class="col-sm-3">
+
+    </div>
+  </div>
+  {{/each}}
+</div>
