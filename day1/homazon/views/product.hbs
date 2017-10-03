@@ -2,6 +2,7 @@
   <a href="/logout"><button>Logout</button></a>
   <h1>{{product.title}}</h1>
   <img src='{{product.imageUri}}' style='height:42px;'>
+  - <i>${{product.price}}</i>
   <p>{{product.description}}</p>
   <form method='POST' action='/cart/add/{{product._id}}'>
     <button type='submit' name='add' class='btn btn-default'>Add to Cart</button>

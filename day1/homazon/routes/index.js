@@ -6,9 +6,10 @@ var router = express.Router();
 import models from '../models/models';
 var User = models.User;
 var Product = models.Product;
+var Payment = models.Payment;
 
 router.get('/jeff', function(req, res) {
-  Product.find(function(err, users) {
+  Payment.find(function(err, users) {
     if (!err) {res.json(users);}
   });
 });
@@ -72,7 +73,8 @@ router.get('/product/:pid', (req, res) => {
 
 // CART ROUTES
 router.get('/cart', (req, res) => {
-  res.render('cart', {cart: req.session.cart});
+  var total = req.session.cart.reduce( (a, b) => (parseInt(a.price) + parseInt(b.price)) );
+  res.render('cart', {cart: req.session.cart, total: total});
 });
 
 router.post('/cart/add/:pid', (req, res) => {
@@ -115,40 +117,65 @@ router.post('/cart/delete', (req, res) => {
 // CHECKOUT
 
 router.get('/cart/stripe/checkout', (req, res) => {
-  var total = req.session.cart.reduce( (a, b) => (a.price + b.price) );
-
-  res.render('checkout', {cart: req.session.cart});
+  var total = req.session.cart.reduce( (a, b) => (parseInt(a.price) + parseInt(b.price)) );
+  res.render('checkout',
+  {
+    cart: req.session.cart,
+    total: total,
+    public_key: process.env.STRIPE_PUBLIC,
+  });
 });
 
-/* router.post('/cart/stripe/checkout', (req, res) => { */
-/*   import stripePackage from 'stripe'; */
-/*   const stripe = stripePackage(process.env.STRIPE_PRIVATE); */
+router.post('/cart/stripe/checkout', (req, res) => {
+  var stripe = require("stripe")(process.env.STRIPE_PRIVATE);
+  var total = req.session.cart.reduce( (a, b) => (parseInt(a.price) + parseInt(b.price)) );
 
-/*   // Token is created using Stripe.js or Checkout! */
-/*   // Get the payment token submitted by the form: */
-/*   var token = request.body.stripeToken; // Using Express */
+  var token = req.body.stripeToken; // Using Express
 
-/*   // Create a Customer: */
-/*   stripe.customers.create({ */
-/*     email: req.body.email, */
-/*     source: token, */
-/*   }).then(function(customer) { */
-/*     // YOUR CODE: Save the customer ID and other info in a database for later. */
-/*     return stripe.charges.create({ */
-/*       amount: 1000, // TODO */
-/*       currency: "usd", */
-/*       customer: customer.id, // TODO */
-/*     }); */
-/*   }).then(function(charge) { */
-/*     // Use and save the charge info. // TODO */
-/*   }); */
+  // Create a Customer:
+  console.log("\nReqbody135", req.body);
+  stripe.customers.create({
+    email: req.body.email,
+    source: token,
+  }).then(function(customer) {
+    console.log("\nCustomer140", customer);
+    return stripe.charges.create({
+      amount: total,
+      currency: "usd",
+      customer: customer.id,
+    });
+  }).then(function(charge) {
+    console.log(charge);
+    var newPayment = new Payment({
+      stripeBrand: charge.source.brand,
+      stripeCustomerId: charge.customer,
+      stripeExpMonth: charge.source.exp_month,
+      stripeExpYear: charge.source.exp_year,
+      stripeLast4: charge.source.last4,
+      /* stripeSource: charge.source_transfer, */
+      status: charge.status,
+      _userid: req.user._id,
+    });
+    console.log('\nNewPayment:', newPayment);
+    newPayment.save()
+    .then(function(result) {
+      console.log(result);
+    })
+    .catch(function(error) {console.log(error);});
+    /* return charge; */
+  }).catch(function(err) {console.log(err);});
 
-/*   // YOUR CODE (LATER): When it's time to charge the customer again, retrieve the customer ID. // TODO */
-/*   stripe.charges.create({ */
-/*     amount: 1500, // $15.00 this time */
-/*     currency: "usd", */
-/*     customer: customerId, */
-/*   }); */
-/* }); */
+  stripe.charges.create({
+    amount: total,
+    currency: "usd",
+    customer: req.user._id,
+  });
+
+  res.redirect('/confirm');
+});
+
+router.get('/confirm', (req, res) => {
+  res.render('confirm');
+});
 
 export default router;

@@ -28,8 +28,6 @@ import users from './routes/users';
 /*   .then( () => console.log('Successfully created products!') ) */
 /*   .catch( (err) => console.log('Error: ', err) ); */
 
-
-
 var app = express();
 
 // view engine setup

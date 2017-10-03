@@ -23,8 +23,10 @@ var paymentSchema = new mongoose.Schema({
   stripeLast4: Number,
   stripeSource: String,
   status: String,
-    // Any other data you passed into the form
-  _userid: mongoose.Schema.Types.ObjectId
+  _userid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }
 });
 
 

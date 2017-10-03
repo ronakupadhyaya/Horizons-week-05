@@ -1,13 +1,11 @@
 <div class='checkout'>
-
+  <h1>Checkout with Stripe</h1>
+  <h3>Amount Due: ${{total}}</h3>
   <form action="/cart/stripe/checkout" method="POST">
     <input type="text" name="name" placeholder="Name">
-    <input type="text" name="stripeToken" placeholder="stripeToken">
-    <input type="email" name="stripeEmail" placeholder="stripeEmail">
-
     <script
       src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-      data-key="<PUBLISHABLE_KEY>"
+      data-key="{{public_key}}"
       data-amount="999"
       data-name="Demo Site"
       data-description="Widget"
@@ -15,5 +13,4 @@
       data-locale="auto">
     </script>
   </form>
-
 </div>
