@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-4 col-xs-offset-4">
+      <form action="/checkout" method="POST">
+        <input type="text" name="name" placeholder="Name">
+        <input type="hidden" name="total" value={{total}}>
+        <script
+          src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+          data-key="{{STRIPE_PUBLIC_KEY}}"
+          data-amount="{{total}}"
+          data-name="Horazon"
+          data-description="Easy checkout with Stripe!"
+          data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+          data-locale="auto">
+        </script>
+      </form>
+    </div>
+  </div>
+</div>

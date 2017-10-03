@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row rightJustify">
+    <a class="navbutton btn btn-success" href="/"> Return to Home Page </a>
+    <a class="navbutton btn btn-danger" href="/logout">Log Out</a>
+  </div>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      <h3>{{product.title}}</h3>
+      <div class="row product">
+        <div class="col-xs-6">
+          <img class="soloImg" src="{{product.imageUri}}">
+        </div>
+        <div class="col-xs-6 text-center">
+          <p>{{product.description}}</p>
+          <h3>${{product.price}}</h3>
+          <a class="btn btn-default" href="/cart/add/{{product._id}}"> Add to Cart </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

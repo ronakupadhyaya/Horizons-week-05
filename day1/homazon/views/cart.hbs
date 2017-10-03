@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="row rightJustify">
+    <a class="navbutton btn btn-success" href="/"> Return to Home Page </a>
+    <a class="navbutton btn btn-danger" href="/logout">Log Out</a>
+  </div>
+  <div class="pageHeader">
+    <h4>Your Cart</h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      {{#each cart}}
+        <div class="cartItem row">
+          <div class="col-xs-2">
+            <img class="productImg" src="{{this.product.imageUri}}">
+          </div>
+          <div class="col-xs-4 productDesc">
+            <a href="/product/{{this._id}}"> <h5>{{this.product.title}}</h5> </a>
+            <p>{{this.product.description}}</p>
+          </div>
+          <div class="col-xs-4">
+            <a class="btn btn-default" href="/cart/add/{{this.product._id}}"> Add another </a>
+            <a class="btn btn-warning" href="/cart/delete/{{this.product._id}}"> Remove one </a>
+          </div>
+          <div class="col-xs-2 productPrice">
+            ${{this.product.price}} (quantity: {{this.quantity}}; total: ${{this.total}})
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  <div class="row rightJustify">
+    Cart total: ${{cartTotal}} for {{itemTotal}} items
+  </div>
+
+  <div class="row cartButtons">
+    <div class="col-xs-4 col-xs-offset-8">
+      <a class="cartButton btn btn-danger" href="/cart/delete/"> Empty cart </a>
+      <a class="cartButton btn btn-success" href="/checkout"> Checkout with Stripe </a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="text-center">
+  <h2> Register for Homazon </h2>
+</div>
+
+<div class="navbar col-xs-8 col-xs-offset-2">
+  <a href="/login" class="btn btn-default"> Login </a>
+  <a href="/signup" class="btn btn-default"> Register </a>
+</div>
+
+<div class="container form">
+  <div class="row">
+    <div class="col-xs-4 col-xs-offset-4">
+      <form action="/signup" method="post">
+        <div class="form-group row formInput">
+          <div class="col-xs-6">
+            <label for="usernameInput"> Username </label>
+          </div>
+          <div class="col-xs-6">
+            <input class="formElt" id="usernameInput" type="text" name="username" placeholder="Username">
+          </div>
+        </div>
+
+        <div class="form-group row formInput">
+          <div class="col-xs-6">
+            <label for="passwordInput"> Password </label>
+          </div>
+          <div class="col-xs-6">
+            <input class="formElt" id="passwordInput" type="password" name="password" placeholder="Password">
+          </div>
+        </div>
+
+        <div class="form-group row formInput">
+          <div class="col-xs-6">
+            <label for="passwordInputConfirm"> Confirm Password </label>
+          </div>
+          <div class="col-xs-6">
+            <input class="formElt" id="passwordInputConfirm" type="password" name="passwordRepeat" placeholder="Password Confirmation">
+          </div>
+        </div>
+
+        {{#each signupErrors}}
+          <div style="color: red" class="text-center row">
+            {{this}}
+          </div>
+        {{/each}}
+        <div class="col-xs-12 text-center formSubmitButton">
+          <input type="submit" class="btn btn-primary" value="Register">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

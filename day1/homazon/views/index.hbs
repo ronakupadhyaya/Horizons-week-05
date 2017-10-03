@@ -1,2 +1,28 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="container">
+  <div class="row rightJustify">
+    <a href="/cart" class="navbutton btn btn-success"> View my cart</a>
+    <a class="navbutton btn btn-danger" href="/logout">Log Out</a>
+  </div>
+  <div class="pageHeader">
+    <h4>Homazon</h4>
+  </div>
+  <div class="row">
+    <div class="col-xs-8 col-xs-offset-2">
+      <h3>Products</h3>
+      {{#each products}}
+        <div class="product row">
+          <div class="col-xs-2">
+            <img class="productImg" src="{{this.imageUri}}">
+          </div>
+          <div class="col-xs-8 productDesc">
+            <a href="/product/{{this._id}}"> <h5>{{this.title}}</h5> </a>
+            <p>{{this.description}}</p>
+          </div>
+          <div class="col-xs-2 productPrice">
+            ${{this.price}}
+          </div>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

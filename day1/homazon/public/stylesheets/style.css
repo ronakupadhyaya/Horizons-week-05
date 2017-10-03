@@ -6,3 +6,56 @@ body {
 a {
   color: #00B7FF;
 }
+
+.rightJustify {
+  text-align: right;
+}
+
+.form {
+  margin-top: 20px;
+}
+
+.formInput {
+  margin-top: 20px;
+}
+
+.formSubmitButton {
+  margin: 30px;
+}
+
+.navbar {
+  margin-top: 10px;
+  text-align: right;
+}
+
+/* Product formatting */
+.product {
+  margin-top: 50px;
+}
+
+.productImg {
+  height: 50px;
+}
+
+.soloImg {
+  height: 200px;
+}
+
+.btn {
+  margin: 0 20px;
+}
+
+/* Cart formatting */
+.cartItem {
+  border-style: solid;
+  border-width: 3px;
+  border-radius: 20px;
+}
+
+.cartButton {
+  margin-top: 10px;
+}
+
+.cartButtons {
+  text-align: right;
+}
