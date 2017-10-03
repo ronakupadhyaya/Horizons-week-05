@@ -1,0 +1,13 @@
+
+{{#if error}}
+  <p>Error showing product list</p>
+{{else}}
+  <div class = "product-container">
+    <h2>List of Available Products:</h2>
+    <ul id = "product-list">
+      {{#each products}}
+      <li><a href="/users/product/{{_id}}">{{title}}</a></li>
+      {{/each}}
+    </ul>
+  </div>
+{{/if}}

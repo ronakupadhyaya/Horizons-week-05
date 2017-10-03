@@ -1,0 +1,52 @@
+html{
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  padding: 0;
+  margin-right: 0;
+  margin-left: 0;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.header{
+  flex: 2;
+}
+
+.content{
+  flex: 6;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.footer{
+  flex: 1;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.header, .footer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: #004B91;
+  color: white;
+}
+
+.title{
+  margin:0;
+}
+
+#shopping-cart-img{
+  height: 40px;
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}

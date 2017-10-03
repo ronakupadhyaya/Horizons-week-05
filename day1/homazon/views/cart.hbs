@@ -1,0 +1,32 @@
+<div class = "cart-container">
+  <h2>Cart</h2>
+  {{#if error}}
+  <p>Error adding item to cart</p>
+  {{/if}}
+  <p>You have {{cart.length}} items in your cart. Subtotal: {{subtotal}}</p>
+  <ul id = "cart-list">
+    {{#each cart}}
+    <li>{{title}}<form action="/users/cart/delete/{{_id}}" method = "POST"><button>Remove Item</button></form></li>
+    {{/each}}
+  </ul>
+</div>
+<form action="/users/cart/delete" method="POST">
+  <button type="submit" class="btn btn-primary">Empty Cart</button>
+</form>
+
+<form action="/users" method="GET">
+  <button type="submit" class="btn btn-primary">Back</button>
+</form>
+
+<form action="/users/checkout" method="POST">
+  <input type="hidden" value = "{{cents}}" name = "total">
+  <script
+    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+    data-key="{{PUBLISHABLE_KEY}}"
+    data-amount="{{cents}}"
+    data-name="Demo Site"
+    data-description="Widget"
+    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+    data-locale="auto">
+  </script>
+</form>

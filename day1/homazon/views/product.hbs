@@ -1,0 +1,13 @@
+{{#if error}}
+  <p>Error looking up product</p>
+{{else}}
+  <h1>{{product.title}}</h1>
+  <img src='{{product.imageUri}}' style="width:400px">
+  <p>{{product.description}}</p>
+  <form action="/users/cart/add/{{product._id}}" method="POST">
+    <button type="submit" class="btn btn-primary">Add to Cart</button>
+  </form>
+{{/if}}
+<form action="/users" method="GET">
+  <button type="submit" class="btn btn-primary">Back</button>
+</form>

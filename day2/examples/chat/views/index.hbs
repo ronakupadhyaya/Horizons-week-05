@@ -1,24 +1,78 @@
 <section class="container">
   <h1 class="center">Socket.IO Examples</h1>
-  
+
   <div class="row">
     <div class="col-md-6 box">
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
-      
+
       <h2>What is Socket.IO?</h2>
       <p>Socket.io is a library that allows for realtime, bi-directional communication between the client and server. It uses feature detection to figure out if the connection will be established via WebSockets, Long Polling, Flash, etc, though it primarily uses the WebSocket protocol.</p>
-      
+
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
     </div>
-    <div class="col-md-6 box">
-      <div class="textbox">
-      </div>
-      <div class="inputbox block">
-        <input class="inline typebox" type="text" placeholder="Say Something...">
-        <button class="inline submitbutton">Send</button>
-      </div>
+    <div class="col-md-6 box" id = "chat-area">
+      <h3>Please enter screen name to send messages</h3>
+      <input class="inline typebox" id="screen-name-box" type="text" placeholder="Enter Screen Name">
+      <button class="inline submitbutton" id="login-button">Submit</button>
     </div>
   </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function() {
+    console.log('Connected!');
+  });
+
+  $("body").on('click',"#login-button",function(){
+    var screenName = $('#screen-name-box').val();
+    socket.emit('login',screenName);
+  });
+
+  socket.on('logginAttempt',function(data){
+    if(data.loggedIn){
+      $('#chat-area').html(
+        `<div class="textbox">
+          <h3>Logged in as ${data.screenName}</h3>
+          <ul id="chat-messages">
+
+          </ul>
+        </div>
+        <div class="inputbox block">
+          <input class="inline typebox" id="msg-box" type="text" placeholder="Say Something...">
+          <button class="inline submitbutton" id="send-button">Send</button>
+        </div>`
+      );
+      socket.emit('loginStatus',true);
+    }
+    else{
+      socket.emit('loginStatus',false);
+    }
+  });
+
+  $("body").on('click',"#send-button",function(){
+    var msg = $('#msg-box').val();
+    $('#msg-box').val('');
+    socket.emit('message',msg);
+  });
+
+  socket.on('serverMessage',function(msg){
+    $('#chat-messages').append('<li>' + msg + '</li>');
+  });
+
+  socket.on('welcome',function(screenName){
+    $('#chat-messages').append(`<li>Welcome to the chatroom ${screenName}!</li>`);
+  });
+
+  socket.on('newJoin',function(screenName){
+    try{
+      $('#chat-messages').append(`<li>${screenName} has joined the chat room.</li>`);
+    }
+    catch(err){
+
+    }
+  });
+
+</script>
