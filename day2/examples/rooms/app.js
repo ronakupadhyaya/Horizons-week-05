@@ -13,14 +13,24 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
+// Static assets
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Logging
 app.use(morgan('combined'));
 
-app.get('/', function(req, res) {
-  res.render('index');
+io.sockets.on('connection', function(socket) {
+  socket.on('room',function(room){
+    socket.join(room);
+    console.log('Joined room',room);
+  });
+  socket.on('poke',function(room){
+    io.sockets.in(room).emit('poke',room);
+  })
 });
 
-io.on('connection', function(socket) {
+app.get('/', function(req, res) {
+  res.render('index');
 });
 
 var port = process.env.PORT || 3000;

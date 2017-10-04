@@ -13,6 +13,9 @@ app.engine('hbs', exphbs({
 }));
 app.set('view engine', 'hbs');
 
+// Static assets
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Logging
 app.use(morgan('combined'));
 
@@ -21,6 +24,19 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  if(!io.rooms){
+    io.roomNum=0;
+    io.rooms = {};
+  }
+  if(io.rooms[`${io.roomNum}`] && io.rooms[`${io.roomNum}`]===1){
+    io.rooms[`${io.roomNum}`]++;
+  }
+  else{
+    io.roomNum++;
+    io.rooms[`${io.roomNum}`]=1;
+  }
+  socket.join(io.roomNum);
+  socket.emit('setRoom',io.roomNum);
 });
 
 var port = process.env.PORT || 3000;

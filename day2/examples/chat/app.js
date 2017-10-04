@@ -19,7 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Logging
 app.use(morgan('combined'));
 
-
 io.on('connection',function(socket){
   socket.on('login',function(screenName){
     var loggedIn = false;
