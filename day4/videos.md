@@ -36,14 +36,14 @@ Use Codepen [here](https://codepen.io/rick-shar/pen/EmJGvP)
 
 1. In the Codepen below utilize the correct lifecycle hook and ajax to grab data (using ajax GET) from URL: https://api.myjson.com/bins/rztih . 
 
-	Use Codepen [here](https://codepen.io/rick-shar/pen/BRezxW)
+    Use Codepen [here](https://codepen.io/rick-shar/pen/BRezxW)
 
-<details>
-<summary>Should look like this (Warning: Cuteness overload) </summary>
+    <details>
+    <summary>Should look like this (Warning: Cuteness overload) </summary>
 
-  ![](https://d3vv6lp55qjaqc.cloudfront.net/items/3N3I0h3i3q1a3N43121G/Screen%20Recording%202017-05-27%20at%2006.51%20PM.gif?v=20b26c27)
+    ![](https://d3vv6lp55qjaqc.cloudfront.net/items/3N3I0h3i3q1a3N43121G/Screen%20Recording%202017-05-27%20at%2006.51%20PM.gif?v=20b26c27)
 
-</details>
+    </details>
   
 
 1. A local Squirrel sleeps or wakes up whenever it is poked. While it is awake, it collects nuts to survive. You are given a function, ```gather```, as a prop. Using only lifecycle functions and a timer, make it so that the Squirrel component only "gathers" nuts while it is awake (the Squirrel component is mounted when woken and unmounted when asleep).
