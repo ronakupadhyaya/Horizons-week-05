@@ -3,6 +3,8 @@
   
   <div class="row">
     <div class="col-md-6 box">
+
+    {{!
       <h2>Understanding WebSockets</h2>
       <p>The internet first began as a trove of information made easily accessible by a collection of HTML pages. This mechanism for information dissemination was just a bunch of static assets, not meant to be dynamic. But thanks to Microsoft the web was introduced to XMLHttpRequest and AJAX. Though this allowed webpages to become more dynamic, it didn't allow for true bi-directional communication between the client and the server. That's what WebSockets come in. Polling and Long Polling often leads to high network traffic and latency issues, but implementing WebSockets solves this problem by eradicating polling altogether. The WebSocket interface opens a communication channel between the client and server via a socket connection on the web, and both the client and server can send data at any time.</p>
       
@@ -11,6 +13,14 @@
       
       <h2>Instructions</h2>
       <p>Follow the Socket.IO examples instructions at <a href="https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md">https://github.com/horizons-school-of-technology/week05/tree/master/day2/examples/README.md</a></p>
+    }}
+
+    <div class=''>
+      <input class='inputusername' type='text' placeholder='Enter a Username...'>
+      <button class='submitusername'>Submit</button>
+    </div>
+
+
     </div>
     <div class="col-md-6 box">
       <div class="textbox">
@@ -22,3 +32,36 @@
     </div>
   </div>
 </section>
+
+
+<script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+<script>
+
+  var socket = io('localhost:3000'); // is this necessary?
+
+  $('.submitbutton').on('click', function(event) {
+    socket.emit('message', $('.typebox').val());
+    $('.typebox').val('');
+  });
+
+  socket.on('serverMessage', function(serverMsg) {
+    $('.textbox').append(`<p>${serverMsg}</p>`);
+  });
+  
+  $('.submitusername').on('click', function(event) {
+    var input = $('.inputusername').val();
+    $('h1').append(`<div><i>Welcome, ${input}!</i></div>`);
+
+    socket.emit('login', input);
+    $('.inputusername').val('');
+  });
+
+  socket.on('joinedroom', function(newUsername) {
+    $('.textbox').append('<p>'+newUsername+' joined the room!');
+  });
+
+  socket.on('welcome', function(welcomeUsername) {
+    $('.textbox').append('<p>Welcome to the chatroom '+welcomeUsername);
+  });
+
+</script>
