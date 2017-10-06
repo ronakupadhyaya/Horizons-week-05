@@ -21,7 +21,18 @@ app.get('/', function(req, res) {
 });
 
 io.on('connection', function(socket) {
+  // once a client has connected, we expect to get a ping from them saying what room they want to join
+  socket.on('room', function(room) {
+    socket.join(room);
+  });
 });
+
+// now, it's easy to send a message to just the clients in a given room
+room = "roomone";
+io.sockets.in(room).emit('message', 'what is going on, party people?');
+
+// this message will NOT go to the client defined above
+io.sockets.in('foobar').emit('message', 'anyone in this room yet?');
 
 var port = process.env.PORT || 3000;
 server.listen(port, function(){
